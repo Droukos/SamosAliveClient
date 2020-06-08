@@ -52,6 +52,7 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from "vee-validate";
+import VueCookies from 'vue-cookies';
 import { veevalidate } from "../../plugins/vee-validate.js";
 
 export default {
@@ -79,8 +80,8 @@ export default {
           vm.$store.dispatch("loginUser", data)
           .then(response => {
                 vm.$store.commit('setUserData', response.data);
-                $cookies.set("refToken", response.data.refresh_token, null, null, null, null, "Strict");
-                $cookies.set("accToken", response.data.access_token, null, null, null, null, "Strict");
+                VueCookies.set("refToken", response.data.refresh_token, null, null, null, null, "Strict");
+                VueCookies.set("accToken", response.data.access_token, null, null, null, null, "Strict");
                 vm.$router.push({
                  name: 'news'
                 });

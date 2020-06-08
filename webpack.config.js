@@ -5,9 +5,7 @@
  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
  const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
-
  require("babel-polyfill");
-
 
  const {
    join,
@@ -34,6 +32,11 @@
        publicPath: "/public/js/app/",
        filename: '[name].bundled.js',
        chunkFilename: '[name].bundle.js',
+     },
+     optimization: {
+          splitChunks: {
+            chunks: 'all',
+          },
      },
      //watch: true,
      devServer: {
@@ -156,27 +159,11 @@
        // make sure to include the plugin for the magic
        new HotModuleReplacementPlugin(),
        new BundleAnalyzerPlugin(),
-       //new VuetifyLoaderPlugin(),
-       //new VuetifyLoaderPlugin({
-      //  /**
-      //   * This function will be called for every tag used in each vue component
-      //   * It should return an array, the first element will be inserted into the
-      //   * components array, the second should be a corresponding import
-      //   *
-      //   * originalTag - the tag as it was originally used in the template
-      //   * kebabTag    - the tag normalised to kebab-case
-      //   * camelTag    - the tag normalised to PascalCase
-      //   * path        - a relative path to the current .vue file
-      //   * component   - a parsed representation of the current component
-      //   */
-      //  match (originalTag, { kebabTag, camelTag, path, component }) {
-      //    if (kebabTag.startsWith('core-')) {
-      //      return [camelTag, `import ${camelTag} from '@/components/core/${camelTag.substring(4)}.vue'`]
-      //    }
-      //  }
-      //}),
        new LiveReloadPlugin(),
-       new WriteFilePlugin(),
+       new WriteFilePlugin({
+          // exclude hot-update files
+          test: /^(?!.*(hot)).*/,
+        }),
        new HTMLWebpackPlugin({
          showErrors: true,
          cache: true,

@@ -1,19 +1,17 @@
 //npm run start:dev
 import Vue from 'vue';
-import store from './plugins/store.js';
+import store from './src/plugins/store.js';
 import babelPolyfill from 'babel-polyfill';
-import router from './plugins/router.js';
-import vuetify from './plugins/vuetify'; // path to vuetify export
-import i18n from './plugins/i18n.js';
-import dateUtils from './plugins/dateUtil.js';
-import helper from './components/helpers/helper.js';
-import VueCookies from 'vue-cookies';
+import router from './src/plugins/router.js';
+import vuetify from './src/plugins/vuetify'; // path to vuetify export
+import i18n from './src/plugins/i18n.js';
+import dateUtils from './src/plugins/dateUtil.js';
+import helper from './src/components/helpers/helper.js';
 
-Vue.use(VueCookies);
 Vue.use(helper);
 Vue.use(dateUtils);
 
-const Main = () => import ( /* webpackMode: "eager" */ /* webpackChunkName: "Main" */ /* webpackPreload: true */ "./components/Main.vue");
+const Main = () => import ( /* webpackMode: "eager" */ /* webpackChunkName: "Main" */ /* webpackPreload: true */ "./src/components/Main.vue");
 
 Vue.mixin({
     methods: {
