@@ -1,19 +1,22 @@
  // webpack.config.js
- const HTMLWebpackPlugin = require('html-webpack-plugin');
  const LiveReloadPlugin = require('webpack-livereload-plugin');
  const WriteFilePlugin = require('write-file-webpack-plugin');
  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
  const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
+ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
  require("babel-polyfill");
 
  const {
    join,
+   resolve
  } = require('path');
+
  const {
    HotModuleReplacementPlugin
  } = require('webpack');
 
+ const vueSrc = "./src";
 
  module.exports = (env, argv) => {
    const isDevelopment = argv.mode === 'development';
@@ -32,11 +35,6 @@
        publicPath: "/public/js/app/",
        filename: '[name].bundled.js',
        chunkFilename: '[name].bundle.js',
-     },
-     optimization: {
-          splitChunks: {
-            chunks: 'all',
-          },
      },
      //watch: true,
      devServer: {
@@ -76,9 +74,15 @@
          //}],
      },
      resolve: {
-       alias: {
-         'vue': 'vue/dist/vue.esm.js',
-       }
+      extensions: ['.js', '.vue', '.json'],
+      alias: {
+       "@": resolve(__dirname, './src'),
+       "@components": resolve(__dirname, './src/components'),
+       "@plugins": resolve(__dirname, './src/plugins'),
+       "@sass": resolve(__dirname, "./src/css/sass"),
+       "@profile": resolve(__dirname, "./src/components/profile"),
+       'vue': 'vue/dist/vue.esm.js',
+      }
      },
      module: {
        rules: [{
@@ -103,29 +107,24 @@
            test: /\.css$/,
            use: [
              'vue-style-loader',
-             'css-loader'
+             'css-loader',
            ]
          },
          {
-          test: /\.s(a|c)ss$/,
+          test: /\.s[ac]ss$/,
           use: [
             'vue-style-loader',
+            'style-loader',
             'css-loader',
             //'sass-loader'
             {
               loader: 'sass-loader',
-              // Requires sass-loader@^7.0.0
-              options: {
-                implementation: require('sass'),
-                fiber: require('fibers'),
-                indentedSyntax: true // optional
-              },
               // Requires sass-loader@^8.0.0
               options: {
                 implementation: require('sass'),
                 sassOptions: {
                   fiber: require('fibers'),
-                  indentedSyntax: true // optional
+                  //indentedSyntax: true, // optional
                 },
               },
             },
@@ -160,14 +159,11 @@
        new HotModuleReplacementPlugin(),
        new BundleAnalyzerPlugin(),
        new LiveReloadPlugin(),
+       new VuetifyLoaderPlugin(),
        new WriteFilePlugin({
           // exclude hot-update files
           test: /^(?!.*(hot)).*/,
         }),
-       new HTMLWebpackPlugin({
-         showErrors: true,
-         cache: true,
-       }),
      ]
    })
  };

@@ -1,9 +1,8 @@
 import Vue from 'vue';
-import Vuetify from 'vuetify';
-
-import colors from 'vuetify/lib/util/colors';
-import 'vuetify/dist/vuetify.min.css';
-
+//import Vuetify from 'vuetify';
+import Vuetify from 'vuetify/lib';
+//import colors from 'vuetify/lib/util/colors';
+//import 'vuetify/dist/vuetify.min.css';
 Vue.use(Vuetify);
 
 const MY_ICONS = {
@@ -19,42 +18,8 @@ const MY_ICONS = {
     settings: 'fas fa-cogs',
     search: 'fas fa-search',
     back: 'fas fa-arrow-alt-circle-left',
-    complete: '...',
-    cancel: '...',
-    close: '...',
-    delete: '...', // delete (e.g. v-chip close)
-    clear: '...',
-    success: '...',
-    info: '...',
-    warning: '...',
-    error: '...',
-    prev: '...',
-    next: '...',
-    checkboxOn: '...',
-    checkboxOff: '...',
-    checkboxIndeterminate: '...',
-    delimiter: '...', // for carousel
-    sort: '...',
-    expand: '...',
-    menu: '...',
-    subgroup: '...',
-    dropdown: '...',
-    radioOn: '...',
-    radioOff: '...',
-    edit: '...',
-    ratingEmpty: '...',
-    ratingFull: '...',
-    ratingHalf: '...',
-    loading: '...',
-    first: '...',
-    last: '...',
-    unfold: '...',
-    file: '...',
-
     appbar: 'deep-purple darken-3'
   };
-
-
 
   const COMPONENTS_COLORS = {
       appbar: 'deep-purple darken-3'
@@ -73,6 +38,7 @@ const opts = {
             error: '#b71c1c',
           },
         },
+         options: { variations: false },
       },
 };
 

@@ -32,7 +32,7 @@ export default {
     components: {
         RoleDataBase: () =>
             import(
-              /* webpackMode: "eager" */ /* webpackChunkName: "RoleDataBase" */ /* webpackPreload: true */ "./RoleDataBase.vue"
+              /* webpackMode: "eager" */ /* webpackChunkName: "RoleDataBase" */ /* webpackPreload: true */ "@profile/profile_info/RoleDataBase.vue"
             ),
     },
     computed: {

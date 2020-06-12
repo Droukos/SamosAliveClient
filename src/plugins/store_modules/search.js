@@ -1,7 +1,5 @@
-import Vue from "vue";
-import store from "../store";
-import api from "../api.js";
-import apiUrls from "../apiUrls.js";
+import api from "@plugins/api.js";
+import apiUrls from "@plugins/apiUrls.js";
 
 const state = {
 

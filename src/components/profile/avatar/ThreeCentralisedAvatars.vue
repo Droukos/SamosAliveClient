@@ -33,7 +33,7 @@ export default {
   components: {
     AvatarBase: () =>
     import(
-      /* webpackMode: "eager" */ /* webpackChunkName: "AvatarBase" */ /* webpackPreload: true */ "./AvatarBase.vue"
+      /* webpackMode: "eager" */ /* webpackChunkName: "AvatarBase" */ /* webpackPreload: true */ "@profile/avatar/AvatarBase.vue"
     )
   }
 };

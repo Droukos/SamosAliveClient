@@ -10,7 +10,7 @@
 export default {
   components: {
     HeaderNavBarBundler: () =>
-      import("../navbar/SideNavMenu.vue")
+      import("@components/navbar/SideNavMenu.vue")
   }
 };
 

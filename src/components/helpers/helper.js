@@ -1,5 +1,3 @@
-import i18n from "../../plugins/i18n.js";
-
 export default {
   install: (Vue, options) => {
     Vue.prototype.$helper = {
@@ -12,8 +10,6 @@ export default {
 
         var c = (hash & 0x00ffffff).toString(16).toUpperCase();
         return "#"+"00000".substring(0, 6 - c.length) + c;
-
-        //return hash;
       },
       
       getUserRoleColorLabel: (role) => {

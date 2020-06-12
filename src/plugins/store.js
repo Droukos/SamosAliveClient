@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import search from "./store_modules/search";
-import profile from "./store_modules/profile";
-import api from "./api.js";
-import apiUrls from "./apiUrls.js";
+import search from "@plugins/store_modules/search";
+import profile from "@plugins/store_modules/profile";
+import api from "@plugins/api.js";
+import apiUrls from "@plugins/apiUrls.js";
 
 Vue.use(Vuex);
 

@@ -123,15 +123,15 @@ export default {
   components: {
     ThreeCentralisedAvatars: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "ThreeCentralisedAvatars" */ /* webpackPreload: true */ "./avatar/ThreeCentralisedAvatars.vue"
+        /* webpackMode: "eager" */ /* webpackChunkName: "ThreeCentralisedAvatars" */ /* webpackPreload: true */ "@profile/avatar/ThreeCentralisedAvatars.vue"
       ),
     FileInputBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "FileInputBase" */ /* webpackPreload: true */ "./profile_edit/FileInputBase.vue"
+        /* webpackMode: "eager" */ /* webpackChunkName: "FileInputBase" */ /* webpackPreload: true */ "@profile/profile_edit/FileInputBase.vue"
       ),
     AddressInputBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "AddressInputBase" */ /* webpackPreload: true */ "./profile_edit/AddressInputBase.vue"
+        /* webpackMode: "eager" */ /* webpackChunkName: "AddressInputBase" */ /* webpackPreload: true */ "@profile/profile_edit/AddressInputBase.vue"
       )
   },
   methods: {

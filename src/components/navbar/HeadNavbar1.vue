@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import SearchCard from '../search/SearchCard.vue';
+import SearchCard from '@components/search/SearchCard.vue';
 
 export default {
   data() {

@@ -1,5 +1,5 @@
-import api from "../api.js";
-import apiUrls from "../apiUrls.js";
+import api from "@plugins/api.js";
+import apiUrls from "@plugins/apiUrls.js";
 
 const state = {
     

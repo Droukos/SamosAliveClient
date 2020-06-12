@@ -9,10 +9,10 @@ import {
     max,
     regex
 } from "vee-validate/dist/rules";
-import i18n from "./i18n.js";
+import i18n from "@plugins/i18n.js";
 import babelPolyfill from 'babel-polyfill';
-import api from './api.js';
-import apiUrls from './apiUrls.js';
+import api from '@plugins/api.js';
+import apiUrls from '@plugins/apiUrls.js';
 
 configure({
     defaultMessage: (field, values) => {

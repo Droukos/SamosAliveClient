@@ -70,23 +70,23 @@ export default {
   components: {
     UserPrimInfoBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "UserPrimInfoBase" */ /* webpackPreload: true */ "./profile_info/UserPrimInfoBase.vue"
+        /* webpackMode: "eager" */ /* webpackChunkName: "UserPrimInfoBase" */ /* webpackPreload: true */ "@profile/profile_info/UserPrimInfoBase.vue"
       ),
     MetaDataBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "MetaDataBase" */ /* webpackPreload: true */ "./profile_info/MetaDataBase.vue"
+        /* webpackMode: "eager" */ /* webpackChunkName: "MetaDataBase" */ /* webpackPreload: true */ "@profile/profile_info/MetaDataBase.vue"
       ),
     RoleDataBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "RoleDataBase" */ /* webpackPreload: true */ "./profile_info/RoleDataBase.vue"
+        /* webpackMode: "eager" */ /* webpackChunkName: "RoleDataBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/RoleDataBase.vue"
       ),
     UserInfoBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "UserInfoBase" */ /* webpackPreload: true */ "./profile_info/UserInfoBase.vue"
+        /* webpackMode: "eager" */ /* webpackChunkName: "UserInfoBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/UserInfoBase.vue"
       ),
     AvatarBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "AvatarBase" */ /* webpackPreload: true */ "./avatar/AvatarBase.vue"
+        /* webpackMode: "eager" */ /* webpackChunkName: "AvatarBase" */ /* webpackPreload: true */ "@/components/profile/avatar/AvatarBase.vue"
       )
   },
   computed: {

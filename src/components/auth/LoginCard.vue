@@ -53,7 +53,7 @@
 <script>
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import VueCookies from 'vue-cookies';
-import { veevalidate } from "../../plugins/vee-validate.js";
+import { veevalidate } from "@plugins/vee-validate.js";
 
 export default {
   data() {

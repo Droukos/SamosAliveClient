@@ -116,7 +116,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
-import { veevalidate } from "../../plugins/vee-validate.js";
+import { veevalidate } from "@plugins/vee-validate.js";
 import { email } from "vee-validate/dist/rules";
 
 export default {

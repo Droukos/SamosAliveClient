@@ -5,7 +5,6 @@
     <v-divider></v-divider>
     <router-view></router-view>
     <v-footer app>
-    <!-- -->
   </v-footer>
   </v-app>
 </div>
@@ -13,7 +12,7 @@
 </template>
 
 <script>
-  import HeadNavbar1 from "./navbar/HeadNavbar1.vue";
+  import HeadNavbar1 from "@components/navbar/HeadNavbar1";
 
   export default {
 
