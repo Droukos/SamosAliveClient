@@ -2,34 +2,34 @@
   <v-card class="mx-auto overflow-hidden">
     <v-app-bar app clipped-left color="deep-purple darken-3" dense>
       <div v-if="!displaySide()">
-        <v-btn router-link to="/login">
+        <v-btn router-link to="/login" aria-label="ToLogin">
           <v-icon>{{ '$vuetify.icons.back' }}</v-icon>
         </v-btn>
       </div>
       <div v-if="displaySide()">
         <v-avatar size="40" @click.stop="drawer = !drawer">
-          <img src="https://randomuser.me/api/portraits/lego/0.jpg" alt="Menu" />
+          <!--<img src="https://randomuser.me/api/portraits/lego/0.jpg" alt="Menu" />-->
         </v-avatar>
       </div>
       <v-spacer />
       <div v-if="!displaySide()">
-        <v-btn router-link to="/info">
+        <v-btn router-link to="/info" aria-label="ToInfo">
           <v-icon>{{ '$vuetify.icons.infos' }}</v-icon>
         </v-btn>
-        <v-btn router-link to="/settings">
+        <v-btn router-link to="/settings" aria-label="ToSettings">
           <v-icon>{{ '$vuetify.icons.settings' }}</v-icon>
         </v-btn>
       </div>
       <div v-if="displaySide()">
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn rounded v-on="on">
-              <v-icon>{{ '$$vuetify.icons.account' }}</v-icon>
+            <v-btn rounded v-on="on" aria-label="Account">
+              <v-icon>{{ '$vuetify.icons.account' }}</v-icon>
             </v-btn>
           </template>
           <v-list>
              <v-list-item>
-               <v-btn rounded router-link to="/login" v-text="$t('user.logout')" />
+               <v-btn rounded router-link to="/login" v-text="$t('user.logout')" aria-label="ToLogout"/>
              </v-list-item>
           </v-list>
         </v-menu>
@@ -37,7 +37,7 @@
 
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
-          <v-btn rounded v-on="on">{{ $t("lang") }}</v-btn>
+          <v-btn rounded v-on="on" aria-label="Language">{{ $t("lang") }}</v-btn>
         </template>
         <v-list>
           <v-list-item v-for="(item, index) in items" :key="index" @click="selLanguage(index)">
@@ -47,11 +47,11 @@
       </v-menu>
     </v-app-bar>
     <div v-if="displaySide()">
-      <v-navigation-drawer v-model="drawer" :src="bg" :fixed="true" temporary relative dark>
+      <v-navigation-drawer v-model="drawer" :fixed="true" temporary relative dark>
         <v-list dense nav class="py-0">
           <v-list-item two-line :class="'px-0'">
             <v-list-item-avatar>
-              <img src="https://randomuser.me/api/portraits/lego/0.jpg" />
+              <!--<img src="https://randomuser.me/api/portraits/lego/0.jpg" />-->
             </v-list-item-avatar>
 
             <v-list-item-content>
@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import SearchCard from '@components/search/SearchCard.vue';
 
 export default {
   data() {
@@ -103,10 +102,6 @@ export default {
       ]
     };
   },
-  template: ["<SearchCard>"],
-  components: {
-    SearchCard: SearchCard
-  },
   methods: {
     selLanguage(index) {
       this.$i18n.locale = this.items[index].lang;
@@ -124,9 +119,6 @@ export default {
     displaySide() {
       return this.display;
     }
-  },
-  created: function() {
-    
   },
   computed: {
     getItems() {
@@ -174,16 +166,7 @@ export default {
           icon: "$vuetify.icons.settings"
         }
       ];
-    },
-    bg() {
-      //return this.background
-      //  ? "https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
-      //  : undefined;
     }
   }
 };
 </script>
-
-<style scoped>
-
-</style>

@@ -7,63 +7,69 @@ Vue.config.productionTip=false;
 
 const router = new VueRouter({
     mode:'history',
-    routes: [{
-            path: '/login',
+    routes: [
+        {
+            path: '/entry',
+            name: "entry",
+            component: () => import(/* webpackChunkName: "HomeCard" */ '@/components/home/HomeCard'),
+        },
+        {
+            path: '/',
             name: "login",
-            component: () => import(/* webpackChunkName: "LoginCard" */ '@components/auth/LoginCard.vue'),
+            component: () => import(/* webpackChunkName: "LoginCard" */ '@/components/auth/LoginCard'),
         },
         {
             path: '/search',
             name: "search",
-            component: () => import(/* webpackChunkName: "SearchCard" */ '@components/search/SearchCard.vue'),
+            component: () => import(/* webpackChunkName: "SearchCard" */ '@/components/search/SearchCard'),
         },
         {
             path: '/profile',
             name: "profile",
-            component: () => import(/* webpackChunkName: "ProfileCard" */ '@components/profile/ProfileCard.vue'),
+            component: () => import(/* webpackChunkName: "ProfileCard" */ '@/components/profile/ProfileCard'),
         },
         {
             path: '/:userID/profile',
             name: "user_profile",
-            component: () => import(/* webpackChunkName: "ProfileCard" */ '@components/profile/ProfileCard.vue'),
+            component: () => import(/* webpackChunkName: "ProfileCard" */ '@/components/profile/ProfileCard'),
             props: true
         },
         {
-            path: '/',
+            path: '/edit',
             name: "editprofile",
-            component: () => import(/* webpackChunkName: "EditProfileCard" */ '@components/profile/EditProfileCard.vue'),
+            component: () => import(/* webpackChunkName: "EditProfileCard" */ '@/components/profile/EditProfileCard'),
         },
         {
             path: '/:userID/edit',
             name: "userEditProfile",
-            component: () => import(/* webpackChunkName: "EditProfileCard" */ '@components/profile/EditProfileCard.vue'),
+            component: () => import(/* webpackChunkName: "EditProfileCard" */ '@/components/profile/EditProfileCard'),
             props: true
         },
         {
             path: '/privacy',
             name: "privacysettings",
-            component: () => import(/* webpackChunkName: "PrivacySettingsCard" */ '@components/profile/PrivacySettingsCard.vue')
+            component: () => import(/* webpackChunkName: "PrivacySettingsCard" */ '@/components/profile/PrivacySettingsCard')
         },
         {
             path: '/:userID/privacy',
             name: "privacysettings",
-            component: () => import(/* webpackChunkName: "PrivacySettingsCard" */ '@components/profile/PrivacySettingsCard.vue'),
+            component: () => import(/* webpackChunkName: "PrivacySettingsCard" */ '@/components/profile/PrivacySettingsCard'),
             props: true
         },
         {
             path: '/news',
             name: "news",
-            component: () => import(/* webpackChunkName: "NewsCard" */ '@components/news/News.vue'),
+            component: () => import(/* webpackChunkName: "NewsCard" */ '@/components/news/News'),
         },
         {
             path: '/event',
             name: "event",
-            component: () => import(/* webpackChunkName: "EventCard" */ '@components/event/Event.vue'),
+            component: () => import(/* webpackChunkName: "EventCard" */ '@/components/event/Event'),
         },
         {
             path: '/register',
             name: "register",
-            component: () => import(/* webpackChunkName: "AppRegister" */ '@components/auth/RegistrationCard.vue'),
+            component: () => import(/* webpackChunkName: "AppRegister" */ '@/components/auth/RegistrationCard'),
         }
     ]
 });

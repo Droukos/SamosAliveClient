@@ -1,45 +1,61 @@
 import Vue from 'vue';
-//import Vuetify from 'vuetify';
 import Vuetify from 'vuetify/lib';
-//import colors from 'vuetify/lib/util/colors';
-//import 'vuetify/dist/vuetify.min.css';
+import {
+ mdiAccount,
+ mdiKey,
+ mdiEye,
+ mdiEyeOff,
+ mdiClose,
+ mdiWhiteBalanceSunny,
+ mdiWeatherNight,
+ mdiMessage,
+ mdiHome,
+ mdiNewspaperVariant,
+ mdiCog,
+ mdiMagnify,
+ mdiArrowLeft
+} from '@mdi/js';
+
 Vue.use(Vuetify);
 
 const MY_ICONS = {
-    account: 'fas fa-user',
-    key: 'fas fa-key',
-    home: 'fas fa-home',
-    moon: 'fas fa-moon',
-    sun: 'fas fa-sun',
-    messages: 'fas fa-envelope',
-    news: 'fas fa-newspaper',
-    profile: 'fas fa-address-card', 
-    infos: 'fas fa-info-circle',
-    settings: 'fas fa-cogs',
-    search: 'fas fa-search',
-    back: 'fas fa-arrow-alt-circle-left',
-    appbar: 'deep-purple darken-3'
-  };
-
-  const COMPONENTS_COLORS = {
-      appbar: 'deep-purple darken-3'
-  };
-
-const opts = {
-    icons: {
-        values: MY_ICONS,
-     },
-    theme: {
-        themes: {
-          light: {
-            primary: '#3f51b5',
-            secondary: '#b0bec5',
-            accent: '#8c9eff',
-            error: '#b71c1c',
-          },
-        },
-         options: { variations: false },
-      },
+  account: mdiAccount,
+  key: mdiKey,
+  eye: mdiEye,
+  eyeoff: mdiEyeOff,  
+  close: mdiClose,
+  home: mdiHome,
+  moon: mdiWeatherNight,
+  sun: mdiWhiteBalanceSunny,
+  messages: mdiMessage,
+  news: mdiNewspaperVariant,
+  profile: 'fas fa-address-card', 
+  infos: 'fas fa-info-circle',
+  settings: mdiCog,
+  search: mdiMagnify,
+  back: mdiArrowLeft,
+  appbar: 'deep-purple darken-3'
 };
 
-export default new Vuetify(opts);
+export default new Vuetify({
+  icons: {
+    values: MY_ICONS,
+    iconfont: 'mdiSvg',
+ },
+  theme: {
+    //  options: {
+    //    customProperties: true,
+    //  },
+    themes: {
+      light: {
+        primary: '#ee44aa',
+        secondary: '#424242',
+        accent: '#82B1FF',
+        error: '#FF5252',
+        info: '#2196F3',
+        success: '#4CAF50',
+        warning: '#FFC107'
+      },
+    },
+  },
+});

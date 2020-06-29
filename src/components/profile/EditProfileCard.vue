@@ -65,13 +65,14 @@
                   <v-btn v-if="uploadVisible"
                     class="deep-purple darken-2" style="color:white;"
                     @click="uploadAvatar()"
+                    aria-label="UploadAvatar"
                     rounded> {{ $t('edit.upload') }}
                   </v-btn>
                   <span v-if="avatar_update_show" :class="avatar_update_class">{{ avatar_update_message }}</span>
                 </div>
                 <address-input-base class="pt-2" :editForm="editForm" :onChange="onChangeInput"></address-input-base>
             </div>
-            <v-btn v-if="updateVisible" class="deep-purple darken-2" style="color:white;" block rounded @click="updateUInfo()">{{ $t('edit.update') }}</v-btn>
+            <v-btn v-if="updateVisible" class="deep-purple darken-2" style="color:white;" block rounded @click="updateUInfo()" aria-label="EditUpdate">{{ $t('edit.update') }}</v-btn>
             <span v-if="updateResultShow" :class="updateResultClass +'mx-auto'">{{ updateResultMessage }}</span>
           </v-card>
       </v-container>
@@ -123,15 +124,15 @@ export default {
   components: {
     ThreeCentralisedAvatars: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "ThreeCentralisedAvatars" */ /* webpackPreload: true */ "@profile/avatar/ThreeCentralisedAvatars.vue"
+       /* webpackChunkName: "ThreeCentralisedAvatars" */ /* webpackPreload: true */ "@/components/profile/avatar/ThreeCentralisedAvatars.vue"
       ),
     FileInputBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "FileInputBase" */ /* webpackPreload: true */ "@profile/profile_edit/FileInputBase.vue"
+        /* webpackChunkName: "FileInputBase" */ /* webpackPreload: true */ "@/components/profile/profile_edit/FileInputBase.vue"
       ),
     AddressInputBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "AddressInputBase" */ /* webpackPreload: true */ "@profile/profile_edit/AddressInputBase.vue"
+       /* webpackChunkName: "AddressInputBase" */ /* webpackPreload: true */ "@/components/profile/profile_edit/AddressInputBase.vue"
       )
   },
   methods: {
@@ -182,7 +183,7 @@ export default {
           state: vm.editForm.province,
           city: vm.editForm.city
       })
-      .then(function(respond){
+      .then(() => {
         vm.updateResultClass = vm.validClass;
         vm.updateResultMessage = vm.$t('edit.updated');
         vm.updateResultShow = true;
@@ -195,7 +196,7 @@ export default {
         if (vm.profileData.userid == vm.$store.getters.getUserID) vm.$store.commit('setPersonalInfo', data)
         vm.$store.commit('profile/setPersonalInfo', data);
       })
-      .catch(error => {
+      .catch(() => {
             vm.updateResultClass = vm.errorClass;
             vm.updateResultMessage = vm.$t('edit.error_updated');
             vm.updateResultShow = true;
@@ -216,7 +217,7 @@ export default {
             vm.$store.commit('profile/setAvatar', dataAvatar);
             vm.uploadVisible = false;
         })
-        .catch(error => {
+        .catch(() => {
             vm.avatar_update_class = vm.errorClass;
             vm.avatar_update_message = vm.$t('edit.error_avatar_update');
             vm.avatar_update_show = true;
@@ -225,7 +226,7 @@ export default {
     }
   },
   watch: {
-      profileData(newVal, oldVal) {
+      profileData(newVal) {
         if(newVal.username == null) this.loadingSkeleton = true;
         else {
           this.loadingSkeleton = false;
@@ -240,7 +241,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      let role = vm.$store.getters.getUserRole;
+      //let role = vm.$store.getters.getUserRole;
       //if ((to.params.userID != null || to.params.userID != undefined) &&
       //    (vm.helper.isGeneralAdmin(role) || vm.helper.isAreaAdmin(role))){
       //      vm.userID = to.params.userID;

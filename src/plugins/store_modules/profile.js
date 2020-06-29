@@ -1,5 +1,5 @@
-import api from "@plugins/api.js";
-import apiUrls from "@plugins/apiUrls.js";
+import api from "@/plugins/api.js";
+import apiUrls from "@/plugins/apiUrls.js";
 
 const state = {
     
@@ -200,7 +200,7 @@ function setMetaData(state, data) {
     state.showOfflineFor_Ios = state.showLastLoginIos && state.showLastLogoutIos;
     state.showOnlineFor_Web = state.showLastLoginWeb && state.showLastLogoutWeb;
     state.showOfflineFor_Web = state.showLastLoginWeb && state.showLastLogoutWeb;
-    state.showUserVerified = state.showUserVerified;
+    //state.showUserVerified = state.showUserVerified;
     state.showUserCreated = state.user_created !== null && state.user_created !== undefined;
     state.showUserUpdated = state.user_updated !== null && state.user_updated !== undefined;
     state.showRealName = state.name !== null && state.surname !== null;
@@ -211,7 +211,7 @@ function setMetaData(state, data) {
 }
 
 const actions = {
-    async profileData({ state }, data) {
+    async profileData(data) {
         return await api.axiosApi.get(apiUrls.user.user + data.userid);
     },
     async editProfileData({state}, data) {

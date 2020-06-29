@@ -129,7 +129,7 @@ export default {
         last_login: "Τελευταία Σύνδεση:",
         last_logout: "Τελευταία Αποσύνδεση:",
         fullname: "Πραγματικό Ονόμα:",
-        email: "Ηλ\νικο Ταχυδρομείο:",
+        email: "Ηλ\\νικο Ταχυδρομείο:",
         account_created: "Δημιουργία Λογαριασμού:",
         description: "Περιγραφή:",
         address: "Διεύθυνση:",
@@ -170,6 +170,7 @@ export default {
     languageTitle: 'Γλώσσα',
     languageGreek: 'Ελληνικά',
     languageEnglish: 'Αγγλικά',
+    clear: "Καθαρισμός",
     reset: 'Επαναφορα',
     terms: 'Έχω διαβάσει και αποδέχομαι τους όρους και προϋποθέσεις',
     //validation: gr.messages

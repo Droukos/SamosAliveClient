@@ -6,7 +6,7 @@
           <v-list-item-subtitle v-if="profVis.showLastLogout" style="color:#9575CD">{{ $t('user.last_logout') }}<span style="color:#B39DDB"> 2 Days ago, 20 hours</span></v-list-item-subtitle>
           <v-list-item-subtitle v-if="profVis.showOnlineFor" style="color:#9575CD">{{ $t('user.online_for') }}<span style="color:#B39DDB"> 3 Days, 20 hours</span></v-list-item-subtitle>
           <v-list-item-subtitle v-if="profVis.showOfflineFor" style="color:#9575CD">{{ $t('user.offline_for') }}<span style="color:#B39DDB"> 300 Years, 6 Days, 20 hours</span></v-list-item-subtitle>
-          <v-list-item-subtitle v-if="profVis.showUserCreated" style="color:#9575CD">{{ $t('user.account_created') + " "+$dateUtils.convDate(profMetaDat.user_created, 'long', this.locale) }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="profVis.showUserCreated" style="color:#9575CD">{{ $t('user.account_created') + " "+$helper.convDate(profMetaDat.user_created, 'long', this.locale) }}</v-list-item-subtitle>
           <v-list-item-subtitle v-if="profVis.showUserUpdated" style="color:#9575CD">{{ $t('user.account_updated') }}</v-list-item-subtitle>
           <v-list-item-subtitle v-if="profVis.showCredibilityStars" style="color:#9575CD">{{ $t('user.cred_stars') }} {{ profMetaDat.cred_stars.rating+"/5" }}
             <v-rating
@@ -32,7 +32,7 @@ export default {
     components: {
         RoleDataBase: () =>
             import(
-              /* webpackMode: "eager" */ /* webpackChunkName: "RoleDataBase" */ /* webpackPreload: true */ "@profile/profile_info/RoleDataBase.vue"
+              /* webpackChunkName: "RoleDataBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/RoleDataBase.vue"
             ),
     },
     computed: {

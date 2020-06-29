@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import search from "@plugins/store_modules/search";
-import profile from "@plugins/store_modules/profile";
-import api from "@plugins/api.js";
-import apiUrls from "@plugins/apiUrls.js";
+import search from "@/plugins/store_modules/search";
+import profile from "@/plugins/store_modules/profile";
+import api from "@/plugins/api.js";
+import apiUrls from "@/plugins/apiUrls.js";
 
 Vue.use(Vuex);
 
@@ -62,18 +62,18 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        async fetchUserData({ commit }, url, data) {
+        async fetchUserData({ commit }) {
             await api.axiosApi.post(apiUrls.user.user_data).then(response => {
                 commit('setUserData', response.data);
             });
         },
-        async loginUser({ state }, data) {
+        async loginUser({state}, data) {
             return await api.axiosApi.post(apiUrls.auth.login, { 
                 user: data.user,
                 pass: data.pass,
             });
         },
-        async registerUser({ state }, data) {
+        async registerUser({state}, data) {
             return await api.axiosApi.post(apiUrls.auth.signup, {
                 user: data.username,
                 pass: data.password,

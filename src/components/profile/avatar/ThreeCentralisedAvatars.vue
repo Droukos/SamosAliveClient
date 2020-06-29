@@ -33,11 +33,8 @@ export default {
   components: {
     AvatarBase: () =>
     import(
-      /* webpackMode: "eager" */ /* webpackChunkName: "AvatarBase" */ /* webpackPreload: true */ "@profile/avatar/AvatarBase.vue"
+      /* webpackChunkName: "AvatarBase" */ /* webpackPreload: true */ "@/components/profile/avatar/AvatarBase.vue"
     )
   }
 };
 </script>
-
-<style>
-</style>

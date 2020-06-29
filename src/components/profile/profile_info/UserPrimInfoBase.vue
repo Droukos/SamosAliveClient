@@ -7,7 +7,7 @@
      <v-list-item-content>
          <v-menu>
            <template v-slot:activator="{ on }">
-             <v-btn rounded v-on="on">
+             <v-btn rounded v-on="on" aria-label="MoreOptions">
                {{ $t('user.more_options') }}
              </v-btn>
            </template>

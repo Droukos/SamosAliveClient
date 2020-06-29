@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container>
       <p class="display-1" style="color:#00897B">{{ $t('register.header') }}</p>
       <ValidationObserver ref="observer" v-slot="{ invalid, handleSubmit }">
@@ -103,21 +103,21 @@
 
           <p class="text-justify">
             {{ $t('login.message') }}
-            <v-btn rounded small @click="toLogin()">{{ $t('login.title') }}</v-btn>
+            <v-btn rounded small @click="toLogin()" aria-label="ToLogin">{{ $t('login.title') }}</v-btn>
           </p>
-          <v-btn class="mr-4" @click="handleSubmit(submit)" :disabled="invalid">submit</v-btn>
-          <v-btn @click="clear">clear</v-btn>
+          <v-btn class="mr-4" @click="handleSubmit(submit)" :disabled="invalid" aria-label="Register">{{$t("register.title")}}</v-btn>
+          <v-btn @click="clear" aria-label="Clear">{{$t("clear")}}</v-btn>
         </form>
       </ValidationObserver>
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 
 <script>
-import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
-import { veevalidate } from "@plugins/vee-validate.js";
-import { email } from "vee-validate/dist/rules";
+import { ValidationObserver, ValidationProvider /*,extend*/ } from "vee-validate";
+import { veevalidate } from "@/plugins/vee-validate.js";
+//import { email } from "vee-validate/dist/rules";
 
 export default {
   data() {
@@ -154,7 +154,7 @@ export default {
             email: vm.form.email
           };
           vm.$store.dispatch('registerUser', data)
-          .then(response => {
+          .then(() => {
                 vm.$router.push({
                  name: 'login'
                 });
@@ -186,11 +186,3 @@ export default {
   }
 };
 </script>
-<style>
-body {
-  font-family: "Roboto";
-}
-h1 {
-  text-align: center;
-}
-</style>

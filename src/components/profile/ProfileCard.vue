@@ -70,23 +70,23 @@ export default {
   components: {
     UserPrimInfoBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "UserPrimInfoBase" */ /* webpackPreload: true */ "@profile/profile_info/UserPrimInfoBase.vue"
+       /* webpackChunkName: "UserPrimInfoBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/UserPrimInfoBase.vue"
       ),
     MetaDataBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "MetaDataBase" */ /* webpackPreload: true */ "@profile/profile_info/MetaDataBase.vue"
+       /* webpackChunkName: "MetaDataBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/MetaDataBase.vue"
       ),
     RoleDataBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "RoleDataBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/RoleDataBase.vue"
+        /* webpackChunkName: "RoleDataBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/RoleDataBase.vue"
       ),
     UserInfoBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "UserInfoBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/UserInfoBase.vue"
+       /* webpackChunkName: "UserInfoBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/UserInfoBase.vue"
       ),
     AvatarBase: () =>
       import(
-        /* webpackMode: "eager" */ /* webpackChunkName: "AvatarBase" */ /* webpackPreload: true */ "@/components/profile/avatar/AvatarBase.vue"
+        /* webpackChunkName: "AvatarBase" */ /* webpackPreload: true */ "@/components/profile/avatar/AvatarBase.vue"
       )
   },
   computed: {
@@ -135,7 +135,7 @@ export default {
     }
   },
   watch: {
-    profileData(newVal, oldVal) {
+    profileData(newVal) {
       if(newVal.username == null) this.loading = true;
       else this.loading = false;
     }
@@ -156,11 +156,3 @@ export default {
   }
 };
 </script>
-<style>
-body {
-  font-family: "Roboto";
-}
-h1 {
-  text-align: center;
-}
-</style>

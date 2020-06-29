@@ -9,15 +9,14 @@ import {
     max,
     regex
 } from "vee-validate/dist/rules";
-import i18n from "@plugins/i18n.js";
-import babelPolyfill from 'babel-polyfill';
-import api from '@plugins/api.js';
-import apiUrls from '@plugins/apiUrls.js';
+import i18n from "@/plugins/i18n.js";
+//import babelPolyfill from 'babel-polyfill';
+import api from '@/plugins/api.js';
+import apiUrls from '@/plugins/apiUrls.js';
 
 configure({
     defaultMessage: (field, values) => {
         values._field_ = i18n.t(`fields.${field}`);
-
         return i18n.t(`validation.${values._rule_}`, values);
     }
 });
@@ -27,10 +26,8 @@ extend("regex_email", {
     message: (_, values) => i18n.t('validations.field_invalid', [_])
 });
 
-///Override the default message.
 extend('required', {
     ...required,
-    // the values param is the placeholders values
     message: (_, values) => i18n.t('validations.required', [_])
 });
 extend("positive", value => {
@@ -83,7 +80,6 @@ extend("min", {
     //values._value_
     message: (_, values) => i18n.t('validations.min', [_, values.length])
 });
-
 
 extend('Password', {
     params: ['target'],

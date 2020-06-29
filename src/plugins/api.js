@@ -1,7 +1,7 @@
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
-import router from "@plugins/router.js";
-import apiUrls from "@plugins/apiUrls.js";
+import router from "@/plugins/router.js";
+import apiUrls from "@/plugins/apiUrls.js";
 
 const axiosApi = axios.create({
   baseURL: document.querySelector('meta[name="serve"]').getAttribute('content'),

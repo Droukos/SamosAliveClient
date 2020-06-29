@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
-import english from '@plugins/locales/en.js';
-import greek from '@plugins/locales/el.js';
+import english from '@/plugins/locales/en.js';
+import greek from '@/plugins/locales/el.js';
 
 Vue.use(VueI18n);
 

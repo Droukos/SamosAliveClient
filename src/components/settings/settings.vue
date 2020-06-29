@@ -2,14 +2,14 @@
   <div>
     <h5 v-text="$t('settings.message')"/>
     <h6 v-text="$t('settings.theme')"/>
-    <v-btn rounded @click="toggleTheme()">
+    <v-btn rounded @click="toggleTheme()" aria-label="Theme">
       <v-icon>{{isDarkMode? '$vuetify.icons.moon' : '$vuetify.icons.sun'}}</v-icon>
     </v-btn>
     <br>
     <h6 v-text="$t('settings.language')"/>
     <v-menu offset-y>
     <template v-slot:activator="{ on }">
-        <v-btn rounded v-on="on">{{ $t("lang") }}</v-btn>
+        <v-btn rounded v-on="on" aria-label="Language">{{ $t("lang") }}</v-btn>
     </template>
     <v-list>
         <v-list-item v-for="(item, index) in items" :key="index" @click="selLanguage(index)">
@@ -52,11 +52,3 @@ export default {
 };
 
 </script>
-<style>
-body {
-  font-family: "Roboto";
-}
-h1 {
-  text-align: center;
-}
-</style>

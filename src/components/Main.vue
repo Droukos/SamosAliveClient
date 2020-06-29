@@ -1,6 +1,6 @@
 <template>
 <div>
-  <v-app id="inspire">
+  <v-app>
     <head-navbar1></head-navbar1>
     <v-divider></v-divider>
     <router-view></router-view>
@@ -12,16 +12,13 @@
 </template>
 
 <script>
-  import HeadNavbar1 from "@components/navbar/HeadNavbar1";
-
   export default {
-
     props: {
       source: String,
     },
     template: ["<HeadNavbar1>"],
     components: {
-      HeadNavbar1
+     HeadNavbar1: () => import (/* webpackChunkName: "HeadNavBar1" */ "@/components/navbar/HeadNavbar1")
     },
     created () {
       this.$vuetify.theme.dark = true;

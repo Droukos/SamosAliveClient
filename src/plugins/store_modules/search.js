@@ -1,5 +1,5 @@
-import api from "@plugins/api.js";
-import apiUrls from "@plugins/apiUrls.js";
+import api from "@/plugins/api.js";
+import apiUrls from "@/plugins/apiUrls.js";
 
 const state = {
 
@@ -10,7 +10,7 @@ const getters = {
 };
 
 const actions = {
-    async fetchUsersPreview({ rootState }, data) {
+    async fetchUsersPreview(data) {
         return await api.axiosApi.post(apiUrls.user.search_preview, { user: data.user });
     }
 };

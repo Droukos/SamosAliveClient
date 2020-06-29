@@ -1,24 +1,25 @@
  // webpack.config.js
- const LiveReloadPlugin = require('webpack-livereload-plugin');
- const WriteFilePlugin = require('write-file-webpack-plugin');
- const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
- const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
- const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+ //const LiveReloadPlugin = require('webpack-livereload-plugin');
+ //const WriteFilePlugin = require('write-file-webpack-plugin');
+ //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+ const Config = require('webpack-chain');
 
- require("babel-polyfill");
+ const config = new Config();
+ config.merge({
+  plugins: [
+    // make sure to include the plugin for the magic
+    //new HotModuleReplacementPlugin(),
+    //new BundleAnalyzerPlugin(),
+    //new LiveReloadPlugin(),
+    //new WriteFilePlugin({
+    //   // exclude hot-update files
+    //   test: /^(?!.*(hot)).*/ /*,
+    // }),
+  ]
+ });
+ module.exports = config.toConfig();
 
- const {
-   join,
-   resolve
- } = require('path');
-
- const {
-   HotModuleReplacementPlugin
- } = require('webpack');
-
- const vueSrc = "./src";
-
- module.exports = (env, argv) => {
+ /*module.exports = (env, argv) => {
    const isDevelopment = argv.mode === 'development';
 
    return ({
@@ -117,17 +118,17 @@
             'style-loader',
             'css-loader',
             //'sass-loader'
-            {
-              loader: 'sass-loader',
-              // Requires sass-loader@^8.0.0
-              options: {
-                implementation: require('sass'),
-                sassOptions: {
-                  fiber: require('fibers'),
-                  //indentedSyntax: true, // optional
-                },
-              },
-            },
+            //{
+            //  loader: 'sass-loader',
+            //  // Requires sass-loader@^8.0.0
+            //  options: {
+            //    implementation: require('sass'),
+            //    sassOptions: {
+            //      fiber: require('fibers'),
+            //      indentedSyntax: true, // optional
+            //    },
+            //  },
+            //},
           ]
         },
          {
@@ -159,11 +160,10 @@
        new HotModuleReplacementPlugin(),
        new BundleAnalyzerPlugin(),
        new LiveReloadPlugin(),
-       new VuetifyLoaderPlugin(),
        new WriteFilePlugin({
           // exclude hot-update files
-          test: /^(?!.*(hot)).*/,
+          test: /^(?!.*(hot)).*/ /*,
         }),
      ]
    })
- };
+ };*/

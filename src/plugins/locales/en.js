@@ -173,6 +173,7 @@ export default {
     languageTitle: 'Language',
     languageGreek: 'Greek',
     languageEnglish: 'English',
+    clear: "Clear",
 
 
     reset: 'Reset',

@@ -1,5 +1,10 @@
+import i18n from '@/plugins/i18n.js';
+
+const createDate = (date) => {
+    return new Date(date[0], date[1], date[2], date[3], date[4], date[5]);
+};
 export default {
-  install: (Vue, options) => {
+  install: (Vue) => {
     Vue.prototype.$helper = {
       usernameHashCode: (str) => {
         if (typeof str !== 'string') return;
@@ -11,7 +16,9 @@ export default {
         var c = (hash & 0x00ffffff).toString(16).toUpperCase();
         return "#"+"00000".substring(0, 6 - c.length) + c;
       },
-      
+      convDate: (date, format, lang) => {
+        return i18n.d(createDate(date), format, lang);
+      }, 
       getUserRoleColorLabel: (role) => {
         role = parseInt(role);
         if (role == 0) return "red--text text--darken-4"; //"General Admin";

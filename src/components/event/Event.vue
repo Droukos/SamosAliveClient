@@ -1,7 +1,7 @@
 <template>
   <div>
     <p v-text="$t('main')"/>
-    <v-btn href="#" color="primary" v-text="$t('events.event')" @click="showDialog()"/>
+    <v-btn href="#" color="primary" v-text="$t('events.event')" @click="showDialog()" aria-label="ShowDialog"/>
 
     <div class="text-center">
     <v-dialog
@@ -45,6 +45,7 @@
             color="primary"
             @click="dialog = false"
             v-text="$t('events.send')"
+            aria-label="SendEvent"
           >
           </v-btn>
         </v-card-actions>
@@ -53,8 +54,8 @@
   </div>
     
     <br><br>
-    <v-btn href="#" color="primary" v-text="$t('events.eventList')" router-link to="/eventList"/>
-    <v-btn href="#" color="primary" v-text="$t('events.problemList')" router-link to="/problemList"/>
+    <v-btn href="#" color="primary" v-text="$t('events.eventList')" router-link to="/eventList" aria-label="ToEventList"/>
+    <v-btn href="#" color="primary" v-text="$t('events.problemList')" router-link to="/problemList" aria-label="ToProblemList"/>
     <br>
     
     <!--<span>Κατάσταση ασθενούς: {{ selected }}</span>-->
@@ -94,11 +95,3 @@ export default {
 };
 
 </script>
-<style>
-body {
-  font-family: "Roboto";
-}
-h1 {
-  text-align: center;
-}
-</style>
