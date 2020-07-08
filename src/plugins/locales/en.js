@@ -72,7 +72,7 @@ export default {
     },
     user: {
         user: 'User',
-        profileTitle: 'Profile',
+        title: 'Profile',
         profile: 'That is your profile',
         online: "Currently Online",
         offline: "Currently Offline",
@@ -128,16 +128,15 @@ export default {
         exceptto: "Except To",
     },
     messages: {
-        messageTitle: 'Inbox',
+        title: 'Inbox',
         inbox: 'My messages'
     },
-    
     info: {
-        infoTitle: 'Informations',
+        title: 'Information',
         message: 'General informations and Q&A for the application'
     },
     settings: {
-        settingsTitle: 'Settings',
+        title: 'Settings',
         message: 'General settings for the application',
         theme: 'Choose theme (light, dark)',
         language: 'Choose language'

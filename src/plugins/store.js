@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     namespace: true,
     state: {
         locale: "en",
+        theme: "dark",
         userid: "",
         username: "",
         name: "",
@@ -28,6 +29,9 @@ const store = new Vuex.Store({
         setAvatar(state, data) {
             state.avatar = data.avatar;
         },
+        setTheme(state, data) {
+            state.theme = data;
+        },
         setLocale(state, data) {
             state.locale = data.locale;
         },
@@ -35,6 +39,9 @@ const store = new Vuex.Store({
             state.name = data.name;
             state.surname = data.surname;
             state.description = data.description;
+        },
+        setStatus(state, data) {
+            state.availability = data.status;
         },
         setUserData(state, data) {
             state.userid = data.id;
@@ -59,6 +66,21 @@ const store = new Vuex.Store({
         },  
         getUserID: state => {
             return state.userid;
+        },
+        isSignedIn: state => {
+            return state.userid != "" && state.username !="";
+        },
+        getIsDarkMode: state => {
+            return state.theme == "dark";
+        },
+        getAvatar: state => {
+            return state.avatar;
+        },
+        getAvailability: state => {
+            return state.availability;
+        },
+        getUsername: state => {
+            return state.username;
         }
     },
     actions: {
@@ -84,6 +106,9 @@ const store = new Vuex.Store({
                 },
                 email: data.email
             });
+        },
+        async changeStatus({state}, data) {
+            return await api.axiosApi.put(apiUrls.user.user + state.userid + apiUrls.user.status, data);
         }
     },
     modules: {

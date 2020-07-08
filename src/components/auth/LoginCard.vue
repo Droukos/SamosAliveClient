@@ -53,7 +53,6 @@
 <script>
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 //import { required, minmax } from 'vee-validate/dist/rules';
-import VueCookies from 'vue-cookies';
 //import (/* webpackChunkName: "VeeVal" */ "@/plugins/vee-validate.js");
 import { veevalidate } from "@/plugins/vee-validate.js";
 
@@ -77,14 +76,13 @@ export default {
     submit() {
       let vm = this;
       this.$refs.observer.validate().then(valid => {
-        console.log(vm.form.username);
         let data = { user: vm.form.username, pass: vm.form.password};
         if (valid) {
           vm.$store.dispatch("loginUser", data)
           .then(response => {
                 vm.$store.commit('setUserData', response.data);
-                VueCookies.set("refToken", response.data.refresh_token, null, null, null, null, "Strict");
-                VueCookies.set("accToken", response.data.access_token, null, null, null, null, "Strict");
+                this.$cookies.set("refToken", response.data.refresh_token, null, null, null, null, "Strict");
+                this.$cookies.set("accToken", response.data.access_token, null, null, null, null, "Strict");
                 vm.$router.push({
                  name: 'news'
                 });

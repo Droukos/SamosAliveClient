@@ -9,12 +9,12 @@ const router = new VueRouter({
     mode:'history',
     routes: [
         {
-            path: '/entry',
+            path: '/',
             name: "entry",
             component: () => import(/* webpackChunkName: "HomeCard" */ '@/components/home/HomeCard'),
         },
         {
-            path: '/',
+            path: '/login',
             name: "login",
             component: () => import(/* webpackChunkName: "LoginCard" */ '@/components/auth/LoginCard'),
         },
@@ -70,7 +70,12 @@ const router = new VueRouter({
             path: '/register',
             name: "register",
             component: () => import(/* webpackChunkName: "AppRegister" */ '@/components/auth/RegistrationCard'),
-        }
+        },
+        {
+            path: '/settings',
+            name: "settings",
+            component: () => import(/* webpackChunkName: "SettingsCard" */ '@/components/settings/SettingsCard'),
+        },
     ]
 });
 

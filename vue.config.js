@@ -42,7 +42,7 @@ module.exports = {
   css: {
     extract: { ignoreOrder: true },
   },
-  publicPath: "/public",
+  //publicPath: "/public",
   "transpileDependencies": [
     "vuetify"
   ]

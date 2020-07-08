@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
 import {
  mdiAccount,
+ mdiDoorOpen,
  mdiKey,
  mdiEye,
  mdiEyeOff,
@@ -13,7 +14,11 @@ import {
  mdiNewspaperVariant,
  mdiCog,
  mdiMagnify,
- mdiArrowLeft
+ mdiInformation,
+ mdiTranslate,
+ mdiArrowLeft,
+ mdiMenu,
+ mdiThemeLightDark
 } from '@mdi/js';
 
 Vue.use(Vuetify);
@@ -25,15 +30,20 @@ const MY_ICONS = {
   eyeoff: mdiEyeOff,  
   close: mdiClose,
   home: mdiHome,
+  theme: mdiThemeLightDark,
   moon: mdiWeatherNight,
   sun: mdiWhiteBalanceSunny,
   messages: mdiMessage,
   news: mdiNewspaperVariant,
-  profile: 'fas fa-address-card', 
-  infos: 'fas fa-info-circle',
+  profile: 'fas fa-address-card',
+  translate: mdiTranslate,
+  menu: mdiMenu,
+  info: mdiInformation ,
   settings: mdiCog,
   search: mdiMagnify,
+  doorOpen: mdiDoorOpen,
   back: mdiArrowLeft,
+
   appbar: 'deep-purple darken-3'
 };
 
@@ -43,9 +53,6 @@ export default new Vuetify({
     iconfont: 'mdiSvg',
  },
   theme: {
-    //  options: {
-    //    customProperties: true,
-    //  },
     themes: {
       light: {
         primary: '#ee44aa',

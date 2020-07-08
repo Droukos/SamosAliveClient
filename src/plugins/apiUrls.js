@@ -4,7 +4,8 @@ const user = {
     search_preview: "/user/find_users_preview",
     user_data: "/user/user_data",
     personal: "/personal",
-    avatar: "/avatar"
+    avatar: "/avatar",
+    status: "/availability"
 };
 
 const auth = {

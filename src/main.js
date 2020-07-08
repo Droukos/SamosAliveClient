@@ -4,8 +4,12 @@ import router from '@/plugins/router.js';
 import vuetify from '@/plugins/vuetify';
 import i18n from '@/plugins/i18n.js';
 import Main from '@/components/Main';
+import VueCookies from 'vue-cookies';
+import helper from "@/components/helpers/helper";
+
 Vue.config.productionTip = false
-Vue.use(() => import (/* webpackChunkName: "Helper" */ "@/components/helpers/helper.js"));
+Vue.use(helper);
+Vue.use(VueCookies);
 
 Vue.mixin({
     methods: {

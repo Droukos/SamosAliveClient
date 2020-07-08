@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-app>
-    <head-navbar1></head-navbar1>
+    <head-navbar-bundler></head-navbar-bundler>
     <v-divider></v-divider>
     <router-view></router-view>
     <v-footer app>
@@ -16,12 +16,12 @@
     props: {
       source: String,
     },
-    template: ["<HeadNavbar1>"],
     components: {
-     HeadNavbar1: () => import (/* webpackChunkName: "HeadNavBar1" */ "@/components/navbar/HeadNavbar1")
+     HeadNavbarBundler: () => import (/* webpackChunkName: "HeadNavbarBundler" */ "@/components/navbar/HeadNavbarBundler")
     },
     created () {
-      this.$vuetify.theme.dark = true;
+      this.$store.commit('setTheme', this.$cookies.get("userdata-theme"));
+      this.$vuetify.theme.dark = this.$store.getters.getIsDarkMode;
       this.$store.dispatch("fetchUserData");
     },
   }
