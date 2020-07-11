@@ -55,7 +55,6 @@ const store = new Vuex.Store({
             state.availability = data.availability;
             state.role = data.role;
         }
-        
     },
     getters: {
         getRole: state => {

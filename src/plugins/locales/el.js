@@ -1,5 +1,6 @@
 export default {
     lang: 'Ελληνικά',
+    webapp: "SamosAlive",
     fields: {
         username: "Όνομα χρήστη",
         password: "Κωδικός",
@@ -49,6 +50,8 @@ export default {
     },
     login: {
         title: "Σύνδεση",
+        loginTo: "@:login.title στο @:webapp",
+        forgotpass: "Ξέχασες τον κωδικό;",
         header: 'Συμπλωρώστε τα στοιχεία σας για να συνδεθείτε στην εφαρμογή',
         message: 'Αν δεν έχετε λογαριασμό κάντε εγγραφή εδώ:',
         invalid: 'Λάθος στοιχεία σύνδεσης',

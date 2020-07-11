@@ -142,11 +142,12 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-     if(to.params.userID == undefined)  vm.$store.dispatch("profile/profileData", {userid: "5ed81eb921c7b15c2c563980"}).then(response => {
+     if(to.params.userID == undefined)  vm.$store.dispatch("profile/profileData", {userid: vm.$store.getters.getUserID}).then(response => {
         vm.$store.commit("profile/setUserData", response.data);
         if(to.params.userID == vm.$store.getters.getUserID) vm.$store.commit("setUserData", response.data);
       });
      else vm.$store.dispatch("profile/profileData", {userid: to.params.userID}).then(response => {
+       console.log(response.data);
         vm.$store.commit("profile/setUserData", response.data);
         if(to.params.userID == vm.$store.getters.getUserID) vm.$store.commit("setUserData", response.data);
       });

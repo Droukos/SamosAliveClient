@@ -29,12 +29,15 @@
     <v-navigation-drawer v-model="drawer" :fixed="true" temporary relative dark>
       <v-list dense nav class="py-0">
         <v-list-item two-line :class="'px-0'">
-          <v-list-item-avatar>
-            <img :src="avatar" />
+          <v-list-item-avatar tile size="50">
+            <v-img :src="avatar"></v-img>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>{{ username }}</v-list-item-title>
-            <v-list-item-subtitle>{{ role }}</v-list-item-subtitle>
+            <div @click="goToProfile()" style="cursor: pointer;">
+              <v-list-item-title style="font-size:19px;">{{ username }}</v-list-item-title>
+              <v-list-item-subtitle style="font-size:17px;" :class="role[0]">{{ role[1] }}</v-list-item-subtitle>
+            </div>
+
             <v-menu offset-x>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -43,10 +46,13 @@
                   height="18"
                   v-bind="attrs"
                   v-on="on"
-                >{{ availability[1] }}</v-btn>
+                >
+                  {{ availability[1] }}
+                  <v-icon>{{ '$vuetify.icons.chevRight' }}</v-icon>
+                </v-btn>
               </template>
               <v-list dense>
-                <v-list-item-group v-model="statusIndex">
+                <v-list-item-group v-model="availability[0]">
                   <v-list-item v-for="(item, index) in status" :key="index">
                     <v-list-item-title>
                       <v-btn
@@ -77,15 +83,32 @@
 export default {
   data() {
     return {
-      drawer: false,
-      dialog: false,
-      background: true,
-      statusIndex: 0
+      drawer: false
     };
   },
   methods: {
+    goToProfile() {
+      this.$router.push({
+        name: "user_profile",
+        params: {
+          userID: this.userId
+        }
+      });
+    },
     to(index) {
       if (index == 6) {
+        this.$store.commit("setUserData", {
+          id: "",
+          username: "",
+          name: "",
+          surname: "",
+          email: "",
+          avatar: "",
+          description: "",
+          online: "",
+          availability: "",
+          role: ""
+        });
         this.$cookies.remove("accToken");
         this.$cookies.remove("refToken");
       }
@@ -93,7 +116,6 @@ export default {
         name: this.getToPages[index].link
       });
     },
-
     statusClass(status) {
       return this.$helper.getUserStatusColorLabel(status);
     },
@@ -161,11 +183,17 @@ export default {
     avatar() {
       return this.$store.getters.getAvatar;
     },
+    userId() {
+      return this.$store.getters.getUserID;
+    },
     username() {
       return this.$store.getters.getUsername;
     },
     role() {
-      return this.$t("roles." + this.$store.getters.getRole);
+      return [
+        this.$helper.getUserRoleColorLabel(this.$store.getters.getRole),
+        this.$t("roles." + this.$store.getters.getRole)
+      ];
     },
     availability() {
       return [

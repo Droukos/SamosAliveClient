@@ -1,5 +1,6 @@
 export default {
     lang: 'English',
+    webapp: "SamosAlive",
     fields: {
         username: "Username",
         password: "Password",
@@ -49,6 +50,8 @@ export default {
     },
     login: {
         title: "Login",
+        loginTo: "@:login.title to @:webapp",
+        forgotpass: "Forgot your password?",
         header: 'Complete your account credencials to login',
         message: 'If you already have an account sign in here:',
         invalid: 'Invalid credentials',

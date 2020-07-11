@@ -18,6 +18,8 @@ import {
  mdiTranslate,
  mdiArrowLeft,
  mdiMenu,
+ mdiChevronDown,
+ mdiChevronRight,
  mdiThemeLightDark
 } from '@mdi/js';
 
@@ -43,6 +45,8 @@ const MY_ICONS = {
   search: mdiMagnify,
   doorOpen: mdiDoorOpen,
   back: mdiArrowLeft,
+  chevDown: mdiChevronDown,
+  chevRight: mdiChevronRight,
 
   appbar: 'deep-purple darken-3'
 };
