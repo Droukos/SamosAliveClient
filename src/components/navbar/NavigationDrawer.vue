@@ -1,44 +1,61 @@
 <template>
   <div>
     <v-app-bar app clipped-left color="deep-purple darken-3" dense>
-      <v-btn text @click.stop="drawer = !drawer">
+      <v-btn text @click.stop="drawer = !drawer" aria-label="ToNavDrawer">
         <v-icon size="40">{{ '$vuetify.icons.menu' }}</v-icon>
       </v-btn>
       <v-spacer />
-      <v-menu offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn text>
-            <v-avatar size="40" v-on="on" aria-label="Account">
-              <img :src="avatar" alt="Menu" />
-            </v-avatar>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item>
-            <v-btn
-              rounded
-              router-link
-              to="/login"
-              v-text="$t('user.logout')"
-              aria-label="ToLogout"
-            />
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <nav-profile-card></nav-profile-card>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" :fixed="true" temporary relative dark>
       <v-list dense nav class="py-0">
         <v-list-item two-line :class="'px-0'">
           <v-list-item-avatar tile size="50">
-            <v-img :src="avatar"></v-img>
+            <avatar-base :username="username" :avatar="avatar" size="50"></avatar-base>
           </v-list-item-avatar>
           <v-list-item-content>
             <div @click="goToProfile()" style="cursor: pointer;">
               <v-list-item-title style="font-size:19px;">{{ username }}</v-list-item-title>
-              <v-list-item-subtitle style="font-size:17px;" :class="role[0]">{{ role[1] }}</v-list-item-subtitle>
+              <!--<v-list-item-subtitle style="font-size:17px;" :class="role[0]">{{ role[1] }}</v-list-item-subtitle>-->
+              <v-menu offset-x :close-on-click="true" :close-on-content-click="false">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  text
+                  v-bind="attrs"
+                  v-on="on"
+                  aria-label="ToRolesMenu"
+                >
+                  <v-chip :class="greatestRole.class"> {{ greatestRole.title }} </v-chip> <v-chip class=""><v-icon>{{ '$vuetify.icons.chevDown' }}</v-icon></v-chip>
+                </v-btn>
+              </template>
+              <v-list dense>
+                <v-list-item-group v-model="availability[0]">
+                  <v-list-item v-for="(item, index) in roles" :key="index">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        block
+                        v-bind="attrs"
+                        v-on="on"
+                        :class="item.class"
+                        @click="changeStatus(item.index)"
+                        aria-label="StatusOption"
+                        >{{ item.title }}
+                        <v-checkbox class="ml-2" :disabled="isNotLastActiveRole" @click="deactivateRole()" input-value="true" value></v-checkbox>
+                        </v-btn>
+                        
+                      </template>
+                      <span>{{ item.tooltip }}</span>
+                      
+                    </v-tooltip>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+              <v-btn block v-if="roleChanged">{{$t("forms.apply")}}</v-btn>
+            </v-menu>
             </div>
 
-            <v-menu offset-x>
+            <v-menu offset-x :close-on-click="true" :close-on-content-click="false">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   text
@@ -46,6 +63,7 @@
                   height="18"
                   v-bind="attrs"
                   v-on="on"
+                  aria-label="ToStatusMenu"
                 >
                   {{ availability[1] }}
                   <v-icon>{{ '$vuetify.icons.chevRight' }}</v-icon>
@@ -59,11 +77,13 @@
                         block
                         :class="item.class"
                         @click="changeStatus(item.index)"
+                        aria-label="StatusOption"
                       >{{ item.title }}</v-btn>
                     </v-list-item-title>
                   </v-list-item>
                 </v-list-item-group>
               </v-list>
+              <v-btn block v-if="statusChanged" @click="applyStatus()">{{$t("forms.apply")}}</v-btn>
             </v-menu>
           </v-list-item-content>
         </v-list-item>
@@ -83,8 +103,21 @@
 export default {
   data() {
     return {
-      drawer: false
+      drawer: false,
+      roleChanged: false,
+      statusChanged: false,
+      dataStatus: ""
     };
+  },
+  components: {
+    NavProfileCard: () =>
+      import(
+       /* webpackChunkName: "NavProfileCard" */ "@/components/navbar/NavProfileCard"
+      ),
+     AvatarBase: () =>
+      import(
+       /* webpackChunkName: "AvatarBase" */ "@/components/profile/avatar/AvatarBase"
+      )
   },
   methods: {
     goToProfile() {
@@ -97,7 +130,14 @@ export default {
     },
     to(index) {
       if (index == 6) {
-        this.$store.commit("setUserData", {
+        this.removeUserData();
+      }
+      this.$router.push({
+        name: this.getToPages[index].link
+      });
+    },
+    removeUserData(){
+      this.$store.commit("setUserData", {
           id: "",
           username: "",
           name: "",
@@ -111,21 +151,31 @@ export default {
         });
         this.$cookies.remove("accToken");
         this.$cookies.remove("refToken");
-      }
-      this.$router.push({
-        name: this.getToPages[index].link
-      });
     },
     statusClass(status) {
       return this.$helper.getUserStatusColorLabel(status);
     },
+    rolesClass(role) {
+      return this.$helper.getUserRoleColorLabel(role);
+    },
     changeStatus(index) {
+      this.dataStatus = { status: index };
+      this.statusChanged = true;
+    },
+    applyStatus() {
       let vm = this;
-      let data = { status: index };
-      vm.$store.dispatch("changeStatus", data).then(response => {
-        vm.$store.commit("setStatus", data);
+      this.statusChanged = false;
+       vm.$store.dispatch("changeStatus", vm.dataStatus).then(response => {
+        vm.$store.commit("setStatus", vm.dataStatus);
       });
+    },
+    deactivateRole(index) {
+
+    },
+    applyRoles() {
+
     }
+
   },
   computed: {
     getToPages() {
@@ -189,17 +239,39 @@ export default {
     username() {
       return this.$store.getters.getUsername;
     },
-    role() {
-      return [
-        this.$helper.getUserRoleColorLabel(this.$store.getters.getRole),
-        this.$t("roles." + this.$store.getters.getRole)
-      ];
+    roles() {
+      return this.$store.getters.getRoles.map(role => ({
+        index: role.code,
+        title: this.$t("roles."+this.$helper.getRoleForLocale(role)),
+        class: this.$helper.getUserRoleColorLabel(role),
+        tooltip: this.$t("roles.addedBy", [role.addedBy, this.$helper.convDate(role.added, 'long', this.locale)])
+        }));
+    },
+    isNotLastActiveRole() {
+      let oneActive = false;
+      let isLastActive = true;
+      this.$store.getters.getRoles.forEach(role => {
+        if(role.active == true && oneActive) return isLastActive = false;
+        else if(role.active === true) oneActive = true;
+      });
+      return isLastActive;
+    },
+    greatestRole() {
+      let greatestRole =  this.$helper.getGreatestRole(this.$store.getters.getRoles)
+
+      return {
+         title: this.$t("roles."+this.$helper.getRoleForLocale(greatestRole)),
+         class: this.$helper.getUserRoleColorLabel(greatestRole),
+      };
     },
     availability() {
       return [
         this.$store.getters.getAvailability,
         this.$t("status." + this.$store.getters.getAvailability)
       ];
+    },
+    locale: function() {
+          return this.$store.getters.getLocale;
     },
     status() {
       let status = [];

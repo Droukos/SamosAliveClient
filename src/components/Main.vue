@@ -22,7 +22,7 @@
     created () {
       this.$store.commit('setTheme', this.$cookies.get("userdata-theme"));
       this.$vuetify.theme.dark = this.$store.getters.getIsDarkMode;
-      this.$store.dispatch("fetchUserData");
+      if(this.$cookies.isKey("refToken")) this.$store.dispatch("fetchUserData");
     },
   }
 </script>

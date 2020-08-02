@@ -19,7 +19,7 @@ const store = new Vuex.Store({
         email: "",
         avatar: "",
         description: "",
-        role: 0,
+        roles: "",
         online: "",
         availability: "",
         domain: document.querySelector('meta[name="serve"]').getAttribute('content'),
@@ -44,6 +44,7 @@ const store = new Vuex.Store({
             state.availability = data.status;
         },
         setUserData(state, data) {
+            console.log(data.roles);
             state.userid = data.id;
             state.username = data.user;
             state.name = data.name;
@@ -53,12 +54,12 @@ const store = new Vuex.Store({
             state.description = data.description;
             state.online = data.online;
             state.availability = data.availability;
-            state.role = data.role;
+            state.roles = data.roles;
         }
     },
     getters: {
-        getRole: state => {
-            return state.role;
+        getRoles: state => {
+            return state.roles;
         },
         getLocale: state => {
             return state.locale;

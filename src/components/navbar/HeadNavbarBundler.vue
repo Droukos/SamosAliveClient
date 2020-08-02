@@ -12,22 +12,18 @@
               text
               v-bind="attrs"
               v-on="on"
+              aria-label="ToAccountMenu"
             >
               <v-icon>{{ '$vuetify.icons.account' }}</v-icon>
             </v-btn>
           </template>
-          <v-card class="mx-auto" >
+          <v-card class="mx-auto">
               <v-container>
                 <div class="d-flex justify-center mb-6"><h2>{{$t("login.loginTo")}}</h2></div>
                 <login-base :sessExp="false"></login-base>
             </v-container>
           </v-card>
-          
         </v-menu>
-       
-        <!--<v-btn router-link to="/info" aria-label="ToInfo">
-          <v-icon>{{ '$vuetify.icons.info' }}</v-icon>
-        </v-btn>-->
         <v-btn text router-link to="/settings" aria-label="ToSettings">
           <v-icon>{{ '$vuetify.icons.settings' }}</v-icon>
         </v-btn>
@@ -57,9 +53,6 @@
 export default {
   data() {
     return {
-      username: "",
-      password: "",
-      showPassword: false,
       langs: [
         {
           index: 0,

@@ -66,7 +66,6 @@ export default {
       ],
     };
   },
-  template: [],
   components: {
     UserPrimInfoBase: () =>
       import(
@@ -101,7 +100,7 @@ export default {
     },
     getMoreOptions () {
       let moreOptions = [];
-      let role = this.$store.getters.getRole;
+      let role = this.$store.getters.getRoles;
       if(this.$helper.isGeneralAdmin(role) || this.$helper.isAreaAdmin(role) 
         || this.profileData.userid == this.$store.getters.getUserID){
         moreOptions.unshift({

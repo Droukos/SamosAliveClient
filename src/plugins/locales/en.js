@@ -145,13 +145,20 @@ export default {
         language: 'Choose language'
     },
     roles: {
-        0: "General Admin",
-        10: "Area Admin",
+        admins: {
+            0: "General Admin",
+            1000: "Area Admin",
+        },
+        users: {
+            10000: "User"
+        },
+
+        addedBy: "Added by {0} on {1}",
+
         100: "Rescuer",
         101: "Defribrillator Manager",
         102: "Defribrillator Company Service",
         203: "ΕΚΑΒ",
-        1000: "User"
     },
     status: {
         currently: "Currently ",
@@ -160,6 +167,9 @@ export default {
         2: "Busy",
         3: "On Duty",
         4: "Away"
+    },
+    forms: {
+        apply: "Apply"
     },
     mainTitle: 'Main',
     news: {
