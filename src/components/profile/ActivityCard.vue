@@ -1,15 +1,7 @@
 <template>
-  <v-content>
-      
-  </v-content>
+  <v-content> </v-content>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
-
-<style>
-
-</style>

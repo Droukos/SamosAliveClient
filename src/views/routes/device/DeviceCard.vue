@@ -1,13 +1,9 @@
 <template>
- <v-main></v-main> 
+  <v-main></v-main>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

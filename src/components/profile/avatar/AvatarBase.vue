@@ -1,44 +1,54 @@
 <template>
   <v-card
-    v-if="getIfAvatarNotExists"
+    v-if="doesAvatarNotExists"
     class="d-flex align-center justify-center"
-    :style="getProfileBackgStyle"
+    :style="profileBackStyle"
   >
-    <span>{{ getUsernameFirstLetter }}</span>
+    <span>{{ usernameFirstLetter }}</span>
   </v-card>
   <div v-else class="d-flex justify-center">
-    <span><img :src="avatar" :style="getProfileBackgStyle" alt class="user-profile-avatar" /></span>
+    <span
+      ><img
+        :src="avatar"
+        :style="profileBackStyle"
+        alt
+        class="user-profile-avatar"
+    /></span>
   </div>
 </template>
 
-<script>
-export default {
-  props: ["avatar", "username", "size"],
-  methods: {
-    setBackgroundColor: function(username) {
-      return this.$helper.usernameHashCode(username);
-    }
-  },
-  computed: {
-    getIfAvatarNotExists: function() {
-      return this.avatar == undefined || this.avatar == "";
-    },
-    getUsernameFirstLetter: function() {
-      return this.username.charAt(0);
-    },
-    getProfileBackgStyle: function() {
-      return "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color:".concat(
-        this.setBackgroundColor(this.username),
-        ";height:",
-        this.size,
-        "px !important;width:",
-        this.size,
-        "px !important;"
-      );
-    }
-  }
-};
-</script>
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import "@/plugins/helpers/helper.ts";
 
-<style>
-</style>
+@Component
+export default class AvatarBase extends Vue {
+  @Prop()
+  public avatar: string | undefined;
+  @Prop()
+  public username!: string;
+  @Prop()
+  public size!: string;
+
+  setBackgroundColor(username: string) {
+    return this.$helper.usernameHashCode(username);
+  }
+
+  get doesAvatarNotExists() {
+    return this.avatar == undefined || this.avatar == "";
+  }
+  get usernameFirstLetter() {
+    return this.username.charAt(0);
+  }
+  get profileBackStyle() {
+    return "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color:".concat(
+      this.setBackgroundColor(this.username),
+      ";height:",
+      this.size,
+      "px !important;width:",
+      this.size,
+      "px !important;"
+    );
+  }
+}
+</script>

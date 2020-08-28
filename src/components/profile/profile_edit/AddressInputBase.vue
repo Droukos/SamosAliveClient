@@ -2,7 +2,9 @@
   <v-expansion-panels popout class="mb-6">
     <v-expansion-panel>
       <v-expansion-panel-header expand-icon="mdi-menu-down">
-        <p class="headline">{{$t('fields.address')}} {{'('+$t('edit.optional')+')'}}</p>
+        <p class="headline">
+          {{ $t("fields.address") }} {{ "(" + $t("edit.optional") + ")" }}
+        </p>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-autocomplete
@@ -16,15 +18,16 @@
           outlined
           item-text="name"
           item-value="code"
-          :label="$t('edit.country_hint')"
+          :label="$t('edit.countryHint')"
         >
           <template v-slot:item="data">
             <v-list-item-avatar
               color="indigo"
               class="headline font-weight-light white--text"
-            >{{ data.item.code }}</v-list-item-avatar>
+              >{{ data.item.code }}</v-list-item-avatar
+            >
             <v-list-item-content>
-              <v-list-item-title v-text=" data.item.name"></v-list-item-title>
+              <v-list-item-title v-text="data.item.name"></v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
               <v-img :src="country(data.item.code)"></v-img>
@@ -42,50 +45,70 @@
             </v-chip>
           </template>
         </v-autocomplete>
-        <v-text-field v-model="editForm.province" @input="onChangeInput()" :counter="30" :label="$t('fields.province')"></v-text-field>
-        <v-text-field v-model="editForm.city" @input="onChangeInput()"  :counter="30" :label="$t('fields.city')"></v-text-field>
+        <v-text-field
+          v-model="editForm.province"
+          @input="onChangeInput()"
+          :counter="30"
+          :label="$t('fields.province')"
+        ></v-text-field>
+        <v-text-field
+          v-model="editForm.city"
+          @input="onChangeInput()"
+          :counter="30"
+          :label="$t('fields.city')"
+        ></v-text-field>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
 </template>
 
-<script>
-//import countries from "@/components/helpers/countries.js";
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { countries } from "@/plugins/helpers/countries";
+import { Country, EditForm } from "@/types";
 
-export default {
-  data: function() {
-    return {
-      queryCountries: [],
-      selectedCountry: { code: "GR", name: "Greece" },
-      search: null,
-      loading: false
-    };
-  },
-  props: ["editForm", "onChange"],
-  methods: {
-    onChangeInput(){
-        this.onChange();
-    },
-    country: function(country_code) {
-      return "https://www.countryflags.io/".concat(country_code, "/flat/32.png");
-    },
-    countrySelected(data) {
-        console.log(data);
-        return data.selected;
-    },
-    querySelections(v) {
-      this.loading = true;
-      setTimeout(() => {
-        this.queryCountries = this.$countries.filter(e => { 
-            return ((e.name || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1);});
-        this.loading = false;
-      }, 800);
-    }
-  },
-  watch: {
-    search(val) {
-      val && val !== this.editForm.country_code && this.querySelections(val);
-    }
+@Component
+export default class AddressInputBase extends Vue {
+  public queryCountries!: Array<Country>;
+  public selectedCountry: Country = {
+    code: "GR",
+    name: "Greece"
+  };
+  public search = "";
+  public loading = false;
+  @Prop()
+  public editForm!: EditForm;
+  @Prop()
+  public onChange!: () => void;
+
+  onChangeInput() {
+    this.onChange();
   }
-};
+
+  country(countryCode: string) {
+    return "https://www.countryflags.io/".concat(countryCode, "/flat/32.png");
+  }
+
+  countrySelected(data: { selected: Country }) {
+    console.log(data);
+    return data.selected;
+  }
+
+  querySelections(cIso: string) {
+    this.loading = true;
+    setTimeout(() => {
+      this.queryCountries = countries.filter(e => {
+        return (
+          (e.name || "").toLowerCase().indexOf((cIso || "").toLowerCase()) > -1
+        );
+      });
+      this.loading = false;
+    }, 800);
+  }
+
+  @Watch("search")
+  searchChange(cIso: string) {
+    cIso && cIso !== this.editForm.countryCode && this.querySelections(cIso);
+  }
+}
 </script>

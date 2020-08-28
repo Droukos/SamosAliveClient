@@ -6,7 +6,9 @@
   </v-content>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 
-<script>
-export default {};
+@Component
+export default class News extends Vue {}
 </script>
