@@ -111,7 +111,6 @@ declare namespace Login {
     online: User.Online,
     availability: User.Availability
   }
-
 }
 
 export type UserLogin = Login.UserLogin;

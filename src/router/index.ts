@@ -59,11 +59,11 @@ const routes: Array<RouteConfig> = [
             name: "news",
             component: () => import(/* webpackChunkName: "NewsCard" */ '@/components/news/News.vue'),
         },
-        //{
-        //    path: '/event',
-        //    name: "event",
-        //    component: () => import(/* webpackChunkName: "EventCard" */ '@/components/event/Event.vue'),
-        //},
+        {
+            path: '/aed/event',
+            name: "aedEvent",
+            component: () => import(/* webpackChunkName: "EventCard" */ '@/views/routes/aed/event/EventCard.vue'),
+        },
         {
             path: '/register',
             name: "register",

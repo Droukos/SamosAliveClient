@@ -17,20 +17,13 @@ import { namespace } from "vuex-class";
 
 const user = namespace("user");
 
-interface NavOpts {
-  index: number;
-  link: string;
-  desc: string;
-  icon: string;
-}
 @Component
 export default class NavBarList extends Vue {
   @user.Action logoutUser!: () => Promise<void>;
-  @Prop() readonly navOpts!: NavOpts[];
 
   to(index: number) {
     this.$router.push({
-      name: this.navOpts[index].link
+      name: this.pages[index].link
     });
   }
 

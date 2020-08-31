@@ -65,33 +65,20 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Event",
-  data() {
-    return {
-      dialog: false,
-      select: [],
-      items: [
-        this.$t("events.eventS1"),
-        this.$t("events.eventS2"),
-        this.$t("events.eventS3")
-      ]
-    };
-  },
-  template: [],
-  components: {},
-  methods: {
-    showDialog() {
-      this.dialog = true;
-    }
-  },
-  computed: {
-    bg() {
-      return this.background
-        ? "https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
-        : undefined;
-    }
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+
+@Component
+export default class EventCard extends Vue {
+  dialog = false;
+  select = [];
+  items = [
+    this.$t("events.eventS1"),
+    this.$t("events.eventS2"),
+    this.$t("events.eventS3")
+  ];
+  showDialog() {
+    this.dialog = true;
   }
-};
+}
 </script>

@@ -92,7 +92,7 @@ export default class SearchCard extends Vue {
   items = [];
   counter = 30;
   label = "";
-  @search.Action fetchUsersPreview!: (user: string) => Promise<>;
+  @search.Action fetchUsersPreview!: (user: string) => Promise<any>;
 
   selectTab(tab: Tab) {
     this.label = tab.searchLabel;
