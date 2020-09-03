@@ -26,7 +26,8 @@ import {
   mdiAt,
   mdiCheckOutline,
   mdiHelpCircleOutline,
-  mdiCancel
+  mdiCancel,
+  mdiHistory
 } from "@mdi/js";
 
 Vue.use(Vuetify);
@@ -59,6 +60,7 @@ const MY_ICONS = {
   checkOut: mdiCheckOutline,
   helpCircleOut: mdiHelpCircleOutline,
   cancel: mdiCancel,
+  history: mdiHistory,
 
   appbar: "deep-purple darken-3"
 };

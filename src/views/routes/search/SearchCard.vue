@@ -146,7 +146,7 @@ export default class SearchCard extends Vue {
         title: this.$t("search.searchObj", [this.$t("news.title")]),
         counter: 50,
         label: this.$t("news.title"),
-        searchLabel: `${this.$t("search.title")} ${this.$t("news.newsTitle")}`
+        searchLabel: `${this.$t("search.title")} ${this.$t("news.title")}`
       }
     ];
   }

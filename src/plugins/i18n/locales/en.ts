@@ -69,12 +69,13 @@ export default {
     eventS3: "He lost his senses",
     send: "Send alert",
     eventList: "Occurrence's table",
-    eventListInfo: "This is a list of current uncompleted occurrences",
+    eventListInfo: "This is a list of current pending occurrences",
     address: "Address: ",
-    situation: "Situation: ",
+    situation: "Situation..",
     comment: "Comment: ",
+    comInfo: "More informations",
     problemList: "Technical problems",
-    problemListInfo: "This is a list of current uncompleted technical problems"
+    problemListInfo: "This is a list of current pending technical problems"
   },
   user: {
     user: "User",
@@ -132,6 +133,12 @@ export default {
     onlyTo: "Only To",
     exceptTo: "Except To"
   },
+  history: {
+    title: "Occurrence history",
+    main: "This page is a help for faster navigation and assignment between existing events and problems. (Only visible in certain roles)",
+    occurrence: "Below is the list of all pending occurrences",
+    problem: "Below is the list of all the pending defibrillator problems"
+  },
   messages: {
     title: "Inbox",
     inbox: "My messages"
@@ -175,8 +182,10 @@ export default {
   },
   mainTitle: "Main",
   news: {
-    title: "News",
-    newsTitle: "@:news.title Title",
+    title: "Announcements",
+    content: "Latest announcements",
+    more: "Learn more..",
+    search: "Search a title",
     latestNews: "@:filter.latest @:news.title"
   },
   filter: {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-main>
     <p v-text="$t('main')" />
     <v-btn
       href="#"
@@ -12,20 +12,30 @@
     <div class="text-center">
       <v-dialog v-model="dialog">
         <v-card>
-          <v-card-title class="light-blue darken-1" primary-title>
-            <h6 v-text="$t('events.form')" />
-          </v-card-title>
+          <form action id="eventForm" method="POST">
+            <v-card-title class="light-blue darken-1" primary-title>
+              <h6 v-text="$t('events.form')" />
+            </v-card-title>
 
-          <v-card-text>
-            <h5 v-text="$t('events.eventInfo')" />
-            <v-combobox v-model="select" :items="items"></v-combobox>
+            <v-card-text>
+              <h5 v-text="$t('events.eventInfo')" />
+              <v-combobox
+                v-model="select"
+                :items="items"
+                :label="selected.msg"
+                required
+              ></v-combobox>
 
-            <h5 v-text="$t('events.address')" />
-            <v-textarea solo disabled label="Automati dieuthinsi"></v-textarea>
-            <h5 v-text="$t('events.comment')" />
-            <v-text-field label="*Extra info" solo></v-text-field>
-          </v-card-text>
-
+              <h5 v-text="$t('events.address')" />
+              <v-textarea solo disabled :label="address.msg"></v-textarea>
+              <h5 v-text="$t('events.comment')" />
+              <v-text-field
+                v-model="comment.com"
+                :label="comment.msg"
+                solo
+              ></v-text-field>
+            </v-card-text>
+          </form>
           <v-divider></v-divider>
 
           <v-card-actions>
@@ -42,31 +52,15 @@
       </v-dialog>
     </div>
 
-    <br /><br />
-    <v-btn
-      href="#"
-      color="primary"
-      v-text="$t('events.eventList')"
-      router-link
-      to="/eventList"
-      aria-label="ToEventList"
-    />
-    <v-btn
-      href="#"
-      color="primary"
-      v-text="$t('events.problemList')"
-      router-link
-      to="/problemList"
-      aria-label="ToProblemList"
-    />
-    <br />
-
     <!--<span>Κατάσταση ασθενούς: {{ selected }}</span>-->
-  </div>
+  </v-main>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+
+const event = namespace("event");
 
 @Component
 export default class EventCard extends Vue {
@@ -77,8 +71,20 @@ export default class EventCard extends Vue {
     this.$t("events.eventS2"),
     this.$t("events.eventS3")
   ];
+  selected = {
+    msg: this.$t("events.situation")
+  };
+  address = {
+    msg: this.$t("events.address")
+  };
+  comment = {
+    com: "",
+    msg: this.$t("events.comInfo")
+  };
   showDialog() {
     this.dialog = true;
   }
 }
+
+//@event.Action
 </script>

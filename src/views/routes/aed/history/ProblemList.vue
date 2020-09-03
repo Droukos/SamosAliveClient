@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-main>
     <h5 v-text="$t('events.problemListInfo')" />
     <v-timeline dense align-top>
       <v-timeline-item v-for="item in getItems" :key="item.index">
@@ -19,7 +19,7 @@
         </v-card>
       </v-timeline-item>
     </v-timeline>
-  </div>
+  </v-main>
 </template>
 
 <script>

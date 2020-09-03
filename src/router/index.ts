@@ -57,12 +57,27 @@ const routes: Array<RouteConfig> = [
         {
             path: '/news',
             name: "news",
-            component: () => import(/* webpackChunkName: "NewsCard" */ '@/components/news/News.vue'),
+            component: () => import(/* webpackChunkName: "NewsCard" */ '@/views/routes/news/NewsCard.vue'),
         },
         {
             path: '/aed/event',
             name: "aedEvent",
             component: () => import(/* webpackChunkName: "EventCard" */ '@/views/routes/aed/event/EventCard.vue'),
+        },
+        {
+           path: '/aed/history',
+           name: "history",
+           component: () => import(/* webpackChunkName: "history" */ '@/views/routes/aed/history/HistoryCard.vue'),
+        },
+        {
+            path: '/aed/eventList',
+            name: "eventList",
+            component: () => import(/* webpackChunkName: "history" */ '@/views/routes/aed/history/EventList.vue'),
+        },
+        {
+            path: '/aed/problemList',
+            name: "problemList",
+            component: () => import(/* webpackChunkName: "history" */ '@/views/routes/aed/history/ProblemList.vue'),
         },
         {
             path: '/register',

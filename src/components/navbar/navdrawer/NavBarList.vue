@@ -31,7 +31,7 @@ export default class NavBarList extends Vue {
     return [
       {
         index: 0,
-        link: "event",
+        link: "aedEvent",
         title: this.$t("mainTitle"),
         icon: "$vuetify.icons.home"
       },
@@ -53,26 +53,26 @@ export default class NavBarList extends Vue {
         title: this.$t("news.title"),
         icon: "$vuetify.icons.news"
       },
-      //{
-      //  index: 4,
-      //  link: "/profile",
-      //  title: this.$t("user.title"),
-      //  icon: "$vuetify.icons.profile"
-      //},
       {
         index: 4,
+        link: "history",
+        title: this.$t("history.title"),
+        icon: "$vuetify.icons.history"
+      },
+      {
+        index: 5,
         link: "info",
         title: this.$t("info.title"),
         icon: "$vuetify.icons.info"
       },
       {
-        index: 5,
+        index: 6,
         link: "settings",
         title: this.$t("settings.title"),
         icon: "$vuetify.icons.settings"
       },
       {
-        index: 6,
+        index: 7,
         link: "login",
         title: this.$t("user.logout"),
         icon: "$vuetify.icons.doorOpen"

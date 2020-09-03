@@ -153,3 +153,34 @@ export interface Tab {
   label: TranslateResult,
   searchLabel: string
 }
+
+declare namespace Event {
+  type userId = string;
+  type username = string;
+  type occurrence = number;
+  type address = string;
+  type comment = string;
+  type rescuer = string;
+}
+
+export interface EventInfo {
+  userid: Event.userId;
+  username: Event.username;
+  occurrence: number;
+  address: string;
+  comment: string;
+}
+
+declare namespace News {
+  type userId = string;
+  type username = string;
+  type title = string;
+  type content = string;
+}
+
+export interface NewsInfo {
+  userid: News.userId;
+  username: News.username;
+  title: string;
+  content: string;
+}

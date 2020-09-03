@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-main>
     <h3 v-text="$t('events.eventListInfo')" />
 
     <v-timeline dense align-top>
@@ -20,7 +20,7 @@
         </v-card>
       </v-timeline-item>
     </v-timeline>
-  </div>
+  </v-main>
 </template>
 
 <script lang="ts">
