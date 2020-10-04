@@ -27,7 +27,7 @@
               ></v-combobox>
 
               <h5 v-text="$t('events.address')" />
-              <v-textarea solo disabled :label="address.msg"></v-textarea>
+              <v-textarea solo disabled :label="addresses.msg"></v-textarea>
               <h5 v-text="$t('events.comment')" />
               <v-text-field
                 v-model="comment.com"
@@ -42,7 +42,7 @@
             <v-spacer></v-spacer>
             <v-btn
               color="primary"
-              @click="dialog = false"
+              @click="sendAedEvent()"
               v-text="$t('events.send')"
               aria-label="SendEvent"
             >
@@ -59,8 +59,10 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
+import { AedEventInfo, User } from "@/types";
 
-const event = namespace("event");
+const aedEvent = namespace("aedEvent");
+const user = namespace("user");
 
 @Component
 export default class EventCard extends Vue {
@@ -74,7 +76,7 @@ export default class EventCard extends Vue {
   selected = {
     msg: this.$t("events.situation")
   };
-  address = {
+  addresses = {
     msg: this.$t("events.address")
   };
   comment = {
@@ -84,7 +86,24 @@ export default class EventCard extends Vue {
   showDialog() {
     this.dialog = true;
   }
-}
 
-//@event.Action
+  @user.State userid!: User.UserId;
+  @user.State username!: User.Username;
+  @user.State address!: string;
+  @aedEvent.Action createAedEvent!: (data: AedEventInfo) => Promise<void>;
+
+  sendAedEvent() {
+    this.createAedEvent({
+      userid: this.userid,
+      username: this.username,
+      occurrenceType: "1",
+      address: this.address,
+      comment: this.comment.com,
+      status: "Pending"
+    }).then(() => {
+      console.log("run");
+    });
+    this.dialog = false;
+  }
+}
 </script>

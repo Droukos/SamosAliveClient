@@ -1,4 +1,3 @@
-
 export const userApi: Record<string, string> = {
   user: "/user/",
   searchPreview: "/user/find_users_preview",
@@ -18,6 +17,16 @@ export const authApi: Record<string, string> = {
   userData: "/auth/token/user_data"
 };
 
+export const eventApi: Record<string, string> = {
+  createEvent: "/event/createEvent",
+  findOccurrenceType: "/event/find_occurrence_type"
+};
+
+export const newsApi: Record<string, string> = {
+  createNews: "/news/createNews",
+  findNews: "/news/find_news"
+};
+
 export function apiWithVar(api: string, variable: string | undefined) {
-    return api + "/" + variable;
+  return api + "/" + variable;
 }

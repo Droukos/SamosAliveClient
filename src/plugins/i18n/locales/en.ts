@@ -135,9 +135,19 @@ export default {
   },
   history: {
     title: "Occurrence history",
-    main: "This page is a help for faster navigation and assignment between existing events and problems. (Only visible in certain roles)",
+    main:
+      "This page is a help for faster navigation and assignment between existing events and problems. (Only visible in certain roles)",
     occurrence: "Below is the list of all pending occurrences",
-    problem: "Below is the list of all the pending defibrillator problems"
+    problem: "Below is the list of all the pending defibrillator problems",
+    searchEvent: "Search for occurrence",
+    searchProblem: "Search for a problem",
+    more: "Assignment"
+  },
+  problems: {
+    form: "Report an issue",
+    problemTitle: "Issue title",
+    problemContent: "Defibrillator issue",
+    submit: "Submit"
   },
   messages: {
     title: "Inbox",
@@ -152,6 +162,17 @@ export default {
     message: "General settings for the application",
     theme: "Choose theme (light, dark)",
     language: "Choose language"
+  },
+  news: {
+    title: "Announcements",
+    content: "Latest announcements",
+    more: "Learn more..",
+    search: "Search a title",
+    latestNews: "@:filter.latest @:news.title",
+    form: "Post announcement",
+    formTitle: "Title of announcement:",
+    formContent: "Content:",
+    submit: "Post"
   },
   roles: {
     0: {
@@ -181,13 +202,6 @@ export default {
     apply: "Apply"
   },
   mainTitle: "Main",
-  news: {
-    title: "Announcements",
-    content: "Latest announcements",
-    more: "Learn more..",
-    search: "Search a title",
-    latestNews: "@:filter.latest @:news.title"
-  },
   filter: {
     latest: "Latest"
   },

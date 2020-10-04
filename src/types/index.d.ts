@@ -154,33 +154,35 @@ export interface Tab {
   searchLabel: string
 }
 
-declare namespace Event {
-  type userId = string;
-  type username = string;
-  type occurrence = number;
+declare namespace AedEvent {
+  type occurrenceType = string;
   type address = string;
   type comment = string;
-  type rescuer = string;
-}
+  type status = string;
 
-export interface EventInfo {
-  userid: Event.userId;
-  username: Event.username;
-  occurrence: number;
-  address: string;
-  comment: string;
+  interface AedEventInfo {
+    userid: User.UserId;
+    username: User.Username;
+    occurrenceType: AedEvent.occurrenceType;
+    address: AedEvent.address;
+    comment: AedEvent.comment;
+    status: AedEvent.status;
+  }
 }
+//export type occurrenceType = AedEvent.occurrenceType;
+export type AedEventInfo = AedEvent.AedEventInfo;
 
 declare namespace News {
-  type userId = string;
-  type username = string;
-  type title = string;
+  type newsTitle = string;
   type content = string;
+
+  interface NewsInfo {
+    userid: User.UserId;
+    username: User.Username;
+    newsTitle: News.newsTitle;
+    content: News.content;
+  }
 }
 
-export interface NewsInfo {
-  userid: News.userId;
-  username: News.username;
-  title: string;
-  content: string;
-}
+export type NewsInfo = News.NewsInfo;
+

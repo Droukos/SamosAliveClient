@@ -62,7 +62,7 @@ const routes: Array<RouteConfig> = [
         {
             path: '/aed/event',
             name: "aedEvent",
-            component: () => import(/* webpackChunkName: "EventCard" */ '@/views/routes/aed/event/EventCard.vue'),
+            component: () => import(/* webpackChunkName: "EventCard" */ '@/views/routes/aed/event/AedEventCard.vue'),
         },
         {
            path: '/aed/history',
