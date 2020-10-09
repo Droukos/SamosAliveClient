@@ -1,6 +1,6 @@
 //import api from "@/plugins/api";
 import api from "@/plugins/api";
-import { eventApi, newsApi, userApi } from "@/plugins/api/apiUrls.ts";
+import { eventApi, newsApi, userApi, problemsApi } from "@/plugins/api/apiUrls.ts";
 import { Action, Module, VuexModule } from "vuex-module-decorators";
 
 @Module({ namespaced: true })
@@ -18,5 +18,10 @@ export default class Search extends VuexModule {
   @Action
   async fetchNewsPreview(newsTitle: string) {
     return await api.post(newsApi.findNews, { newsTitle: newsTitle });
+  }
+
+  @Action
+  async fetchProblemsPreview(title: string) {
+    return await api.post(problemsApi.findProblems, {title: title });
   }
 }

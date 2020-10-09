@@ -78,30 +78,5 @@ export default class EventList extends Vue {
     this.model.isLoading = true;
     this.fetchEventsPreviewList();
   }
-  /*get items() {
-    return [
-      {
-        index: 0,
-        event: "sumban1",
-        address: "dieuthinsi1",
-        description: "mpla",
-        date: "07/9/20"
-      },
-      {
-        index: 1,
-        event: "sumban2",
-        address: "dieuthinsi3",
-        description: "klp klp",
-        date: "07/9/20"
-      },
-      {
-        index: 2,
-        event: this.$t("events.problemList"),
-        address: "dieuthinsi2",
-        description: "tade tade",
-        date: "07/9/20"
-      }
-    ];
-  }*/
 }
 </script>

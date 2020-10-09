@@ -186,3 +186,19 @@ declare namespace News {
 
 export type NewsInfo = News.NewsInfo;
 
+declare namespace AedProblems {
+  type title = string;
+  type address = string;
+  type info = string;
+  type status = string;
+
+  interface AedProblemsInfo {
+    userid: User.UserId;
+    username: User.Username;
+    title: AedProblems.title;
+    address: AedProblems.address;
+    info: AedProblems.info;
+    status: AedProblems.status;
+  }
+}
+export type AedProblemsInfo = AedProblems.AedProblemsInfo;

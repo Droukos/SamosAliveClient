@@ -27,6 +27,11 @@ export const newsApi: Record<string, string> = {
   findNews: "/news/find_news"
 };
 
+export const problemsApi: Record<string, string> = {
+  createProblems: "/aed/ProblemList/createProblems",
+  findProblems: "/aed/ProblemList/find_problems"
+}
+
 export function apiWithVar(api: string, variable: string | undefined) {
   return api + "/" + variable;
 }

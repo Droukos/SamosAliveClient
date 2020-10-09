@@ -6,6 +6,7 @@ import profile from "@/store/modules/profile";
 import search from "@/store/modules/search";
 import aedEvent from "@/store/modules/aedEvent";
 import news from "@/store/modules/news";
+import aedProblem from "@/store/modules/aedProblem";
 
 Vue.use(Vuex);
 
@@ -16,7 +17,8 @@ const index = new Vuex.Store({
     search: search,
     profile: profile,
     aedEvent: aedEvent,
-    news: news
+    news: news,
+    aedProblem: aedProblem
   }
 });
 
