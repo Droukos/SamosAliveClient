@@ -4,6 +4,9 @@ import {userApi} from "@/plugins/api/apiUrls.ts";
 import {Action, Module, VuexModule} from "vuex-module-decorators";
 import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocketUtil";
 import {RequestedPreviewUser} from "@/types";
+import api from "@/plugins/api";
+import { eventApi, newsApi, userApi, problemsApi } from "@/plugins/api/apiUrls.ts";
+import { Action, Module, VuexModule } from "vuex-module-decorators";
 
 @Module({namespaced: true})
 export default class Search extends VuexModule {
@@ -35,4 +38,19 @@ export default class Search extends VuexModule {
             });
         return prUsers;
     }
+
+  @Action
+  async fetchEventsPreview(occurrenceType: string) {
+    return await api.post(eventApi.findOccurrenceType, { occurrenceType: occurrenceType});
+  }
+
+  @Action
+  async fetchNewsPreview(newsTitle: string) {
+    return await api.post(newsApi.findNews, { newsTitle: newsTitle });
+  }
+
+  @Action
+  async fetchProblemsPreview(title: string) {
+    return await api.post(problemsApi.findProblems, {title: title });
+  }
 }

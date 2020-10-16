@@ -69,12 +69,13 @@ export default {
     eventS3: "He lost his senses",
     send: "Send alert",
     eventList: "Occurrence's table",
-    eventListInfo: "This is a list of current uncompleted occurrences",
+    eventListInfo: "This is a list of current pending occurrences",
     address: "Address: ",
-    situation: "Situation: ",
+    situation: "Situation..",
     comment: "Comment: ",
+    comInfo: "More informations",
     problemList: "Technical problems",
-    problemListInfo: "This is a list of current uncompleted technical problems"
+    problemListInfo: "This is a list of current pending technical problems"
   },
   user: {
     user: "User",
@@ -132,6 +133,22 @@ export default {
     onlyTo: "Only To",
     exceptTo: "Except To"
   },
+  history: {
+    title: "Occurrence history",
+    main:
+      "This page is a help for faster navigation and assignment between existing events and problems. (Only visible in certain roles)",
+    occurrence: "Below is the list of all pending occurrences",
+    problem: "Below is the list of all the pending defibrillator problems",
+    searchEvent: "Search for occurrence",
+    searchProblem: "Search for a problem",
+    more: "Assignment"
+  },
+  problems: {
+    form: "Report an issue",
+    problemTitle: "Issue title",
+    problemContent: "Defibrillator issue",
+    submit: "Submit"
+  },
   messages: {
     title: "Inbox",
     inbox: "My messages"
@@ -145,6 +162,17 @@ export default {
     message: "General settings for the application",
     theme: "Choose theme (light, dark)",
     language: "Choose language"
+  },
+  news: {
+    title: "Announcements",
+    content: "Latest announcements",
+    more: "Learn more..",
+    search: "Search a title",
+    latestNews: "@:filter.latest @:news.title",
+    form: "Post announcement",
+    formTitle: "Title of announcement:",
+    formContent: "Content:",
+    submit: "Post"
   },
   roles: {
     GENERAL_ADMIN: "General Admin",
@@ -169,11 +197,6 @@ export default {
     apply: "Apply"
   },
   mainTitle: "Main",
-  news: {
-    title: "News",
-    newsTitle: "@:news.title Title",
-    latestNews: "@:filter.latest @:news.title"
-  },
   filter: {
     latest: "Latest"
   },

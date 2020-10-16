@@ -47,7 +47,7 @@ declare namespace User {
     size: number,
   }
 
-  interface UserInfo {
+  export interface UserInfo {
     userid: UserId;
     username: string;
     name: Name;
@@ -164,3 +164,52 @@ export interface RequestedPreviewUser {
   status: User.Availability,
   roles: string[]
 }
+
+declare namespace AedEvent {
+  type occurrenceType = string;
+  type address = string;
+  type comment = string;
+  type status = string;
+
+  interface AedEventInfo {
+    userid: User.UserId;
+    username: User.Username;
+    occurrenceType: AedEvent.occurrenceType;
+    address: AedEvent.address;
+    comment: AedEvent.comment;
+    status: AedEvent.status;
+  }
+}
+//export type occurrenceType = AedEvent.occurrenceType;
+export type AedEventInfo = AedEvent.AedEventInfo;
+
+declare namespace News {
+  type newsTitle = string;
+  type content = string;
+
+  interface NewsInfo {
+    userid: User.UserId;
+    username: User.Username;
+    newsTitle: News.newsTitle;
+    content: News.content;
+  }
+}
+
+export type NewsInfo = News.NewsInfo;
+
+declare namespace AedProblems {
+  type title = string;
+  type address = string;
+  type info = string;
+  type status = string;
+
+  interface AedProblemsInfo {
+    userid: User.UserId;
+    username: User.Username;
+    title: AedProblems.title;
+    address: AedProblems.address;
+    info: AedProblems.info;
+    status: AedProblems.status;
+  }
+}
+export type AedProblemsInfo = AedProblems.AedProblemsInfo;

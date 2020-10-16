@@ -1,0 +1,177 @@
+<template>
+  <v-main>
+    <p v-text="$t('news.content')" />
+    <v-btn
+      href="#"
+      color="primary"
+      v-text="$t('news.form')"
+      @click="showDialog()"
+      aria-label="ShowDialog"
+    />
+    <v-card class="mx-auto">
+      <v-text-field
+        color="indigo"
+        dark
+        v-model="model.search"
+        :loading="model.isLoading"
+        class="pt-1"
+        :counter="model.counter"
+        :label="model.label"
+        prepend-icon="mdi-database-search"
+        @keyup="searchNews()"
+        outlined
+      ></v-text-field>
+      <v-container fluid>
+        <v-row dense>
+          <v-col v-for="item in items" :key="item.index" :cols="12">
+            <v-card class="mx-auto" outlined>
+              <v-list-item three-line>
+                <v-list-item-content>
+                  <v-list-item-title class="headline mb-1">{{
+                    item.title
+                  }}</v-list-item-title>
+                  <v-list-item-title>{{ item.cont }} </v-list-item-title>
+                  <v-list-item-subtitle>{{
+                    item.cont
+                  }}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-list-item-action-text>{{
+                    item.user
+                  }}</v-list-item-action-text>
+                </v-list-item-action>
+              </v-list-item>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn v-text="$t('news.more')" />
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
+    <!--<v-container fluid>
+      <v-row dense>
+        <v-col v-for="item in getItems" :key="item.index" :cols="12">
+          <v-card class="mx-auto" outlined>
+            <v-list-item three-line>
+              <v-list-item-content>
+                <div class="overline mb-4">{{ item.date }}</div>
+                <v-list-item-title class="headline mb-1">{{
+                  item.title
+                }}</v-list-item-title>
+                <v-list-item-subtitle>{{ item.content }}</v-list-item-subtitle>
+              </v-list-item-content>
+
+              <v-list-item-avatar tile size="80">{{
+                item.img
+              }}</v-list-item-avatar>
+            </v-list-item>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn v-text="$t('news.more')" />
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>-->
+    <div class="text-center">
+      <v-dialog v-model="dialog">
+        <v-card>
+          <form action id="newsForm" method="POST">
+            <v-card-title class="light-blue darken-1" primary-title>
+              <h6 v-text="$t('news.form')" />
+            </v-card-title>
+
+            <v-card-text>
+              <h5 v-text="$t('news.formTitle')" />
+              <v-text-field v-model="title.text" solo></v-text-field>
+              <h5 v-text="$t('news.formContent')" />
+              <v-textarea
+                v-model="content.text"
+                counter
+                maxlength="500"
+                full-width
+              ></v-textarea>
+            </v-card-text>
+          </form>
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              @click="sendNews()"
+              v-text="$t('news.submit')"
+            >
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+  </v-main>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import { NewsInfo, User } from "@/types";
+
+const news = namespace("news");
+const user = namespace("user");
+const search = namespace("search");
+
+@Component
+export default class News extends Vue {
+  model = {
+    search: "",
+    isLoading: false,
+    counter: 50,
+    label: this.$t("history.searchEvent")
+  };
+  dialog = false;
+  title = {
+    text: ""
+  };
+  content = {
+    text: ""
+  };
+  showDialog() {
+    this.dialog = true;
+  }
+  items = [];
+  @search.Action fetchNewsPreview!: (newsTitle: string) => Promise<any>;
+  fetchNewsPreviewList() {
+    setTimeout(() => {
+      this.fetchNewsPreview(this.model.search)
+        .then(response => {
+          console.log(response.data);
+          this.items = response.data;
+        })
+        .finally(() => (this.model.isLoading = false));
+    }, 700);
+  }
+  searchNews() {
+    this.model.isLoading = true;
+    this.fetchNewsPreviewList();
+  }
+
+  @user.State userid!: User.UserId;
+  @user.State username!: User.Username;
+  @news.Action createNews!: (data: NewsInfo) => Promise<void>;
+
+  sendNews() {
+    this.createNews({
+      userid: this.userid,
+      username: this.username,
+      newsTitle: this.title.text,
+      content: this.content.text
+    }).then(() => {
+      console.log("news created");
+    });
+    this.dialog = false;
+  }
+}
+</script>
