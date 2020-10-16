@@ -1,12 +1,10 @@
 //import api from "@/plugins/api";
 import {userRSocket, accessToken} from "@/plugins/api";
-import {userApi} from "@/plugins/api/apiUrls.ts";
 import {Action, Module, VuexModule} from "vuex-module-decorators";
 import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocketUtil";
 import {RequestedPreviewUser} from "@/types";
 import api from "@/plugins/api";
 import { eventApi, newsApi, userApi, problemsApi } from "@/plugins/api/apiUrls.ts";
-import { Action, Module, VuexModule } from "vuex-module-decorators";
 
 @Module({namespaced: true})
 export default class Search extends VuexModule {
