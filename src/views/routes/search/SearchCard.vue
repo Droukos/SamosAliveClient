@@ -25,7 +25,7 @@
     <v-card>
       <v-list three-line>
         <v-list-item
-          v-for="item in items"
+          v-for="item in previewUsers"
           :key="item.id"
           @click="goToProfile(item.id)"
         >
@@ -89,9 +89,9 @@ const search = namespace("search");
 export default class SearchCard extends Vue {
   isLoading = false;
   model = "";
-  items = [];
   counter = 30;
   label = "";
+  previewUsers = [];
   @search.Action fetchUsersPreview!: (user: string) => Promise<any>;
 
   selectTab(tab: Tab) {
@@ -110,8 +110,7 @@ export default class SearchCard extends Vue {
     setTimeout(() => {
       this.fetchUsersPreview(this.model)
         .then(response => {
-          console.log(response.data);
-          this.items = response.data;
+          this.previewUsers = response;
         })
         .finally(() => (this.isLoading = false));
     }, 700);

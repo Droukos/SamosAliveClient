@@ -26,6 +26,9 @@ export default class App extends Vue {
   @environment.Getter public isDarkMode!: boolean;
   @environment.Mutation public setTheme!: (data: string) => void;
   @user.Action public fetchUserData!: () => void;
+  @user.Action public userRSocketConn!: () => void;
+  @user.Action public authRSocketConn!: () => void;
+  @user.Action public aedRSocketConn!: () => void;
 
   created() {
     this.setTheme(this.$cookies.get("userdata-theme"));
@@ -33,6 +36,9 @@ export default class App extends Vue {
     if (this.$cookies.isKey("loggedIn")) {
       this.fetchUserData();
       updateAccToken();
+      this.userRSocketConn();
+      this.authRSocketConn();
+      this.aedRSocketConn();
     }
   }
 }

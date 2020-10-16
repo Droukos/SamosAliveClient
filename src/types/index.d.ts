@@ -29,6 +29,7 @@ declare namespace User {
   type Online = boolean;
   type Availability = number;
   interface Role {
+    role: string;
     code: string;
     active: boolean;
     added: number[];
@@ -46,7 +47,7 @@ declare namespace User {
     size: number,
   }
 
-  export interface UserInfo {
+  interface UserInfo {
     userid: UserId;
     username: string;
     name: Name;
@@ -71,7 +72,7 @@ declare namespace User {
 
     online: User.Online | undefined;
     availability: User.Availability | undefined;
-    roles: User.Role[] | undefined;
+    roleModels: User.Role[] | undefined;
   }
 }
 
@@ -107,7 +108,7 @@ declare namespace Login {
     email: User.Email,
     avatar: User.Avatar | undefined,
     description: User.Description | undefined,
-    roles: User.Role[],
+    roleModels: User.Role[],
     online: User.Online,
     availability: User.Availability
   }
@@ -115,7 +116,6 @@ declare namespace Login {
 
 export type UserLogin = Login.UserLogin;
 export type LoginResponse = Login.LoginResponse;
-
 
 export interface PersonalInfo {
   name: User.Name;
@@ -152,4 +152,15 @@ export interface Tab {
   counter: number,
   label: TranslateResult,
   searchLabel: string
+}
+
+export interface RequestedPreviewUser {
+  id: User.UserId,
+  user: User.Username,
+  name: User.Name,
+  sur: User.Surname,
+  avatar: User.Avatar,
+  on: User.Online,
+  status: User.Availability,
+  roles: string[]
 }

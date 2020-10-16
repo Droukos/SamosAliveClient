@@ -1,7 +1,7 @@
 
 export const userApi: Record<string, string> = {
   user: "/user/",
-  searchPreview: "/user/find_users_preview",
+  searchPreview: "user.get.preview",
   userData: "/user/user_data",
   personal: "/user/personal",
   avatar: "/user/avatar",
@@ -11,7 +11,7 @@ export const userApi: Record<string, string> = {
 export const authApi: Record<string, string> = {
   login: "/auth/login",
   logout: "/auth/logout",
-  signup: "/auth/sign_up",
+  signup: "auth.signup",
   checkUsername: "/auth/check_username",
   checkEmail: "/auth/check_email",
   accessToken: "/auth/token/access_token",

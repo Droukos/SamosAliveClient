@@ -147,20 +147,15 @@ export default {
     language: "Choose language"
   },
   roles: {
-    0: {
-      0: "General Admin",
-      1000: "Area Admin"
-    },
-    10000: {
-      10000: "User"
-    },
-
+    GENERAL_ADMIN: "General Admin",
+    AREA_ADMIN: "Area Admin",
+    USER: "User",
     addedBy: "Added by {0} on {1}",
 
     100: "Rescuer",
     101: "Defribrillator Manager",
     102: "Defribrillator Company Service",
-    203: "ΕΚΑΒ"
+    EKAB: "ΕΚΑΒ"
   },
   status: {
     currently: "Currently ",

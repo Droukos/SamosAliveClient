@@ -40,14 +40,6 @@ export default new (class Helper {
       return accumulator;
     });
   }
-  getRoleForLocale(role: Role) {
-    //console.log(role);
-
-    const splitRole = role.code.split(".");
-
-    if (splitRole[0] == "0") return "admins." + splitRole[1];
-    else if (splitRole[0] == "10000") return "users." + splitRole[1];
-  }
   //getAdminColor: (adminRole) => {
   //
   //},

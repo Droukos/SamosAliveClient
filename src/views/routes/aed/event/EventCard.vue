@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-main>
     <p v-text="$t('main')" />
     <v-btn
       href="#"
@@ -62,7 +62,7 @@
     <br />
 
     <!--<span>Κατάσταση ασθενούς: {{ selected }}</span>-->
-  </div>
+  </v-main>
 </template>
 
 <script lang="ts">

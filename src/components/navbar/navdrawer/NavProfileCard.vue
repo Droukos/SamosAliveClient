@@ -78,7 +78,7 @@ export default class NavBarProfile extends Vue {
   @user.State userid!: string;
   @user.State username!: string;
   @user.State avatar!: string;
-  @user.State roles!: Role[];
+  @user.State roleModels!: Role[];
   @user.State availability: number | undefined;
 
   goToProfile() {
@@ -91,10 +91,10 @@ export default class NavBarProfile extends Vue {
   }
 
   get rolesInfo() {
-    return this.roles.map((role: Role) => ({
-      index: role.code,
-      title: this.$t("roles." + role.code),
-      class: this.$helper.getUserRoleColorLabel(role.code),
+    return this.roleModels.map((role: Role) => ({
+      index: role.role,
+      title: this.$t("roles." + role.role),
+      class: this.$helper.getUserRoleColorLabel(role.role),
       tooltip: this.$t("roles.addedBy", [
         role.addedBy,
         this.$helper.convDate(role.added, "long", this.locale)
@@ -109,17 +109,17 @@ export default class NavBarProfile extends Vue {
   get isNotLastActiveRole() {
     let oneActive = false;
     let isLastActive = true;
-    this.roles.forEach((role: Role) => {
+    this.roleModels.forEach((role: Role) => {
       if (role.active && oneActive) return (isLastActive = false);
       else if (role.active) oneActive = true;
     });
     return isLastActive;
   }
   get greatestRole() {
-    const greatestRole = this.$helper.getGreatestRole(this.roles);
+    const greatestRole = this.$helper.getGreatestRole(this.roleModels);
 
     return {
-      title: this.$t("roles." + greatestRole.code),
+      title: this.$t("roles." + greatestRole.role),
       class: this.$helper.getUserRoleColorLabel(greatestRole.code)
     };
   }

@@ -17,7 +17,7 @@ export default class Profile extends VuexModule implements UserInfo {
   surname = "";
   email = "";
   avatar: string | undefined;
-  roles: Role[] | undefined;
+  roleModels: Role[] | undefined;
   countryCode: string | undefined;
   country: string | undefined;
   province: string | undefined;
@@ -123,7 +123,7 @@ export default class Profile extends VuexModule implements UserInfo {
       "userCreated",
       "online",
       "availability",
-      "roles"
+      "roleModels"
     ]
   })
   async profileData(data: { userid: string }): Promise<UserInfo> {
