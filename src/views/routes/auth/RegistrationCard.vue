@@ -173,7 +173,7 @@ export default class RegistrationCard extends Vue {
   };
   invalid = true;
 
-  @user.Action registerUser!: (data: UserRegister) => Promise<void>;
+  @user.Action registerUser!: (data: UserRegister) => Promise<string>;
 
   showPass() {
     this.pass.sh = !this.pass.sh;
@@ -226,13 +226,18 @@ export default class RegistrationCard extends Vue {
       if (this.pass.sh) this.passC.v = this.pass.v;
 
       this.registerUser({
-        user: this.user.v,
-        pass: this.pass.v,
-        passC: this.passC.v,
-        prsn: { name: this.name.v, sur: this.surname.v },
+        username: this.user.v,
+        password: this.pass.v,
+        passwordConfirmed: this.passC.v,
+        name: this.name.v,
+        surname: this.surname.v,
         email: this.email.v
       })
-        .then(() => this.toValidation())
+        .then(value => {
+          if (value == "true") {
+            this.toValidation();
+          }
+        })
         .catch(error => {
           console.log(error.response.data);
         });

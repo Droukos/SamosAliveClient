@@ -15,31 +15,32 @@
           <v-spacer />
           <v-card outlined>
             <div class="justify-center mb-6 pa-3">
-              <p class="headline">{{ $t("edit.user_personal") }}</p>
+              <p class="headline">{{ $t("edit.userPersonal") }}</p>
               <v-text-field
-                v-model="editForm.name"
+                v-model="fName.v"
+                @input="validName()"
+                :error-messages="fName.e"
                 :counter="30"
-                :rules="getNameRules($t('fields.name'))"
-                :label="$t('fields.name')"
-                @input="onChangeInput()"
+                :label="fName.f"
+                prepend-icon="$accountOut"
                 required
               ></v-text-field>
               <v-text-field
-                v-model="editForm.surname"
+                v-model="fSurname.v"
+                @input="validSurname()"
+                :error-messages="fSurname.e"
                 :counter="30"
-                :rules="getNameRules($t('fields.surname'))"
-                :label="$t('fields.surname')"
-                @input="onChangeInput()"
+                :label="fSurname.f"
+                prepend-icon="$accountOut"
                 required
               ></v-text-field>
               <v-textarea
-                v-model="editForm.description"
+                v-model="fDescription.v"
                 :auto-grow="true"
                 @input="onChangeInput()"
                 :counter="textareaProps.counter ? textareaProps.counter : false"
-                :rules="getDescriptionRules($t('fields.description'))"
                 :hint="$t('edit.description_hint')"
-                :label="$t('fields.description')"
+                :label="fDescription.f"
                 :row-height="textareaProps.rowHeight"
                 :rows="textareaProps.rows"
               ></v-textarea>
@@ -144,6 +145,14 @@ import { getCountry } from "@/plugins/helpers/countries";
 import VueI18n from "vue-i18n";
 import TranslateResult = VueI18n.TranslateResult;
 import { Country, EditForm, FileImg, UserInfo } from "@/types";
+
+import {
+  clearNameData,
+  clearSurnameData,
+  validateName,
+  validateSurname,
+} from "@/plugins/validators";
+
 const user = namespace("user");
 const profile = namespace("profile");
 
@@ -160,43 +169,105 @@ const profile = namespace("profile");
     AddressInputBase: () =>
       import(
         /* webpackChunkName: "AddressInputBase" */ /* webpackPreload: true */ "@/components/profile/profile_edit/AddressInputBase.vue"
-      )
+      ),
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (to.params.userID === undefined)
+    next((vm) => {
+      if (to.params.userID == undefined)
         vm.$store
-          .dispatch("profile/profileData", {
-            userid: "5ed81eb921c7b15c2c563980"
-          })
-          .then((response: { data: UserInfo }) => {
+          .dispatch("profile/profileData", (vm as EditProfileCard).userUserId)
+          .then((response) => {
             //vm.$store.commit("profile/setUserData", response.data);
-            if (to.params.userID === vm.$store.getters["user/getUserID"])
-              vm.$store.commit("user/setUserData", response.data);
+            (vm as EditProfileCard).loadingSkeleton = false;
+            //if (to.params.userID === vm.$store.getters["user/getUserID"])
+            //  vm.$store.commit("user/setUserData", response.data);
           });
       else
         vm.$store
           .dispatch("profile/profileData", { userid: to.params.userID })
-          .then((response: { data: UserInfo }) => {
+          .then((response) => {
+            (vm as EditProfileCard).loadingSkeleton = false;
             // vm.$store.commit("profile/setUserData", response.data);
-            if (to.params.userID === vm.$store.getters["user/getUserID"])
-              vm.$store.commit("user/setUserData", response.data);
+            //if (to.params.userID === vm.$store.getters["user/getUserID"])
+            //  vm.$store.commit("user/setUserData", response.data);
           });
     });
-  }
+  },
 })
-export default class Profile extends Vue {
-  editForm: EditForm = {
-    name: "",
-    surname: "",
-    avatar: "",
-    description: "",
-    countryCode: "",
-    country: "",
-    province: "",
-    city: "",
-    phones: []
+export default class EditProfileCard extends Vue {
+  fName = {
+    f: this.$t("fields.name"),
+    v: "",
+    e: "",
+    run: false,
   };
+  fSurname = {
+    f: this.$t("fields.surname"),
+    v: "",
+    e: "",
+    run: false,
+  };
+  fDescription = {
+    f: this.$t("fields.description"),
+    v: "",
+    e: "",
+    run: false,
+  };
+  fCountryCode = {
+    f: this.$t("fields.description"),
+    v: "",
+    e: "",
+    run: false,
+  };
+  fCountry = {
+    f: this.$t("fields.description"),
+    v: "",
+    e: "",
+    run: false,
+  };
+  fProvince = {
+    f: this.$t("fields.description"),
+    v: "",
+    e: "",
+    run: false,
+  };
+  fCity = {
+    f: this.$t("fields.description"),
+    v: "",
+    e: "",
+    run: false,
+  };
+  fAvatar = {
+    v: "",
+  };
+  fPhones = {
+    f: this.$t("fields.description"),
+    v: [],
+    e: "",
+    run: false,
+  };
+  //editForm: EditForm = {
+  //  name: "",
+  //  surname: "",
+  //  avatar: "",
+  //  description: "",
+  //  countryCode: "",
+  //  country: "",
+  //  province: "",
+  //  city: "",
+  //  phones: []
+  //};
+
+  vName = () => validateName(this.fName);
+  vSurname = () => validateSurname(this.fSurname);
+
+  validName = () => this.validateForm(this.vName);
+  validSurname = () => this.validateForm(this.vSurname);
+
+  validateForm(func: () => void) {
+    func();
+    this.vForm();
+  }
   @profile.Getter profileUserId!: string;
   @user.Getter userUserId!: string;
   @profile.State username!: string;
@@ -211,12 +282,12 @@ export default class Profile extends Vue {
   fileImg: FileImg = {
     selectedFile: new File([], ""),
     validFileExtensions: [".jpg", ".jpeg", ".bmp", ".gif", ".png"],
-    notUsedImgUpload: true
+    notUsedImgUpload: true,
   };
   textareaProps = {
     counter: 0,
     rowHeight: 24,
-    rows: 1
+    rows: 1,
   };
   queryCountries: Country[] = [];
   loadingSkeleton = true;
@@ -233,57 +304,57 @@ export default class Profile extends Vue {
   uploadVisible = false;
   successUpdate = false;
 
-  getNameRules(field: TranslateResult) {
-    return [
-      (v: any) => !!v || this.$t("validations.required", [field]),
-      (v: string | any[]) =>
-        (v && v.length <= 30) || this.$t("validations.max", [field, 30])
-    ];
-  }
+  //getNameRules(field: TranslateResult) {
+  //  return [
+  //    (v: any) => !!v || this.$t("validations.required", [field]),
+  //    (v: string | any[]) =>
+  //      (v && v.length <= 30) || this.$t("validations.max", [field, 30])
+  //  ];
+  //}
 
-  getDescriptionRules(field: TranslateResult) {
-    return [
-      (v: string | any[]) =>
-        v.length <= 250 || this.$t("validations.max", [field, 250]) //(v.length >= 0 && v.length <= 250) || this.$t("validations.max", [field, 250])
-    ];
-  }
-  onChangeInput() {
+  //getDescriptionRules(field: TranslateResult) {
+  //  return [
+  //    (v: string | any[]) =>
+  //      v.length <= 250 || this.$t("validations.max", [field, 250]) //(v.length >= 0 && v.length <= 250) || this.$t("validations.max", [field, 250])
+  //  ];
+  //}
+  vForm() {
     this.updateVisible = !(
-      this.editForm.name.length === 0 ||
-      this.editForm.surname.length === 0 ||
-      this.editForm.name.length > 30 ||
-      this.editForm.surname.length > 30 ||
-      this.editForm.description.length > 250 ||
-      this.editForm.countryCode.length > 2 ||
-      this.editForm.country.length > 40 ||
-      this.editForm.province.length > 40 ||
-      this.editForm.city.length > 40
+      this.fName.v.length === 0 ||
+      this.fSurname.v.length === 0 ||
+      this.fName.v.length > 30 ||
+      this.fSurname.v.length > 30 ||
+      this.fDescription.v.length > 250 ||
+      this.fCountryCode.v.length > 2 ||
+      this.fCountry.v.length > 40 ||
+      this.fProvince.v.length > 40 ||
+      this.fCity.v.length > 40
     );
   }
   uploadVisibility(bool: boolean) {
     this.uploadVisible = bool;
   }
   setProfileUInfo() {
-    this.editForm.name = this.$helper.filterInfo(this.name);
-    this.editForm.surname = this.$helper.filterInfo(this.surname);
-    this.editForm.avatar = this.$helper.filterInfo(this.avatar);
-    this.editForm.description = this.$helper.filterInfo(this.description);
-    this.editForm.province = this.$helper.filterInfo(this.province);
-    this.editForm.city = this.$helper.filterInfo(this.city);
-    const cIso = this.$helper.filterInfo(this.country_code);
-    this.editForm.countryCode = cIso;
+    this.fName.v = this.name;
+    this.fSurname.v = this.surname;
+    this.fAvatar.v = this.avatar;
+    this.fDescription.v = this.description;
+    this.fProvince.v = this.province;
+    this.fCity.v = this.city;
+    const cIso = this.country_code;
+    this.fCountryCode.v = cIso;
     this.queryCountries = getCountry(cIso);
   }
 
   updateUInfo = () => {
     this.$store
       .dispatch("profile/editProfileData", {
-        name: this.editForm.name,
-        sur: this.editForm.surname,
-        desc: this.editForm.description,
-        cIso: this.editForm.countryCode,
-        state: this.editForm.province,
-        city: this.editForm.city
+        name: this.fName.v,
+        sur: this.fSurname.v,
+        desc: this.fDescription.v,
+        cIso: this.fCountryCode.v,
+        state: this.fProvince.v,
+        city: this.fCity.v,
       })
       .then(() => {
         this.updateResultClass = this.validClass;
@@ -291,9 +362,9 @@ export default class Profile extends Vue {
         this.updateResultShow = true;
         this.updateVisible = false;
         const data = {
-          name: this.editForm.name,
-          surname: this.editForm.surname,
-          description: this.editForm.description
+          name: this.name,
+          surname: this.surname,
+          description: this.description,
         };
         if (this.profileUserId === this.userUserId)
           this.$store.commit("user/setPersonalInfo", data);
@@ -312,7 +383,7 @@ export default class Profile extends Vue {
     data.append("file", this.fileImg.selectedFile);
     this.$store
       .dispatch("profile/editProfileAvatar", data)
-      .then(respond => {
+      .then((respond) => {
         this.avatarUpdateClass = this.validClass;
         this.avatarUpdateMessage = this.$t("edit.avatarUpdated");
         this.avatarUpdateShow = true;
@@ -329,6 +400,10 @@ export default class Profile extends Vue {
         this.uploadVisible = false;
       });
   };
+
+  created() {
+    this.setProfileUInfo();
+  }
 
   //@Watch("profileData")
   //onProfileDataUpdate(newVal: { username: string | null }) {

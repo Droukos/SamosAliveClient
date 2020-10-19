@@ -13,8 +13,8 @@
         </template>
         <v-list>
           <v-list-item
-            v-for="(item, index) in moreOptions"
-            :key="index"
+            v-for="item in moreOptions"
+            :key="item.index"
             @click="optionClicked(item)"
           >
             <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -37,7 +37,10 @@ export default class UserPrimInfoBase extends Vue {
   @profile.State username!: string;
   @profile.State name!: string;
   @profile.State surname!: string;
-  @Prop() public moreOptions!: Array<{ index: number; title: TranslateResult }>;
+  @Prop() readonly moreOptions!: Array<{
+    index: number;
+    title: TranslateResult;
+  }>;
 
   optionClicked(item: { index: number; title: TranslateResult }) {
     if (item.index == 2) {

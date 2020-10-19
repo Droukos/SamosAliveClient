@@ -1,18 +1,18 @@
 export const userApi: Record<string, string> = {
-  user: "/user/",
+  user: "user.filter.by.id",
   searchPreview: "user.get.preview",
   userData: "/user/user_data",
   personal: "/user/personal",
   avatar: "/user/avatar",
-  status: "/user/availability"
+  status: "user.put.availability.state."
 };
 
 export const authApi: Record<string, string> = {
   login: "/auth/login",
   logout: "/auth/logout",
   signup: "auth.signup",
-  checkUsername: "/auth/check_username",
-  checkEmail: "/auth/check_email",
+  checkUsername: "auth.username.check",
+  checkEmail: "auth.email.check",
   accessToken: "/auth/token/access_token",
   userData: "/auth/token/user_data"
 };

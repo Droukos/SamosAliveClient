@@ -4,9 +4,9 @@ import Vue from "vue";
 import VueCookies from "vue-cookies";
 import { authApi } from "./apiUrls";
 import {
-  RSocketClient,
-  BufferEncoders,
-  MESSAGE_RSOCKET_COMPOSITE_METADATA
+    RSocketClient,
+    BufferEncoders,
+    MESSAGE_RSOCKET_COMPOSITE_METADATA, IdentitySerializer
 } from "rsocket-core";
 import RSocketWebSocketClient from "rsocket-websocket-client";
 import { ReactiveSocket} from "rsocket-types";

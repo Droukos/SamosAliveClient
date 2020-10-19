@@ -11,7 +11,7 @@ declare const Buffer: any;
 
 const bearerMimeType = "message/x.rsocket.authentication.bearer.v0";
 
-export function dataBuf(jsonObj: Record<string,any>): Uint8Array {
+export function dataBuf(jsonObj: Record<string, any>): Uint8Array {
   return new Buffer(JSON.stringify(jsonObj));
 }
 
@@ -25,6 +25,10 @@ export function metadataBuf(jwtToken: string, route: string): Uint8Array {
     MESSAGE_RSOCKET_ROUTING,
     Buffer.from(String.fromCharCode(route.length) + route)
   );
+}
+
+export function metadataOnlyRoute(route: string) {
+  return encodeAndAddWellKnownMetadata( Buffer.from(""), MESSAGE_RSOCKET_ROUTING, Buffer.from(String.fromCharCode(route.length) + route));
 }
 
 export function bufToJson(payload: Payload<any, any>) {

@@ -34,11 +34,11 @@ export default class App extends Vue {
   created() {
     this.setTheme(this.$cookies.get("userdata-theme"));
     this.$vuetify.theme.dark = this.isDarkMode;
+    this.authRSocketConn();
     if (this.$cookies.isKey("loggedIn")) {
       this.fetchUserData();
       updateAccToken();
       this.userRSocketConn();
-      this.authRSocketConn();
       this.aedRSocketConn();
       this.newsRSocketConn();
     }
