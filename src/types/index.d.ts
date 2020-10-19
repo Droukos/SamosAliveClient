@@ -81,15 +81,52 @@ export type Phones = User.Phones;
 export type UserInfo = User.UserInfo;
 export type CreditsStat = User.CreditsStat;
 
+export interface UserAddress {
+  city: User.City
+  province: User.Province;
+  countryCode: User.CountryCode;
+}
+
+export interface UserProfile {
+  avatar: User.Avatar;
+  description: User.Description;
+}
+
+export interface UserLogs {
+  lastLogoutWeb: User.LastLogoutWeb;
+  lastLoginWeb: User.LastLoginWeb;
+  lastLogoutAndroid: User.LastLogoutAndroid;
+  lastLoginAndroid: User.LastLoginAndroid;
+  lastLogoutIos: User.LastLogoutIos;
+  lastLoginIos: User.LastLoginIos;
+}
+
+export interface UserCore {
+  userid: User.UserId;
+  username: User.Username;
+  name: User.Name;
+  surname: User.Surname;
+  email: User.Email;
+}
+
+export interface UserPhones {
+  phones: User.Phones;
+}
+
+export interface UserAvailability {
+  availability: User.Availability;
+}
+
+export interface UserRoles {
+  roleModels: User.Role [];
+}
 
 export interface UserRegister {
-  user: User.Username;
-  pass: User.Password;
-  passC: User.PasswordConfirmed;
-  prsn : {
-    name: User.Name
-    sur: User.Surname;
-  };
+  username: User.Username;
+  password: User.Password;
+  passwordConfirmed: User.PasswordConfirmed;
+  name: User.Name;
+  surname: User.Surname;
   email: User.Email;
 }
 

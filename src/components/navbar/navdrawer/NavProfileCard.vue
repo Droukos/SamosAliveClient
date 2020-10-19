@@ -94,7 +94,7 @@ export default class NavBarProfile extends Vue {
     return this.roleModels.map((role: Role) => ({
       index: role.role,
       title: this.$t("roles." + role.role),
-      class: this.$helper.getUserRoleColorLabel(role.role),
+      class: this.$helper.getUserRoleColorLabel(role.code),
       tooltip: this.$t("roles.addedBy", [
         role.addedBy,
         this.$helper.convDate(role.added, "long", this.locale)

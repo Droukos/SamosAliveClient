@@ -1,13 +1,28 @@
-import api from "@/plugins/api";
+import api, { userRSocket } from "@/plugins/api";
 import { apiWithVar, userApi } from "@/plugins/api/apiUrls.ts";
 import {
   Action,
   Module,
   Mutation,
-  MutationAction,
   VuexModule
 } from "vuex-module-decorators";
-import {PersonalInfo, Phones, Role, UserInfo} from "@/types";
+import {
+  PersonalInfo,
+  Phones,
+  Role,
+  UserInfo,
+} from "@/types";
+import { Promise } from "bluebird";
+import {
+  searchUserProfile,
+  setAddress,
+  setAvailability,
+  setCore,
+  setLogs,
+  setPhones,
+  setProfile,
+  setRoles
+} from "@/plugins/userUtil";
 
 @Module({ namespaced: true })
 export default class Profile extends VuexModule implements UserInfo {
@@ -101,33 +116,22 @@ export default class Profile extends VuexModule implements UserInfo {
     this.showPhone = this.phones !== null;
   }
 
-  @MutationAction({
-    mutate: [
-      "userid",
-      "username",
-      "name",
-      "surname",
-      "email",
-      "avatar",
-      "description",
-      "countryCode",
-      "province",
-      "city",
-      "phones",
-      "lastLoginAndroid",
-      "lastLogoutAndroid",
-      "lastLoginIos",
-      "lastLogoutIos",
-      "lastLoginWeb",
-      "lastLogoutWeb",
-      "userCreated",
-      "online",
-      "availability",
-      "roleModels"
-    ]
-  })
+  @Mutation
+  setProfileData(userinfo: UserInfo) {
+    setCore(this, userinfo);
+    setAvailability(this, userinfo);
+    setAddress(this, userinfo);
+    setProfile(this, userinfo);
+    setRoles(this, userinfo);
+    setLogs(this, userinfo);
+    setPhones(this, userinfo);
+  }
+
+  @Action({ commit: "setProfileData" })
   async profileData(data: { userid: string }): Promise<UserInfo> {
-    return await api.get(userApi.user + data.userid);
+    return (userRSocket == undefined)
+        ? Promise.delay(1000, data).then(data=> searchUserProfile(data))
+        : searchUserProfile(data);
   }
 
   @Action

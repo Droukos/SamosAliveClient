@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import VueRouter from "vue-router";
 import VueI18n from "vue-i18n";
 import { namespace } from "vuex-class";
@@ -22,6 +22,9 @@ export default class NavBarList extends Vue {
   @user.Action logoutUser!: () => Promise<void>;
 
   to(index: number) {
+    if (index == 7) {
+      this.logoutUser();
+    }
     this.$router.push({
       name: this.pages[index].link
     });

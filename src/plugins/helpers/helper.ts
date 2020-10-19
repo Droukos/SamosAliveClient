@@ -46,8 +46,8 @@ export default new (class Helper {
   //getUserColor: (userRole) => {
   //  if(userRole == "10000") return "|blue--text text--lighten-2"; //"User";
   //},
-  getUserRoleColorLabel(role: string) {
-    const roleCode = role;
+  getUserRoleColorLabel(roleCode: string) {
+    console.log("Hey: "+roleCode)
 
     if (roleCode == "0.0") return "red darken-4";
     //"General Admin";
@@ -62,6 +62,19 @@ export default new (class Helper {
     else if (roleCode == "10000.10000") return "blue lighten-2"; //"User";
     //else if (role == 10000) return "Guest";
   }
+  getUserRoleColorText(roleCode: string) {
+    if (roleCode == "0.0") return  "red--text text--darken-4";
+    //"General Admin";
+    else if (roleCode == "0.1000") return "purple--text text--lighten-1";
+        //"Area Admin";
+        //if (role == "0.0") return "red--text text--darken-4"; //"General Admin";
+        //else if (role == "0.10") return "purple--text text--lighten-1"; //"Area Admin";
+        //else if (role == 100) return "Rescuer";
+        //else if (role == 101) return "Defribrillator Manager";
+        //else if (role == 102) return "Defribrillator Company Service";
+    //else if (role == 200) return "EKAB";
+    else if (roleCode == "10000.10000") return "blue--text text--lighten-2"; //"User";
+  }
   getUserStatusColorLabel(status: any) {
     status = parseInt(status);
     if (status == 0) return "grey--text text--darken-1";
@@ -75,13 +88,17 @@ export default new (class Helper {
     else if (status == 4) return "orange--text text--lighten-2"; //Away
   }
   isGeneralAdmin(roles: Role[]): boolean {
-    //return roles == 0;
-    return true;
+    const adminRole = roles.find(role => {
+      return role.code == "0.0"
+    });
+    return adminRole != null || adminRole != undefined;
   }
 
   isAreaAdmin(roles: Role[]): boolean {
-    //return roles == 10;
-    return true;
+    const adminRole = roles.find(role => {
+      return role.code == "0.1000"
+    });
+    return adminRole != null || adminRole != undefined;
   }
 
   filterInfo(jsonData: any) {
@@ -97,7 +114,8 @@ declare module "vue/types/vue" {
       getGreatestRole(roles: Role[]): Role;
       usernameHashCode(str: string): string;
       getRoleForLocale(role: Role): string;
-      getUserRoleColorLabel(role: string): string;
+      getUserRoleColorText(roleCode: string): string
+      getUserRoleColorLabel(roleCode: string): string;
       getUserStatusColorLabel(status: any): string;
       isGeneralAdmin(roles: Role[]): boolean;
       isAreaAdmin(roles: Role[]): boolean;

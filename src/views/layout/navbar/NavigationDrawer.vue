@@ -18,10 +18,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-//import "@/plugins/helpers/helper.ts";
-//import VueRouter from "vue-router";
-//import VueCookies from 'vue-cookies';
-//import { Role } from "@/types";
 
 @Component({
   components: {

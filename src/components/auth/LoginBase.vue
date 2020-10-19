@@ -41,7 +41,7 @@
       :class="[
         invalidCredentials
           ? 'text-justify red--text'
-          : 'text-justify red--text d-none'
+          : 'text-justify red--text d-none',
       ]"
     >
       {{ $t("login.invalid") }}
@@ -71,14 +71,14 @@ export default class LoginBase extends Vue {
     f: this.$t("fields.username") + "/" + this.$t("fields.email"),
     v: "",
     e: "",
-    run: false
+    run: false,
   };
   pass = {
     f: this.$t("fields.password"),
     v: "",
     e: "",
     run: false,
-    sh: false
+    sh: false,
   };
   invalid = true;
   invalidCredentials = false;
@@ -106,11 +106,14 @@ export default class LoginBase extends Vue {
 
   submit() {
     if (!this.invalid) {
-      this.loginUser({ user: this.user.v, pass: this.pass.v })
+      this.loginUser({
+        user: this.user.v,
+        pass: this.pass.v,
+      })
         .then(() => {
           updateAccToken();
           this.$router.push({
-            name: "news"
+            name: "news",
           });
         })
         .catch(() => {
@@ -126,10 +129,8 @@ export default class LoginBase extends Vue {
   }
   toRegister() {
     this.$router.push({
-      name: "register"
+      name: "register",
     });
   }
 }
 </script>
-
-<style></style>
