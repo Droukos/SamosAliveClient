@@ -117,6 +117,7 @@ export let newsRSocket: ReactiveSocket<any, any>;
 const authRSocketAddr = "ws://localhost:8989";
 const userRSocketAddr = "ws://localhost:8985";
 const aedRSocketAddr = "ws://localhost:8987";
+const newsRSocketAddr = "ws://localhost:8986";
 
 const authClient = new RSocketClient({
   setup: defaultSetup,
@@ -153,6 +154,19 @@ const aedClient = new RSocketClient({
         BufferEncoders
     )
 });
+
+const newsClient = new RSocketClient({
+    setup: defaultSetup,
+    transport: new RSocketWebSocketClient(
+        {
+            url: "",
+            wsCreator: () => new WebSocket(newsRSocketAddr),
+            debug: true
+        },
+        BufferEncoders
+    )
+});
+
 
 export function authConn() {
   authClient.connect().subscribe({
@@ -194,6 +208,22 @@ export function aedConn() {
     aedClient.connect().subscribe({
         onComplete: (socket: ReactiveSocket<any, any>) => {
             aedRSocket = socket;
+        },
+        onError: (error: Error) => {
+            console.log("Connection has been refused due to ", error);
+        },
+        onSubscribe: (cancel: CancelCallback) => {
+            /* call cancel() to abort */
+            console.log("subscribe!");
+            console.log(cancel);
+        }
+    });
+}
+
+export function newsConn() {
+    newsClient.connect().subscribe({
+        onComplete: (socket: ReactiveSocket<any, any>) => {
+            newsRSocket = socket;
         },
         onError: (error: Error) => {
             console.log("Connection has been refused due to ", error);

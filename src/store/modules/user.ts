@@ -5,7 +5,7 @@ import api, {
     userConn,
     authConn,
     aedConn,
-    authRSocket
+    authRSocket, newsConn
 } from "@/plugins/api";
 import {apiWithVar, authApi, userApi} from "@/plugins/api/apiUrls";
 import {
@@ -128,30 +128,30 @@ export default class User extends VuexModule implements UserInfo {
         return api.put(authApi.logout);
     }
 
-    @Action
-    async registerUser(data: UserRegister) {
-        //return await api.post(authApi.signup, data);
-        let succeed = null;
-        authRSocket
-            .requestResponse({
-                data: dataBuf(data),
-                metadata: metadataBuf("", authApi.searchPreview)
-            })
-            .subscribe({
-                onComplete: value => {
-                    console.log(value);
-                    succeed = value;
-                    //console.log("got response with requestResponse");
-                },
-                onError: error => {
-                    //console.log("got error with requestStream");
-                    console.error(error);
-                },
-                onSubscribe: sub => {
-                },
-            });
-        return succeed;
-    }
+   //@Action
+   //async registerUser(data: UserRegister) {
+   //    //return await api.post(authApi.signup, data);
+   //    let succeed = null;
+   //    authRSocket
+   //        .requestResponse({
+   //            data: dataBuf(data),
+   //            metadata: metadataBuf("", authApi.searchPreview)
+   //        })
+   //        .subscribe({
+   //            onComplete: value => {
+   //                console.log(value);
+   //                succeed = value;
+   //                //console.log("got response with requestResponse");
+   //            },
+   //            onError: error => {
+   //                //console.log("got error with requestStream");
+   //                console.error(error);
+   //            },
+   //            onSubscribe: sub => {
+   //            },
+   //        });
+   //    return succeed;
+   //}
 
 
     @Action
@@ -172,5 +172,10 @@ export default class User extends VuexModule implements UserInfo {
     @Action
     aedRSocketConn() {
         aedConn();
+    }
+
+    @Action
+    newsRSocketConn(){
+        newsConn();
     }
 }

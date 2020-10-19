@@ -29,6 +29,7 @@ export default class App extends Vue {
   @user.Action public userRSocketConn!: () => void;
   @user.Action public authRSocketConn!: () => void;
   @user.Action public aedRSocketConn!: () => void;
+  @user.Action public newsRSocketConn!: () => void;
 
   created() {
     this.setTheme(this.$cookies.get("userdata-theme"));
@@ -39,6 +40,7 @@ export default class App extends Vue {
       this.userRSocketConn();
       this.authRSocketConn();
       this.aedRSocketConn();
+      this.newsRSocketConn();
     }
   }
 }

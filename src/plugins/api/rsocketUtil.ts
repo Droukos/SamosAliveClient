@@ -11,7 +11,7 @@ declare const Buffer: any;
 
 const bearerMimeType = "message/x.rsocket.authentication.bearer.v0";
 
-export function dataBuf(jsonObj: Object): Uint8Array {
+export function dataBuf(jsonObj: Record<string,any>): Uint8Array {
   return new Buffer(JSON.stringify(jsonObj));
 }
 

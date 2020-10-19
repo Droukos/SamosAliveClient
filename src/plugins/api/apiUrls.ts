@@ -18,18 +18,18 @@ export const authApi: Record<string, string> = {
 };
 
 export const eventApi: Record<string, string> = {
-  createEvent: "/event/createEvent",
-  findOccurrenceType: "/event/find_occurrence_type"
+  createEvent: "aed.event.post",
+  findOccurrenceType: "aed.event.get"
 };
 
 export const newsApi: Record<string, string> = {
-  createNews: "/news/createNews",
-  findNews: "/news/find_news"
+  createNews: "news.post",
+  findNews: "news.get"
 };
 
 export const problemsApi: Record<string, string> = {
-  createProblems: "/aed/ProblemList/createProblems",
-  findProblems: "/aed/ProblemList/find_problems"
+  createProblems: "aed.problems.post",
+  findProblems: "aed.problems.get"
 }
 
 export function apiWithVar(api: string, variable: string | undefined) {
