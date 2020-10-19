@@ -23,7 +23,7 @@
       ></v-text-field>
       <v-container fluid>
         <v-row dense>
-          <v-col v-for="item in items" :key="item.index" :cols="12">
+          <v-col v-for="item in previewProblems" :key="item.index" :cols="12">
             <v-card class="mx-auto" outlined>
               <v-list-item three-line>
                 <v-list-item-content>
@@ -110,7 +110,7 @@ export default class ProblemList extends Vue {
     text: ""
   };
   dialog = false;
-  items = [];
+  previewProblems = [];
 
   @search.Action fetchProblemsPreview!: (title: string) => Promise<any>;
   @user.State userid!: User.UserId;
@@ -136,8 +136,7 @@ export default class ProblemList extends Vue {
     setTimeout(() => {
       this.fetchProblemsPreview(this.model.search)
         .then(response => {
-          console.log(response.data);
-          this.items = response.data;
+          this.previewProblems = response;
         })
         .finally(() => (this.model.isLoading = false));
     }, 700);

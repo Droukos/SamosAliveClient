@@ -16,7 +16,7 @@
       ></v-text-field>
       <v-container fluid>
         <v-row dense>
-          <v-col v-for="item in items" :key="item.index" :cols="12">
+          <v-col v-for="item in previewEvents" :key="item.index" :cols="12">
             <v-card class="mx-auto" outlined>
               <v-list-item three-line>
                 <v-list-item-content>
@@ -61,15 +61,14 @@ export default class EventList extends Vue {
     counter: 1,
     label: this.$t("history.searchEvent")
   };
-  items = [];
+  previewEvents = [];
   @search.Action fetchEventsPreview!: (occurrenceType: string) => Promise<any>;
 
   fetchEventsPreviewList() {
     setTimeout(() => {
       this.fetchEventsPreview(this.model.search)
         .then(response => {
-          console.log(response.data);
-          this.items = response.data;
+          this.previewEvents = response;
         })
         .finally(() => (this.model.isLoading = false));
     }, 700);

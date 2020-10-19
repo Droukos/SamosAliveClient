@@ -23,7 +23,7 @@
       ></v-text-field>
       <v-container fluid>
         <v-row dense>
-          <v-col v-for="item in items" :key="item.index" :cols="12">
+          <v-col v-for="item in previewNews" :key="item.index" :cols="12">
             <v-card class="mx-auto" outlined>
               <v-list-item three-line>
                 <v-list-item-content>
@@ -31,9 +31,7 @@
                     item.title
                   }}</v-list-item-title>
                   <v-list-item-title>{{ item.cont }} </v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    item.cont
-                  }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ item.cont }}</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-list-item-action-text>{{
@@ -141,14 +139,13 @@ export default class News extends Vue {
   showDialog() {
     this.dialog = true;
   }
-  items = [];
+  previewNews = [];
   @search.Action fetchNewsPreview!: (newsTitle: string) => Promise<any>;
   fetchNewsPreviewList() {
     setTimeout(() => {
       this.fetchNewsPreview(this.model.search)
         .then(response => {
-          console.log(response.data);
-          this.items = response.data;
+          this.previewNews = response;
         })
         .finally(() => (this.model.isLoading = false));
     }, 700);

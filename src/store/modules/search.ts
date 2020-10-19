@@ -1,8 +1,7 @@
-//import api from "@/plugins/api";
-import {userRSocket, accessToken} from "@/plugins/api";
+import {userRSocket, accessToken, aedRSocket, newsRSocket} from "@/plugins/api";
 import {Action, Module, VuexModule} from "vuex-module-decorators";
 import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocketUtil";
-import {RequestedPreviewUser} from "@/types";
+import {AedEvent, AedProblems, News, RequestedPreviewUser, AedEventInfo, NewsInfo, AedProblemsInfo} from "@/types";
 import api from "@/plugins/api";
 import { eventApi, newsApi, userApi, problemsApi } from "@/plugins/api/apiUrls.ts";
 
@@ -39,16 +38,83 @@ export default class Search extends VuexModule {
 
   @Action
   async fetchEventsPreview(occurrenceType: string) {
-    return await api.post(eventApi.findOccurrenceType, { occurrenceType: occurrenceType});
+      const previewAedEvent: AedEventInfo[] = [];
+      aedRSocket
+          .requestStream({
+              data: dataBuf({ occurrenceType: occurrenceType }),
+              metadata: metadataBuf(accessToken, eventApi.findOccurrenceType)
+          })
+          .subscribe({
+              onComplete: () => {
+                  //console.log("got response with requestResponse");
+              },
+              onError: error => {
+                  //console.log("got error with requestStream");
+                  console.error(error);
+              },
+              onNext: payload => {
+                  previewAedEvent.push(JSON.parse(bufToJson(payload)));
+                  //this.context.commit("addPreviewUser", JSON.parse(bufToJson(payload)));
+              },
+              onSubscribe: sub => {
+                  sub.request(10);
+              },
+          });
+      return previewAedEvent;
   }
 
   @Action
   async fetchNewsPreview(newsTitle: string) {
-    return await api.post(newsApi.findNews, { newsTitle: newsTitle });
+      const previewNews: NewsInfo[] = [];
+      newsRSocket
+          .requestStream({
+              data: dataBuf({ newsTitle: newsTitle }),
+              metadata: metadataBuf(accessToken, newsApi.findNews)
+          })
+          .subscribe({
+              onComplete: () => {
+                  //console.log("got response with requestResponse");
+              },
+              onError: error => {
+                  //console.log("got error with requestStream");
+                  console.error(error);
+              },
+              onNext: payload => {
+                  console.log(bufToJson(payload));
+                  previewNews.push(JSON.parse(bufToJson(payload)))
+                  //this.context.commit("addPreviewUser", JSON.parse(bufToJson(payload)));
+              },
+              onSubscribe: sub => {
+                  sub.request(10);
+              },
+          });
+      return previewNews;
   }
 
   @Action
   async fetchProblemsPreview(title: string) {
-    return await api.post(problemsApi.findProblems, {title: title });
+      const previewAedProblems: AedProblemsInfo[] = [];
+      aedRSocket
+          .requestStream({
+              data: dataBuf({ title: title }),
+              metadata: metadataBuf(accessToken, problemsApi.findProblems)
+          })
+          .subscribe({
+              onComplete: () => {
+                  //console.log("got response with requestResponse");
+              },
+              onError: error => {
+                  //console.log("got error with requestStream");
+                  console.error(error);
+              },
+              onNext: payload => {
+                  previewAedProblems.push(JSON.parse(bufToJson(payload)))
+                  //this.context.commit("addPreviewUser", JSON.parse(bufToJson(payload)));
+              },
+              onSubscribe: sub => {
+                  sub.request(10);
+              },
+          });
+      return previewAedProblems;
   }
 }
