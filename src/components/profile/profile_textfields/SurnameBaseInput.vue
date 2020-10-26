@@ -1,31 +1,29 @@
 <template>
   <v-text-field
-    v-model="name.v"
+    v-model="fSurname.v"
     @input="validateAndCheckForm()"
-    :error-messages="name.e"
+    :error-messages="fSurname.e"
     :counter="30"
-    :label="name.f"
-    prepend-icon="$accountOut"
+    :label="fSurname.f"
     required
   ></v-text-field>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { validateSurname } from "@/plugins/validators";
+import { namespace } from "vuex-class";
+import { FieldObject } from "@/types";
+
+const editProfile = namespace("editProfile");
 
 @Component
 export default class SurnameBaseInput extends Vue {
-  @Prop() vForm!: () => void;
-  surname = {
-    f: this.$t("fields.surname"),
-    v: "",
-    e: "",
-    run: false
-  };
+  @editProfile.State fSurname!: FieldObject;
+  @editProfile.Action vForm!: () => void;
 
   validateAndCheckForm() {
-    validateSurname(this.surname);
+    validateSurname(this.fSurname);
     this.vForm();
   }
 }

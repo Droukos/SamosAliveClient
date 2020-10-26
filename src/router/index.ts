@@ -32,22 +32,22 @@ const routes: Array<RouteConfig> = [
             component: () => import(/* webpackChunkName: "ProfileCard" */ '@/views/routes/profile/ProfileCard.vue'),
             props: true
         },
-        {
-            path: '/edit',
-            name: "editprofile",
-            component: () => import(/* webpackChunkName: "EditProfileCard" */ '@/views/routes/profile/EditProfileCard.vue'),
-        },
+        //{
+        //    path: '/edit',
+        //    name: "editprofile",
+        //    component: () => import(/* webpackChunkName: "EditProfileCard" */ '@/views/routes/profile/EditProfileCard.vue'),
+        //},
         {
             path: '/:userID/edit',
-            name: "userEditProfile",
+            name: "editprofile",
             component: () => import(/* webpackChunkName: "EditProfileCard" */ '@/views/routes/profile/EditProfileCard.vue'),
             props: true
         },
-        {
-            path: '/privacy',
-            name: "privacysettings",
-            component: () => import(/* webpackChunkName: "PrivacySettingsCard" */ '@/views/routes/profile/PrivacySettingsCard.vue')
-        },
+        //{
+        //    path: '/privacy',
+        //    name: "privacysettings",
+        //    component: () => import(/* webpackChunkName: "PrivacySettingsCard" */ '@/views/routes/profile/PrivacySettingsCard.vue')
+        //},
         {
             path: '/:userID/privacy',
             name: "privacysettings",

@@ -10,7 +10,7 @@ import aedProblem from "@/store/modules/aedProblem";
 
 Vue.use(Vuex);
 
-const index = new Vuex.Store({
+export default new Vuex.Store({
   modules: {
     environment: environment,
     user: user,
@@ -18,8 +18,6 @@ const index = new Vuex.Store({
     profile: profile,
     aedEvent: aedEvent,
     news: news,
-    aedProblem: aedProblem
-  }
+    aedProblem: aedProblem,
+  },
 });
-
-export default index;

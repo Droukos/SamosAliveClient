@@ -1,5 +1,5 @@
 <template>
-  <div :class="clazz" :style="styl">
+  <div :style="styl">
     <v-file-input
       chips
       show-size
@@ -16,24 +16,26 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { EditForm, FileImg } from "@/types";
+import { FieldObject, FileImg } from "@/types";
 import { TranslateResult } from "vue-i18n";
+import { namespace } from "vuex-class";
+
+const editProfileModule = namespace("editProfile");
 
 @Component
 export default class FileInputBase extends Vue {
-  @Prop() public fileImg!: FileImg;
-  @Prop() public clazz!: string;
   @Prop() public styl!: string;
   @Prop() public uploadVis!: (bool: boolean) => boolean;
-  @Prop() public editForm!: EditForm;
+  @editProfileModule.State fAvatar!: FieldObject;
+  @editProfileModule.State fileImg!: FileImg;
 
   fileSelected() {
     this.fileImg.notUsedImgUpload = false;
     if (this.checkFileSize() && this.checkFileType()) {
-      this.editForm.avatar = URL.createObjectURL(this.fileImg.selectedFile);
+      this.fAvatar.v = URL.createObjectURL(this.fileImg.selectedFile);
       this.uploadVis(true);
     } else {
-      this.editForm.avatar = this.$store.getters.getAvatar;
+      this.fAvatar.v = this.$store.getters.getAvatar;
       this.uploadVis(false);
     }
   }

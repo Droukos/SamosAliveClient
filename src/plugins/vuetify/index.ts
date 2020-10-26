@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuetify from "vuetify/lib";
 import {
   mdiAccount,
+  mdiApps,
   mdiAccountOutline,
   mdiDoorOpen,
   mdiKey,
@@ -23,6 +24,7 @@ import {
   mdiChevronDown,
   mdiChevronRight,
   mdiThemeLightDark,
+  mdiDatabase,
   mdiAt,
   mdiCheckOutline,
   mdiHelpCircleOutline,
@@ -60,8 +62,9 @@ const MY_ICONS = {
   checkOut: mdiCheckOutline,
   helpCircleOut: mdiHelpCircleOutline,
   cancel: mdiCancel,
+  database: mdiDatabase,
   history: mdiHistory,
-
+  apps: mdiApps,
   appbar: "deep-purple darken-3"
 };
 

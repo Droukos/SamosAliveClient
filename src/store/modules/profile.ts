@@ -1,28 +1,20 @@
-import api, { userRSocket } from "@/plugins/api";
-import { apiWithVar, userApi } from "@/plugins/api/apiUrls.ts";
-import {
-  Action,
-  Module,
-  Mutation,
-  VuexModule
-} from "vuex-module-decorators";
-import {
-  PersonalInfo,
-  Phones,
-  Role,
-  UserInfo,
-} from "@/types";
+import api, { accessToken, userRSocketApi } from "@/plugins/api";
+import { apiWithVar, cdnApi, userApi } from "@/plugins/api/apiUrls.ts";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
+import { UpdateAvatar, UpdateUserPersonal, UserIdDto, UserInfo } from "@/types";
 import { Promise } from "bluebird";
 import {
-  searchUserProfile,
   setAddress,
   setAvailability,
   setCore,
+  setDescription,
   setLogs,
+  setNameSurname,
   setPhones,
   setProfile,
-  setRoles
+  setRoleModels
 } from "@/plugins/userUtil";
+import {bufToData, bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocketUtil";
 
 @Module({ namespaced: true })
 export default class Profile extends VuexModule implements UserInfo {
@@ -31,30 +23,29 @@ export default class Profile extends VuexModule implements UserInfo {
   name = "";
   surname = "";
   email = "";
-  avatar: string | undefined;
-  roleModels: Role[] | undefined;
-  countryCode: string | undefined;
-  country: string | undefined;
-  province: string | undefined;
-  city: string | undefined;
-  street: string | undefined;
-  address: string | undefined;
-  description: string | undefined;
-  phones: Phones | undefined;
+  avatar = "";
+  roleModels = [];
+  countryCode = "";
+  country = "";
+  province = "";
+  city = "";
+  street = "";
+  address = "";
+  description = "";
+  phones = [];
 
-  status: number | undefined;
-  online: boolean | undefined;
-  availability: number | undefined;
+  online = false;
+  availability = 0;
 
-  lastLoginAndroid: number[] | undefined;
-  lastLogoutAndroid: number[] | undefined;
-  lastLoginIos: number[] | undefined;
-  lastLogoutIos: number[] | undefined;
-  lastLoginWeb: number[] | undefined;
-  lastLogoutWeb: number[] | undefined;
+  lastLoginAndroid = [];
+  lastLogoutAndroid = [];
+  lastLoginIos = [];
+  lastLogoutIos = [];
+  lastLoginWeb = [];
+  lastLogoutWeb = [];
 
-  userCreated: number[] | undefined;
-  userUpdated: number[] | undefined;
+  userCreated = [];
+  userUpdated = [];
 
   cred_stars = {
     rating: undefined,
@@ -86,11 +77,8 @@ export default class Profile extends VuexModule implements UserInfo {
     this.avatar = avatar;
   }
 
-  @Mutation
-  setPersonalInfo(data: PersonalInfo): void {
-    this.name = data.name;
-    this.surname = data.surname;
-    this.description = data.description;
+  get profileDescription() {
+    return this.description;
   }
 
   setVisibilityData() {
@@ -119,34 +107,79 @@ export default class Profile extends VuexModule implements UserInfo {
   @Mutation
   setProfileData(userinfo: UserInfo) {
     setCore(this, userinfo);
-    setAvailability(this, userinfo);
-    setAddress(this, userinfo);
+    setAvailability(this, userinfo.online, userinfo.availability);
+    setAddress(this, userinfo.countryCode, userinfo.province, userinfo.city);
     setProfile(this, userinfo);
-    setRoles(this, userinfo);
+    setRoleModels(this, userinfo.roleModels);
     setLogs(this, userinfo);
-    setPhones(this, userinfo);
+    setPhones(this, userinfo.phones);
+  }
+
+  @Mutation
+  setProfilePersonal(userPersonal: UpdateUserPersonal) {
+    setNameSurname(this, userPersonal.name, userPersonal.sur);
+    setDescription(this, userPersonal.desc);
+    setAddress(this, userPersonal.ciso, userPersonal.state, userPersonal.city);
   }
 
   @Action({ commit: "setProfileData" })
-  async profileData(data: { userid: string }): Promise<UserInfo> {
-    return (userRSocket == undefined)
-        ? Promise.delay(1000, data).then(data=> searchUserProfile(data))
-        : searchUserProfile(data);
+  async profileData(data: UserIdDto): Promise<UserInfo> {
+    return new Promise(resolve => {
+      userRSocketApi().then(userRSocket => {
+        userRSocket
+          .requestResponse({
+            data: dataBuf(data),
+            metadata: metadataBuf(accessToken, userApi.user)
+          })
+          .subscribe({
+            onComplete: value => resolve(bufToJson(value))
+          });
+      });
+    });
+  }
+
+  @Action({ commit: "setProfilePersonal" })
+  async editProfileData(data: UpdateUserPersonal) {
+    return new Promise(resolve => {
+      userRSocketApi().then(userRSocket => {
+        userRSocket
+          .requestResponse({
+            data: dataBuf(data),
+            metadata: metadataBuf(accessToken, userApi.personal)
+          })
+          .subscribe({
+            onComplete: value => {
+              if (bufToData(value) == "true") {
+                resolve(data);
+              }
+            }
+          });
+      });
+    });
   }
 
   @Action
-  async editProfileData(data: any) {
-    return await api.put(apiWithVar(userApi.personal, this.userid), data);
-  }
-
-  @Action
-  async editProfileAvatar(data: any) {
-    return await api.put(userApi.avatar, data, {
+  async editProfileAvatar(data: UpdateAvatar) {
+    return await api.post(apiWithVar(cdnApi.avatar, this.userid), data, {
       headers: {
         Accept: "multipart/form-data",
         "Content-Type": "multipart/form-data"
       }
     });
+    //return new Promise(resolve =>
+    //    cdnRSocket
+    //        .requestResponse({
+    //          data: dataBuf(data),
+    //          metadata: metadataBuf(accessToken, cdnApi.avatar)
+    //        })
+    //        .subscribe({
+    //          onComplete: value => {
+    //            if (bufToJson(value) == "true") {
+    //              resolve(data);
+    //        }
+    //      }
+    //    })
+    //)
   }
 
   get profileUserId() {

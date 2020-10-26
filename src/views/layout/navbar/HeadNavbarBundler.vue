@@ -3,13 +3,13 @@
     <div v-if="!isSignedIn">
       <v-app-bar app clipped-left color="deep-purple darken-3" dense>
         <v-btn router-link to="/login" aria-label="ToLogin">
-          <v-icon>{{ "$vuetify.icons.info" }}</v-icon>
+          <v-icon>{{ "$info" }}</v-icon>
         </v-btn>
         <v-spacer />
         <v-menu offset-y :close-on-content-click="false">
           <template v-slot:activator="{ on, attrs }">
             <v-btn text v-bind="attrs" v-on="on" aria-label="ToAccountMenu">
-              <v-icon>{{ "$vuetify.icons.account" }}</v-icon>
+              <v-icon>{{ "$account" }}</v-icon>
             </v-btn>
           </template>
           <v-card class="mx-auto">
@@ -22,7 +22,7 @@
           </v-card>
         </v-menu>
         <v-btn text router-link to="/settings" aria-label="ToSettings">
-          <v-icon>{{ "$vuetify.icons.settings" }}</v-icon>
+          <v-icon>{{ "$settings" }}</v-icon>
         </v-btn>
         <!--<v-menu offset-y>
           <template v-slot:activator="{ on }">
