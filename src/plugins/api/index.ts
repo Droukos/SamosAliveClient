@@ -4,13 +4,13 @@ import Vue from "vue";
 import VueCookies from "vue-cookies";
 import { authApi } from "./apiUrls";
 import {
-    RSocketClient,
-    BufferEncoders,
-    MESSAGE_RSOCKET_COMPOSITE_METADATA, IdentitySerializer
+  RSocketClient,
+  BufferEncoders,
+  MESSAGE_RSOCKET_COMPOSITE_METADATA
 } from "rsocket-core";
 import RSocketWebSocketClient from "rsocket-websocket-client";
-import { ReactiveSocket} from "rsocket-types";
-import {CancelCallback} from "rsocket-flowable/Single";
+import { ReactiveSocket } from "rsocket-types";
+import { CancelCallback } from "rsocket-flowable/Single";
 
 Vue.use(VueCookies);
 
@@ -38,9 +38,7 @@ axiosApi.interceptors.response.use(
   error => {
     // Return any error which is not due to authentication back to the calling service
     if (error.response.status !== 401) {
-      return new Promise((resolve, reject) => {
-        reject(error);
-      });
+      return new Promise(reject => reject(error));
     }
 
     // Logout user if token refresh didn't work or user is disabled
@@ -66,12 +64,8 @@ axiosApi.interceptors.response.use(
       return new Promise((resolve, reject) => {
         axiosApi
           .request(config)
-          .then(response => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
+          .then(response => resolve(response))
+          .catch(error => reject(error));
       });
     });
   }
@@ -103,168 +97,180 @@ const lifetime = 180000;
 const dataMimeType = "application/json";
 const metadataMimeType = MESSAGE_RSOCKET_COMPOSITE_METADATA.string;
 const defaultSetup = {
-      keepAlive,
-      lifetime,
-      dataMimeType,
-      metadataMimeType
-    };
+  keepAlive,
+  lifetime,
+  dataMimeType,
+  metadataMimeType
+};
 
-export let authRSocket: ReactiveSocket<any, any>;
-export let userRSocket: ReactiveSocket<any, any>;
-export let aedRSocket: ReactiveSocket<any, any>;
-export let newsRSocket: ReactiveSocket<any, any>;
+let authRSocket: ReactiveSocket<any, any>;
+let userRSocket: ReactiveSocket<any, any>;
+let aedRSocket: ReactiveSocket<any, any>;
+let newsRSocket: ReactiveSocket<any, any>;
+let cdnRSocket: ReactiveSocket<any, any>;
 
 const authRSocketAddr = "ws://localhost:8989";
 const userRSocketAddr = "ws://localhost:8985";
 const aedRSocketAddr = "ws://localhost:8987";
 const newsRSocketAddr = "ws://localhost:8986";
+const cdnRSocketAddr = "ws://localhost:8983";
 
 const authClient = new RSocketClient({
   setup: defaultSetup,
   transport: new RSocketWebSocketClient(
-      {
-        url: "",
-        wsCreator: () => new WebSocket(authRSocketAddr),
-        debug: true
-      },
-      BufferEncoders
+    {
+      url: "",
+      wsCreator: () => new WebSocket(authRSocketAddr),
+      debug: true
+    },
+    BufferEncoders
   )
 });
 
 const userClient = new RSocketClient({
   setup: defaultSetup,
   transport: new RSocketWebSocketClient(
-      {
-        url: "",
-        wsCreator: () => new WebSocket(userRSocketAddr),
-        debug: true
-      },
-      BufferEncoders
+    {
+      url: "",
+      wsCreator: () => new WebSocket(userRSocketAddr),
+      debug: true
+    },
+    BufferEncoders
+  )
+});
+
+const cdnClient = new RSocketClient({
+  setup: defaultSetup,
+  transport: new RSocketWebSocketClient(
+    {
+      url: "",
+      wsCreator: () => new WebSocket(cdnRSocketAddr),
+      debug: true
+    },
+    BufferEncoders
   )
 });
 
 const aedClient = new RSocketClient({
-    setup: defaultSetup,
-    transport: new RSocketWebSocketClient(
-        {
-            url: "",
-            wsCreator: () => new WebSocket(aedRSocketAddr),
-            debug: true
-        },
-        BufferEncoders
-    )
+  setup: defaultSetup,
+  transport: new RSocketWebSocketClient(
+    {
+      url: "",
+      wsCreator: () => new WebSocket(aedRSocketAddr),
+      debug: true
+    },
+    BufferEncoders
+  )
 });
 
 const newsClient = new RSocketClient({
-    setup: defaultSetup,
-    transport: new RSocketWebSocketClient(
-        {
-            url: "",
-            wsCreator: () => new WebSocket(newsRSocketAddr),
-            debug: true
-        },
-        BufferEncoders
-    )
+  setup: defaultSetup,
+  transport: new RSocketWebSocketClient(
+    {
+      url: "",
+      wsCreator: () => new WebSocket(newsRSocketAddr),
+      debug: true
+    },
+    BufferEncoders
+  )
 });
-
 
 export function authConn() {
   authClient.connect().subscribe({
     onComplete: (socket: ReactiveSocket<any, any>) => {
       authRSocket = socket;
     },
-    onError: (error: Error) => {
-      console.log("Connection has been refused due to ", error);
-    },
-    //  onNext: value => {
-    //      // console.log("got next value in requestStream..");
-    //      console.log(value.data);
-    //  },
-    onSubscribe: (cancel: CancelCallback) => {
-      /* call cancel() to abort */
-      console.log("subscribe!");
-      console.log(cancel);
-    }
+    onError: (error: Error) =>
+      console.log("Connection has been refused due to ", error),
+    onSubscribe: (cancel: CancelCallback) => console.log(cancel)
   });
 }
 
-export function userConn() {
+export function userConn(): Promise<ReactiveSocket<any, any>> {
+  return new Promise(resolve =>
     userClient.connect().subscribe({
-        onComplete: (socket: ReactiveSocket<any, any>) => {
-            userRSocket = socket;
-        },
-        onError: (error: Error) => {
-            console.log("Connection has been refused due to ", error);
-        },
-        onSubscribe: (cancel: CancelCallback) => {
-            /* call cancel() to abort */
-            console.log("subscribe!");
-            console.log(cancel);
-        }
-    });
+      onComplete: (socket: ReactiveSocket<any, any>) => {
+        userRSocket = socket;
+        resolve(socket);
+      },
+      onError: (error: Error) =>
+        console.log("Connection has been refused due to ", error),
+      onSubscribe: (cancel: CancelCallback) => console.log(cancel)
+    })
+  );
 }
 
-export function aedConn() {
+export function aedConn(): Promise<ReactiveSocket<any, any>> {
+  return new Promise(resolve =>
     aedClient.connect().subscribe({
-        onComplete: (socket: ReactiveSocket<any, any>) => {
-            aedRSocket = socket;
-        },
-        onError: (error: Error) => {
-            console.log("Connection has been refused due to ", error);
-        },
-        onSubscribe: (cancel: CancelCallback) => {
-            /* call cancel() to abort */
-            console.log("subscribe!");
-            console.log(cancel);
-        }
-    });
+      onComplete: (socket: ReactiveSocket<any, any>) => {
+        aedRSocket = socket;
+        resolve(socket);
+      },
+      onError: (error: Error) =>
+        console.log("Connection has been refused due to ", error),
+      onSubscribe: (cancel: CancelCallback) => console.log(cancel)
+    })
+  );
 }
 
-export function newsConn() {
+export function newsConn(): Promise<ReactiveSocket<any, any>> {
+  return new Promise(resolve =>
     newsClient.connect().subscribe({
-        onComplete: (socket: ReactiveSocket<any, any>) => {
-            newsRSocket = socket;
-        },
-        onError: (error: Error) => {
-            console.log("Connection has been refused due to ", error);
-        },
-        onSubscribe: (cancel: CancelCallback) => {
-            /* call cancel() to abort */
-            console.log("subscribe!");
-            console.log(cancel);
-        }
-    });
+      onComplete: (socket: ReactiveSocket<any, any>) => {
+        newsRSocket = socket;
+        resolve(socket);
+      },
+      onError: (error: Error) =>
+        console.log("Connection has been refused due to ", error),
+      onSubscribe: (cancel: CancelCallback) => console.log(cancel)
+    })
+  );
 }
 
+export function cdnConn(): Promise<ReactiveSocket<any, any>> {
+  return new Promise(resolve =>
+    cdnClient.connect().subscribe({
+      onComplete: (socket: ReactiveSocket<any, any>) => {
+        cdnRSocket = socket;
+        resolve(socket);
+      },
+      onError: error =>
+        console.log("Connection has been refused due to ", error),
+      onSubscribe: (cancel: CancelCallback) => console.log(cancel)
+    })
+  );
+}
 
-//rSocket.requestChannel().subscribe({
-//      onNext: value => {
-//          // console.log("got next value in requestStream..");
-//          console.log(value.data);
-//      },
-//})
+export function authRSocketApi() {
+  if (authRSocket == undefined) {
+    authConn();
+  }
 
+  return authRSocket;
+}
 
+export async function cdnRSocketApi(): Promise<ReactiveSocket<any, any>> {
+  return cdnRSocket == undefined && Vue.$cookies.isKey("loggedIn")
+    ? cdnConn()
+    : cdnRSocket;
+}
 
+export async function userRSocketApi(): Promise<ReactiveSocket<any, any>> {
+  return userRSocket == undefined && Vue.$cookies.isKey("loggedIn")
+    ? userConn()
+    : userRSocket;
+}
 
-  //rSocket
-  //    .requestResponse({
-  //      data: dataBuf({}),
-  //      metadata: metadataBuf(accessToken, "")
-  //    })
-  //    .subscribe({
-  //      onComplete: (data: Payload<any, any>) => {
-  //        console.log("got response with requestResponse");
-  //        const response = data.data.toString();
-  //        console.log(response);
-  //      },
-  //      onError: (error: Error) => {
-  //        console.log("got error with requestResponse");
-  //        console.error(error);
-  //      },
-  //      onSubscribe: (cancel: CancelCallback) => {
-  //        /* call cancel() to stop onComplete/onError */
-  //      }
-  //    });
+export async function aedRSocketApi(): Promise<ReactiveSocket<any, any>> {
+  return aedRSocket == undefined && Vue.$cookies.isKey("loggedIn")
+    ? aedConn()
+    : aedRSocket;
+}
 
+export async function newsRSocketApi(): Promise<ReactiveSocket<any, any>> {
+  return newsRSocket == undefined && Vue.$cookies.isKey("loggedIn")
+    ? newsConn()
+    : newsRSocket;
+}
 export default axiosApi;

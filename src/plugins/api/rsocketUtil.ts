@@ -31,7 +31,12 @@ export function metadataOnlyRoute(route: string) {
   return encodeAndAddWellKnownMetadata( Buffer.from(""), MESSAGE_RSOCKET_ROUTING, Buffer.from(String.fromCharCode(route.length) + route));
 }
 
-export function bufToJson(payload: Payload<any, any>) {
+export function bufToData(payload: Payload<any, any>) {
   return payload.data.toString('utf8');
 }
+export function bufToJson(payload: Payload<any, any>) {
+  return JSON.parse(bufToData(payload));
+}
+
+
 

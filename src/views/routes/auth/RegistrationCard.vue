@@ -232,15 +232,11 @@ export default class RegistrationCard extends Vue {
         name: this.name.v,
         surname: this.surname.v,
         email: this.email.v
-      })
-        .then(value => {
-          if (value == "true") {
-            this.toValidation();
-          }
-        })
-        .catch(error => {
-          console.log(error.response.data);
-        });
+      }).then(value => {
+        if (value == "true") {
+          this.toValidation();
+        }
+      });
     }
   }
   clear() {
