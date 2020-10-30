@@ -1,4 +1,4 @@
-import {TranslateResult} from "vue-i18n";
+import { TranslateResult } from "vue-i18n";
 
 declare namespace User {
   type UserId = string;
@@ -37,15 +37,15 @@ declare namespace User {
   }
 
   type CreditsStat = {
-    rating: number,
-    emptyIcon: string,
-    fullIcon: string,
-    halfIcon: string,
-    length: number,
-    hover: boolean,
-    readonly: boolean,
-    size: number,
-  }
+    rating: number;
+    emptyIcon: string;
+    fullIcon: string;
+    halfIcon: string;
+    length: number;
+    hover: boolean;
+    readonly: boolean;
+    size: number;
+  };
 
   export interface UserInfo {
     userid: UserId;
@@ -64,9 +64,9 @@ declare namespace User {
 
     lastLoginAndroid: User.LastLoginAndroid | undefined;
     lastLogoutAndroid: User.LastLogoutAndroid | undefined;
-    lastLoginIos: User.LastLoginIos | undefined
+    lastLoginIos: User.LastLoginIos | undefined;
     lastLogoutIos: User.LastLogoutIos | undefined;
-    lastLoginWeb: User.LastLoginWeb | undefined
+    lastLoginWeb: User.LastLoginWeb | undefined;
     lastLogoutWeb: User.LastLogoutWeb | undefined;
     userCreated: User.UserCreated | undefined;
 
@@ -82,7 +82,7 @@ export type UserInfo = User.UserInfo;
 export type CreditsStat = User.CreditsStat;
 
 export interface UserAddress {
-  city: User.City
+  city: User.City;
   province: User.Province;
   countryCode: User.CountryCode;
 }
@@ -118,7 +118,7 @@ export interface UserAvailability {
 }
 
 export interface UserRoles {
-  roleModels: User.Role [];
+  roleModels: User.Role[];
 }
 
 export interface UserRegister {
@@ -137,17 +137,17 @@ declare namespace Login {
   }
 
   interface LoginResponse {
-    accessToken: string,
-    userid: User.UserId,
-    username: User.Username,
-    name: User.Name,
-    surname: User.Surname,
-    email: User.Email,
-    avatar: User.Avatar | undefined,
-    description: User.Description | undefined,
-    roleModels: User.Role[],
-    online: User.Online,
-    availability: User.Availability
+    accessToken: string;
+    userid: User.UserId;
+    username: User.Username;
+    name: User.Name;
+    surname: User.Surname;
+    email: User.Email;
+    avatar: User.Avatar | undefined;
+    description: User.Description | undefined;
+    roleModels: User.Role[];
+    online: User.Online;
+    availability: User.Availability;
   }
 }
 
@@ -166,44 +166,44 @@ export interface Country {
 }
 
 export interface EditForm {
-  name: User.Name,
-  surname: User.Surname,
-  avatar: User.Avatar,
-  description: User.Description,
-  countryCode: User.CountryCode,
-  province: User.Province,
-  country: User.Country,
-  city: User.City
-  phones: User.Phones
+  name: User.Name;
+  surname: User.Surname;
+  avatar: User.Avatar;
+  description: User.Description;
+  countryCode: User.CountryCode;
+  province: User.Province;
+  country: User.Country;
+  city: User.City;
+  phones: User.Phones;
 }
 
 export interface FileImg {
-  selectedFile: File,
-  validFileExtensions: string[],
-  notUsedImgUpload: boolean
+  selectedFile: File;
+  validFileExtensions: string[];
+  notUsedImgUpload: boolean;
 }
 
 export interface Tab {
-  id: string,
-  title: TranslateResult,
-  counter: number,
-  label: TranslateResult,
-  searchLabel: string
+  id: string;
+  title: TranslateResult;
+  counter: number;
+  label: TranslateResult;
+  searchLabel: string;
 }
 
 export interface RequestedPreviewUser {
-  id: User.UserId,
-  user: User.Username,
-  name: User.Name,
-  sur: User.Surname,
-  avatar: User.Avatar,
-  on: User.Online,
-  status: User.Availability,
-  roles: string[]
+  id: User.UserId;
+  user: User.Username;
+  name: User.Name;
+  sur: User.Surname;
+  avatar: User.Avatar;
+  on: User.Online;
+  status: User.Availability;
+  roles: string[];
 }
 
 declare namespace AedEvent {
-  type occurrenceType = string;
+  type occurrenceType = number;
   type address = string;
   type comment = string;
   type status = string;
@@ -221,11 +221,18 @@ declare namespace AedEvent {
 export type AedEventInfo = AedEvent.AedEventInfo;
 
 declare namespace News {
+  type id = string;
   type newsTitle = string;
   type content = string;
 
   interface NewsInfo {
-    userid: User.UserId;
+    username: User.Username;
+    newsTitle: News.newsTitle;
+    content: News.content;
+  }
+
+  interface NewsMore {
+    id: News.id;
     username: User.Username;
     newsTitle: News.newsTitle;
     content: News.content;
@@ -233,6 +240,7 @@ declare namespace News {
 }
 
 export type NewsInfo = News.NewsInfo;
+export type NewsMore = News.NewsMore;
 
 declare namespace AedProblems {
   type title = string;
@@ -241,7 +249,6 @@ declare namespace AedProblems {
   type status = string;
 
   interface AedProblemsInfo {
-    userid: User.UserId;
     username: User.Username;
     title: AedProblems.title;
     address: AedProblems.address;

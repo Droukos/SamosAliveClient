@@ -19,27 +19,33 @@
 
             <v-card-text>
               <h5 v-text="$t('events.eventInfo')" />
-              <v-combobox
-                v-model="select"
-                :items="items"
-                :label="selected.msg"
-                required
-              ></v-combobox>
-
+              <select @change="getSelected($event.target.selectedIndex)">
+                <option
+                  v-for="(item, index) in items"
+                  v-bind:value="item.msg"
+                  v-bind:key="index"
+                >
+                  {{ item.msg }}
+                </option>
+              </select>
               <h5 v-text="$t('events.address')" />
-              <v-textarea solo disabled :label="addresses.msg"></v-textarea>
+              <v-text-field solo disabled :label="addresses.msg"></v-text-field>
               <h5 v-text="$t('events.comment')" />
-              <v-text-field
+              <v-textarea
                 v-model="comment.com"
                 :label="comment.msg"
+                maxlength="200"
                 solo
-              ></v-text-field>
+              ></v-textarea>
             </v-card-text>
           </form>
           <v-divider></v-divider>
 
           <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn @click="dialog = false">
+              Cancel
+            </v-btn>
             <v-btn
               color="primary"
               @click="sendAedEvent()"
@@ -67,13 +73,13 @@ const user = namespace("user");
 @Component
 export default class EventCard extends Vue {
   dialog = false;
-  select = [];
   items = [
-    this.$t("events.eventS1"),
-    this.$t("events.eventS2"),
-    this.$t("events.eventS3")
+    { msg: this.$t("events.eventS1") },
+    { msg: this.$t("events.eventS2") },
+    { msg: this.$t("events.eventS3") }
   ];
-  selected = {
+  selectedIndex = -1;
+  select = {
     msg: this.$t("events.situation")
   };
   addresses = {
@@ -87,6 +93,11 @@ export default class EventCard extends Vue {
     this.dialog = true;
   }
 
+  getSelected(selectedIndex: number) {
+    console.log(selectedIndex);
+    this.selectedIndex = selectedIndex;
+  }
+
   @user.State userid!: User.UserId;
   @user.State username!: User.Username;
   @user.State address!: string;
@@ -96,7 +107,7 @@ export default class EventCard extends Vue {
     this.createAedEvent({
       userid: this.userid,
       username: this.username,
-      occurrenceType: "1",
+      occurrenceType: this.selectedIndex,
       address: this.address,
       comment: this.comment.com,
       status: "Pending"

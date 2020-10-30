@@ -17,7 +17,6 @@
         class="pt-1"
         :counter="model.counter"
         :label="model.label"
-        prepend-icon="mdi-database-search"
         @keyup="searchProblem()"
         outlined
       ></v-text-field>
@@ -113,14 +112,14 @@ export default class ProblemList extends Vue {
   previewProblems = [];
 
   @search.Action fetchProblemsPreview!: (title: string) => Promise<any>;
-  @user.State userid!: User.UserId;
   @user.State username!: User.Username;
   @user.State address!: string;
-  @aedProblem.Action createAedProblems!: (data: AedProblemsInfo) => Promise<void>;
+  @aedProblem.Action createAedProblems!: (
+    data: AedProblemsInfo
+  ) => Promise<void>;
 
   sendAedProblems() {
     this.createAedProblems({
-      userid: this.userid,
       username: this.username,
       title: this.title.text,
       address: this.address,

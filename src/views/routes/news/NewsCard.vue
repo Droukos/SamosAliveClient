@@ -17,7 +17,6 @@
         class="pt-1"
         :counter="model.counter"
         :label="model.label"
-        prepend-icon="mdi-database-search"
         @keyup="searchNews()"
         outlined
       ></v-text-field>
@@ -30,8 +29,10 @@
                   <v-list-item-title class="headline mb-1">{{
                     item.title
                   }}</v-list-item-title>
-                  <v-list-item-title>{{ item.cont }} </v-list-item-title>
-                  <v-list-item-subtitle>{{ item.cont }}</v-list-item-subtitle>
+                  <!--<v-list-item-title>{{ item.previewCont }} </v-list-item-title>-->
+                  <v-list-item-subtitle>{{
+                    previewCont(item)
+                  }}</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-list-item-action-text>{{
@@ -42,39 +43,13 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn v-text="$t('news.more')" />
+                <v-btn v-text="$t('news.more')" @click="more(item.id)" />
               </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
       </v-container>
     </v-card>
-    <!--<v-container fluid>
-      <v-row dense>
-        <v-col v-for="item in getItems" :key="item.index" :cols="12">
-          <v-card class="mx-auto" outlined>
-            <v-list-item three-line>
-              <v-list-item-content>
-                <div class="overline mb-4">{{ item.date }}</div>
-                <v-list-item-title class="headline mb-1">{{
-                  item.title
-                }}</v-list-item-title>
-                <v-list-item-subtitle>{{ item.content }}</v-list-item-subtitle>
-              </v-list-item-content>
-
-              <v-list-item-avatar tile size="80">{{
-                item.img
-              }}</v-list-item-avatar>
-            </v-list-item>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn v-text="$t('news.more')" />
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>-->
     <div class="text-center">
       <v-dialog v-model="dialog">
         <v-card>
@@ -99,6 +74,9 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn @click="dialog = false">
+              Cancel
+            </v-btn>
             <v-btn
               color="primary"
               @click="sendNews()"
@@ -139,6 +117,12 @@ export default class News extends Vue {
   showDialog() {
     this.dialog = true;
   }
+  previewCont(newsInfo: NewsInfo) {
+    if (newsInfo.content == undefined) {
+      return;
+    }
+    return newsInfo.content.substring(0, 70) + "..";
+  }
   previewNews = [];
   @search.Action fetchNewsPreview!: (newsTitle: string) => Promise<any>;
   fetchNewsPreviewList() {
@@ -155,13 +139,11 @@ export default class News extends Vue {
     this.fetchNewsPreviewList();
   }
 
-  @user.State userid!: User.UserId;
   @user.State username!: User.Username;
   @news.Action createNews!: (data: NewsInfo) => Promise<void>;
 
   sendNews() {
     this.createNews({
-      userid: this.userid,
       username: this.username,
       newsTitle: this.title.text,
       content: this.content.text
@@ -169,6 +151,13 @@ export default class News extends Vue {
       console.log("news created");
     });
     this.dialog = false;
+  }
+
+  more(id: string) {
+    this.$router.push({
+      name: "newsMore",
+      params: { newsID: id }
+    });
   }
 }
 </script>
