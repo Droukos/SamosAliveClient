@@ -300,6 +300,10 @@ export type UsernameDto = {
   username: User.Username;
 }
 
+export type NewsDto = {
+  id: News.id;
+}
+
 export type PrivacySetField = {
   index: number,
   i18n: string,

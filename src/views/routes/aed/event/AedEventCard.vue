@@ -19,7 +19,7 @@
 
             <v-card-text>
               <h5 v-text="$t('events.eventInfo')" />
-              <select @change="getSelected($event.target.selectedIndex)">
+              <select class="v-select" @change="getSelected($event.target.selectedIndex)">
                 <option
                   v-for="(item, index) in items"
                   v-bind:value="item.msg"

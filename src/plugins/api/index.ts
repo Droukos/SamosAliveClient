@@ -105,8 +105,8 @@ const defaultSetup = {
 
 let authRSocket: ReactiveSocket<any, any>;
 let userRSocket: ReactiveSocket<any, any>;
-let aedRSocket: ReactiveSocket<any, any>;
-let newsRSocket: ReactiveSocket<any, any>;
+export let aedRSocket: ReactiveSocket<any, any>;
+export let newsRSocket: ReactiveSocket<any, any>;
 let cdnRSocket: ReactiveSocket<any, any>;
 
 const authRSocketAddr = "ws://localhost:8989";
