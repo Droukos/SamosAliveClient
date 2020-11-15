@@ -19,15 +19,12 @@
 
             <v-card-text>
               <h5 v-text="$t('events.eventInfo')" />
-              <select class="v-select" @change="getSelected($event.target.selectedIndex)">
-                <option
-                  v-for="(item, index) in items"
-                  v-bind:value="item.msg"
-                  v-bind:key="index"
-                >
-                  {{ item.msg }}
-                </option>
-              </select>
+              <v-select
+                v-model="selected"
+                :items="items"
+                item-text="msg"
+                item-value="code"
+              ></v-select>
               <h5 v-text="$t('events.address')" />
               <v-text-field solo disabled :label="addresses.msg"></v-text-field>
               <h5 v-text="$t('events.comment')" />
@@ -58,7 +55,7 @@
       </v-dialog>
     </div>
 
-    <!--<span>Κατάσταση ασθενούς: {{ selected }}</span>-->
+    <!--<span>Κατάσταση ασθενούς: {{ selected }}</span>>-->
   </v-main>
 </template>
 
@@ -74,11 +71,11 @@ const user = namespace("user");
 export default class EventCard extends Vue {
   dialog = false;
   items = [
-    { msg: this.$t("events.eventS1") },
-    { msg: this.$t("events.eventS2") },
-    { msg: this.$t("events.eventS3") }
+    { msg: this.$t("events.eventS1"), code: 1 },
+    { msg: this.$t("events.eventS2"), code: 2 },
+    { msg: this.$t("events.eventS3"), code: 3 }
   ];
-  selectedIndex = -1;
+  selected = this.items[0].code;
   select = {
     msg: this.$t("events.situation")
   };
@@ -93,24 +90,27 @@ export default class EventCard extends Vue {
     this.dialog = true;
   }
 
-  getSelected(selectedIndex: number) {
-    console.log(selectedIndex);
-    this.selectedIndex = selectedIndex;
-  }
-
   @user.State userid!: User.UserId;
   @user.State username!: User.Username;
   @user.State address!: string;
   @aedEvent.Action createAedEvent!: (data: AedEventInfo) => Promise<void>;
 
   sendAedEvent() {
+    const d = new Date();
+    const date =
+      d.toISOString().substring(11, 19) +
+      " " +
+      d.toString().substring(0, 10) +
+      " " +
+      d.toISOString().substring(0, 4);
     this.createAedEvent({
       userid: this.userid,
       username: this.username,
-      occurrenceType: this.selectedIndex,
+      occurrenceType: this.selected,
       address: this.address,
       comment: this.comment.com,
-      status: "Pending"
+      status: 1,
+      requestedTime: date
     }).then(() => {
       console.log("run");
     });

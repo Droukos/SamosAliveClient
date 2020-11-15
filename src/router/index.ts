@@ -74,6 +74,17 @@ const routes: Array<RouteConfig> = [
             component: () => import(/* webpackChunkName: "EventCard" */ '@/views/routes/aed/event/AedEventCard.vue'),
         },
         {
+            path: '/aed/event/:eventID/more',
+            name: "eventMore",
+            component: () => import(/* webpackChunkName: "EventMore" */ '@/views/routes/aed/history/EventMoreCard.vue'),
+            props: true
+        },
+        {
+            path: '/aed/eventLive',
+            name: "eventLive",
+            component: () => import(/* webpackChunkName: "EventLive" */ '@/views/routes/aed/history/EventLiveCard.vue')
+        },
+        {
            path: '/aed/history',
            name: "history",
            component: () => import(/* webpackChunkName: "history" */ '@/views/routes/aed/history/HistoryCard.vue'),
@@ -81,12 +92,18 @@ const routes: Array<RouteConfig> = [
         {
             path: '/aed/eventList',
             name: "eventList",
-            component: () => import(/* webpackChunkName: "history" */ '@/views/routes/aed/history/EventList.vue'),
+            component: () => import(/* webpackChunkName: "eventHistory" */ '@/views/routes/aed/history/EventListCard.vue'),
         },
         {
             path: '/aed/problemList',
             name: "problemList",
-            component: () => import(/* webpackChunkName: "history" */ '@/views/routes/aed/history/ProblemList.vue'),
+            component: () => import(/* webpackChunkName: "problemsHistory" */ '@/views/routes/aed/history/ProblemsListCard.vue'),
+        },
+        {
+            path: '/aed/problems/:problemsID/more',
+            name: "problemsMore",
+            component: () => import(/* webpackChunkName: "problemsMore" */ '@/views/routes/aed/history/ProblemsMoreCard.vue'),
+            props: true
         },
         {
             path: '/register',

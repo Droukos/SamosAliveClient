@@ -77,6 +77,12 @@ export default class NavBarList extends Vue {
         link: "login",
         title: this.$t("user.logout"),
         icon: "$doorOpen"
+      },
+      {
+        index: 8,
+        link: "eventLive",
+        title: this.$t("events.live"),
+        icon: "$liveEv"
       }
     ];
   }

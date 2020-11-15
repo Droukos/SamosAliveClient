@@ -1,22 +1,17 @@
 import {
   accessToken,
   userRSocketApi,
-  aedRSocketApi,
   newsRSocketApi
 } from "@/plugins/api";
 import { Action, Module, VuexModule } from "vuex-module-decorators";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocketUtil";
 import {
-  RequestedPreviewUser,
-  AedEventInfo,
-  NewsInfo,
-  AedProblemsInfo
+    RequestedPreviewUser,
+    NewsInfo
 } from "@/types";
 import {
-  eventApi,
   newsApi,
-  userApi,
-  problemsApi
+  userApi
 } from "@/plugins/api/apiUrls.ts";
 
 @Module({ namespaced: true })
@@ -42,26 +37,6 @@ export default class Search extends VuexModule {
   }
 
   @Action
-  async fetchEventsPreview(occurrenceType: number) {
-    return new Promise(resolve => {
-      const previewAedEvent: AedEventInfo[] = [];
-      aedRSocketApi().then(aedRSocket => {
-        aedRSocket
-            .requestStream({
-              data: dataBuf({occurrenceType: occurrenceType}),
-              metadata: metadataBuf(accessToken, eventApi.findOccurrenceType)
-            })
-            .subscribe({
-              onError: error => console.error(error),
-              onNext: payload => previewAedEvent.push(bufToJson(payload)),
-              onSubscribe: sub => sub.request(20)
-            });
-        resolve(previewAedEvent);
-      });
-    });
-  }
-
-  @Action
   async fetchNewsPreview(newsTitle: string) {
     return new Promise(resolve => {
       const previewNews: NewsInfo[] = [];
@@ -77,26 +52,6 @@ export default class Search extends VuexModule {
               onSubscribe: sub => sub.request(20)
             });
         resolve(previewNews);
-      });
-    });
-  }
-
-  @Action
-  async fetchProblemsPreview(title: string) {
-    return new Promise(resolve => {
-      const previewAedProblems: AedProblemsInfo[] = [];
-      aedRSocketApi().then(aedRSocket => {
-        aedRSocket
-            .requestStream({
-              data: dataBuf({title: title}),
-              metadata: metadataBuf(accessToken, problemsApi.findProblems)
-            })
-            .subscribe({
-              onError: error => console.error(error),
-              onNext: payload => previewAedProblems.push(bufToJson(payload)),
-              onSubscribe: sub => sub.request(20)
-            });
-        resolve(previewAedProblems);
       });
     });
   }

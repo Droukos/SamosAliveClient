@@ -30,7 +30,7 @@ const news = namespace("news");
   beforeRouteEnter(to, from, next) {
     next(vm => {
       const newsMore = vm as NewsMore;
-      newsMore.findNews(to.params.newsID).then(response => {
+      newsMore.findNewsId(to.params.newsID).then(() => {
         newsMore.loadingSkeleton = false;
       });
     });
@@ -38,7 +38,7 @@ const news = namespace("news");
 })
 export default class NewsMore extends Vue {
   loadingSkeleton = true;
-  @news.Action findNews!: (id: string) => Promise<any>;
+  @news.Action findNewsId!: (id: string) => Promise<any>;
   @news.State id!: string;
   @news.State username!: string;
   @news.State newsTitle!: string;

@@ -29,7 +29,7 @@ import {
   mdiCheckOutline,
   mdiHelpCircleOutline,
   mdiCancel,
-  mdiHistory
+  mdiHistory, mdiAccessPoint, mdiAntenna
 } from "@mdi/js";
 
 Vue.use(Vuetify);
@@ -65,7 +65,10 @@ const MY_ICONS = {
   database: mdiDatabase,
   history: mdiHistory,
   apps: mdiApps,
-  appbar: "deep-purple darken-3"
+  liveEv: mdiAccessPoint,
+  livePr: mdiAntenna,
+  appbar: "deep-purple darken-3",
+  liveEvent: "fas fa-heartbeat"
 };
 
 export default new Vuetify({

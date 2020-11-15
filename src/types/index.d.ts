@@ -207,10 +207,12 @@ export interface UpdateUserPersonal {
 }
 
 declare namespace AedEvent {
+  type id = string;
   type occurrenceType = number;
   type address = string;
   type comment = string;
-  type status = string;
+  type status = number;
+  type requestedTime = string;
 
   interface AedEventInfo {
     userid: User.UserId;
@@ -219,20 +221,40 @@ declare namespace AedEvent {
     address: AedEvent.address;
     comment: AedEvent.comment;
     status: AedEvent.status;
+    requestedTime: AedEvent.requestedTime;
+  }
+  interface AedEventMore{
+    id: AedEvent.id;
+    userid: User.UserId;
+    username: User.Username;
+    occurrenceType: AedEvent.occurrenceType;
+    address: AedEvent.address;
+    comment: AedEvent.comment;
+    status: AedEvent.status;
+    requestedTime: AedEvent.requestedTime;
+  }
+
+  interface AedSearchInfo {
+    occurrenceType: AedEvent.occurrenceType;
+    status: AedEvent.status;
   }
 }
 //export type occurrenceType = AedEvent.occurrenceType;
 export type AedEventInfo = AedEvent.AedEventInfo;
+export type AedEventMore = AedEvent.AedEventMore;
+export type AedSearchInfo= AedEvent.AedSearchInfo;
 
 declare namespace News {
   type id = string;
   type newsTitle = string;
   type content = string;
+  type uploadedTime = string;
 
   interface NewsInfo {
     username: User.Username;
     newsTitle: News.newsTitle;
     content: News.content;
+    uploadedTime: News.uploadedTime;
   }
 
   interface NewsMore {
@@ -240,6 +262,7 @@ declare namespace News {
     username: User.Username;
     newsTitle: News.newsTitle;
     content: News.content;
+    uploadedTime: News.uploadedTime;
   }
 }
 
@@ -247,17 +270,29 @@ export type NewsInfo = News.NewsInfo;
 export type NewsMore = News.NewsMore;
 
 declare namespace AedProblems {
-  type title = string;
+  type id = string;
+  type problemsTitle = string;
   type address = string;
-  type info = string;
-  type status = string;
+  type information = string;
+  type status = number;
+  type uploadedTime = string;
 
   interface AedProblemsInfo {
     username: User.Username;
-    title: AedProblems.title;
+    problemsTitle: AedProblems.problemsTitle;
     address: AedProblems.address;
-    info: AedProblems.info;
+    information: AedProblems.information;
     status: AedProblems.status;
+    uploadedTime: AedProblems.uploadedTime;
+  }
+  interface AedProblemsMore {
+    id: AedProblems.id;
+    username: User.Username;
+    problemsTitle: AedProblems.problemsTitle;
+    address: AedProblems.address;
+    information: AedProblems.information;
+    status: AedProblems.status;
+    uploadedTime: AedProblems.uploadedTime;
   }
 }
 
@@ -267,6 +302,7 @@ export interface UpdateAvatar {
 }
 
 export type AedProblemsInfo = AedProblems.AedProblemsInfo;
+export type AedProblemsMore = AedProblems.AedProblemsMore;
 
 type Error =
   | string
@@ -302,6 +338,14 @@ export type UsernameDto = {
 
 export type NewsDto = {
   id: News.id;
+}
+
+export type EventDto = {
+  id: AedEvent.id;
+}
+
+export type ProblemsDto = {
+  id: AedProblems.id;
 }
 
 export type PrivacySetField = {

@@ -1,14 +1,15 @@
-import { newsRSocketApi } from "@/plugins/api";
+import {accessToken, newsRSocketApi} from "@/plugins/api";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { newsApi} from "@/plugins/api/apiUrls";
 import {NewsDto, NewsInfo, NewsMore} from "@/types";
-import {bufToJson, dataBuf, metadataOnlyRoute} from "@/plugins/api/rsocketUtil";
+import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocketUtil";
 @Module({ namespaced: true })
 export default class News extends VuexModule implements NewsMore {
   id = "";
   username = "";
   newsTitle = "";
   content = "";
+  uploadedTime = "";
 
   @Mutation
   setNewsInfo(data: NewsMore) {
@@ -24,7 +25,7 @@ export default class News extends VuexModule implements NewsMore {
       newsRSocketApi().then(newsRSocket=>
           newsRSocket.requestResponse({
             data: dataBuf(data),
-            metadata: metadataOnlyRoute(newsApi.createNews)
+            metadata: metadataBuf(accessToken, newsApi.createNews)
           })
           .subscribe({
             onComplete: value => resolve(bufToJson(value)),
@@ -34,12 +35,12 @@ export default class News extends VuexModule implements NewsMore {
   }
 
   @Action({ commit: "setNewsInfo" })
-  async findNews(data: NewsDto) {
+  async findNewsId(data: NewsDto) {
     return new Promise(resolve => {
       newsRSocketApi().then(newsRSocket=>
           newsRSocket.requestResponse({
             data: dataBuf(data),
-            metadata: metadataOnlyRoute(newsApi.findNews)
+            metadata: metadataBuf(accessToken, newsApi.findNewsId)
           })
           .subscribe({
             onComplete: value => resolve(bufToJson(value)),

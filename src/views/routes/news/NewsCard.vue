@@ -143,10 +143,18 @@ export default class News extends Vue {
   @news.Action createNews!: (data: NewsInfo) => Promise<void>;
 
   sendNews() {
+    const d = new Date();
+    const date =
+      d.toISOString().substring(11, 19) +
+      " " +
+      d.toString().substring(0, 10) +
+      " " +
+      d.toISOString().substring(0, 4);
     this.createNews({
       username: this.username,
       newsTitle: this.title.text,
-      content: this.content.text
+      content: this.content.text,
+      uploadedTime: date
     }).then(() => {
       console.log("news created");
     });

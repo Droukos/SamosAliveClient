@@ -25,17 +25,20 @@ export const authApi: Record<string, string> = {
 
 export const eventApi: Record<string, string> = {
   createEvent: "aed.event.post",
-  findOccurrenceType: "aed.event.get"
+  findOccurrenceType: "aed.event.get",
+  findEventId: "aed.event.getId"
 };
 
 export const newsApi: Record<string, string> = {
   createNews: "news.post",
-  findNews: "news.get"
+  findNews: "news.get",
+  findNewsId: "news.getId"
 };
 
 export const problemsApi: Record<string, string> = {
   createProblems: "aed.problems.post",
-  findProblems: "aed.problems.get"
+  findProblems: "aed.problems.get",
+  findProblemsId: "aed.problems.getId"
 }
 
 export function apiWithVar(api: string, variable: string | undefined) {

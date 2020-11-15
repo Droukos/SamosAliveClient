@@ -20,34 +20,8 @@
         @keyup="searchProblem()"
         outlined
       ></v-text-field>
-      <v-container fluid>
-        <v-row dense>
-          <v-col v-for="item in previewProblems" :key="item.index" :cols="12">
-            <v-card class="mx-auto" outlined>
-              <v-list-item three-line>
-                <v-list-item-content>
-                  <v-list-item-title class="headline mb-1">{{
-                    item.title
-                  }}</v-list-item-title>
-                  <v-list-item-title>{{ item.user }} </v-list-item-title>
-                  <v-list-item-subtitle>{{ item.addr }}</v-list-item-subtitle>
-                </v-list-item-content>
-                <v-list-item-action>
-                  <v-list-item-action-text>{{
-                    item.status
-                  }}</v-list-item-action-text>
-                </v-list-item-action>
-              </v-list-item>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn v-text="$t('history.more')" />
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
     </v-card>
+    <ProblemsListPanel />
     <div class="text-center">
       <v-dialog v-model="dialog">
         <v-card>
@@ -89,13 +63,33 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { AedProblemsInfo, User } from "@/types";
+import problemsListMod from "@/store/modules/dynamic/problemsList";
 
-const aedProblem = namespace("aedProblem");
+const aedProblems = namespace("aedProblems");
 const user = namespace("user");
-const search = namespace("search");
+const problemsList = namespace("problemsList");
 
-@Component
-export default class ProblemList extends Vue {
+@Component({
+  components: {
+    ProblemsListPanel: () =>
+      import(
+        /* webpackChunkName: "ProblemsListPanel" */ "@/components/problems/ProblemsListPanel.vue"
+      )
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      const problemsListCard = vm as ProblemsListCard;
+      const store = problemsListCard.$store;
+      if (!(store && store.state && store.state["problemsList"])) {
+        store.registerModule("problemsList", problemsListMod);
+      }
+    });
+  },
+  beforeDestroy() {
+    this.$store.unregisterModule("problemsList");
+  }
+})
+export default class ProblemsListCard extends Vue {
   model = {
     search: "",
     isLoading: false,
@@ -110,43 +104,59 @@ export default class ProblemList extends Vue {
   };
   dialog = false;
   previewProblems = [];
+  statusString(status: number) {
+    if (status == 1) {
+      return this.$t("events.statusS1");
+    }
+    if (status == 2) {
+      return this.$t("events.statusS2");
+    }
+    if (status == 3) {
+      return this.$t("events.statusS3");
+    }
+  }
 
-  @search.Action fetchProblemsPreview!: (title: string) => Promise<any>;
+  @problemsList.Action fetchProblemsPreview!: (title: string) => Promise<any>;
   @user.State username!: User.Username;
   @user.State address!: string;
-  @aedProblem.Action createAedProblems!: (
+  @aedProblems.Action createAedProblems!: (
     data: AedProblemsInfo
   ) => Promise<void>;
 
   sendAedProblems() {
+    const d = new Date();
+    const date =
+      d.toISOString().substring(11, 19) +
+      " " +
+      d.toString().substring(0, 10) +
+      " " +
+      d.toISOString().substring(0, 4);
     this.createAedProblems({
       username: this.username,
-      title: this.title.text,
+      problemsTitle: this.title.text,
       address: this.address,
-      info: this.info.text,
-      status: "Pending"
+      information: this.info.text,
+      status: 1,
+      uploadedTime: date
     }).then(() => {
       console.log("run");
     });
     this.dialog = false;
   }
 
+  showDialog() {
+    this.dialog = true;
+  }
+
   fetchProblemsPreviewList() {
     setTimeout(() => {
-      this.fetchProblemsPreview(this.model.search)
-        .then(response => {
-          this.previewProblems = response;
-        })
-        .finally(() => (this.model.isLoading = false));
+      this.fetchProblemsPreview(this.model.search).then(response => {
+        this.previewProblems = response;
+      });
     }, 700);
   }
   searchProblem() {
-    this.model.isLoading = true;
     this.fetchProblemsPreviewList();
-  }
-
-  showDialog() {
-    this.dialog = true;
   }
 }
 </script>
