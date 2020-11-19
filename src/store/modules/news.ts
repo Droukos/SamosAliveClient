@@ -9,7 +9,7 @@ export default class News extends VuexModule implements NewsMore {
   username = "";
   newsTitle = "";
   content = "";
-  uploadedTime = "";
+  uploadedTime = [0];
 
   @Mutation
   setNewsInfo(data: NewsMore) {
@@ -17,6 +17,7 @@ export default class News extends VuexModule implements NewsMore {
     this.username = data.username;
     this.newsTitle = data.newsTitle;
     this.content = data.content;
+    this.uploadedTime = data.uploadedTime;
   }
 
   @Action

@@ -7,14 +7,18 @@
       transition="scale-transition"
       type="card"
     >
-      <v-card class="spacing-playground pa-5">
-        <v-spacer></v-spacer>
-        <h2>{{ newsTitle }}</h2>
-        <br />
-        <p>{{ content }}</p>
-        <br />
-        <v-spacer></v-spacer>
-        <p class="text-right">{{ username }}</p>
+      <v-card>
+        <v-card-title class="primary">
+          {{ newsTitle }}
+        </v-card-title>
+        <v-list-item three-line>
+          <v-list-item-content>
+            <v-card-text>{{ content }} </v-card-text>
+            <v-list-item-subtitle bottom
+              >{{ username }} - {{ uploadedTime }}</v-list-item-subtitle
+            >
+          </v-list-item-content>
+        </v-list-item>
       </v-card>
     </v-skeleton-loader>
   </v-main>
@@ -29,19 +33,20 @@ const news = namespace("news");
 @Component({
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      const newsMore = vm as NewsMore;
-      newsMore.findNewsId(to.params.newsID).then(() => {
-        newsMore.loadingSkeleton = false;
+      const newsMoreCard = vm as NewsMoreCard;
+      newsMoreCard.findNewsId(to.params.newsID).then(() => {
+        newsMoreCard.loadingSkeleton = false;
       });
     });
   }
 })
-export default class NewsMore extends Vue {
+export default class NewsMoreCard extends Vue {
   loadingSkeleton = true;
   @news.Action findNewsId!: (id: string) => Promise<any>;
   @news.State id!: string;
   @news.State username!: string;
   @news.State newsTitle!: string;
   @news.State content!: string;
+  @news.State uploadedTime!: string;
 }
 </script>

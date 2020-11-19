@@ -124,20 +124,18 @@ export default class ProblemsListCard extends Vue {
   ) => Promise<void>;
 
   sendAedProblems() {
-    const d = new Date();
-    const date =
+      /*const date =
       d.toISOString().substring(11, 19) +
       " " +
       d.toString().substring(0, 10) +
       " " +
-      d.toISOString().substring(0, 4);
+      d.toISOString().substring(0, 4);*/
     this.createAedProblems({
       username: this.username,
       problemsTitle: this.title.text,
       address: this.address,
       information: this.info.text,
-      status: 1,
-      uploadedTime: date
+      status: 1
     }).then(() => {
       console.log("run");
     });

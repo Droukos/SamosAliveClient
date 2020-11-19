@@ -96,21 +96,13 @@ export default class EventCard extends Vue {
   @aedEvent.Action createAedEvent!: (data: AedEventInfo) => Promise<void>;
 
   sendAedEvent() {
-    const d = new Date();
-    const date =
-      d.toISOString().substring(11, 19) +
-      " " +
-      d.toString().substring(0, 10) +
-      " " +
-      d.toISOString().substring(0, 4);
     this.createAedEvent({
       userid: this.userid,
       username: this.username,
       occurrenceType: this.selected,
       address: this.address,
       comment: this.comment.com,
-      status: 1,
-      requestedTime: date
+      status: 1
     }).then(() => {
       console.log("run");
     });

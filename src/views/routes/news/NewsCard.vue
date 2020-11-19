@@ -20,35 +20,7 @@
         @keyup="searchNews()"
         outlined
       ></v-text-field>
-      <v-container fluid>
-        <v-row dense>
-          <v-col v-for="item in previewNews" :key="item.index" :cols="12">
-            <v-card class="mx-auto" outlined>
-              <v-list-item three-line>
-                <v-list-item-content>
-                  <v-list-item-title class="headline mb-1">{{
-                    item.title
-                  }}</v-list-item-title>
-                  <!--<v-list-item-title>{{ item.previewCont }} </v-list-item-title>-->
-                  <v-list-item-subtitle>{{
-                    previewCont(item)
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-                <v-list-item-action>
-                  <v-list-item-action-text>{{
-                    item.user
-                  }}</v-list-item-action-text>
-                </v-list-item-action>
-              </v-list-item>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn v-text="$t('news.more')" @click="more(item.id)" />
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+      <NewsListPanel />
     </v-card>
     <div class="text-center">
       <v-dialog v-model="dialog">
@@ -94,13 +66,33 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { NewsInfo, User } from "@/types";
+import newsListMod from "@/store/modules/dynamic/newsList.ts";
 
 const news = namespace("news");
 const user = namespace("user");
-const search = namespace("search");
+const newsList = namespace("newsList");
 
-@Component
-export default class News extends Vue {
+@Component({
+  components: {
+    NewsListPanel: () =>
+      import(
+        /* webpackChunkName: "NewsListPanel" */ "@/components/news/NewsListPanel.vue"
+      )
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      const newsCard = vm as NewsCard;
+      const store = newsCard.$store;
+      if (!(store && store.state && store.state["newsList"])) {
+        store.registerModule("newsList", newsListMod);
+      }
+    });
+  },
+  beforeDestroy() {
+    this.$store.unregisterModule("newsList");
+  }
+})
+export default class NewsCard extends Vue {
   model = {
     search: "",
     isLoading: false,
@@ -117,21 +109,11 @@ export default class News extends Vue {
   showDialog() {
     this.dialog = true;
   }
-  previewCont(newsInfo: NewsInfo) {
-    if (newsInfo.content == undefined) {
-      return;
-    }
-    return newsInfo.content.substring(0, 70) + "..";
-  }
-  previewNews = [];
-  @search.Action fetchNewsPreview!: (newsTitle: string) => Promise<any>;
+
+  @newsList.Action fetchNewsPreview!: (newsTitle: string) => Promise<any>;
   fetchNewsPreviewList() {
     setTimeout(() => {
-      this.fetchNewsPreview(this.model.search)
-        .then(response => {
-          this.previewNews = response;
-        })
-        .finally(() => (this.model.isLoading = false));
+      this.fetchNewsPreview(this.model.search);
     }, 700);
   }
   searchNews() {
@@ -143,29 +125,14 @@ export default class News extends Vue {
   @news.Action createNews!: (data: NewsInfo) => Promise<void>;
 
   sendNews() {
-    const d = new Date();
-    const date =
-      d.toISOString().substring(11, 19) +
-      " " +
-      d.toString().substring(0, 10) +
-      " " +
-      d.toISOString().substring(0, 4);
     this.createNews({
       username: this.username,
       newsTitle: this.title.text,
-      content: this.content.text,
-      uploadedTime: date
+      content: this.content.text
     }).then(() => {
       console.log("news created");
     });
     this.dialog = false;
-  }
-
-  more(id: string) {
-    this.$router.push({
-      name: "newsMore",
-      params: { newsID: id }
-    });
   }
 }
 </script>

@@ -28,7 +28,11 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" v-text="$t('history.assign')" />
+          <v-btn
+            color="primary"
+            @click="subTech()"
+            v-text="$t('history.assign')"
+          />
         </v-card-actions>
       </v-card>
     </v-skeleton-loader>
@@ -38,7 +42,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { ProblemsDto } from "@/types";
+import { AedProblemsTechnicalInfo, ProblemsDto } from "@/types";
 
 const aedProblems = namespace("aedProblems");
 
@@ -47,7 +51,6 @@ const aedProblems = namespace("aedProblems");
     next(vm => {
       const problemsMoreCard = vm as ProblemsMoreCard;
       problemsMoreCard.findProblemsId({ id: to.params.problemsID }).then(() => {
-        problemsMoreCard.loadingSkeleton = false;
         problemsMoreCard.loadingSkeleton = false;
       });
     });
@@ -66,7 +69,15 @@ export default class ProblemsMoreCard extends Vue {
     }
   }
   loadingSkeleton = true;
+
+  subTech() {
+    this.subTechnical({ id: this.id, technical: this.username });
+  }
+
   @aedProblems.Action findProblemsId!: (data: ProblemsDto) => Promise<any>;
+  @aedProblems.Action subTechnical!: (
+    data: AedProblemsTechnicalInfo
+  ) => Promise<any>;
   @aedProblems.State id!: string;
   @aedProblems.State username!: string;
   @aedProblems.State problemsTitle!: number;

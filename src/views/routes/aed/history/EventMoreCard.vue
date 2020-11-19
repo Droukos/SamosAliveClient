@@ -16,8 +16,7 @@
             <v-card-text>{{ address }} </v-card-text>
             <v-card-text>{{ comment }} </v-card-text>
             <v-list-item-subtitle bottom
-              >{{ username }} -
-              {{ requestedTime }}</v-list-item-subtitle
+              >{{ username }} - {{ requestedTime }}</v-list-item-subtitle
             >
           </v-list-item-content>
           <v-list-item-action>
@@ -29,7 +28,11 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" v-text="$t('history.assign')" />
+          <v-btn
+            color="primary"
+            @click="subResc()"
+            v-text="$t('history.assign')"
+          />
         </v-card-actions>
       </v-card>
     </v-skeleton-loader>
@@ -39,7 +42,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { EventDto } from "@/types";
+import { AedEventRescuerInfo, EventDto } from "@/types";
 
 const aedEvent = namespace("aedEvent");
 
@@ -77,8 +80,13 @@ export default class EventMoreCard extends Vue {
     }
   }
 
+  subResc() {
+    this.subRescuer({ id: this.id, rescuer: this.username });
+  }
+
   loadingSkeleton = true;
   @aedEvent.Action findEventId!: (data: EventDto) => Promise<any>;
+  @aedEvent.Action subRescuer!: (data: AedEventRescuerInfo) => Promise<any>;
   @aedEvent.State id!: string;
   @aedEvent.State userid!: string;
   @aedEvent.State username!: string;

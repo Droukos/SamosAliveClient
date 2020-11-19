@@ -64,7 +64,7 @@ const routes: Array<RouteConfig> = [
             name: "newsMore",
             component: () =>
                 import(
-                    /* webpackChunkName: "NewsMore" */ "@/views/routes/news/NewsMore.vue"
+                    /* webpackChunkName: "NewsMore" */ "@/views/routes/news/NewsMoreCard.vue"
                     ),
             props: true,
         },
