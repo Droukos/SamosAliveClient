@@ -6,7 +6,7 @@ import {
   AedEventMore,
   AedEventInfo,
   EventDto,
-  AedEventRescuerInfo
+  AedEventRescuerInfo, AedEventCloseInfo
 } from "@/types";
 @Module({ namespaced: true })
 export default class AedEvent extends VuexModule implements AedEventMore {
@@ -78,6 +78,23 @@ export default class AedEvent extends VuexModule implements AedEventMore {
             onComplete: value => resolve(bufToJson(value)),
             onError: error => console.error(error)
           })
+      );
+    });
+  }
+
+  @Action
+  async closeAedEvent(data: AedEventCloseInfo) {
+    return new Promise(resolve => {
+      aedRSocketApi().then(aedRSocket =>
+          aedRSocket
+              .requestResponse({
+                data: dataBuf(data),
+                metadata: metadataBuf(accessToken, eventApi.closeAedEvent)
+              })
+              .subscribe({
+                onComplete: value => resolve(bufToJson(value)),
+                onError: error => console.error(error)
+              })
       );
     });
   }

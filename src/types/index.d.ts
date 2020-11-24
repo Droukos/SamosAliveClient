@@ -214,6 +214,7 @@ declare namespace AedEvent {
   type status = number;
   type requestedTime = number [];
   type rescuer = string;
+  type conclusion = string;
 
   interface AedEventInfo {
     userid: User.UserId;
@@ -243,12 +244,18 @@ declare namespace AedEvent {
     id: AedEvent.id;
     rescuer: AedEvent.rescuer;
   }
+
+  interface AedEventCloseInfo {
+    id: AedEvent.id,
+    conclusion: AedEvent.conclusion
+  }
 }
 //export type occurrenceType = AedEvent.occurrenceType;
 export type AedEventInfo = AedEvent.AedEventInfo;
 export type AedEventMore = AedEvent.AedEventMore;
-export type AedSearchInfo= AedEvent.AedSearchInfo;
-export type AedEventRescuerInfo= AedEvent.AedEventRescuerInfo;
+export type AedSearchInfo = AedEvent.AedSearchInfo;
+export type AedEventRescuerInfo = AedEvent.AedEventRescuerInfo;
+export type AedEventCloseInfo = AedEvent.AedEventCloseInfo;
 
 declare namespace News {
   type id = string;
@@ -282,6 +289,7 @@ declare namespace AedProblems {
   type status = number;
   type uploadedTime = number [];
   type technical = string;
+  type conclusion = string;
 
   interface AedProblemsInfo {
     username: User.Username;
@@ -303,16 +311,20 @@ declare namespace AedProblems {
     id: AedProblems.id;
     technical: AedProblems.technical;
   }
+  interface AedProblemsCloseInfo {
+    id: AedProblems.id;
+    conclusion: AedProblems.conclusion;
+  }
 }
+export type AedProblemsInfo = AedProblems.AedProblemsInfo;
+export type AedProblemsMore = AedProblems.AedProblemsMore;
+export type AedProblemsTechnicalInfo = AedProblems.AedProblemsTechnicalInfo;
+export type AedProblemsCloseInfo = AedProblems.AedProblemsCloseInfo;
 
 export interface UpdateAvatar {
   userid: User.UserId;
   av: File;
 }
-
-export type AedProblemsInfo = AedProblems.AedProblemsInfo;
-export type AedProblemsMore = AedProblems.AedProblemsMore;
-export type AedProblemsTechnicalInfo = AedProblems.AedProblemsTechnicalInfo;
 
 type Error =
   | string

@@ -1,7 +1,7 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { problemsApi} from "@/plugins/api/apiUrls";
-import {AedProblemsMore, AedProblemsInfo, ProblemsDto, AedProblemsTechnicalInfo} from "@/types";
+import {AedProblemsMore, AedProblemsInfo, ProblemsDto, AedProblemsTechnicalInfo, AedProblemsCloseInfo} from "@/types";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocketUtil";
 @Module({ namespaced: true })
 export default class AedProblems extends VuexModule implements AedProblemsMore {
@@ -72,6 +72,22 @@ export default class AedProblems extends VuexModule implements AedProblemsMore {
       );
     });
   }
+    @Action
+    async closeAedProblems(data: AedProblemsCloseInfo) {
+        return new Promise(resolve => {
+            aedRSocketApi().then(aedRSocket =>
+                aedRSocket
+                    .requestResponse({
+                        data: dataBuf(data),
+                        metadata: metadataBuf(accessToken, problemsApi.closeAedProblems)
+                    })
+                    .subscribe({
+                        onComplete: value => resolve(bufToJson(value)),
+                        onError: error => console.error(error)
+                    })
+            );
+        });
+    }
 }
 //@Action
 //async createAedProblems(data: AedProblemsInfo) {

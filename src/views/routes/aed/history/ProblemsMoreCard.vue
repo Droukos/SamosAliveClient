@@ -28,11 +28,51 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            @click="subTech()"
-            v-text="$t('history.assign')"
-          />
+          <div v-if="checkStatus(status) == 2">
+            <v-btn
+              color="primary"
+              @click="openDialog()"
+              v-text="$t('history.complete')"
+            />
+            <v-row justify="center">
+              <v-dialog v-model="dialog" persistent>
+                <v-card>
+                  <v-card-title
+                    class="headline"
+                    v-text="$t('history.conclusion')"
+                  />
+                  <v-textarea
+                    v-model="message"
+                    maxlength="200"
+                    solo
+                  ></v-textarea>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="dialog = false"
+                      v-text="$t('general.cancel')"
+                    >
+                    </v-btn>
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="closeProblems()"
+                      v-text="$t('history.complete')"
+                    /><!--TODO refresh page-->
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-row>
+          </div>
+          <div v-else-if="checkStatus(status) == 1">
+            <v-btn
+              color="primary"
+              @click="subTech()"
+              v-text="$t('history.assign')"
+            />
+          </div>
         </v-card-actions>
       </v-card>
     </v-skeleton-loader>
@@ -42,7 +82,11 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedProblemsTechnicalInfo, ProblemsDto } from "@/types";
+import {
+  AedProblemsCloseInfo,
+  AedProblemsTechnicalInfo,
+  ProblemsDto
+} from "@/types";
 
 const aedProblems = namespace("aedProblems");
 
@@ -57,6 +101,11 @@ const aedProblems = namespace("aedProblems");
   }
 })
 export default class ProblemsMoreCard extends Vue {
+  message = "";
+  dialog = false;
+  openDialog() {
+    this.dialog = true;
+  }
   statusString(status: number) {
     if (status == 1) {
       return this.$t("events.statusS1");
@@ -70,13 +119,26 @@ export default class ProblemsMoreCard extends Vue {
   }
   loadingSkeleton = true;
 
+  checkStatus(status: number) {
+    if (status == 1) return 1;
+    else if (status == 2) return 2;
+    else return 3;
+  }
+
   subTech() {
     this.subTechnical({ id: this.id, technical: this.username });
+  }
+
+  closeProblems() {
+    this.closeAedProblems({ id: this.id, conclusion: this.message });
   }
 
   @aedProblems.Action findProblemsId!: (data: ProblemsDto) => Promise<any>;
   @aedProblems.Action subTechnical!: (
     data: AedProblemsTechnicalInfo
+  ) => Promise<any>;
+  @aedProblems.Action closeAedProblems!: (
+    data: AedProblemsCloseInfo
   ) => Promise<any>;
   @aedProblems.State id!: string;
   @aedProblems.State username!: string;

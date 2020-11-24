@@ -66,6 +66,8 @@
     "main": "This page is a help for faster navigation and assignment between existing events and problems. (Only visible in certain roles)",
     "more": "More info",
     "assign": "Assignment",
+    "complete": "Complete",
+    "conclusion": "Report possible complications and outcome (optional)",
     "occurrence": "Below is the list of all pending occurrences",
     "problem": "Below is the list of all the pending defibrillator problems",
     "searchEvent": "Search for occurrence",
