@@ -2,8 +2,8 @@ import {Action, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import store from "@/store";
 import { AedProblemsInfo} from "@/types";
 import {accessToken, aedRSocketApi} from "@/plugins/api";
-import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocketUtil";
-import {problemsApi} from "@/plugins/api/apiUrls";
+import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocket-util";
+import {problemsApi} from "@/plugins/api/api-urls";
 
 @Module({
     dynamic: true,

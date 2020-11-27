@@ -1,8 +1,8 @@
 import { Action, Module, VuexModule } from "vuex-module-decorators";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
-import { problemsApi } from "@/plugins/api/apiUrls";
+import { problemsApi } from "@/plugins/api/api-urls";
 import { AedProblemsInfo } from "@/types";
-import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocketUtil";
+import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 @Module({ namespaced: true })
 export default class AedProblems extends VuexModule {
   @Action

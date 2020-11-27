@@ -8,8 +8,8 @@ import {
 } from "@/types";
 import { statusOptions } from "@/plugins/enums/event-options";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
-import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocketUtil";
-import { problemsApi } from "@/plugins/api/apiUrls";
+import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
+import { problemsApi } from "@/plugins/api/api-urls";
 
 @Module({
   dynamic: true,

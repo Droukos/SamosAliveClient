@@ -2,8 +2,8 @@ import {Action, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import store from "@/store";
 import {AedEventCloseInfo, AedEventMore, AedEventRescuerInfo, EventDto} from "@/types";
 import {accessToken, aedRSocketApi} from "@/plugins/api";
-import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocketUtil";
-import {eventApi} from "@/plugins/api/apiUrls";
+import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocket-util";
+import {eventApi} from "@/plugins/api/api-urls";
 import {statusOptions} from "@/plugins/enums/event-options";
 
 @Module({

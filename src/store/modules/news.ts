@@ -1,8 +1,8 @@
 import {accessToken, newsRSocketApi} from "@/plugins/api";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
-import { newsApi} from "@/plugins/api/apiUrls";
+import { newsApi} from "@/plugins/api/api-urls";
 import {NewsDto, NewsInfo, NewsMore} from "@/types";
-import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocketUtil";
+import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocket-util";
 @Module({ namespaced: true })
 export default class News extends VuexModule implements NewsMore {
   id = "";

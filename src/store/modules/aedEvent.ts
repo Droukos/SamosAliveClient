@@ -1,7 +1,7 @@
-import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocketUtil";
+import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { Action, Module, VuexModule } from "vuex-module-decorators";
-import { eventApi } from "@/plugins/api/apiUrls";
+import { eventApi } from "@/plugins/api/api-urls";
 import {
   AedEventInfo,
 } from "@/types";

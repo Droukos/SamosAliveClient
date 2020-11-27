@@ -2,8 +2,8 @@ import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
 import { NewsInfo } from "@/types";
 import { accessToken, newsRSocketApi } from "@/plugins/api";
-import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocketUtil";
-import { newsApi } from "@/plugins/api/apiUrls";
+import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
+import { newsApi } from "@/plugins/api/api-urls";
 
 @Module({
   dynamic: true,
