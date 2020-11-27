@@ -1,5 +1,12 @@
 export default {
-  ARRYTHMIAS: 0,
-  BREATHING: 1,
-  SENSES: 2,
+  UNKNOWN: 0,
+  ARRYTHMIAS: 1,
+  BREATHING: 2,
+  SENSES: 3,
 };
+export const statusOptions = {
+  UNKNOWN: 0,
+  PENDING: 1,
+  ONPROGRESS: 2,
+  COMPLETED: 3
+}

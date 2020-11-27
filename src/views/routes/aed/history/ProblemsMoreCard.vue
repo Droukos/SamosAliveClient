@@ -28,7 +28,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <div v-if="checkStatus(status) == 2">
+          <div v-if="status === allStatus.ONPROGRESS">
             <v-btn
               color="primary"
               @click="openDialog()"
@@ -66,7 +66,7 @@
               </v-dialog>
             </v-row>
           </div>
-          <div v-else-if="checkStatus(status) == 1">
+          <div v-else-if="status === allStatus.PENDING">
             <v-btn
               color="primary"
               @click="subTech()"
@@ -87,13 +87,19 @@ import {
   AedProblemsTechnicalInfo,
   ProblemsDto
 } from "@/types";
+import aedProblemsInfoMod from "@/store/modules/dynamic/aedProblemsInfo";
+import { statusOptions } from "@/plugins/enums/event-options";
 
-const aedProblems = namespace("aedProblems");
+const aedProblemsInfo = namespace("aedProblemsInfo");
 
 @Component({
   beforeRouteEnter(to, from, next) {
     next(vm => {
       const problemsMoreCard = vm as ProblemsMoreCard;
+      const store = problemsMoreCard.$store;
+      if (!(store && store.state && store.state["aedProblemsInfo"])) {
+        store.registerModule("aedProblemsInfo", aedProblemsInfoMod);
+      }
       problemsMoreCard.findProblemsId({ id: to.params.problemsID }).then(() => {
         problemsMoreCard.loadingSkeleton = false;
       });
@@ -106,6 +112,9 @@ export default class ProblemsMoreCard extends Vue {
   openDialog() {
     this.dialog = true;
   }
+  loadingSkeleton = true;
+  allStatus = statusOptions;
+
   statusString(status: number) {
     if (status == 1) {
       return this.$t("events.statusS1");
@@ -117,13 +126,6 @@ export default class ProblemsMoreCard extends Vue {
       return this.$t("events.statusS3");
     }
   }
-  loadingSkeleton = true;
-
-  checkStatus(status: number) {
-    if (status == 1) return 1;
-    else if (status == 2) return 2;
-    else return 3;
-  }
 
   subTech() {
     this.subTechnical({ id: this.id, technical: this.username });
@@ -133,19 +135,19 @@ export default class ProblemsMoreCard extends Vue {
     this.closeAedProblems({ id: this.id, conclusion: this.message });
   }
 
-  @aedProblems.Action findProblemsId!: (data: ProblemsDto) => Promise<any>;
-  @aedProblems.Action subTechnical!: (
+  @aedProblemsInfo.Action findProblemsId!: (data: ProblemsDto) => Promise<any>;
+  @aedProblemsInfo.Action subTechnical!: (
     data: AedProblemsTechnicalInfo
   ) => Promise<any>;
-  @aedProblems.Action closeAedProblems!: (
+  @aedProblemsInfo.Action closeAedProblems!: (
     data: AedProblemsCloseInfo
   ) => Promise<any>;
-  @aedProblems.State id!: string;
-  @aedProblems.State username!: string;
-  @aedProblems.State problemsTitle!: number;
-  @aedProblems.State address!: string;
-  @aedProblems.State information!: string;
-  @aedProblems.State status!: number;
-  @aedProblems.State uploadedTime!: string;
+  @aedProblemsInfo.State id!: string;
+  @aedProblemsInfo.State username!: string;
+  @aedProblemsInfo.State problemsTitle!: number;
+  @aedProblemsInfo.State address!: string;
+  @aedProblemsInfo.State information!: string;
+  @aedProblemsInfo.State status!: number;
+  @aedProblemsInfo.State uploadedTime!: string;
 }
 </script>

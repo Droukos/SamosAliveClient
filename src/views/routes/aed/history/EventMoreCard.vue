@@ -28,7 +28,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <div v-if="checkStatus(status) == 2">
+          <div v-if="status === allStatus.ONPROGRESS">
             <v-btn
               color="primary"
               @click="openDialog()"
@@ -66,7 +66,7 @@
               </v-dialog>
             </v-row>
           </div>
-          <div v-else-if="checkStatus(status) == 1">
+          <div v-else-if="status === allStatus.PENDING">
             <v-btn
               color="primary"
               @click="subResc()"
@@ -83,17 +83,26 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { AedEventCloseInfo, AedEventRescuerInfo, EventDto } from "@/types";
+import aedEventInfoMod from "@/store/modules/dynamic/aedEventInfo";
+import { statusOptions } from "@/plugins/enums/event-options";
 
-const aedEvent = namespace("aedEvent");
+const aedEventInfo = namespace("aedEventInfo");
 
 @Component({
   beforeRouteEnter(to, from, next) {
     next(vm => {
       const eventMoreCard = vm as EventMoreCard;
+      const store = eventMoreCard.$store;
+      if (!(store && store.state && store.state["aedEventInfo"])) {
+        store.registerModule("aedEventInfo", aedEventInfoMod);
+      }
       eventMoreCard.findEventId({ id: to.params.eventID }).then(() => {
         eventMoreCard.loadingSkeleton = false;
       });
     });
+  },
+  beforeDestroy() {
+    this.$store.unregisterModule("aedEventInfo");
   }
 })
 export default class EventMoreCard extends Vue {
@@ -102,6 +111,7 @@ export default class EventMoreCard extends Vue {
   openDialog() {
     this.dialog = true;
   }
+  allStatus = statusOptions;
 
   eventString(occ: number) {
     if (occ == 1) {
@@ -127,12 +137,6 @@ export default class EventMoreCard extends Vue {
     }
   }
 
-  checkStatus(status: number) {
-    if (status == 1) return 1;
-    else if (status == 2) return 2;
-    else return 3;
-  }
-
   subResc() {
     this.subRescuer({ id: this.id, rescuer: this.username });
   }
@@ -142,16 +146,18 @@ export default class EventMoreCard extends Vue {
   }
 
   loadingSkeleton = true;
-  @aedEvent.Action findEventId!: (data: EventDto) => Promise<any>;
-  @aedEvent.Action subRescuer!: (data: AedEventRescuerInfo) => Promise<any>;
-  @aedEvent.Action closeAedEvent!: (data: AedEventCloseInfo) => Promise<any>;
-  @aedEvent.State id!: string;
-  @aedEvent.State userid!: string;
-  @aedEvent.State username!: string;
-  @aedEvent.State occurrenceType!: number;
-  @aedEvent.State address!: string;
-  @aedEvent.State comment!: string;
-  @aedEvent.State status!: number;
-  @aedEvent.State requestedTime!: string;
+  @aedEventInfo.Action findEventId!: (data: EventDto) => Promise<any>;
+  @aedEventInfo.Action subRescuer!: (data: AedEventRescuerInfo) => Promise<any>;
+  @aedEventInfo.Action closeAedEvent!: (
+    data: AedEventCloseInfo
+  ) => Promise<any>;
+  @aedEventInfo.State id!: string;
+  @aedEventInfo.State userid!: string;
+  @aedEventInfo.State username!: string;
+  @aedEventInfo.State occurrenceType!: number;
+  @aedEventInfo.State address!: string;
+  @aedEventInfo.State comment!: string;
+  @aedEventInfo.State status!: number;
+  @aedEventInfo.State requestedTime!: string;
 }
 </script>

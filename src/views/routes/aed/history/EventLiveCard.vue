@@ -38,28 +38,6 @@ const eventList = namespace("eventList");
   }
 })
 export default class EventLiveCard extends Vue {
-  eventString(occ: number) {
-    if (occ == 1) {
-      return this.$t("events.eventS1");
-    }
-    if (occ == 2) {
-      return this.$t("events.eventS2");
-    }
-    if (occ == 3) {
-      return this.$t("events.eventS3");
-    }
-  }
-  statusString(status: number) {
-    if (status == 1) {
-      return this.$t("events.statusS1");
-    }
-    if (status == 2) {
-      return this.$t("events.statusS2");
-    }
-    if (status == 3) {
-      return this.$t("events.statusS3");
-    }
-  }
   @eventList.Action fetchEventsPreview!: (data: AedSearchInfo) => Promise<any>;
 
   fetchEventsPreviewList() {
