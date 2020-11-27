@@ -64,11 +64,15 @@
     "eventS1": "He has arrhythmias",
     "eventS2": "He can't breathe",
     "eventS3": "He lost his senses",
+    "statusS1": "Pending",
+    "statusS2": "On progress",
+    "statusS3": "Completed",
     "form": "Complete the form",
     "problemList": "Technical problems",
     "problemListInfo": "This is a list of current pending technical problems",
     "send": "Send alert",
-    "situation": "Situation.."
+    "situation": "Situation..",
+    "live": "Live events"
   },
   "fields": {
     "address": "Address",
@@ -101,7 +105,10 @@
   },
   "history": {
     "main": "This page is a help for faster navigation and assignment between existing events and problems. (Only visible in certain roles)",
-    "more": "Assignment",
+    "more": "More info",
+    "assign": "Assignment",
+    "complete": "Complete",
+    "conclusion": "Report possible complications and outcome (optional)",
     "occurrence": "Below is the list of all pending occurrences",
     "problem": "Below is the list of all the pending defibrillator problems",
     "searchEvent": "Search for occurrence",
@@ -163,7 +170,8 @@
     "form": "Report an issue",
     "problemContent": "Defibrillator issue",
     "problemTitle": "Issue title",
-    "submit": "Submit"
+    "submit": "Submit",
+    "live": "Live reports"
   },
   "register": {
     "header": "Complete the form to create a SamosAlive profile",

@@ -17,64 +17,11 @@
         class="pt-1"
         :counter="model.counter"
         :label="model.label"
-        prepend-icon="mdi-database-search"
         @keyup="searchNews()"
         outlined
       ></v-text-field>
-      <v-container fluid>
-        <v-row dense>
-          <v-col v-for="item in previewNews" :key="item.index" :cols="12">
-            <v-card class="mx-auto" outlined>
-              <v-list-item three-line>
-                <v-list-item-content>
-                  <v-list-item-title class="headline mb-1">{{
-                    item.title
-                  }}</v-list-item-title>
-                  <v-list-item-title>{{ item.cont }} </v-list-item-title>
-                  <v-list-item-subtitle>{{ item.cont }}</v-list-item-subtitle>
-                </v-list-item-content>
-                <v-list-item-action>
-                  <v-list-item-action-text>{{
-                    item.user
-                  }}</v-list-item-action-text>
-                </v-list-item-action>
-              </v-list-item>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn v-text="$t('news.more')" />
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+      <NewsListPanel />
     </v-card>
-    <!--<v-container fluid>
-      <v-row dense>
-        <v-col v-for="item in getItems" :key="item.index" :cols="12">
-          <v-card class="mx-auto" outlined>
-            <v-list-item three-line>
-              <v-list-item-content>
-                <div class="overline mb-4">{{ item.date }}</div>
-                <v-list-item-title class="headline mb-1">{{
-                  item.title
-                }}</v-list-item-title>
-                <v-list-item-subtitle>{{ item.content }}</v-list-item-subtitle>
-              </v-list-item-content>
-
-              <v-list-item-avatar tile size="80">{{
-                item.img
-              }}</v-list-item-avatar>
-            </v-list-item>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn v-text="$t('news.more')" />
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>-->
     <div class="text-center">
       <v-dialog v-model="dialog">
         <v-card>
@@ -99,6 +46,9 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn @click="dialog = false">
+              Cancel
+            </v-btn>
             <v-btn
               color="primary"
               @click="sendNews()"
@@ -116,13 +66,33 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { NewsInfo, User } from "@/types";
+import newsListMod from "@/store/modules/dynamic/newsList.ts";
 
 const news = namespace("news");
 const user = namespace("user");
-const search = namespace("search");
+const newsList = namespace("newsList");
 
-@Component
-export default class News extends Vue {
+@Component({
+  components: {
+    NewsListPanel: () =>
+      import(
+        /* webpackChunkName: "NewsListPanel" */ "@/components/news/NewsListPanel.vue"
+      )
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      const newsCard = vm as NewsCard;
+      const store = newsCard.$store;
+      if (!(store && store.state && store.state["newsList"])) {
+        store.registerModule("newsList", newsListMod);
+      }
+    });
+  },
+  beforeDestroy() {
+    this.$store.unregisterModule("newsList");
+  }
+})
+export default class NewsCard extends Vue {
   model = {
     search: "",
     isLoading: false,
@@ -139,15 +109,11 @@ export default class News extends Vue {
   showDialog() {
     this.dialog = true;
   }
-  previewNews = [];
-  @search.Action fetchNewsPreview!: (newsTitle: string) => Promise<any>;
+
+  @newsList.Action fetchNewsPreview!: (newsTitle: string) => Promise<any>;
   fetchNewsPreviewList() {
     setTimeout(() => {
-      this.fetchNewsPreview(this.model.search)
-        .then(response => {
-          this.previewNews = response;
-        })
-        .finally(() => (this.model.isLoading = false));
+      this.fetchNewsPreview(this.model.search);
     }, 700);
   }
   searchNews() {
@@ -155,13 +121,11 @@ export default class News extends Vue {
     this.fetchNewsPreviewList();
   }
 
-  @user.State userid!: User.UserId;
   @user.State username!: User.Username;
   @news.Action createNews!: (data: NewsInfo) => Promise<void>;
 
   sendNews() {
     this.createNews({
-      userid: this.userid,
       username: this.username,
       newsTitle: this.title.text,
       content: this.content.text

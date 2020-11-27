@@ -21,12 +21,15 @@ export const authApi: Record<string, string> = {
   checkUsername: "auth.username.check",
   checkEmail: "auth.email.check",
   accessToken: "/auth/token/access_token",
-  userData: "/auth/token/user_data",
+  userData: "/auth/token/user_data"
 };
 
 export const eventApi: Record<string, string> = {
   createEvent: "aed.event.post",
   findOccurrenceType: "aed.event.get",
+  findEventId: "aed.event.getId",
+  subRescuer: "aed.event.subRescuer",
+  closeAedEvent: "aed.event.close"
 };
 
 export const aedDeviceApi: Record<string, string> = {
@@ -38,12 +41,16 @@ export const aedDeviceApi: Record<string, string> = {
 export const newsApi: Record<string, string> = {
   createNews: "news.post",
   findNews: "news.get",
+  findNewsId: "news.getId"
 };
 
 export const problemsApi: Record<string, string> = {
   createProblems: "aed.problems.post",
   findProblems: "aed.problems.get",
-};
+  findProblemsId: "aed.problems.getId",
+  subTechnical: "aed.problems.subTechnical",
+  closeAedProblems: "aed.problems.close"
+}
 
 export function apiWithVar(api: string, variable: string | undefined) {
   return api + "/" + variable;

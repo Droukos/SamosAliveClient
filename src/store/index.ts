@@ -6,7 +6,7 @@ import profile from "@/store/modules/profile";
 import search from "@/store/modules/search";
 import aedEvent from "@/store/modules/aedEvent";
 import news from "@/store/modules/news";
-import aedProblem from "@/store/modules/aedProblem";
+import aedProblems from "@/store/modules/aedProblems";
 
 Vue.use(Vuex);
 
@@ -18,6 +18,6 @@ export default new Vuex.Store({
     profile: profile,
     aedEvent: aedEvent,
     news: news,
-    aedProblem: aedProblem,
+    aedProblems: aedProblems,
   },
 });

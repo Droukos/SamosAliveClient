@@ -19,27 +19,30 @@
 
             <v-card-text>
               <h5 v-text="$t('events.eventInfo')" />
-              <v-combobox
-                v-model="select"
+              <v-select
+                v-model="selected"
                 :items="items"
-                :label="selected.msg"
-                required
-              ></v-combobox>
-
+                item-text="msg"
+                item-value="code"
+              ></v-select>
               <h5 v-text="$t('events.address')" />
-              <v-textarea solo disabled :label="addresses.msg"></v-textarea>
+              <v-text-field solo disabled :label="addresses.msg"></v-text-field>
               <h5 v-text="$t('events.comment')" />
-              <v-text-field
+              <v-textarea
                 v-model="comment.com"
                 :label="comment.msg"
+                maxlength="200"
                 solo
-              ></v-text-field>
+              ></v-textarea>
             </v-card-text>
           </form>
           <v-divider></v-divider>
 
           <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn @click="dialog = false">
+              Cancel
+            </v-btn>
             <v-btn
               color="primary"
               @click="sendAedEvent()"
@@ -52,7 +55,7 @@
       </v-dialog>
     </div>
 
-    <!--<span>Κατάσταση ασθενούς: {{ selected }}</span>-->
+    <!--<span>Κατάσταση ασθενούς: {{ selected }}</span>>-->
   </v-main>
 </template>
 
@@ -67,13 +70,13 @@ const user = namespace("user");
 @Component
 export default class EventCard extends Vue {
   dialog = false;
-  select = [];
   items = [
-    this.$t("events.eventS1"),
-    this.$t("events.eventS2"),
-    this.$t("events.eventS3")
+    { msg: this.$t("events.eventS1"), code: 1 },
+    { msg: this.$t("events.eventS2"), code: 2 },
+    { msg: this.$t("events.eventS3"), code: 3 }
   ];
-  selected = {
+  selected = this.items[0].code;
+  select = {
     msg: this.$t("events.situation")
   };
   addresses = {
@@ -96,10 +99,10 @@ export default class EventCard extends Vue {
     this.createAedEvent({
       userid: this.userid,
       username: this.username,
-      occurrenceType: "1",
+      occurrenceType: this.selected,
       address: this.address,
       comment: this.comment.com,
-      status: "Pending"
+      status: 1
     }).then(() => {
       console.log("run");
     });

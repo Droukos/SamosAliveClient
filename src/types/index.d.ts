@@ -159,6 +159,7 @@ declare namespace Login {
 
 export type UserLogin = Login.UserLogin;
 export type LoginResponse = Login.LoginResponse;
+
 export interface PersonalInfo {
   name: User.Name;
   surname: User.Surname;
@@ -206,10 +207,14 @@ export interface UpdateUserPersonal {
 }
 
 declare namespace AedEvent {
-  type occurrenceType = string;
+  type id = string;
+  type occurrenceType = number;
   type address = string;
   type comment = string;
-  type status = string;
+  type status = number;
+  type requestedTime = number [];
+  type rescuer = string;
+  type conclusion = string;
 
   interface AedEventInfo {
     userid: User.UserId;
@@ -219,46 +224,107 @@ declare namespace AedEvent {
     comment: AedEvent.comment;
     status: AedEvent.status;
   }
+  interface AedEventMore{
+    id: AedEvent.id;
+    userid: User.UserId;
+    username: User.Username;
+    occurrenceType: AedEvent.occurrenceType;
+    address: AedEvent.address;
+    comment: AedEvent.comment;
+    status: AedEvent.status;
+    requestedTime: AedEvent.requestedTime;
+  }
+
+  interface AedSearchInfo {
+    occurrenceType: AedEvent.occurrenceType;
+    status: AedEvent.status;
+  }
+
+  interface AedEventRescuerInfo {
+    id: AedEvent.id;
+    rescuer: AedEvent.rescuer;
+  }
+
+  interface AedEventCloseInfo {
+    id: AedEvent.id,
+    conclusion: AedEvent.conclusion
+  }
 }
 //export type occurrenceType = AedEvent.occurrenceType;
 export type AedEventInfo = AedEvent.AedEventInfo;
+export type AedEventMore = AedEvent.AedEventMore;
+export type AedSearchInfo = AedEvent.AedSearchInfo;
+export type AedEventRescuerInfo = AedEvent.AedEventRescuerInfo;
+export type AedEventCloseInfo = AedEvent.AedEventCloseInfo;
 
 declare namespace News {
+  type id = string;
   type newsTitle = string;
   type content = string;
+  type uploadedTime = number [];
 
   interface NewsInfo {
-    userid: User.UserId;
     username: User.Username;
     newsTitle: News.newsTitle;
     content: News.content;
   }
+
+  interface NewsMore {
+    id: News.id;
+    username: User.Username;
+    newsTitle: News.newsTitle;
+    content: News.content;
+    uploadedTime: News.uploadedTime;
+  }
 }
 
 export type NewsInfo = News.NewsInfo;
+export type NewsMore = News.NewsMore;
 
 declare namespace AedProblems {
-  type title = string;
+  type id = string;
+  type problemsTitle = string;
   type address = string;
-  type info = string;
-  type status = string;
+  type information = string;
+  type status = number;
+  type uploadedTime = number [];
+  type technical = string;
+  type conclusion = string;
 
   interface AedProblemsInfo {
-    userid: User.UserId;
     username: User.Username;
-    title: AedProblems.title;
+    problemsTitle: AedProblems.problemsTitle;
     address: AedProblems.address;
-    info: AedProblems.info;
+    information: AedProblems.information;
     status: AedProblems.status;
   }
+  interface AedProblemsMore {
+    id: AedProblems.id;
+    username: User.Username;
+    problemsTitle: AedProblems.problemsTitle;
+    address: AedProblems.address;
+    information: AedProblems.information;
+    status: AedProblems.status;
+    uploadedTime: AedProblems.uploadedTime;
+  }
+  interface AedProblemsTechnicalInfo {
+    id: AedProblems.id;
+    technical: AedProblems.technical;
+  }
+  interface AedProblemsCloseInfo {
+    id: AedProblems.id;
+    conclusion: AedProblems.conclusion;
+  }
 }
+export type AedProblemsInfo = AedProblems.AedProblemsInfo;
+export type AedProblemsMore = AedProblems.AedProblemsMore;
+export type AedProblemsTechnicalInfo = AedProblems.AedProblemsTechnicalInfo;
+export type AedProblemsCloseInfo = AedProblems.AedProblemsCloseInfo;
 
 export interface UpdateAvatar {
   userid: User.UserId;
   av: File;
 }
-
-export type AedProblemsInfo = AedProblems.AedProblemsInfo;
 
 type Error =
   | string
@@ -290,6 +356,18 @@ export type UserIdDto = {
 
 export type UsernameDto = {
   username: User.Username;
+}
+
+export type NewsDto = {
+  id: News.id;
+}
+
+export type EventDto = {
+  id: AedEvent.id;
+}
+
+export type ProblemsDto = {
+  id: AedProblems.id;
 }
 
 export type PrivacySetField = {

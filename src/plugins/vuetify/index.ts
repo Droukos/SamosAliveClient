@@ -34,6 +34,8 @@ import {
   mdiMedicalBag,
   mdiAccessPoint,
   mdiHistory,
+  mdiAccessPoint,
+  mdiAntenna,
   mdiCamera,
   mdiOpenInNew
 } from "@mdi/js";
@@ -76,7 +78,10 @@ const MY_ICONS = {
   medicalBag: mdiMedicalBag,
   accessPoint: mdiAccessPoint,
   openNew: mdiOpenInNew,
+  liveEv: mdiAccessPoint,
+  livePr: mdiAntenna,
   camera: mdiCamera,
+  liveEvent: "fas fa-heartbeat",
   appbar: "deep-purple darken-3"
 };
 
