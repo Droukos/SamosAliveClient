@@ -2,7 +2,7 @@ import axios from "axios";
 import router from "@/router";
 import Vue from "vue";
 import VueCookies from "vue-cookies";
-import { authApi } from "./apiUrls";
+import { authApi } from "./api-urls";
 import {
   RSocketClient,
   BufferEncoders,
@@ -240,6 +240,25 @@ export function cdnConn(): Promise<ReactiveSocket<any, any>> {
       onSubscribe: (cancel: CancelCallback) => console.log(cancel)
     })
   );
+}
+
+export function getAccessTokenJwt(): Promise<string> {
+  return new Promise(resolve => {
+    if (accessToken != "") resolve(accessToken);
+    else {
+      const maxTries = 30;
+      return (function someDelay(tries) {
+        if (accessToken != "") resolve(accessToken);
+        else if (tries < maxTries)
+          setTimeout(function() {
+              someDelay(tries);
+          }, 100);
+        else resolve("");
+        tries++;
+        console.log(tries);
+      })(0);
+    }
+  });
 }
 
 export function authRSocketApi() {

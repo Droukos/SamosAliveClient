@@ -6,7 +6,7 @@ import api, {
   authRSocketApi,
   userRSocketApi
 } from "@/plugins/api";
-import { authApi, userApi } from "@/plugins/api/apiUrls";
+import { authApi, userApi } from "@/plugins/api/api-urls";
 import { LoginResponse, UserInfo, UserLogin, UserRegister } from "@/types";
 import VueCookies from "vue-cookies";
 import { AxiosResponse } from "axios";
@@ -15,7 +15,7 @@ import {
   dataBuf,
   metadataBuf,
   metadataOnlyRoute
-} from "@/plugins/api/rsocketUtil";
+} from "@/plugins/api/rsocket-util";
 import {
   setAvailability,
   setAvatar,
@@ -24,7 +24,7 @@ import {
   setNameSurname,
   setRoleModels,
   setUserIdUsername
-} from "@/plugins/userUtil";
+} from "@/plugins/user-util";
 
 Vue.use(VueCookies);
 

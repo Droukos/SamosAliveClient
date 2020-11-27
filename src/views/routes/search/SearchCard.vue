@@ -7,7 +7,7 @@
       :counter="counter"
       :label="label"
       prepend-icon="mdi-database-search"
-      @keyup="search()"
+      @keyup="search(searchOption)"
       outlined
     ></v-text-field>
 
@@ -17,72 +17,41 @@
           v-for="item in searchItems"
           :key="item.id"
           @click="selectTab(item)"
-          >{{ item.label }}</v-tab
-        >
+          >{{ item.label }}
+        </v-tab>
       </v-tabs>
     </v-card>
     <v-divider class="pb-1"></v-divider>
-    <v-card>
-      <v-list three-line>
-        <v-list-item
-          v-for="item in previewUsers"
-          :key="item.id"
-          @click="goToProfile(item.id)"
-        >
-          <v-list-item-avatar>
-            <avatar-base
-              size="190"
-              :username="item.user"
-              style="font-size: 25px;color:black;"
-            ></avatar-base>
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title>
-              <div class="d-flex flex-row">
-                <p class="pr-2" style="font-weight: bold;">{{ item.user }}</p>
-                <v-chip
-                  v-for="role in item.roles"
-                  :key="role"
-                  label
-                  x-small
-                  :class="$helper.getUserRoleColorLabel(role) + ' mr-1'"
-                  style="font-weight: bold"
-                >
-                  {{ $t("roles." + role) }}
-                </v-chip>
-                <p
-                  :class="$helper.getUserStatusColorLabel(item.status)"
-                  style="font-weight: bold;"
-                >
-                  {{ $t("status." + item.status) }}
-                </p>
-              </div>
-            </v-list-item-title>
-            <div class="d-flex flex-row">
-              <p class="grey--text text--darken-1" style="font-size:16px;">
-                {{ item.name }} {{ item.sur }}
-              </p>
-            </div>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-card>
+    <SearchUserPreviewList
+      v-if="searchOption === allOptions.USERS"
+      :previewUsers="previewUsers"
+    />
+    <SearchAedDevicePreviewList
+      v-else-if="searchOption === allOptions.AED_DEVICES"
+      :previewAedDevices="previewAedDevices"
+    />
   </v-content>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Tab } from "@/types";
+import { RequestedPreviewUser, Tab } from "@/types";
 import { namespace } from "vuex-class";
+import debounce from "@/plugins/helpers/debounce";
+import { IAedDevicePreview } from "@/types/aed-device";
+import searchOptions from "@/plugins/enums/search-options";
 
 const search = namespace("search");
 
 @Component({
   components: {
-    AvatarBase: () =>
+    SearchUserPreviewList: () =>
       import(
-        /* webpackChunkName: "AvatarBase" */ /* webpackPreload: true */ "@/components/profile/avatar/AvatarBase.vue"
+        /* webpackChunkName: "SearchUserPreviewList" */ "@/components/search/SearchUserPreviewList.vue"
+      ),
+    SearchAedDevicePreviewList: () =>
+      import(
+        /* webpackChunkName: "SearchAedDevicePreviewList" */ "@/components/search/SearchAedDevicePreviewList.vue"
       )
   }
 })
@@ -90,58 +59,71 @@ export default class SearchCard extends Vue {
   isLoading = false;
   model = "";
   counter = 30;
+  allOptions = searchOptions;
+  searchOption: number = searchOptions.USERS;
   label = "";
-  previewUsers = [];
-  @search.Action fetchUsersPreview!: (user: string) => Promise<any>;
+  previewUsers: RequestedPreviewUser[] = [];
+  previewAedDevices: IAedDevicePreview[] = [];
+  @search.Action fetchUsersPreview!: (
+    user: string
+  ) => Promise<RequestedPreviewUser[]>;
+  @search.Action fetchAedDevicesPreview!: (
+    aedDeviceNickname: string
+  ) => Promise<IAedDevicePreview[]>;
 
   selectTab(tab: Tab) {
     this.label = tab.searchLabel;
     this.counter = tab.counter;
+    this.searchOption = tab.id;
+    console.log(this.searchOption);
   }
-  goToProfile(userId: string) {
-    this.$router.push({
-      name: "user_profile",
-      params: {
-        userID: userId
-      }
-    });
-  }
+
   fetchUserPreviewList() {
-    setTimeout(() => {
-      this.fetchUsersPreview(this.model)
-        .then(response => {
-          this.previewUsers = response;
-        })
-        .finally(() => (this.isLoading = false));
-    }, 700);
-  }
-  search() {
     if (this.model.length < 2) {
       return;
     }
-
     this.isLoading = true;
-    this.fetchUserPreviewList();
+    this.fetchUsersPreview(this.model)
+      .then(response => (this.previewUsers = response))
+      .finally(() => (this.isLoading = false));
   }
+
+  fetchAedDevicesPreviewList() {
+    if (this.model.length < 2) {
+      return;
+    }
+    this.isLoading = true;
+    this.fetchAedDevicesPreview(this.model)
+      .then(response => (this.previewAedDevices = response))
+      .finally(() => (this.isLoading = false));
+  }
+
+  search = debounce(searchOption => {
+    if (searchOption === searchOptions.USERS) {
+      this.fetchUserPreviewList();
+    } else if (searchOption === searchOptions.AED_DEVICES) {
+      this.fetchAedDevicesPreviewList();
+    }
+  }, 700);
 
   get searchItems() {
     return [
       {
-        id: 0,
+        id: searchOptions.USERS,
         title: this.$t("search.searchObj", [this.$t("fields.profile")]),
         counter: 20,
         label: this.$t("fields.profile"),
         searchLabel: `${this.$t("search.title")} ${this.$t("fields.username")}`
       },
       {
-        id: 1,
+        id: searchOptions.AED_DEVICES,
         title: this.$t("search.searchObj", [this.$t("fields.device")]),
         counter: 20,
         label: this.$t("fields.device"),
         searchLabel: `${this.$t("search.title")} ${this.$t("fields.device")}`
       },
       {
-        id: 2,
+        id: searchOptions.ANNOUNCEMENTS,
         title: this.$t("search.searchObj", [this.$t("news.title")]),
         counter: 50,
         label: this.$t("news.title"),

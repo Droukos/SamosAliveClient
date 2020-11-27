@@ -9,31 +9,31 @@
         type="card"
       >
         <v-card class="mx-auto" max-width="934" outlined>
-          <v-sheet v-show="!this.$vuetify.breakpoint.xs">
+          <v-sheet v-if="!this.$vuetify.breakpoint.xs">
             <div class="d-flex flex-row align-start">
               <AvatarBase
                 :size="190"
                 :username="username"
+                :avatar="avatar"
                 style="font-size: 75px;"
               ></AvatarBase>
 
-              <UserPrimInfoBase
-                :moreOptions="moreOptions"
-              ></UserPrimInfoBase>
+              <UserPrimInfoBase :moreOptions="moreOptions"></UserPrimInfoBase>
             </div>
             <v-sheet elevation="2" outlined>
               <div class="d-flex flex-row align-start">
-                <UserInfoBase></UserInfoBase>
+                <UserInfoBase />
                 <MetaDataBase :showRole="true"></MetaDataBase>
               </div>
             </v-sheet>
           </v-sheet>
-          <div v-show="this.$vuetify.breakpoint.xs" class="flex-column mb-6">
+          <v-sheet v-else class="flex-column mb-6">
             <UserPrimInfoBase :moreOptions="moreOptions"></UserPrimInfoBase>
             <div class="d-flex pa-2">
               <AvatarBase
                 :size="160"
                 :username="username"
+                :avatar="avatar"
                 style="font-size: 75px;color:black;"
               ></AvatarBase>
               <v-list-item color="rgba(0, 0, 0, .4)">
@@ -42,9 +42,9 @@
                 </v-list-item-content>
               </v-list-item>
             </div>
-            <UserInfoBase></UserInfoBase>
+            <UserInfoBase />
             <MetaDataBase :showRole="false"></MetaDataBase>
-          </div>
+          </v-sheet>
         </v-card>
       </v-skeleton-loader>
     </v-sheet>
@@ -63,23 +63,23 @@ const user = namespace("user");
   components: {
     UserPrimInfoBase: () =>
       import(
-        /* webpackChunkName: "UserPrimInfoBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/UserPrimInfoBase.vue"
+        /* webpackChunkName: "UserPrimInfoBase" */ "@/components/profile/profile-info/UserPrimInfoBase.vue"
       ),
     MetaDataBase: () =>
       import(
-        /* webpackChunkName: "MetaDataBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/MetaDataBase.vue"
+        /* webpackChunkName: "MetaDataBase" */ "@/components/profile/profile-info/MetaDataBase.vue"
       ),
     RoleDataBase: () =>
       import(
-        /* webpackChunkName: "RoleDataBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/RoleDataBase.vue"
+        /* webpackChunkName: "RoleDataBase" */ "@/components/profile/profile-info/RoleDataBase.vue"
       ),
     UserInfoBase: () =>
       import(
-        /* webpackChunkName: "UserInfoBase" */ /* webpackPreload: true */ "@/components/profile/profile_info/UserInfoBase.vue"
+        /* webpackChunkName: "UserInfoBase" */ "@/components/profile/profile-info/UserInfoBase.vue"
       ),
     AvatarBase: () =>
       import(
-        /* webpackChunkName: "AvatarBase" */ /* webpackPreload: true */ "@/components/profile/avatar/AvatarBase.vue"
+        /* webpackChunkName: "AvatarBase" */ "@/components/profile/avatar/AvatarBase.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
@@ -104,8 +104,9 @@ const user = namespace("user");
 export default class ProfileCard extends Vue {
   loading = true;
   transition = "scale-transition";
-  @profile.State public username!: string;
-  @profile.Getter public profileUserId!: string;
+  @profile.State username!: string;
+  @profile.State avatar!: string;
+  @profile.Getter profileUserId!: string;
   @user.Getter userUserId!: string;
   @user.Getter userRoles!: Array<Role>;
 

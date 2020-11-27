@@ -3,22 +3,7 @@
     <v-app-bar app clipped-left color="deep-purple darken-3" dense>
       <NavDrawerSwitch :toggleDrawer="toggleNav" />
       <v-spacer />
-      <v-menu
-        v-if="$vuetify.breakpoint.smAndUp"
-        offset-y
-        :close-on-content-click="false"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-avatar v-bind="attrs" v-on="on">
-            <AvatarBase :username="username" :avatar="avatar" size="50" />
-          </v-avatar>
-        </template>
-        <v-card class="mx-auto">
-          <v-container style="width: 350px">
-            <NavProfileCard />
-          </v-container>
-        </v-card>
-      </v-menu>
+      <NavAppBarMenu v-if="$vuetify.breakpoint.smAndUp" />
     </v-app-bar>
     <v-navigation-drawer
       v-model="navDrawer"
@@ -33,25 +18,11 @@
           <WebAppTitle />
         </v-row>
         <v-divider />
-        <div v-if="$vuetify.breakpoint.xs">
-          <v-btn-toggle
-            v-model="toggleExclusive"
-            dense
-            mandatory
-            background-color="primary"
-          >
-            <v-btn @click="toggleExclusive = 0">
-              <v-icon>{{ "$apps" }}</v-icon>
-            </v-btn>
-
-            <v-btn @click="toggleExclusive = 1">
-              <v-icon>{{ "$account" }}</v-icon>
-            </v-btn>
-          </v-btn-toggle>
-          <v-divider />
-        </div>
-        <NavProfileCard v-if="toggleExclusive === 1" />
-        <NavBarList v-else-if="toggleExclusive === 0" />
+        <NavBarXsMenu v-if="$vuetify.breakpoint.xs" />
+        <NavProfileCard v-if="xsMenuIndex === 1 && $vuetify.breakpoint.xs" />
+        <NavBarList
+          v-else-if="xsMenuIndex === 0 || $vuetify.breakpoint.smAndUp"
+        />
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -61,41 +32,39 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-const user = namespace("user");
+const environment = namespace("environment");
 
 @Component({
   components: {
     NavDrawerSwitch: () =>
       import(
-        /* webpackChunkName: "NavDrawerSwitch" */ "@/components/navbar/navdrawer/NavDrawerSwitch.vue"
+        /* webpackChunkName: "NavDrawerSwitch" */ "@/components/navbar/nav-utility/NavDrawerSwitch.vue"
+      ),
+    NavBarXsMenu: () =>
+      import(
+        /* webpackChunkName: "NavBarXsMenu" */ "@/components/navbar/nav-menu/NavBarXsMenu.vue"
       ),
     WebAppTitle: () =>
       import(
-        /* webpackChunkName: "WebAppTitle" */ "@/components/navbar/navdrawer/WebAppTitle.vue"
-      ),
-    NavBarAccountInfo: () =>
-      import(
-        /* webpackChunkName: "NavBarAccountInfo" */ "@/components/navbar/navdrawer/NavBarAccountInfo.vue"
+        /* webpackChunkName: "WebAppTitle" */ "@/components/navbar/nav-utility/WebAppTitle.vue"
       ),
     NavProfileCard: () =>
       import(
-        /* webpackChunkName: "NavProfileCard" */ "@/components/navbar/navdrawer/NavProfileCard.vue"
+        /* webpackChunkName: "NavProfileCard" */ "@/components/navbar/nav-profile/NavProfileCard.vue"
       ),
-    AvatarBase: () =>
+    NavAppBarMenu: () =>
       import(
-        /* webpackChunkName: "AvatarBase" */ "@/components/profile/avatar/AvatarBase.vue"
+        /* webpackChunkName: "NavAppBarMenu" */ "@/components/navbar/nav-menu/NavAppBarMenu.vue"
       ),
     NavBarList: () =>
       import(
-        /* webpackChunkName: "NavBarList" */ "@/components/navbar/navdrawer/NavBarList.vue"
+        /* webpackChunkName: "NavList" */ "@/components/navbar/nav-list/NavList.vue"
       )
   }
 })
 export default class NavigationDrawer extends Vue {
-  @user.State username!: string;
-  @user.State avatar!: string;
+  @environment.Getter xsMenuIndex!: number;
   navDrawer = false;
-  toggleExclusive = 0;
 
   toggleNav() {
     this.navDrawer = !this.navDrawer;

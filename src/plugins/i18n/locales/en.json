@@ -1,10 +1,49 @@
 {
   "clear": "Clear",
+  "apps": {
+    "health": "Health"
+  },
+  "sub-apps-health": {
+    "device": {
+      "register": "Register New Device"
+    },
+    "emergency": {
+      "request": "Request Emergency",
+      "watch": "Watch Requests",
+      "live": "Live Emergencies"
+    }
+  },
+  "device-register": {
+    "title": "Register Aed Device",
+    "nickname": "Nickname Device",
+    "modelName": "Model Name",
+    "modelDesc": "Model Description",
+    "addr": "Address",
+    "addrOnMap": "Address on Map",
+    "addrPic": "Address Picture",
+    "devPic": "Aed Device Picture"
+  },
+  "device": {
+    "editTitle": "Edit Device",
+    "nickname": "Nickname",
+    "modelName": "Model",
+    "modelDesc": "Model Description",
+    "deviceOptions": "Device options",
+    "deviceEdit": "Edit Device"
+
+  },
+  "aed-device-status": {
+    "0": "Available",
+    "1": "Broken",
+    "2": "Stolen",
+    "3": "On Repair",
+    "4": "Borrowed"
+  },
   "edit": {
     "avatarHint": "Pick an avatar",
     "avatarUpdated": "Avatar updated",
     "countryHint": "Pick your country",
-    "descriptionHint": "Give a Profile Description (Optional)",
+    "descriptionHint": "Give a {0} Description (Optional)",
     "errorAvatarUpdate": "Error on Avatar Update",
     "errorUpdated": "Error on Update",
     "optional": "Optional",
@@ -46,13 +85,15 @@
     "profile": "Profile",
     "province": "Province",
     "surname": "Last name",
-    "username": "Username"
+    "username": "Username",
+    "aed": "Aed Device"
   },
   "filter": {
     "latest": "Latest"
   },
   "forms": {
-    "apply": "Apply"
+    "apply": "Apply",
+    "create": "Create"
   },
   "general": {
     "cancel": "Cancel",

@@ -29,7 +29,13 @@ import {
   mdiCheckOutline,
   mdiHelpCircleOutline,
   mdiCancel,
-  mdiHistory
+  mdiAlarmLight,
+  mdiHospitalBox,
+  mdiMedicalBag,
+  mdiAccessPoint,
+  mdiHistory,
+  mdiCamera,
+  mdiOpenInNew
 } from "@mdi/js";
 
 Vue.use(Vuetify);
@@ -65,6 +71,12 @@ const MY_ICONS = {
   database: mdiDatabase,
   history: mdiHistory,
   apps: mdiApps,
+  alarm: mdiAlarmLight,
+  hospital: mdiHospitalBox,
+  medicalBag: mdiMedicalBag,
+  accessPoint: mdiAccessPoint,
+  openNew: mdiOpenInNew,
+  camera: mdiCamera,
   appbar: "deep-purple darken-3"
 };
 

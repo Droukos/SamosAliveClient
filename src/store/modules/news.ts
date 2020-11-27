@@ -1,6 +1,6 @@
 import { Action, Module, VuexModule } from "vuex-module-decorators";
 import api from "@/plugins/api";
-import { newsApi } from "@/plugins/api/apiUrls";
+import { newsApi } from "@/plugins/api/api-urls";
 import { NewsInfo } from "@/types";
 @Module({ namespaced: true })
 export default class News extends VuexModule {

@@ -5,7 +5,7 @@ import {
   newsRSocketApi
 } from "@/plugins/api";
 import { Action, Module, VuexModule } from "vuex-module-decorators";
-import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocketUtil";
+import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import {
   RequestedPreviewUser,
   AedEventInfo,
@@ -13,16 +13,17 @@ import {
   AedProblemsInfo
 } from "@/types";
 import {
-  eventApi,
-  newsApi,
-  userApi,
-  problemsApi
-} from "@/plugins/api/apiUrls.ts";
+    eventApi,
+    newsApi,
+    userApi,
+    problemsApi, aedDeviceApi
+} from "@/plugins/api/api-urls.ts";
+import {IAedDevicePreview} from "@/types/aed-device";
 
 @Module({ namespaced: true })
 export default class Search extends VuexModule {
   @Action
-  async fetchUsersPreview(user: string) {
+  async fetchUsersPreview(user: string): Promise<RequestedPreviewUser[]> {
     return new Promise(resolve => {
       const prUsers: RequestedPreviewUser[] = [];
       userRSocketApi().then(userRSocket => {
@@ -37,6 +38,27 @@ export default class Search extends VuexModule {
             onSubscribe: sub => sub.request(20)
           });
         resolve(prUsers);
+      });
+    });
+  }
+
+  @Action
+  async fetchAedDevicesPreview(aedDeviceNickname: string): Promise<IAedDevicePreview[]> {
+    return new Promise(resolve => {
+      const prAedDevices: IAedDevicePreview[] = [];
+      aedRSocketApi().then(aedRSocket => {
+        aedRSocket
+            .requestStream({
+              data: dataBuf({ aedDeviceNickname: aedDeviceNickname }),
+              metadata: metadataBuf(accessToken, aedDeviceApi.fetchAedDevicePreviews)
+            })
+            .subscribe({
+              onError: error => console.error(error),
+              onNext: payload => prAedDevices.push(bufToJson(payload)),
+              onSubscribe: sub => sub.request(20)
+            });
+        console.log(prAedDevices);
+        resolve(prAedDevices);
       });
     });
   }

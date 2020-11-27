@@ -1,5 +1,5 @@
-import api, { accessToken, userRSocketApi } from "@/plugins/api";
-import { apiWithVar, cdnApi, userApi } from "@/plugins/api/apiUrls.ts";
+import api, { getAccessTokenJwt, userRSocketApi} from "@/plugins/api";
+import { apiWithVar, cdnApi, userApi } from "@/plugins/api/api-urls.ts";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { UpdateAvatar, UpdateUserPersonal, UserIdDto, UserInfo } from "@/types";
 import { Promise } from "bluebird";
@@ -13,8 +13,8 @@ import {
   setPhones,
   setProfile,
   setRoleModels
-} from "@/plugins/userUtil";
-import {bufToData, bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocketUtil";
+} from "@/plugins/user-util";
+import {bufToData, bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocket-util";
 
 @Module({ namespaced: true })
 export default class Profile extends VuexModule implements UserInfo {
@@ -124,38 +124,43 @@ export default class Profile extends VuexModule implements UserInfo {
 
   @Action({ commit: "setProfileData" })
   async profileData(data: UserIdDto): Promise<UserInfo> {
-    return new Promise(resolve => {
-      userRSocketApi().then(userRSocket => {
-        userRSocket
-          .requestResponse({
-            data: dataBuf(data),
-            metadata: metadataBuf(accessToken, userApi.user)
-          })
-          .subscribe({
-            onComplete: value => resolve(bufToJson(value))
-          });
+    return getAccessTokenJwt().then(token => {
+      return new Promise(resolve => {
+        userRSocketApi().then(userRSocket => {
+          userRSocket
+              .requestResponse({
+                data: dataBuf(data),
+                metadata: metadataBuf(token, userApi.user)
+              })
+              .subscribe({
+                onComplete: value => resolve(bufToJson(value))
+              });
+        });
       });
-    });
+    })
   }
 
   @Action({ commit: "setProfilePersonal" })
   async editProfileData(data: UpdateUserPersonal) {
-    return new Promise(resolve => {
-      userRSocketApi().then(userRSocket => {
-        userRSocket
-          .requestResponse({
-            data: dataBuf(data),
-            metadata: metadataBuf(accessToken, userApi.personal)
-          })
-          .subscribe({
-            onComplete: value => {
-              if (bufToData(value) == "true") {
-                resolve(data);
-              }
-            }
-          });
+    return getAccessTokenJwt().then(token => {
+      return new Promise(resolve => {
+        userRSocketApi().then(userRSocket => {
+          userRSocket
+              .requestResponse({
+                data: dataBuf(data),
+                metadata: metadataBuf(token, userApi.personal)
+              })
+              .subscribe({
+                onComplete: value => {
+                  if (bufToData(value) == "true") {
+                    resolve(data);
+                  }
+                }
+              });
+        });
       });
-    });
+    })
+
   }
 
   @Action

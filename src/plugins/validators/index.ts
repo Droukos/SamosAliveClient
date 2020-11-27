@@ -1,7 +1,7 @@
 import i18n from "@/plugins/i18n";
 import { authRSocketApi} from "@/plugins/api";
 import "@/plugins/validators";
-import { authApi } from "@/plugins/api/apiUrls";
+import { authApi } from "@/plugins/api/api-urls";
 import {
   TranslateResult,
 } from "vue-i18n";
@@ -9,7 +9,7 @@ import {
   bufToJson,
   dataBuf,
   metadataOnlyRoute,
-} from "@/plugins/api/rsocketUtil";
+} from "@/plugins/api/rsocket-util";
 import {FieldObject} from "@/types";
 
 export default class Validator {

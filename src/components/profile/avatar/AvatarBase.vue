@@ -26,18 +26,18 @@ import "@/plugins/helpers/helper.ts";
 @Component
 export default class AvatarBase extends Vue {
   @Prop()
-  public avatar: string | undefined;
+  avatar!: string | null;
   @Prop()
-  public username!: string;
+  username!: string;
   @Prop()
-  public size!: string;
+  size!: string;
 
   setBackgroundColor(username: string) {
     return this.$helper.usernameHashCode(username);
   }
 
   get doesAvatarNotExists() {
-    return this.avatar == undefined || this.avatar == "";
+    return this.avatar == null || this.avatar == "";
   }
   get usernameFirstLetter() {
     return this.username.charAt(0).toUpperCase();

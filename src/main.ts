@@ -6,6 +6,7 @@ import i18n from '@/plugins/i18n';
 import App from '@/views/App.vue';
 import VueCookies from 'vue-cookies';
 import helper from "@/plugins/helpers/helper";
+import "leaflet/dist/leaflet.css";
 
 Vue.config.productionTip = false
 Vue.use(helper);

@@ -80,7 +80,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import privacyProfileMod from "@/store/modules/dynamic/privacyProfile";
+import privacyProfileMod from "@/store/modules/dynamic/profile/profile-privacy";
 import { PrivacyForm, UserIdDto, UsernameDto, UserPrivacySets } from "@/types";
 
 const user = namespace("user");

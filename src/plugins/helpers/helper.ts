@@ -47,7 +47,6 @@ export default new (class Helper {
   //  if(userRole == "10000") return "|blue--text text--lighten-2"; //"User";
   //},
   getUserRoleColorLabel(roleCode: string) {
-    console.log("Hey: "+roleCode)
 
     if (roleCode == "0.0") return "red darken-4";
     //"General Admin";

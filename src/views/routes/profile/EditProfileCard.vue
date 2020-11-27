@@ -16,9 +16,9 @@
           <div class="justify-center mb-6 pa-3">
             <p class="headline">{{ $t("edit.userPersonal") }}</p>
 
-            <NameBaseInput />
-            <SurnameBaseInput />
-            <DescriptionBaseInput />
+            <NameInputBase />
+            <SurnameInputBase />
+            <DescriptionInputBase />
 
             <div v-if="$vuetify.breakpoint.smAndDown">
               <ThreeCentralisedAvatars
@@ -93,7 +93,7 @@ import {
   UserIdDto,
   UserInfo
 } from "@/types";
-import editProfileMod from "@/store/modules/dynamic/editProfile";
+import editProfileMod from "@/store/modules/dynamic/profile/profile-edit";
 
 const user = namespace("user");
 const profile = namespace("profile");
@@ -101,29 +101,29 @@ const editProfileModule = namespace("editProfile");
 
 @Component({
   components: {
-    NameBaseInput: () =>
+    NameInputBase: () =>
       import(
-        /* webpackChunkName: "NameBaseInput" */ /* webpackPreload: true */ "@/components/profile/profile_textfields/NameBaseInput.vue"
+        /* webpackChunkName: "NameInputBase" */ "@/components/profile/profile-textfields/NameInputBase.vue"
       ),
-    SurnameBaseInput: () =>
+    SurnameInputBase: () =>
       import(
-        /* webpackChunkName: "SurnameBaseInput" */ /* webpackPreload: true */ "@/components/profile/profile_textfields/SurnameBaseInput.vue"
+        /* webpackChunkName: "SurnameInputBase" */ "@/components/profile/profile-textfields/SurnameInputBase.vue"
       ),
-    DescriptionBaseInput: () =>
+    DescriptionInputBase: () =>
       import(
-        /* webpackChunkName: "DescriptionBaseInput" */ /* webpackPreload: true */ "@/components/profile/profile_textfields/DescriptionBaseInput.vue"
+        /* webpackChunkName: "DescriptionInputBase" */ "@/components/profile/profile-textfields/DescriptionInputBase.vue"
       ),
     ThreeCentralisedAvatars: () =>
       import(
-        /* webpackChunkName: "ThreeCentralisedAvatars" */ /* webpackPreload: true */ "@/components/profile/avatar/ThreeCentralisedAvatars.vue"
+        /* webpackChunkName: "ThreeCentralisedAvatars" */ "@/components/profile/avatar/ThreeCentralisedAvatars.vue"
       ),
     FileInputBase: () =>
       import(
-        /* webpackChunkName: "FileInputBase" */ /* webpackPreload: true */ "@/components/profile/profile_edit/FileInputBase.vue"
+        /* webpackChunkName: "FileInputBase" */ "@/components/profile/profile-edit/FileInputBase.vue"
       ),
     AddressInputBase: () =>
       import(
-        /* webpackChunkName: "AddressInputBase" */ /* webpackPreload: true */ "@/components/profile/profile_edit/AddressInputBase.vue"
+        /* webpackChunkName: "AddressInputBase" */ "@/components/profile/profile-edit/AddressInputBase.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
@@ -206,7 +206,7 @@ export default class EditProfileCard extends Vue {
 
   uploadAvatar() {
     const data = new FormData();
-    data.append("file", this.fileImg.selectedFile);
+    data.append("avFile", this.fileImg.selectedFile);
 
     this.$store
       .dispatch("profile/editProfileAvatar", data)

@@ -1,6 +1,6 @@
 import { Action, Module, VuexModule } from "vuex-module-decorators";
 import api from "@/plugins/api";
-import { problemsApi} from "@/plugins/api/apiUrls";
+import { problemsApi} from "@/plugins/api/api-urls";
 import {AedProblemsInfo} from "@/types";
 @Module({ namespaced: true })
 export default class AedProblem extends VuexModule {

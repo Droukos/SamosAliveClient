@@ -46,7 +46,7 @@ declare namespace User {
     addedBy: string;
   }
 
-  type RoleModels = User.Role[] | undefined;
+  type RoleModels = User.Role[] | null;
 
   type CreditsStat = {
     rating: number;
@@ -177,7 +177,7 @@ export interface FileImg {
 }
 
 export interface Tab {
-  id: string;
+  id: number;
   title: TranslateResult;
   counter: number;
   label: TranslateResult;
@@ -301,5 +301,37 @@ export type PrivacySetField = {
 
 export type PrivacyForm = {
   userPrivacy: PrivacySetField[]
+}
+
+export type FieldObject2 = {
+  f: Field;
+  v: string | Blob | File;
+  e: Error;
+  run: boolean;
+  hint?: OpenStreetObjData[];
+  loading?: boolean;
+  suMsg?: SuccessMessage;
+  sh?: Show;
+  i?: Icon;
+};
+
+export type AddressObject = {
+  f: Field;
+  v: OpenStreetObjData | null;
+  e: Error;
+  run: boolean;
+  hint?: OpenStreetObjData[];
+  loading?: boolean;
+  suMsg?: SuccessMessage;
+  sh?: Show;
+  i?: Icon;
+}
+
+export type OpenStreetObjData = {
+  bounds: any[],
+  label: string
+  raw: object,
+  x: number,
+  y: number
 }
 
