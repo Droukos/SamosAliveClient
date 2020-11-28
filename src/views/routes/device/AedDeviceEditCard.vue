@@ -10,11 +10,11 @@
           :transition="transition"
           type="card"
         >
-          <v-card class="mx-auto" max-width="934" outlined>
+          <v-card outlined>
             <DAedEditModelNameInputBase />
             <DAedEditModelDescriptionInputBase />
-            <DAedEditDeviceFileInputBase />
-            <DAedAddressFileInputBase />
+            <DAedEditDeviceFileInputBase class="mb-3" />
+            <DAedAddressFileInputBase class="mb-3" />
             <DAedAddressNameInputBase />
 
             <div
@@ -27,6 +27,29 @@
                 <LMarkerRedSimple :marker="marker" />
               </l-map>
             </div>
+            <v-btn
+              block
+              rounded
+              v-if="showUpload"
+              class="deep-purple darken-2"
+              style="color:white;"
+              @click="updateAedDevice()"
+              aria-label="AedCreate"
+            >
+              {{ $t("edit.upload") }}
+            </v-btn>
+            <span
+              v-if="showUpdatedAedDevice"
+              class="green--text text--darken-2"
+            >
+              {{ $t("edit.updated") }}
+            </span>
+            <span
+              v-if="showErrorUpdatedAedDevice"
+              class="red--text text--darken-2"
+            >
+              {{ $t("edit.errorUpdated") }}
+            </span>
           </v-card>
         </v-skeleton-loader>
       </v-container>
@@ -106,8 +129,12 @@ export default class AedDeviceEditCard extends Vue {
   @aedDeviceEdit.State zoom!: number;
   @aedDeviceEdit.State center!: L.LatLng;
   @aedDeviceEdit.State marker!: L.LatLng;
+  @aedDeviceEdit.State showUpload!: boolean;
+  @aedDeviceEdit.State showUpdatedAedDevice!: boolean;
+  @aedDeviceEdit.State showErrorUpdatedAedDevice!: boolean;
 
   @aedDeviceEdit.Mutation setEditAedDeviceInfo!: (data: IAedDeviceInfo) => void;
+  @aedDeviceEdit.Action updateAedDevice!: () => Promise<boolean>;
   @aedDeviceInfo.Action fetchAedDeviceInfo!: (
     aedDeviceId: string
   ) => Promise<IAedDeviceInfo>;

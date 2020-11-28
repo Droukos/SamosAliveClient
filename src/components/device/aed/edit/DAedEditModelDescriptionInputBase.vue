@@ -18,11 +18,13 @@ import { FieldObject } from "@/types";
 import { validateDescription } from "@/plugins/validators";
 import { namespace } from "vuex-class";
 
+const aedDeviceInfo = namespace("aedDeviceInfo");
 const aedDeviceEdit = namespace("aedDeviceEdit");
 
 @Component
 export default class DAedEditModelDescriptionInputBase extends Vue {
   @aedDeviceEdit.State fModelDescription!: FieldObject;
+  @aedDeviceInfo.State description!: string;
   @aedDeviceEdit.Action vForm!: () => void;
   textareaProps = {
     counter: 0,
@@ -32,6 +34,9 @@ export default class DAedEditModelDescriptionInputBase extends Vue {
 
   validateAndCheckForm() {
     validateDescription(this.fModelDescription);
+    //if (this.fModelDescription.v == this.description) {
+    //  this.fModelDescription.e = this.$t("edit.sameInput");
+    //}
     this.vForm();
   }
 }

@@ -11,7 +11,9 @@ export const userApi: Record<string, string> = {
 
 export const cdnApi: Record<string, string> = {
   avatar: "cdn.user.put.avatar",
-  aedDeviceRegister: "/cdn/put_aed_device_pics"
+  aedDeviceRegister: "/cdn/put_aed_device_pics",
+  aedDevicePic: "/cdn/put_aed_device_pic",
+  aedDeviceAddressPic: "/cdn/put_aed_device_address_pic"
 };
 
 export const authApi: Record<string, string> = {
@@ -35,7 +37,8 @@ export const eventApi: Record<string, string> = {
 export const aedDeviceApi: Record<string, string> = {
   registerAedDevice: "aed.device.register",
   fetchAedDevice: "aed.device.fetch.byId",
-  fetchAedDevicePreviews: "aed.device.fetch.preview.byNickname"
+  fetchAedDevicePreviews: "aed.device.fetch.preview.byNickname",
+  editAedDeviceInfo: "aed.device.info.edit"
 }
 
 export const newsApi: Record<string, string> = {

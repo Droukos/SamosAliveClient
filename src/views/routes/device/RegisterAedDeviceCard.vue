@@ -8,8 +8,8 @@
         <ModelNameInputBase />
         <ModelDescriptionInputBase />
 
-        <AedDeviceFileInputBase />
-        <AedAddressFileInputBase />
+        <AedDeviceFileInputBase class="mb-3" />
+        <AedAddressFileInputBase class="mb-3" />
         <AddressNameInputBase />
 
         <div

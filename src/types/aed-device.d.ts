@@ -1,4 +1,5 @@
 import { User } from "@/types/index";
+import AedDeviceId = AedDevice.AedDeviceId;
 
 declare namespace AedDevice {
   type AedDeviceId = string;
@@ -44,6 +45,15 @@ export interface IAedDeviceRegister {
   defaultMapX: AedDeviceAddressPointX;
   defaultMapY: AedDeviceAddressPointY;
   address: AedDeviceAddress;
+}
+
+export interface IAedDeviceEdit {
+  id: AedDeviceId,
+  modelName: AedDeviceModelName,
+  modelDescription: AedDeviceModelDescription,
+  address: AedDeviceAddress,
+  homePointX: AedDeviceAddressPointX,
+  homePointY: AedDeviceAddressPointY
 }
 
 export interface IAedDeviceInfo {

@@ -1,16 +1,38 @@
 <template>
-  <div :style="styl">
-    <v-file-input
-      chips
-      show-size
-      :rules="fileRules($t('device-register.devPic'))"
-      accept="image/*"
-      v-model="deviceFileImg.selectedFile"
-      @change="fileSelected()"
-      clearable
-      prepend-icon="$camera"
-      :label="$t('device-register.devPic')"
-    ></v-file-input>
+  <div class="d-flex flex-row" :style="styl">
+    <v-col>
+      <v-file-input
+        chips
+        show-size
+        :rules="fileRules($t('device-register.devPic'))"
+        accept="image/*"
+        v-model="deviceFileImg.selectedFile"
+        @change="fileSelected()"
+        clearable
+        prepend-icon="$camera"
+        :label="$t('device-register.devPic')"
+      ></v-file-input>
+      <v-btn
+        block
+        rounded
+        v-if="readyUpload"
+        class="deep-purple darken-2"
+        style="color:white;"
+        @click="uploadDeviceImg()"
+        aria-label="AedCreate"
+      >
+        {{ $t("edit.upload") }}
+      </v-btn>
+      <span v-if="showUploadedDevicePic" class="green--text text--darken-2">{{
+        $t("edit.updated")
+      }}</span>
+      <span v-if="showErrorDevicePic" class="red--text text--darken-2">{{
+        $t("edit.errorUpdated")
+      }}</span>
+    </v-col>
+    <v-avatar v-if="tempFile !== ''" tile size="160">
+      <img :src="tempFile" alt />
+    </v-avatar>
   </div>
 </template>
 
@@ -25,33 +47,42 @@ import {
 import { TranslateResult } from "vue-i18n";
 import { namespace } from "vuex-class";
 
+const aedDeviceInfo = namespace("aedDeviceInfo");
 const aedDeviceEdit = namespace("aedDeviceEdit");
 
 @Component
 export default class DAedEditDeviceFileInputBase extends Vue {
   @Prop() styl!: string;
+  @aedDeviceInfo.State id!: string;
   @aedDeviceEdit.State fDevicePicture!: FieldObject2;
   @aedDeviceEdit.State deviceFileImg!: FileImg;
-  @aedDeviceEdit.Mutation setDevicePicError!: (error: string) => void;
-  @aedDeviceEdit.Action vForm!: () => void;
+  @aedDeviceEdit.State showUploadedDevicePic!: boolean;
+  @aedDeviceEdit.State showErrorDevicePic!: boolean;
+  @aedDeviceEdit.Action uploadDevicePic!: (id: string) => void;
+  tempFile = "";
+  readyUpload = false;
 
   fileSelected() {
     this.deviceFileImg.notUsedImgUpload = false;
+    if (this.deviceFileImg.selectedFile == undefined) {
+      this.tempFile = "";
+      this.readyUpload = false;
+      return;
+    }
     if (
       checkIfFileSizeIsUnderMB(this.deviceFileImg, 1) &&
       checkFileType(this.deviceFileImg)
     ) {
-      //this.fDevicePicture.v = URL.createObjectURL(
-      //  this.deviceFileImg.selectedFile
-      //);
+      this.tempFile = URL.createObjectURL(this.deviceFileImg.selectedFile);
       this.fDevicePicture.v = this.deviceFileImg.selectedFile;
-      this.setDevicePicError("");
-      this.vForm();
+      this.readyUpload = true;
     } else {
-      this.setDevicePicError("error");
-
-      //this.fDevicePicture.v = this.$store.getters.getAvatar;
+      this.readyUpload = false;
     }
+  }
+
+  uploadDeviceImg() {
+    this.uploadDevicePic(this.id);
   }
 
   fileRules(field: TranslateResult) {

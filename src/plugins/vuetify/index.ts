@@ -34,7 +34,6 @@ import {
   mdiMedicalBag,
   mdiAccessPoint,
   mdiHistory,
-  mdiAccessPoint,
   mdiAntenna,
   mdiCamera,
   mdiOpenInNew

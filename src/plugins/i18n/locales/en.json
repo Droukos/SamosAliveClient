@@ -51,6 +51,7 @@
     "update": "Update",
     "updated": "Successful Update",
     "upload": "Upload",
+    "sameInput": "Same Input",
     "userPersonal": "User Personal Info"
   },
   "events": {

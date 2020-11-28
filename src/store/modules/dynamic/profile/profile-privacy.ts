@@ -149,7 +149,6 @@ export default class ProfilePrivacy extends VuexModule {
 
   @Action({ commit: "setSearchedUsers" })
   async fetchUsernameOnly(usernameDto: UsernameDto): Promise<string[]> {
-    console.log(usernameDto);
     return new Promise(resolve => {
       const fetchedUsers: string[] = [];
       userRSocketApi().then(userRSocket => {

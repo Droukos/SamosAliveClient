@@ -1,5 +1,5 @@
 <template>
-  <div :style="styl">
+  <div class="d-flex flex-row" :style="styl">
     <v-file-input
       chips
       show-size
@@ -11,6 +11,9 @@
       prepend-icon="$camera"
       :label="$t('device-register.devPic')"
     ></v-file-input>
+    <v-avatar v-if="tempFile !== ''" tile size="160">
+      <img :src="tempFile" alt />
+    </v-avatar>
   </div>
 </template>
 
@@ -34,6 +37,7 @@ export default class AedFileInputBase extends Vue {
   @aedDeviceRegister.State deviceFileImg!: FileImg;
   @aedDeviceRegister.Mutation setDevicePicError!: (error: string) => void;
   @aedDeviceRegister.Action vForm!: () => void;
+  tempFile = "";
 
   fileSelected() {
     this.deviceFileImg.notUsedImgUpload = false;
@@ -41,6 +45,7 @@ export default class AedFileInputBase extends Vue {
       checkIfFileSizeIsUnderMB(this.deviceFileImg, 1) &&
       checkFileType(this.deviceFileImg)
     ) {
+      this.tempFile = URL.createObjectURL(this.deviceFileImg.selectedFile);
       //this.fDevicePicture.v = URL.createObjectURL(
       //  this.deviceFileImg.selectedFile
       //);

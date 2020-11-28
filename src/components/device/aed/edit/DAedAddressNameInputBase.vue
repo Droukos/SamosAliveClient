@@ -5,6 +5,7 @@
     @input="updateAddressValue"
     :search-input.sync="search"
     :label="fAddress.f"
+    :error-messages="fAddress.e"
     item-text="label"
     item-value="label"
     outlined
@@ -19,11 +20,13 @@ import { AddressObject, OpenStreetObjData } from "@/types";
 import debounce from "@/plugins/helpers/debounce";
 import { namespace } from "vuex-class";
 
+const aedDeviceInfo = namespace("aedDeviceInfo");
 const aedDeviceEdit = namespace("aedDeviceEdit");
 
 @Component
 export default class DAedAddressNameInputBase extends Vue {
   @aedDeviceEdit.State fAddress!: AddressObject;
+  @aedDeviceInfo.State address!: string;
   @aedDeviceEdit.Mutation addressValueChange!: (
     value: OpenStreetObjData
   ) => void;
@@ -43,6 +46,9 @@ export default class DAedAddressNameInputBase extends Vue {
   updateAddressValue() {
     if (typeof this.fAddress.v === "object" && this.fAddress.v !== null) {
       this.addressValueChange(this.fAddress.v);
+      //if (this.fAddress.v.label == this.address) {
+      //  this.fAddress.e = this.$t("edit.sameInput");
+      //}
       this.vForm();
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <div :style="styl">
+  <div class="d-flex flex-row" :style="styl">
     <v-file-input
       chips
       show-size
@@ -11,6 +11,9 @@
       prepend-icon="$camera"
       :label="$t('device-register.addrPic')"
     ></v-file-input>
+    <v-avatar v-if="tempFile !== ''" tile size="160">
+      <img :src="tempFile" alt />
+    </v-avatar>
   </div>
 </template>
 
@@ -34,6 +37,7 @@ export default class AedAddressFileInputBase extends Vue {
   @aedDeviceRegister.State addrFileImg!: FileImg;
   @aedDeviceRegister.Mutation setAddressPicError!: (error: string) => void;
   @aedDeviceRegister.Action vForm!: () => void;
+  tempFile = "";
 
   fileSelected() {
     this.addrFileImg.notUsedImgUpload = false;
@@ -44,7 +48,8 @@ export default class AedAddressFileInputBase extends Vue {
       //this.fAddressPicture.v = URL.createObjectURL(
       //  this.addrFileImg.selectedFile
       //);
-      console.log(this.addrFileImg.selectedFile);
+      this.tempFile = URL.createObjectURL(this.addrFileImg.selectedFile);
+      //console.log(this.addrFileImg.selectedFile);
       this.fAddressPicture.v = this.addrFileImg.selectedFile;
       this.setAddressPicError("");
       this.vForm();

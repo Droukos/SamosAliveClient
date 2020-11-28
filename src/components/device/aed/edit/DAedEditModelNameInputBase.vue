@@ -15,15 +15,20 @@ import { FieldObject } from "@/types";
 import { validateName } from "@/plugins/validators";
 import { namespace } from "vuex-class";
 
+const aedDeviceInfo = namespace("aedDeviceInfo");
 const aedDeviceEdit = namespace("aedDeviceEdit");
 
 @Component
 export default class DAedEditModelNameInputBase extends Vue {
   @aedDeviceEdit.State fModelName!: FieldObject;
+  @aedDeviceInfo.State modelName!: string;
   @aedDeviceEdit.Action vForm!: () => void;
 
   validateAndCheckForm() {
     validateName(this.fModelName);
+    //if (this.fModelName.v == this.modelName) {
+    //  this.fModelName.e = this.$t("edit.sameInput");
+    //}
     this.vForm();
   }
 }
