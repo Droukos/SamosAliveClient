@@ -72,7 +72,7 @@ const aedDeviceInfo = namespace("aedDeviceInfo");
     });
   },
   beforeDestroy() {
-    this.$store.unregisterModule("aedDeviceInfo");
+    //this.$store.unregisterModule("aedDeviceInfo");
   }
 })
 export default class AedDeviceInfoCard extends Vue {

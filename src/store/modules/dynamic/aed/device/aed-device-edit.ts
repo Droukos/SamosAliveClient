@@ -1,6 +1,6 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
-import { AddressObject, FieldObject, FieldObject2, FileImg } from "@/types";
+import {AddressObject, FieldObject, FieldObject2, FileImg, OpenStreetObjData} from "@/types";
 import i18n from "@/plugins/i18n";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import L from "leaflet";
@@ -86,6 +86,13 @@ export default class AedDeviceEdit extends VuexModule {
   @Mutation
   setAddressHints(hints: any[]) {
     this.fAddress.hint = hints;
+  }
+
+  @Mutation
+  addressValueChange(value: OpenStreetObjData) {
+    this.fAddress.v = value;
+    this.center = L.latLng(value.y, value.x);
+    this.marker = L.latLng(value.y, value.x);
   }
 
   @Mutation

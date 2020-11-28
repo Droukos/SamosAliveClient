@@ -36,7 +36,7 @@
               @click="updateAedDevice()"
               aria-label="AedCreate"
             >
-              {{ $t("edit.upload") }}
+              {{ $t("edit.update") }}
             </v-btn>
             <span
               v-if="showUpdatedAedDevice"
@@ -119,8 +119,7 @@ const aedDeviceEdit = namespace("aedDeviceEdit");
     });
   },
   beforeDestroy() {
-    this.$store.unregisterModule("aedDeviceInfo");
-    this.$store.unregisterModule("aedDeviceEdit");
+    //this.$store.unregisterModule("aedDeviceEdit");
   }
 })
 export default class AedDeviceEditCard extends Vue {

@@ -2,9 +2,11 @@
   <div>
     <div class="d-flex flex-row">
       <div class="d-flex flex-column">
-        <span class="subtitle-1">{{
-          $t("device-register.addr") + ": " + address
-        }}</span>
+        <v-card outlined>
+          <span class="subtitle-1">{{
+            $t("device-register.addr") + ": " + address
+          }}</span>
+        </v-card>
       </div>
       <v-spacer />
       <AedDevicePic :size="190" :url="addressPicUrl" />

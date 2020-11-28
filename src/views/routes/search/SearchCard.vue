@@ -75,7 +75,6 @@ export default class SearchCard extends Vue {
     this.label = tab.searchLabel;
     this.counter = tab.counter;
     this.searchOption = tab.id;
-    console.log(this.searchOption);
   }
 
   fetchUserPreviewList() {

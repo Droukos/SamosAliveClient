@@ -57,7 +57,6 @@ export default class Search extends VuexModule {
               onNext: payload => prAedDevices.push(bufToJson(payload)),
               onSubscribe: sub => sub.request(20)
             });
-        console.log(prAedDevices);
         resolve(prAedDevices);
       });
     });
