@@ -255,7 +255,6 @@ export function getAccessTokenJwt(): Promise<string> {
           }, 100);
         else resolve("");
         tries++;
-        console.log(tries);
       })(0);
     }
   });

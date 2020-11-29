@@ -11,6 +11,7 @@ export const userApi: Record<string, string> = {
 
 export const cdnApi: Record<string, string> = {
   avatar: "cdn.user.put.avatar",
+  putAvatarPic: "/cdn/put_avatar_pic",
   aedDeviceRegister: "/cdn/put_aed_device_pics",
   aedDevicePic: "/cdn/put_aed_device_pic",
   aedDeviceAddressPic: "/cdn/put_aed_device_address_pic"

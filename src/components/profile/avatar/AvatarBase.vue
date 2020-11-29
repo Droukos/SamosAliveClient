@@ -14,6 +14,7 @@
           :style="profileBackStyle"
           alt
           class="user-profile-avatar"
+          :key="avatar"
       /></span>
     </div>
   </div>

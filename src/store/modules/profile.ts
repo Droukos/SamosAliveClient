@@ -1,7 +1,7 @@
-import api, { getAccessTokenJwt, userRSocketApi} from "@/plugins/api";
-import { apiWithVar, cdnApi, userApi } from "@/plugins/api/api-urls.ts";
+import { getAccessTokenJwt, userRSocketApi } from "@/plugins/api";
+import { userApi } from "@/plugins/api/api-urls.ts";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
-import { UpdateAvatar, UpdateUserPersonal, UserIdDto, UserInfo } from "@/types";
+import { UpdateUserPersonal, UserIdDto, UserInfo } from "@/types";
 import { Promise } from "bluebird";
 import {
   setAddress,
@@ -14,7 +14,12 @@ import {
   setProfile,
   setRoleModels
 } from "@/plugins/user-util";
-import {bufToData, bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocket-util";
+import {
+  bufToData,
+  bufToJson,
+  dataBuf,
+  metadataBuf
+} from "@/plugins/api/rsocket-util";
 
 @Module({ namespaced: true })
 export default class Profile extends VuexModule implements UserInfo {
@@ -128,16 +133,16 @@ export default class Profile extends VuexModule implements UserInfo {
       return new Promise(resolve => {
         userRSocketApi().then(userRSocket => {
           userRSocket
-              .requestResponse({
-                data: dataBuf(data),
-                metadata: metadataBuf(token, userApi.user)
-              })
-              .subscribe({
-                onComplete: value => resolve(bufToJson(value))
-              });
+            .requestResponse({
+              data: dataBuf(data),
+              metadata: metadataBuf(token, userApi.user)
+            })
+            .subscribe({
+              onComplete: value => resolve(bufToJson(value))
+            });
         });
       });
-    })
+    });
   }
 
   @Action({ commit: "setProfilePersonal" })
@@ -146,45 +151,20 @@ export default class Profile extends VuexModule implements UserInfo {
       return new Promise(resolve => {
         userRSocketApi().then(userRSocket => {
           userRSocket
-              .requestResponse({
-                data: dataBuf(data),
-                metadata: metadataBuf(token, userApi.personal)
-              })
-              .subscribe({
-                onComplete: value => {
-                  if (bufToData(value) == "true") {
-                    resolve(data);
-                  }
+            .requestResponse({
+              data: dataBuf(data),
+              metadata: metadataBuf(token, userApi.personal)
+            })
+            .subscribe({
+              onComplete: value => {
+                if (bufToData(value) == "true") {
+                  resolve(data);
                 }
-              });
+              }
+            });
         });
       });
-    })
-
-  }
-
-  @Action
-  async editProfileAvatar(data: UpdateAvatar) {
-    return await api.post(apiWithVar(cdnApi.avatar, this.userid), data, {
-      headers: {
-        Accept: "multipart/form-data",
-        "Content-Type": "multipart/form-data"
-      }
     });
-    //return new Promise(resolve =>
-    //    cdnRSocket
-    //        .requestResponse({
-    //          data: dataBuf(data),
-    //          metadata: metadataBuf(accessToken, cdnApi.avatar)
-    //        })
-    //        .subscribe({
-    //          onComplete: value => {
-    //            if (bufToJson(value) == "true") {
-    //              resolve(data);
-    //        }
-    //      }
-    //    })
-    //)
   }
 
   get profileUserId() {

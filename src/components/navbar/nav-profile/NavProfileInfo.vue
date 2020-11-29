@@ -3,7 +3,7 @@
     <v-avatar>
       <AvatarBase
         :username="username"
-        :avatar="avatar"
+        :avatar="userAvatar"
         :size="$vuetify.breakpoint.xs ? 35 : 50"
       />
     </v-avatar>
@@ -32,7 +32,7 @@ export default class NavBarAccountInfo extends Vue {
   @user.State userid!: string;
   @user.State username!: string;
   @user.State email!: string;
-  @user.State avatar!: string;
+  @user.Getter userAvatar!: string;
 
   goToProfile() {
     this.$router.push({

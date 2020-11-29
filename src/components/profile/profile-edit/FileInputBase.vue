@@ -30,14 +30,18 @@ const profileModule = namespace("profile");
 
 @Component
 export default class FileInputBase extends Vue {
-  @Prop() public styl!: string;
-  @Prop() public uploadVis!: (bool: boolean) => boolean;
+  @Prop() styl!: string;
+  @Prop() uploadVis!: (bool: boolean) => boolean;
   @profileModule.State avatar!: string;
   @editProfileModule.State fAvatar!: FieldObject;
   @editProfileModule.State fileImg!: FileImg;
 
   fileSelected() {
     this.fileImg.notUsedImgUpload = false;
+    if (this.fileImg.selectedFile == undefined) {
+      this.uploadVis(false);
+      return;
+    }
     if (
       checkIfFileSizeIsUnderMB(this.fileImg, 1) &&
       checkFileType(this.fileImg)

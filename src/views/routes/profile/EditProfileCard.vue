@@ -31,11 +31,28 @@
                 :uploadVis="uploadVisibility"
               ></FileInputBase>
             </div>
-            <div v-else class="d-flex align-center justify-space-between">
-              <FileInputBase
-                styl="width:500px;"
-                :uploadVis="uploadVisibility"
-              ></FileInputBase>
+            <div v-else class="d-flex flex-row">
+              <v-col>
+                <FileInputBase
+                  styl="width:500px;"
+                  :uploadVis="uploadVisibility"
+                ></FileInputBase>
+                <v-btn
+                  block
+                  v-if="uploadVisible"
+                  class="deep-purple darken-2"
+                  style="color:white;"
+                  @click="uploadAvatar()"
+                  aria-label="UploadAvatar"
+                  rounded
+                >
+                  {{ $t("edit.upload") }}
+                </v-btn>
+                <span v-if="avatarUpdateShow" :class="avatarUpdateClass">{{
+                  avatarUpdateMessage
+                }}</span>
+              </v-col>
+
               <ThreeCentralisedAvatars
                 clazz="d-flex flex-column-6"
                 :username="username"
@@ -43,8 +60,9 @@
               ></ThreeCentralisedAvatars>
             </div>
 
-            <div class="d-flex pr-8">
+            <div v-if="$vuetify.breakpoint.smAndDown">
               <v-btn
+                block
                 v-if="uploadVisible"
                 class="deep-purple darken-2"
                 style="color:white;"
@@ -133,19 +151,14 @@ const editProfileModule = namespace("editProfile");
       if (!(store && store.state && store.state["editProfile"])) {
         store.registerModule("editProfile", editProfileMod);
       }
-      store
-        .dispatch("profile/profileData", { userid: to.params.userID })
-        .then(() => {
-          editProfileCard.loadingSkeleton = false;
-          editProfileCard.setProfileUInfo();
-          // vm.$store.commit("profile/setUserData", response.data);
-          //if (to.params.userID === vm.$store.getters["user/getUserID"])
-          //  vm.$store.commit("user/setUserData", response.data);
-        });
+      editProfileCard.profileData({ userid: to.params.userID }).then(() => {
+        editProfileCard.loadingSkeleton = false;
+        editProfileCard.setEditProfileInfo(store.state["profile"]);
+      });
     });
   },
   beforeDestroy() {
-    this.$store.unregisterModule("editProfile");
+    //this.$store.unregisterModule("editProfile");
   }
 })
 export default class EditProfileCard extends Vue {
@@ -156,7 +169,8 @@ export default class EditProfileCard extends Vue {
     data: UpdateUserPersonal
   ) => Promise<UpdateUserPersonal>;
   @profile.Action profileData!: (data: UserIdDto) => Promise<UserInfo>;
-  @editProfileModule.Action setEditProfileInfo!: (userInfo: UserInfo) => void;
+  @editProfileModule.Mutation setEditProfileInfo!: (userInfo: UserInfo) => void;
+  @editProfileModule.Action editProfileAvatar!: () => Promise<any>;
   @editProfileModule.Mutation setUpdateVisible!: (updateVis: boolean) => void;
   @editProfileModule.State fName!: FieldObject;
   @editProfileModule.State fSurname!: FieldObject;
@@ -170,6 +184,7 @@ export default class EditProfileCard extends Vue {
   @editProfileModule.State updateResultShow!: boolean;
   @editProfileModule.State updateResultMessage!: string;
   @editProfileModule.State updateResultClass!: string;
+  @profile.State avatar!: string;
   @editProfileModule.Mutation setSuccessUpdate!: () => void;
   @editProfileModule.Mutation setFailedUpdate!: () => void;
 
@@ -184,10 +199,6 @@ export default class EditProfileCard extends Vue {
 
   uploadVisibility(bool: boolean) {
     this.uploadVisible = bool;
-  }
-
-  setProfileUInfo() {
-    this.setEditProfileInfo(this.$store.state["profile"]);
   }
 
   updateUInfo() {
@@ -205,16 +216,13 @@ export default class EditProfileCard extends Vue {
   }
 
   uploadAvatar() {
-    const data = new FormData();
-    data.append("avFile", this.fileImg.selectedFile);
-
-    this.$store
-      .dispatch("profile/editProfileAvatar", data)
+    this.editProfileAvatar()
       .then(respond => {
+        console.log(respond);
         this.avatarUpdateClass = this.validClass;
         this.avatarUpdateMessage = this.$t("edit.avatarUpdated");
         this.avatarUpdateShow = true;
-        const dataAvatar = { avatar: respond.data.message };
+        const dataAvatar = respond.data;
         if (this.profileUserId === this.userUserId)
           this.$store.commit("user/setAvatar", dataAvatar);
         this.$store.commit("profile/setAvatar", dataAvatar);

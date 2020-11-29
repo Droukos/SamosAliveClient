@@ -3,6 +3,8 @@ import {Error, Field, FieldObject, FileImg, Icon, Show, SuccessMessage, UserInfo
 import store from "@/store";
 import i18n from "@/plugins/i18n";
 import {TranslateResult} from "vue-i18n";
+import api from "@/plugins/api";
+import {apiWithVar, cdnApi} from "@/plugins/api/api-urls";
 
 type FieldObject2 = {
   f: Field;
@@ -22,6 +24,7 @@ type FieldObject2 = {
   name: "editProfile",
 })
 export default class ProfileEdit extends VuexModule {
+  userid = "";
   fName: FieldObject = {
     f: i18n.t("fields.name"),
     v: "",
@@ -58,8 +61,11 @@ export default class ProfileEdit extends VuexModule {
     e: "",
     run: false,
   };
-  fAvatar: { v: string | null } = {
-    v:  "",
+  fAvatar: FieldObject2 = {
+    f: i18n.t("device-register.addrPic"),
+    v: "",
+    e: "",
+    run: false
   };
   fPhones: FieldObject2 = {
     f: i18n.t("fields.phone"),
@@ -104,8 +110,9 @@ export default class ProfileEdit extends VuexModule {
     this.updateVisible = false;
   }
 
-  @Action
+  @Mutation
   setEditProfileInfo(profile: UserInfo) {
+    this.userid = profile.userid;
     this.fName.v = profile.name;
     this.fSurname.v = profile.surname;
     this.fAvatar.v = profile.avatar;
@@ -125,5 +132,20 @@ export default class ProfileEdit extends VuexModule {
         (this.fProvince.v != undefined && this.fProvince.v.length > 40) ||
         (this.fCity.v != undefined && this.fCity.v.length > 40)
     );
+  }
+
+  @Action
+  async editProfileAvatar() {
+    const data = new FormData();
+    data.append("avFile", this.fileImg.selectedFile);
+
+    return await api.put(apiWithVar(cdnApi.putAvatarPic, this.userid), data, {
+      baseURL: document
+          .querySelector('meta[name="cdn_server"]')!
+          .getAttribute("content")!,
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }).catch(error=> console.log(error));
   }
 }
