@@ -22,7 +22,7 @@
             </v-list-item-action>
           </v-list-item>
           <v-card-actions>
-            <h6>{{ item.uploadedTime }}</h6>
+            <h6>{{ formatDate(item.uploadedTime) }}</h6>
             <!--TODO date-->
             <v-spacer />
             <v-btn
@@ -56,6 +56,12 @@ export default class ProblemsListPanel extends Vue {
     } else {
       return this.$t("events.statusS3");
     }
+  }
+  formatDate(date: number[]) {
+    const d = date.toString();
+    const formatted = d.substring(11, 19) + " " + d.substring(0, 10);
+    console.log(formatted);
+    return formatted;
   }
   @problemsList.State problemsTitle!: string;
   @problemsList.State previewProblems!: AedProblemsInfo;

@@ -63,7 +63,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { AedProblemsInfo, User } from "@/types";
-import problemsListMod from "@/store/modules/dynamic/problemsList";
+import problemsListMod from "@/store/modules/dynamic/aed/problems/problems-list";
 
 const aedProblems = namespace("aedProblems");
 const user = namespace("user");
@@ -124,12 +124,6 @@ export default class ProblemsListCard extends Vue {
   ) => Promise<void>;
 
   sendAedProblems() {
-      /*const date =
-      d.toISOString().substring(11, 19) +
-      " " +
-      d.toString().substring(0, 10) +
-      " " +
-      d.toISOString().substring(0, 4);*/
     this.createAedProblems({
       username: this.username,
       problemsTitle: this.title.text,

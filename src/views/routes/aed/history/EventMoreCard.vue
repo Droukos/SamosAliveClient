@@ -15,9 +15,21 @@
           <v-list-item-content>
             <v-card-text>{{ address }} </v-card-text>
             <v-card-text>{{ comment }} </v-card-text>
+            <v-card-text>{{ conclusion }} </v-card-text>
             <v-list-item-subtitle bottom
-              >{{ username }} - {{ requestedTime }}</v-list-item-subtitle
+              >{{ upload }}{{ username }} -
+              {{
+                $helper.convDate2(requestedTime, "short", locale)
+              }}</v-list-item-subtitle
             >
+            <div v-if="status === allStatus.COMPLETED">
+              <v-list-item-subtitle bottom
+                >{{ complete }} {{ rescuer }} -
+                {{
+                  $helper.convDate2(completedTime, "long", locale)
+                }}</v-list-item-subtitle
+              >
+            </div>
           </v-list-item-content>
           <v-list-item-action>
             <v-list-item-action-text>{{
@@ -82,11 +94,16 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedEventCloseInfo, AedEventRescuerInfo, EventDto } from "@/types";
-import aedEventInfoMod from "@/store/modules/dynamic/aedEventInfo";
+import {
+  AedEventCloseInfo,
+  AedEventRescuerInfo,
+  EventDto
+} from "@/types/aed-event";
+import aedEventInfoMod from "@/store/modules/dynamic/aed/events/aed-event-info";
 import { statusOptions } from "@/plugins/enums/event-options";
 
 const aedEventInfo = namespace("aedEventInfo");
+const environment = namespace("environment");
 
 @Component({
   beforeRouteEnter(to, from, next) {
@@ -107,6 +124,8 @@ const aedEventInfo = namespace("aedEventInfo");
 })
 export default class EventMoreCard extends Vue {
   message = "";
+  upload = this.$t("events.upload");
+  complete = this.$t("events.complete");
   dialog = false;
   openDialog() {
     this.dialog = true;
@@ -139,6 +158,9 @@ export default class EventMoreCard extends Vue {
 
   subResc() {
     this.subRescuer({ id: this.id, rescuer: this.username });
+    console.log(this.completedTime);
+    console.log(this.rescuer);
+    console.log(this.conclusion);
   }
 
   closeEvent() {
@@ -146,6 +168,7 @@ export default class EventMoreCard extends Vue {
   }
 
   loadingSkeleton = true;
+  @environment.State locale!: string;
   @aedEventInfo.Action findEventId!: (data: EventDto) => Promise<any>;
   @aedEventInfo.Action subRescuer!: (data: AedEventRescuerInfo) => Promise<any>;
   @aedEventInfo.Action closeAedEvent!: (
@@ -155,9 +178,13 @@ export default class EventMoreCard extends Vue {
   @aedEventInfo.State userid!: string;
   @aedEventInfo.State username!: string;
   @aedEventInfo.State occurrenceType!: number;
+  @aedEventInfo.State occurrencePoint!: number[];
   @aedEventInfo.State address!: string;
   @aedEventInfo.State comment!: string;
   @aedEventInfo.State status!: number;
-  @aedEventInfo.State requestedTime!: string;
+  @aedEventInfo.State requestedTime!: number[];
+  @aedEventInfo.State completedTime!: number[];
+  @aedEventInfo.State rescuer!: string;
+  @aedEventInfo.State conclusion!: string;
 }
 </script>

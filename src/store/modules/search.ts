@@ -8,7 +8,6 @@ import { Action, Module, VuexModule } from "vuex-module-decorators";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import {
   RequestedPreviewUser,
-  AedEventInfo,
   NewsInfo,
   AedProblemsInfo
 } from "@/types";
@@ -19,6 +18,7 @@ import {
     problemsApi, aedDeviceApi
 } from "@/plugins/api/api-urls.ts";
 import {IAedDevicePreview} from "@/types/aed-device";
+import {AedEventInfo} from "@/types/aed-event";
 
 @Module({ namespaced: true })
 export default class Search extends VuexModule {

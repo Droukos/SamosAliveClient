@@ -87,7 +87,7 @@ import {
   AedProblemsTechnicalInfo,
   ProblemsDto
 } from "@/types";
-import aedProblemsInfoMod from "@/store/modules/dynamic/aedProblemsInfo";
+import aedProblemsInfoMod from "@/store/modules/dynamic/aed/problems/aed-problems-info";
 import { statusOptions } from "@/plugins/enums/event-options";
 
 const aedProblemsInfo = namespace("aedProblemsInfo");

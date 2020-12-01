@@ -66,7 +66,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { NewsInfo, User } from "@/types";
-import newsListMod from "@/store/modules/dynamic/newsList.ts";
+import newsListMod from "@/store/modules/dynamic/news-list.ts";
 
 const news = namespace("news");
 const user = namespace("user");

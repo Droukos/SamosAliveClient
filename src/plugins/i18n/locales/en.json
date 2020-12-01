@@ -73,7 +73,9 @@
     "problemListInfo": "This is a list of current pending technical problems",
     "send": "Send alert",
     "situation": "Situation..",
-    "live": "Live events"
+    "live": "Live events",
+    "upload": "Uploaded by: ",
+    "complete": "Completed by: "
   },
   "fields": {
     "address": "Address",

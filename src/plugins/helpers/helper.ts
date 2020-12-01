@@ -5,10 +5,15 @@ import { Role } from "@/types";
 const createDate = (date: number[]) => {
   return new Date(date[0], date[1], date[2], date[3], date[4], date[5]);
 };
+const parseISOLocal = (data: string) => {
+  const b = data.split(/\D/);
+  return new Date(parseInt(b[0]), parseInt(b[1])-1, parseInt(b[2]), parseInt(b[3]), parseInt(b[4]), parseInt(b[5]));
+}
 export default new (class Helper {
   public install(Vue: any) {
     Vue.prototype.$helper = this;
   }
+
   usernameHashCode(str: string) {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
@@ -17,9 +22,15 @@ export default new (class Helper {
     const c = (hash & 0x00ffffff).toString(16).toUpperCase();
     return "#" + "00000".substring(0, 6 - c.length) + c;
   }
+
   convDate(date: number[], format: string, lang: string) {
     return i18n.d(createDate(date), format, lang);
   }
+
+  convDate2(date: string, format: string, lang: string){
+    return i18n.d(parseISOLocal(date), format, lang);
+  }
+
   getGreatestRole(roles: any) {
     return roles.reduce(function(
       accumulator: { code: string },
@@ -110,6 +121,7 @@ declare module "vue/types/vue" {
     $helper: {
       filterInfo(jsonData: any): any;
       convDate(date: number[], format: string, lang: string): TranslateResult;
+      convDate2(date: string, format: string, lang: string): TranslateResult;
       getGreatestRole(roles: Role[]): Role;
       usernameHashCode(str: string): string;
       getRoleForLocale(role: Role): string;
