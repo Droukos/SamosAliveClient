@@ -111,6 +111,7 @@ export default class Profile extends VuexModule implements UserInfo {
 
   @Mutation
   setProfileData(userinfo: UserInfo) {
+    console.log(userinfo);
     setCore(this, userinfo);
     setAvailability(this, userinfo.online, userinfo.availability);
     setAddress(this, userinfo.countryCode, userinfo.province, userinfo.city);

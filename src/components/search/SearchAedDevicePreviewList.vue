@@ -48,9 +48,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { IAedDevicePreview } from "@/types/aed-device";
 import { getAedDeviceStatusColor } from "@/plugins/enums/device/aed/aed-device-status";
+import { namespace } from "vuex-class";
+
+const search = namespace("search");
 
 @Component({
   components: {
@@ -61,8 +64,7 @@ import { getAedDeviceStatusColor } from "@/plugins/enums/device/aed/aed-device-s
   }
 })
 export default class SearchAedDevicePreviewList extends Vue {
-  @Prop()
-  previewAedDevices!: IAedDevicePreview[];
+  @search.State previewAedDevices!: IAedDevicePreview[];
 
   getStatusColor(statusCode: number) {
     return getAedDeviceStatusColor(statusCode);

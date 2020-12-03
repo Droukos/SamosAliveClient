@@ -38,6 +38,7 @@ export const eventApi: Record<string, string> = {
 export const aedDeviceApi: Record<string, string> = {
   registerAedDevice: "aed.device.register",
   fetchAedDevice: "aed.device.fetch.byId",
+  fetchAedDeviceInArea: "aed.device.fetch.inArea",
   fetchAedDevicePreviews: "aed.device.fetch.preview.byNickname",
   editAedDeviceInfo: "aed.device.info.edit"
 }

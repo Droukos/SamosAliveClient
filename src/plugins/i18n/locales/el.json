@@ -201,7 +201,18 @@
   },
   "search": {
     "searchObj": "@:search.title {0}",
-    "title": "Αναζήτηση"
+    "title": "Αναζήτηση",
+    "previous": "Προηγούμενο",
+    "next": "Επόμενο",
+    "searchText": "Aναζήτηση κειμένου",
+    "searchMap": "Αναζήτηση σε χάρτη",
+    "radius": "H ακτίνα κύκλου",
+    "currentPos": "Παρούσα θέση συντεταγμένων",
+    "go": "Μετάβαση",
+    "goTo": "@:search.go σε συντεταγμένες"
+  },
+  "radius": {
+    "km": "χιλιόμετρα"
   },
   "settings": {
     "language": "Επιλέξτε γλώσσα",
@@ -261,7 +272,9 @@
     "passMatch": "Ο @:fields.password και @:fields.passwordConf @:warnings.notMatch",
     "passRegex": "O Κωδικός πρέπει να έχει 1 μικρό, 1 αριθμό και μεταξύ 6 και 120 χαρακτήρες",
     "required": "Το πεδίο {0} @:warnings.notEmpty",
-    "usernameRegex": "Μη έγκυρο όνομα χρήστη"
+    "usernameRegex": "Μη έγκυρο όνομα χρήστη",
+    "over": "{0} δεν μπορεί να είναι παραπάνω από {1}",
+    "fieldNumber": "To πεδίο πρέπει να είναι αριθμός"
   },
   "warnings": {
     "invalid": "μη έγκυρο",

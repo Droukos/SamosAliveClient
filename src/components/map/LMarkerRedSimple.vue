@@ -5,7 +5,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import L from "leaflet";
-import { LMarker } from "vue2-leaflet";
+import { LMarker, LTooltip } from "vue2-leaflet";
 import {
   markerIconRedSimple,
   markerIconShadow
@@ -13,7 +13,8 @@ import {
 
 @Component({
   components: {
-    LMarker
+    LMarker,
+    LTooltip
   }
 })
 export default class LMarkerSimple extends Vue {

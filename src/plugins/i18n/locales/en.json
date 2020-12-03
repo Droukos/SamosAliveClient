@@ -202,7 +202,18 @@
   },
   "search": {
     "searchObj": "@:search.title {0}",
-    "title": "Search"
+    "title": "Search",
+    "previous": "Previous",
+    "next": "Next",
+    "searchText": "Search text",
+    "searchMap": "Search in map",
+    "radius": "Circle's radius",
+    "currentPos": "Current Marker's Lat-Lng",
+    "go": "Go",
+    "goTo": "@:search.go to Lat-Lng"
+  },
+  "radius": {
+    "km": "kilometers"
   },
   "settings": {
     "language": "Choose language",
@@ -261,7 +272,9 @@
     "passMatch": "@:fields.password and @:fields.passwordConf @:warnings.notMatch",
     "passRegex": "Password must have at least 1 undercase, 1 number and between 6 to 120 characters",
     "required": "{0} @:warnings.notEmpty",
-    "usernameRegex": "Invalid Username"
+    "usernameRegex": "Invalid Username",
+    "over": "{0} can't be over {1}",
+    "fieldNumber": "Field must be number"
   },
   "warnings": {
     "invalid": "invalid",

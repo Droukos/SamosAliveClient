@@ -48,12 +48,12 @@ export interface IAedDeviceRegister {
 }
 
 export interface IAedDeviceEdit {
-  id: AedDeviceId,
-  modelName: AedDeviceModelName,
-  modelDescription: AedDeviceModelDescription,
-  address: AedDeviceAddress,
-  homePointX: AedDeviceAddressPointX,
-  homePointY: AedDeviceAddressPointY
+  id: AedDeviceId;
+  modelName: AedDeviceModelName;
+  modelDescription: AedDeviceModelDescription;
+  address: AedDeviceAddress;
+  homePointX: AedDeviceAddressPointX;
+  homePointY: AedDeviceAddressPointY;
 }
 
 export interface IAedDeviceInfo {
@@ -84,6 +84,13 @@ export interface IAedDevicePreview {
   status: AedDevice.Status;
   picUrl: AedDevice.DevicePic;
   address: AedDeviceAddress;
+  homePoint: AedDevice.HomePoint;
   onEventId: AedDevice.OnEventId;
   onUserId: AedDevice.OnUserId;
+}
+
+export interface IAedDeviceMapSearchDto {
+  x: number;
+  y: number;
+  distance: number;
 }

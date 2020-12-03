@@ -156,8 +156,8 @@ export default class AedDeviceRegister extends VuexModule {
       uniqueNickname: this.fNickname.v,
       modelName: this.fModelName.v,
       description: this.fModelDescription.v,
-      defaultMapX: this.fAddress.v!.x,
       defaultMapY: this.fAddress.v!.y,
+      defaultMapX: this.fAddress.v!.x,
       address: this.fAddress.v!.label
     };
   }
