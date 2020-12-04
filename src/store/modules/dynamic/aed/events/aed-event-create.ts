@@ -3,7 +3,7 @@ import {
   FieldObject,
   OpenStreetObjData
 } from "@/types";
-import { AedEventInfo } from "@/types/aed-event";
+import { AedEventCreateDto } from "@/types/aed-event";
 import i18n from "@/plugins/i18n";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import L from "leaflet";
@@ -85,7 +85,7 @@ export default class AedEventCreate extends VuexModule {
   }
 
   @Action
-  async createAedEvent(data: AedEventInfo) {
+  async createAedEvent(data: AedEventCreateDto) {
     return new Promise(resolve => {
       aedRSocketApi().then(aedRSocket =>
         aedRSocket

@@ -77,14 +77,13 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedEventInfo } from "@/types/aed-event";
 import { AddressObject, FieldObject, User } from "@/types";
 import { LMap, LControl } from "vue2-leaflet";
 import L from "leaflet";
 import aedEventAddressMod from "@/store/modules/dynamic/aed/events/aed-event-create";
+import { AedEventCreateDto } from "@/types/aed-event";
 
 const aedEventAddress = namespace("aedEventAddress");
-const aedEvent = namespace("aedEvent");
 const user = namespace("user");
 
 @Component({
@@ -151,7 +150,7 @@ export default class EventCard extends Vue {
   @user.State userid!: User.UserId;
   @user.State username!: User.Username;
   @aedEventAddress.Action createAedEvent!: (
-    data: AedEventInfo
+    data: AedEventCreateDto
   ) => Promise<void>;
 
   sendAedEvent() {
@@ -163,8 +162,7 @@ export default class EventCard extends Vue {
       address: this.fAddress.v?.label,
       mapX: this.fAddress.v?.x,
       mapY: this.fAddress.v?.y,
-      comment: this.fComment.v,
-      status: 1
+      comment: this.fComment.v
     }).then(() => {
       console.log("run");
     });

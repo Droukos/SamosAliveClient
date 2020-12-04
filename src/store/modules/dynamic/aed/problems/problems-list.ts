@@ -1,6 +1,6 @@
 import {Action, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import store from "@/store";
-import { AedProblemsInfo} from "@/types";
+import { AedProblemsCardDto } from "@/types/aed-problems";
 import {accessToken, aedRSocketApi} from "@/plugins/api";
 import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocket-util";
 import {problemsApi} from "@/plugins/api/api-urls";
@@ -13,18 +13,18 @@ import {problemsApi} from "@/plugins/api/api-urls";
 })
 export default class ProblemsList extends VuexModule {
 
-    previewProblems: AedProblemsInfo[] | null = null;
+    previewProblems: AedProblemsCardDto[] | null = null;
     problemsTitle = "";
 
     @Mutation
-    setPreviewProblems(problemsInfo: AedProblemsInfo[]) {
+    setPreviewProblems(problemsInfo: AedProblemsCardDto[]) {
         this.previewProblems = problemsInfo;
     }
 
     @Action({commit: "setPreviewProblems"})
     async fetchProblemsPreview(title: string) {
         return new Promise(resolve => {
-            const previewAedProblems: AedProblemsInfo[] = [];
+            const previewAedProblems: AedProblemsCardDto[] = [];
             aedRSocketApi().then(aedRSocket => {
                 aedRSocket
                     .requestStream({

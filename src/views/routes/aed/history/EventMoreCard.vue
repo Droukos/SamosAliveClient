@@ -9,32 +9,37 @@
     >
       <v-card>
         <v-card-title class="primary">
-          {{ eventString(occurrenceType) }}
+          <AedEventOccurrenceType />
         </v-card-title>
         <v-list-item three-line>
           <v-list-item-content>
-            <v-card-text>{{ address }} </v-card-text>
-            <v-card-text>{{ comment }} </v-card-text>
-            <v-card-text>{{ conclusion }} </v-card-text>
-            <v-list-item-subtitle bottom
-              >{{ upload }}{{ username }} -
-              {{
-                $helper.convDate2(requestedTime, "short", locale)
-              }}</v-list-item-subtitle
+            <v-card-text>{{ addr }}<AedEventAddress /> </v-card-text>
+            <v-card-text>{{ comm }}<AedEventComment /> </v-card-text>
+            <v-card-text>{{ concl }}<AedEventConclusion /> </v-card-text>
+            <div
+              :style="
+                'height:' + ($vuetify.breakpoint.mdAndUp ? '600px' : '300px')
+              "
             >
+              <l-map :zoom="zoom" :center="center" style="z-index: 0;">
+                <LTileLayerBase />
+                <LMarkerRedSimple :marker="marker" />
+              </l-map>
+            </div>
+            <v-list-item-subtitle bottom
+              >{{ upload }}<AedEventUsername /> -
+              <AedEventRequestedTime />
+            </v-list-item-subtitle>
             <div v-if="status === allStatus.COMPLETED">
               <v-list-item-subtitle bottom
-                >{{ complete }} {{ rescuer }} -
-                {{
-                  $helper.convDate2(completedTime, "long", locale)
-                }}</v-list-item-subtitle
-              >
+                >{{ complete }} <AedEventRescuer /> - <AedEventCompletedTime
+              /></v-list-item-subtitle>
             </div>
           </v-list-item-content>
           <v-list-item-action>
-            <v-list-item-action-text>{{
-              statusString(status)
-            }}</v-list-item-action-text>
+            <v-list-item-action-text
+              ><AedEventStatus
+            /></v-list-item-action-text>
           </v-list-item-action>
         </v-list-item>
         <v-divider></v-divider>
@@ -101,11 +106,59 @@ import {
 } from "@/types/aed-event";
 import aedEventInfoMod from "@/store/modules/dynamic/aed/events/aed-event-info";
 import { statusOptions } from "@/plugins/enums/event-options";
+import L from "leaflet";
+import { LControl, LMap } from "vue2-leaflet";
+import AedEventComment from "@/components/event/info/AedEventComment.vue";
 
 const aedEventInfo = namespace("aedEventInfo");
 const environment = namespace("environment");
-
+//TODO components sto card ton event kai antistoixa component gia news-problems
 @Component({
+  components: {
+    AedEventComment,
+    LMap,
+    LControl,
+    AedEventAddress: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventAddress.vue"
+      ),
+    AedEventCompletedTime: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventCompletedTime.vue"
+      ),
+    AedEventConclusion: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventConclusion.vue"
+      ),
+    AedEventOccurrenceType: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventOccurrenceType.vue"
+      ),
+    AedEventRequestedTime: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventRequestedTime.vue"
+      ),
+    AedEventRescuer: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventRescuer.vue"
+      ),
+    AedEventStatus: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventStatus.vue"
+      ),
+    AedEventUsername: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventUsername.vue"
+      ),
+    LTileLayerBase: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/map/LTileLayerBase.vue"
+      ),
+    LMarkerRedSimple: () =>
+      import(
+        /* webpackChunkName: "LMarkerRedSimple" */ "@/components/map/LMarkerRedSimple.vue"
+      )
+  },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       const eventMoreCard = vm as EventMoreCard;
@@ -124,6 +177,9 @@ const environment = namespace("environment");
 })
 export default class EventMoreCard extends Vue {
   message = "";
+  addr = this.$t("events.addr");
+  comm = this.$t("events.comm");
+  concl = this.$t("events.concl");
   upload = this.$t("events.upload");
   complete = this.$t("events.complete");
   dialog = false;
@@ -132,28 +188,8 @@ export default class EventMoreCard extends Vue {
   }
   allStatus = statusOptions;
 
-  eventString(occ: number) {
-    if (occ == 1) {
-      return this.$t("events.eventS1");
-    }
-    if (occ == 2) {
-      return this.$t("events.eventS2");
-    }
-    if (occ == 3) {
-      return this.$t("events.eventS3");
-    }
-  }
-
-  statusString(status: number) {
-    if (status == 1) {
-      return this.$t("events.statusS1");
-    }
-    if (status == 2) {
-      return this.$t("events.statusS2");
-    }
-    if (status == 3) {
-      return this.$t("events.statusS3");
-    }
+  checkConclusion(conclusion: string) {
+    return !(conclusion == null || conclusion != "");
   }
 
   subResc() {
@@ -168,7 +204,6 @@ export default class EventMoreCard extends Vue {
   }
 
   loadingSkeleton = true;
-  @environment.State locale!: string;
   @aedEventInfo.Action findEventId!: (data: EventDto) => Promise<any>;
   @aedEventInfo.Action subRescuer!: (data: AedEventRescuerInfo) => Promise<any>;
   @aedEventInfo.Action closeAedEvent!: (
@@ -177,14 +212,12 @@ export default class EventMoreCard extends Vue {
   @aedEventInfo.State id!: string;
   @aedEventInfo.State userid!: string;
   @aedEventInfo.State username!: string;
-  @aedEventInfo.State occurrenceType!: number;
-  @aedEventInfo.State occurrencePoint!: number[];
-  @aedEventInfo.State address!: string;
-  @aedEventInfo.State comment!: string;
   @aedEventInfo.State status!: number;
-  @aedEventInfo.State requestedTime!: number[];
   @aedEventInfo.State completedTime!: number[];
   @aedEventInfo.State rescuer!: string;
   @aedEventInfo.State conclusion!: string;
+  @aedEventInfo.State zoom!: string;
+  @aedEventInfo.State center!: L.LatLng;
+  @aedEventInfo.State marker!: L.LatLng;
 }
 </script>

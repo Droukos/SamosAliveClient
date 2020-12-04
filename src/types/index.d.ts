@@ -230,45 +230,6 @@ declare namespace News {
 export type NewsInfo = News.NewsInfo;
 export type NewsMore = News.NewsMore;
 
-declare namespace AedProblems {
-  type id = string;
-  type problemsTitle = string;
-  type address = string;
-  type information = string;
-  type status = number;
-  type uploadedTime = number [];
-  type technical = string;
-  type conclusion = string;
-
-  interface AedProblemsInfo {
-    username: User.Username;
-    problemsTitle: AedProblems.problemsTitle;
-    address: AedProblems.address;
-    information: AedProblems.information;
-    status: AedProblems.status;
-  }
-  interface AedProblemsMore {
-    id: AedProblems.id;
-    username: User.Username;
-    problemsTitle: AedProblems.problemsTitle;
-    address: AedProblems.address;
-    information: AedProblems.information;
-    status: AedProblems.status;
-    uploadedTime: AedProblems.uploadedTime;
-  }
-  interface AedProblemsTechnicalInfo {
-    id: AedProblems.id;
-    technical: AedProblems.technical;
-  }
-  interface AedProblemsCloseInfo {
-    id: AedProblems.id;
-    conclusion: AedProblems.conclusion;
-  }
-}
-export type AedProblemsInfo = AedProblems.AedProblemsInfo;
-export type AedProblemsMore = AedProblems.AedProblemsMore;
-export type AedProblemsTechnicalInfo = AedProblems.AedProblemsTechnicalInfo;
-export type AedProblemsCloseInfo = AedProblems.AedProblemsCloseInfo;
 
 export interface UpdateAvatar {
   userid: User.UserId;
@@ -309,10 +270,6 @@ export type UsernameDto = {
 
 export type NewsDto = {
   id: News.id;
-}
-
-export type ProblemsDto = {
-  id: AedProblems.id;
 }
 
 export type PrivacySetField = {

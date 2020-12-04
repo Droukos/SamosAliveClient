@@ -2,23 +2,16 @@ import {
   accessToken,
   userRSocketApi,
   aedRSocketApi,
-  newsRSocketApi
 } from "@/plugins/api";
 import { Action, Module, VuexModule } from "vuex-module-decorators";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import {
   RequestedPreviewUser,
-  NewsInfo,
-  AedProblemsInfo
 } from "@/types";
 import {
-    eventApi,
-    newsApi,
-    userApi,
-    problemsApi, aedDeviceApi
+    userApi, aedDeviceApi
 } from "@/plugins/api/api-urls.ts";
 import {IAedDevicePreview} from "@/types/aed-device";
-import {AedEventInfo} from "@/types/aed-event";
 
 @Module({ namespaced: true })
 export default class Search extends VuexModule {
@@ -62,10 +55,10 @@ export default class Search extends VuexModule {
     });
   }
 
-  @Action
+  /*@Action
   async fetchEventsPreview(occurrenceType: string) {
     return new Promise(resolve => {
-      const previewAedEvent: AedEventInfo[] = [];
+      const previewAedEvent: AedEventCardDto[] = [];
       aedRSocketApi().then(aedRSocket =>
         aedRSocket
           .requestStream({
@@ -119,5 +112,5 @@ export default class Search extends VuexModule {
       );
       resolve(previewAedProblems);
     });
-  }
+  }*/
 }

@@ -1,6 +1,6 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
-import { AedEventInfo, AedSearchInfo } from "@/types/aed-event";
+import { AedEventCardDto, AedSearchInfo } from "@/types/aed-event";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
@@ -12,19 +12,19 @@ import { eventApi } from "@/plugins/api/api-urls";
   name: "eventList"
 })
 export default class EventList extends VuexModule {
-  previewEvents: AedEventInfo[] | null = null;
+  previewEvents: AedEventCardDto[] | null = null;
   selectedType = 0;
   selectedStatus = 0;
 
   @Mutation
-  setPreviewEvent(eventInfo: AedEventInfo[]) {
+  setPreviewEvent(eventInfo: AedEventCardDto[]) {
     this.previewEvents = eventInfo;
   }
 
   @Action({ commit: "setPreviewEvent" })
   async fetchEventsPreview(data: AedSearchInfo) {
     return new Promise(resolve => {
-      const previewAedEvent: AedEventInfo[] = [];
+      const previewAedEvent: AedEventCardDto[] = [];
       aedRSocketApi().then(aedRSocket => {
         aedRSocket
           .requestStream({
