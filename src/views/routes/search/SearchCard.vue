@@ -10,6 +10,13 @@
       <v-divider />
       <SearchUserPreviewList v-if="isUserOption" />
       <SearchAedDevicePreviewList v-else-if="isAedDOption" />
+      <v-btn @click="eventPush">{{ "push" }}</v-btn>
+      <v-btn @click="listenEvents">{{ "listen" }}</v-btn>
+      <v-list>
+        <v-list-item v-for="event in events" :key="event.requestedTime[6]">{{
+          event.username
+        }}</v-list-item>
+      </v-list>
     </v-container>
   </v-content>
 </template>
@@ -59,6 +66,9 @@ export default class SearchCard extends Vue {
   isLoading = false;
   @search.State searchOption!: number;
   @search.State searchDevice!: number;
+  @search.Action eventPush!: () => void;
+  @search.Action listenEvents!: () => void;
+  @search.State events!: any[];
 
   get isUserOption(): boolean {
     return this.searchOption === searchOptions.USERS;
