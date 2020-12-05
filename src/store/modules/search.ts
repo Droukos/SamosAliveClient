@@ -150,53 +150,6 @@ export default class Search extends VuexModule {
   }
 
   @Action
-  async eventPush() {
-    aedRSocketApi().then(aedRSocket => {
-      aedRSocket
-          .fireAndForget({
-            metadata: metadataBuf(
-                accessToken,
-                eventApi.aedEventPush
-            )
-          })
-    });
-  }
-
-  @Action
-  async listenEvents() {
-    //let requestedMsg = 10;
-    //let processedMsg = 0;
-    //let requestStreamSubscription: any ;
-    aedRSocketApi().then(aedRSocket => {
-      aedRSocket
-          .requestStream({
-            metadata: metadataBuf(
-                accessToken,
-                eventApi.aedEventsListen
-            )
-          })
-          .subscribe({
-            onError: error => console.error(error),
-            onNext: payload => {
-              //processedMsg++;
-
-              //if (processedMsg >= requestedMsg) {
-              //  requestStreamSubscription.request(requestedMsg);
-              //  processedMsg = 0;
-              //}
-              console.log(bufToJson(payload))
-              this.events.push(bufToJson(payload));
-            },
-            onSubscribe: sub => {
-             //requestStreamSubscription = sub;
-             //requestStreamSubscription.request(requestedMsg);
-              sub.request(60000)
-            }
-          });
-    });
-  }
-
-  @Action
   async fetchUsersPreview(user: string): Promise<RequestedPreviewUser[]> {
     return new Promise(resolve => {
       const prUsers: RequestedPreviewUser[] = [];

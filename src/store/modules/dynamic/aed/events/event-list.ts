@@ -4,6 +4,7 @@ import { AedEventInfo, AedSearchInfo } from "@/types/aed-event";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
+import {statusOptions} from "@/plugins/enums/event-options";
 
 @Module({
   dynamic: true,
@@ -12,13 +13,20 @@ import { eventApi } from "@/plugins/api/api-urls";
   name: "eventList"
 })
 export default class EventList extends VuexModule {
-  previewEvents: AedEventInfo[] | null = null;
+  previewEvents = new Map<string, AedEventInfo>(); //AedEventInfo[] | null = null;
   selectedType = 0;
   selectedStatus = 0;
 
+  updatePreviewEventMap(previewEventsMap: Map<string, AedEventInfo>, eventInfo: AedEventInfo) {
+    if(eventInfo.status === statusOptions.COMPLETED && previewEventsMap.has(eventInfo.id)) {
+      previewEventsMap.delete(eventInfo.id);
+    }else {
+      previewEventsMap.set(eventInfo.id, eventInfo)
+    }
+  }
   @Mutation
   setPreviewEvent(eventInfo: AedEventInfo[]) {
-    this.previewEvents = eventInfo;
+    eventInfo.forEach(value => this.updatePreviewEventMap(this.previewEvents, value))
   }
 
   @Action({ commit: "setPreviewEvent" })
@@ -38,6 +46,41 @@ export default class EventList extends VuexModule {
           });
         resolve(previewAedEvent);
       });
+    });
+  }
+
+  @Action
+  async listenEvents() {
+    //let requestedMsg = 10;
+    //let processedMsg = 0;
+    //let requestStreamSubscription: any ;
+    aedRSocketApi().then(aedRSocket => {
+      aedRSocket
+          .requestStream({
+            metadata: metadataBuf(
+                accessToken,
+                eventApi.aedEventsListen
+            )
+          })
+          .subscribe({
+            onError: error => console.error(error),
+            onNext: payload => {
+              //processedMsg++;
+
+              //if (processedMsg >= requestedMsg) {
+              //  requestStreamSubscription.request(requestedMsg);
+              //  processedMsg = 0;
+              //}
+              console.log(bufToJson(payload))
+              this.updatePreviewEventMap(this.previewEvents, bufToJson(payload))
+              //this.events.push(bufToJson(payload));
+            },
+            onSubscribe: sub => {
+              //requestStreamSubscription = sub;
+              //requestStreamSubscription.request(requestedMsg);
+              sub.request(60000)
+            }
+          });
     });
   }
 }

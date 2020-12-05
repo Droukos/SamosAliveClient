@@ -77,14 +77,14 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedEventInfo } from "@/types/aed-event";
+import { AedEvent } from "@/types/aed-event";
 import { AddressObject, FieldObject, User } from "@/types";
 import { LMap, LControl } from "vue2-leaflet";
 import L from "leaflet";
-import aedEventAddressMod from "@/store/modules/dynamic/aed/events/aed-event-create";
+import aedEventCreateMod from "@/store/modules/dynamic/aed/events/aed-event-create";
+import AedEventCreateDto = AedEvent.AedEventCreateDto;
 
-const aedEventAddress = namespace("aedEventAddress");
-const aedEvent = namespace("aedEvent");
+const aedEventCreate = namespace("aedEventAddress");
 const user = namespace("user");
 
 @Component({
@@ -113,7 +113,7 @@ const user = namespace("user");
       const eventCard = vm as EventCard;
       const store = eventCard.$store;
       if (!(store && store.state && store.state["aedEventAddress"])) {
-        store.registerModule("aedEventAddress", aedEventAddressMod);
+        store.registerModule("aedEventAddress", aedEventCreateMod);
       }
     });
   },
@@ -142,29 +142,26 @@ export default class EventCard extends Vue {
     this.dialog = true;
   }
 
-  @aedEventAddress.State zoom!: number;
-  @aedEventAddress.State center!: L.LatLng;
-  @aedEventAddress.State marker!: L.LatLng;
-  @aedEventAddress.State fAddress!: AddressObject;
-  @aedEventAddress.State fComment!: FieldObject;
-  @aedEventAddress.State createVisible!: boolean;
-  @user.State userid!: User.UserId;
+  @aedEventCreate.State zoom!: number;
+  @aedEventCreate.State center!: L.LatLng;
+  @aedEventCreate.State marker!: L.LatLng;
+  @aedEventCreate.State fAddress!: AddressObject;
+  @aedEventCreate.State fComment!: FieldObject;
+  @aedEventCreate.State createVisible!: boolean;
   @user.State username!: User.Username;
-  @aedEventAddress.Action createAedEvent!: (
-    data: AedEventInfo
+  @aedEventCreate.Action createAedEvent!: (
+    data: AedEventCreateDto
   ) => Promise<void>;
 
   sendAedEvent() {
     console.log(this.fAddress.v);
     this.createAedEvent({
-      userid: this.userid,
       username: this.username,
       occurrenceType: this.selected,
       address: this.fAddress.v?.label,
       mapX: this.fAddress.v?.x,
       mapY: this.fAddress.v?.y,
-      comment: this.fComment.v,
-      status: 1
+      comment: this.fComment.v
     }).then(() => {
       console.log("run");
     });

@@ -17,8 +17,17 @@ declare namespace AedEvent {
     type rescuer = string;
     type conclusion = string;
 
+    interface AedEventCreateDto {
+        username: User.Username;
+        occurrenceType: AedEvent.occurrenceType;
+        mapX: AedEvent.mapX;
+        mapY: AedEvent.mapY;
+        address: AedEvent.address;
+        comment: AedEvent.comment;
+    }
+
     interface AedEventInfo {
-        userid: User.UserId;
+        id: AedEvent.id;
         username: User.Username;
         occurrenceType: AedEvent.occurrenceType;
         mapX: AedEvent.mapX;
