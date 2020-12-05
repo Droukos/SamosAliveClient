@@ -22,7 +22,9 @@
             </v-list-item-action>
           </v-list-item>
           <v-card-actions>
-            <h6>{{ item.requestedTime }}</h6>
+            <h6>
+              {{ $helper.convDate2(item.requestedTime, "long", locale) }}
+            </h6>
             <v-spacer />
             <v-btn
               color="primary"
@@ -41,9 +43,10 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedEventInfo } from "@/types";
+import { AedEventInfo } from "@/types/aed-event";
 
 const eventList = namespace("eventList");
+const environment = namespace("environment");
 
 @Component
 export default class EventListPanel extends Vue {
@@ -66,6 +69,7 @@ export default class EventListPanel extends Vue {
     }
   }
   //previewEvents = [];
+  @environment.State locale!: string;
   @eventList.State selectedType!: number;
   @eventList.State selectedStatus!: number;
   @eventList.State previewEvents!: AedEventInfo[];

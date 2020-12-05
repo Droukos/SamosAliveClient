@@ -10,9 +10,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedEvent } from "@/types";
-import AedSearchInfo = AedEvent.AedSearchInfo;
-import eventListMod from "@/store/modules/dynamic/eventList.ts";
+import { AedSearchInfo } from "@/types/aed-event";
+import eventListMod from "@/store/modules/dynamic/aed/events/event-list.ts";
 
 const eventList = namespace("eventList");
 

@@ -1,10 +1,12 @@
 import {Action, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import store from "@/store";
-import {AedEventCloseInfo, AedEventMore, AedEventRescuerInfo, EventDto} from "@/types";
+import {AedEventCloseInfo, AedEventMore, AedEventRescuerInfo, EventDto} from "@/types/aed-event";
 import {accessToken, aedRSocketApi} from "@/plugins/api";
 import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocket-util";
 import {eventApi} from "@/plugins/api/api-urls";
 import {statusOptions} from "@/plugins/enums/event-options";
+import {AedEvent} from "@/types/aed-event";
+import AedEventComplete = AedEvent.AedEventComplete;
 
 @Module({
     dynamic: true,
@@ -17,10 +19,14 @@ export default class AedEventInfo extends VuexModule implements AedEventMore{
     userid = "";
     username = "";
     occurrenceType = 0;
+    occurrencePoint = {x:0,y:0};
     address = "";
     comment = "";
     status= statusOptions.UNKNOWN
-    requestedTime = [0];
+    requestedTime = "";
+    completedTime = "";
+    rescuer = "";
+    conclusion = "";
 
     @Mutation
     setAedEventInfo(data: AedEventMore) {
@@ -28,10 +34,14 @@ export default class AedEventInfo extends VuexModule implements AedEventMore{
         this.userid = data.userid;
         this.username = data.username;
         this.occurrenceType = data.occurrenceType;
+        this.occurrencePoint = data.occurrencePoint;
         this.address = data.address;
         this.comment = data.comment;
         this.status = data.status;
         this.requestedTime = data.requestedTime;
+        this.completedTime = data.completedTime;
+        this.rescuer = data.rescuer;
+        this.conclusion = data.conclusion;
     }
 
     @Mutation
@@ -39,8 +49,11 @@ export default class AedEventInfo extends VuexModule implements AedEventMore{
         this.status=statusOptions.ONPROGRESS;
     }
     @Mutation
-    setStatusCompleted(){
+    setEventCompleted(data: AedEventComplete){
         this.status=statusOptions.COMPLETED;
+        this.completedTime = data.completedTime;
+        this.rescuer = data.rescuer;
+        this.conclusion = data.conclusion;
     }
 
     @Action({ commit: "setAedEventInfo" })
@@ -77,7 +90,7 @@ export default class AedEventInfo extends VuexModule implements AedEventMore{
         });
     }
 
-    @Action({commit:"setStatusCompleted"})
+    @Action({commit:"setEventCompleted"})
     async closeAedEvent(data: AedEventCloseInfo) {
         return new Promise(resolve => {
             aedRSocketApi().then(aedRSocket =>

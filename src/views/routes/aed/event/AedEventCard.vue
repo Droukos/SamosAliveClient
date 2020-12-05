@@ -25,11 +25,25 @@
                 item-text="msg"
                 item-value="code"
               ></v-select>
-              <h5 v-text="$t('events.address')" />
-              <v-text-field solo disabled :label="addresses.msg"></v-text-field>
+              <EventAddressBase />
+              <div
+                :style="
+                  'height:' + ($vuetify.breakpoint.mdAndUp ? '600px' : '300px')
+                "
+              >
+                <l-map :zoom="zoom" :center="center" style="z-index: 0;">
+                  <LTileLayerBase />
+                  <!--<l-control position="topright">
+                    <v-btn @click="alert('he')"></v-btn>
+                  </l-control>-->
+                  <LMarkerRedSimple :marker="marker" />
+                </l-map>
+              </div>
+              <!--<h5 v-text="$t('events.address')" />
+              <v-text-field solo disabled :label="addresses.msg"></v-text-field>-->
               <h5 v-text="$t('events.comment')" />
               <v-textarea
-                v-model="comment.com"
+                v-model="fComment.v"
                 :label="comment.msg"
                 maxlength="200"
                 solo
@@ -44,6 +58,7 @@
               Cancel
             </v-btn>
             <v-btn
+              v-if="createVisible"
               color="primary"
               @click="sendAedEvent()"
               v-text="$t('events.send')"
@@ -62,12 +77,50 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedEventInfo, User } from "@/types";
+import { AedEventInfo } from "@/types/aed-event";
+import { AddressObject, FieldObject, User } from "@/types";
+import { LMap, LControl } from "vue2-leaflet";
+import L from "leaflet";
+import aedEventAddressMod from "@/store/modules/dynamic/aed/events/aed-event-create";
 
+const aedEventAddress = namespace("aedEventAddress");
 const aedEvent = namespace("aedEvent");
 const user = namespace("user");
 
-@Component
+@Component({
+  components: {
+    LMap,
+    LControl,
+    LTileLayerBase: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/map/LTileLayerBase.vue"
+      ),
+    LMarkerRedSimple: () =>
+      import(
+        /* webpackChunkName: "LMarkerRedSimple" */ "@/components/map/LMarkerRedSimple.vue"
+      ),
+    LGeoSearch: () =>
+      import(
+        /* webpackChunkName: "LGeoSearch" */ "@/components/map/LGeoSearch.vue"
+      ),
+    EventAddressBase: () =>
+      import(
+        /* webpackChunkName: "AddressNameInputBase" */ "@/components/event/map/EventAddressBase.vue"
+      )
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      const eventCard = vm as EventCard;
+      const store = eventCard.$store;
+      if (!(store && store.state && store.state["aedEventAddress"])) {
+        store.registerModule("aedEventAddress", aedEventAddressMod);
+      }
+    });
+  },
+  beforeDestroy() {
+    this.$store.unregisterModule("aedEventAddress");
+  }
+})
 export default class EventCard extends Vue {
   dialog = false;
   items = [
@@ -83,25 +136,34 @@ export default class EventCard extends Vue {
     msg: this.$t("events.address")
   };
   comment = {
-    com: "",
     msg: this.$t("events.comInfo")
   };
   showDialog() {
     this.dialog = true;
   }
 
+  @aedEventAddress.State zoom!: number;
+  @aedEventAddress.State center!: L.LatLng;
+  @aedEventAddress.State marker!: L.LatLng;
+  @aedEventAddress.State fAddress!: AddressObject;
+  @aedEventAddress.State fComment!: FieldObject;
+  @aedEventAddress.State createVisible!: boolean;
   @user.State userid!: User.UserId;
   @user.State username!: User.Username;
-  @user.State address!: string;
-  @aedEvent.Action createAedEvent!: (data: AedEventInfo) => Promise<void>;
+  @aedEventAddress.Action createAedEvent!: (
+    data: AedEventInfo
+  ) => Promise<void>;
 
   sendAedEvent() {
+    console.log(this.fAddress.v);
     this.createAedEvent({
       userid: this.userid,
       username: this.username,
       occurrenceType: this.selected,
-      address: this.address,
-      comment: this.comment.com,
+      address: this.fAddress.v?.label,
+      mapX: this.fAddress.v?.x,
+      mapY: this.fAddress.v?.y,
+      comment: this.fComment.v,
       status: 1
     }).then(() => {
       console.log("run");
