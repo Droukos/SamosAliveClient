@@ -16,7 +16,7 @@
             <v-card-text>{{ address }} </v-card-text>
             <v-card-text>{{ information }} </v-card-text>
             <v-list-item-subtitle bottom
-              >{{ username }} - {{ uploadedTime }}</v-list-item-subtitle
+              >{{ username }} - {{ $helper.convDate2(uploadedTime, "long", locale) }}</v-list-item-subtitle
             >
           </v-list-item-content>
           <v-list-item-action>
@@ -86,11 +86,12 @@ import {
   AedProblemsCloseInfo,
   AedProblemsTechnicalInfo,
   ProblemsDto
-} from "@/types";
+} from "@/types/aed-problems";
 import aedProblemsInfoMod from "@/store/modules/dynamic/aed/problems/aed-problems-info";
 import { statusOptions } from "@/plugins/enums/event-options";
 
 const aedProblemsInfo = namespace("aedProblemsInfo");
+const environment = namespace("environment");
 
 @Component({
   beforeRouteEnter(to, from, next) {
@@ -135,6 +136,7 @@ export default class ProblemsMoreCard extends Vue {
     this.closeAedProblems({ id: this.id, conclusion: this.message });
   }
 
+  @environment.State locale!: string;
   @aedProblemsInfo.Action findProblemsId!: (data: ProblemsDto) => Promise<any>;
   @aedProblemsInfo.Action subTechnical!: (
     data: AedProblemsTechnicalInfo

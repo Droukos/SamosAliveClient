@@ -2,10 +2,10 @@ import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
 import {
   AedProblemsCloseInfo,
-  AedProblemsMore,
+  AedProblemsInfoDto,
   AedProblemsTechnicalInfo,
   ProblemsDto
-} from "@/types";
+} from "@/types/aed-problems";
 import { statusOptions } from "@/plugins/enums/event-options";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
@@ -18,24 +18,32 @@ import { problemsApi } from "@/plugins/api/api-urls";
   name: "aedProblemsInfo"
 })
 export default class AedProblemsInfo extends VuexModule
-  implements AedProblemsMore {
+  implements AedProblemsInfoDto {
   id = "";
   username = "";
-  problemsTitle = "";
+  title = "";
+  body = "";
+  point = {x:0,y:0};
   address = "";
-  information = "";
   status = statusOptions.UNKNOWN;
-  uploadedTime = [0];
+  uploadedTime = "";
+  completedTime = "";
+  technical = "";
+  conclusion = "";
 
   @Mutation
-  setAedProblemsInfo(data: AedProblemsMore) {
+  setAedProblemsInfo(data: AedProblemsInfoDto) {
     this.id = data.id;
     this.username = data.username;
-    this.problemsTitle = data.problemsTitle;
+    this.title = data.title;
+    this.body = data.body;
+    this.point = data.point;
     this.address = data.address;
-    this.information = data.information;
     this.status = data.status;
     this.uploadedTime = data.uploadedTime;
+    this.completedTime = data.completedTime;
+    this.technical = data.technical;
+    this.conclusion = data.conclusion;
   }
 
   @Mutation

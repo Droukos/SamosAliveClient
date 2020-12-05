@@ -1,5 +1,9 @@
-import { AddressObject, FieldObject, OpenStreetObjData } from "@/types";
-import { AedEvent } from "@/types/aed-event";
+import {
+  AddressObject,
+  FieldObject,
+  OpenStreetObjData
+} from "@/types";
+import { AedEventCreateDto } from "@/types/aed-event";
 import i18n from "@/plugins/i18n";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import L from "leaflet";
@@ -8,7 +12,6 @@ import store from "@/store";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
-import AedEventCreateDto = AedEvent.AedEventCreateDto;
 
 @Module({
   dynamic: true,

@@ -1,6 +1,6 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
-import { AedEventInfo, AedSearchInfo } from "@/types/aed-event";
+import { AedEventCardDto, AedSearchInfo } from "@/types/aed-event";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
@@ -13,11 +13,11 @@ import {statusOptions} from "@/plugins/enums/event-options";
   name: "eventList"
 })
 export default class EventList extends VuexModule {
-  previewEvents = new Map<string, AedEventInfo>(); //AedEventInfo[] | null = null;
+  previewEvents = new Map<string, AedEventCardDto>(); //AedEventInfo[] | null = null;
   selectedType = 0;
   selectedStatus = 0;
 
-  updatePreviewEventMap(previewEventsMap: Map<string, AedEventInfo>, eventInfo: AedEventInfo) {
+  updatePreviewEventMap(previewEventsMap: Map<string, AedEventCardDto>, eventInfo: AedEventCardDto) {
     if(eventInfo.status === statusOptions.COMPLETED && previewEventsMap.has(eventInfo.id)) {
       previewEventsMap.delete(eventInfo.id);
     }else {
@@ -25,14 +25,14 @@ export default class EventList extends VuexModule {
     }
   }
   @Mutation
-  setPreviewEvent(eventInfo: AedEventInfo[]) {
+  setPreviewEvent(eventInfo: AedEventCardDto[]) {
     eventInfo.forEach(value => this.updatePreviewEventMap(this.previewEvents, value))
   }
 
   @Action({ commit: "setPreviewEvent" })
   async fetchEventsPreview(data: AedSearchInfo) {
     return new Promise(resolve => {
-      const previewAedEvent: AedEventInfo[] = [];
+      const previewAedEvent: AedEventCardDto[] = [];
       aedRSocketApi().then(aedRSocket => {
         aedRSocket
           .requestStream({

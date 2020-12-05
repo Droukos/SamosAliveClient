@@ -8,10 +8,12 @@
               <v-list-item-title class="headline mb-1">{{
                 eventString(item.occurrenceType)
               }}</v-list-item-title>
-              <v-list-item-title>{{ item.comment }} </v-list-item-title>
-              <!--<v-list-item-subtitle bottom>{{
-                    TODO item.address
-                  }}</v-list-item-subtitle>-->
+              <br />
+              <v-list-item-title>{{ item.address }} </v-list-item-title>
+              <br />
+              <v-list-item-subtitle bottom>{{
+                item.comment
+              }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <v-list-item-action-text
@@ -43,7 +45,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedEventInfo } from "@/types/aed-event";
+import { AedEventCardDto } from "@/types/aed-event";
 
 const eventList = namespace("eventList");
 const environment = namespace("environment");
@@ -72,7 +74,7 @@ export default class EventListPanel extends Vue {
   @environment.State locale!: string;
   @eventList.State selectedType!: number;
   @eventList.State selectedStatus!: number;
-  @eventList.State previewEvents!: AedEventInfo[];
+  @eventList.State previewEvents!: AedEventCardDto[];
 
   more(id: string) {
     this.$router.push({

@@ -2,28 +2,20 @@ import {
   accessToken,
   userRSocketApi,
   aedRSocketApi,
-  newsRSocketApi
 } from "@/plugins/api";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import {
   RequestedPreviewUser,
-  NewsInfo,
-  AedProblemsInfo
 } from "@/types";
 import {
-  eventApi,
-  newsApi,
-  userApi,
-  problemsApi,
-  aedDeviceApi
+    userApi, aedDeviceApi
 } from "@/plugins/api/api-urls.ts";
 import {IAedDeviceMapSearchDto, IAedDevicePreview} from "@/types/aed-device";
 import searchOptions, {
   deviceSearchTypeRadios, radiusOptions
 } from "@/plugins/enums/search-options";
 import L from "leaflet";
-import {AedEventInfo} from "@/types/aed-event";
 
 @Module({ namespaced: true })
 export default class Search extends VuexModule {
@@ -191,65 +183,6 @@ export default class Search extends VuexModule {
           });
         resolve(prAedDevices);
       });
-    });
-  }
-
-  @Action
-  async fetchEventsPreview(occurrenceType: string) {
-    return new Promise(resolve => {
-      const previewAedEvent: AedEventInfo[] = [];
-      aedRSocketApi().then(aedRSocket =>
-        aedRSocket
-          .requestStream({
-            data: dataBuf({ occurrenceType: occurrenceType }),
-            metadata: metadataBuf(accessToken, eventApi.findOccurrenceType)
-          })
-          .subscribe({
-            onError: error => console.error(error),
-            onNext: payload => previewAedEvent.push(bufToJson(payload)),
-            onSubscribe: sub => sub.request(10)
-          })
-      );
-      resolve(previewAedEvent);
-    });
-  }
-
-  @Action
-  async fetchNewsPreview(newsTitle: string) {
-    return new Promise(resolve => {
-      const previewNews: NewsInfo[] = [];
-      newsRSocketApi().then(newRSocket =>
-        newRSocket
-          .requestStream({
-            data: dataBuf({ newsTitle: newsTitle }),
-            metadata: metadataBuf(accessToken, newsApi.findNews)
-          })
-          .subscribe({
-            onError: error => console.error(error),
-            onNext: payload => previewNews.push(bufToJson(payload)),
-            onSubscribe: sub => sub.request(10)
-          })
-      );
-      resolve(previewNews);
-    });
-  }
-
-  @Action
-  async fetchProblemsPreview(title: string) {
-    return new Promise(resolve => {
-      const previewAedProblems: AedProblemsInfo[] = [];
-      aedRSocketApi().then(aedRSocket =>
-        aedRSocket
-          .requestStream({
-            data: dataBuf({ title: title }),
-            metadata: metadataBuf(accessToken, problemsApi.findProblems)
-          })
-          .subscribe({
-            onNext: payload => previewAedProblems.push(bufToJson(payload)),
-            onSubscribe: sub => sub.request(10)
-          })
-      );
-      resolve(previewAedProblems);
     });
   }
 }

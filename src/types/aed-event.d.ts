@@ -25,18 +25,17 @@ declare namespace AedEvent {
         address: AedEvent.address;
         comment: AedEvent.comment;
     }
-
-    interface AedEventInfo {
+    interface AedEventCardDto{
         id: AedEvent.id;
+        userid: User.UserId;
         username: User.Username;
         occurrenceType: AedEvent.occurrenceType;
-        mapX: AedEvent.mapX;
-        mapY: AedEvent.mapY;
         address: AedEvent.address;
         comment: AedEvent.comment;
         status: AedEvent.status;
+        requestedTime: AedEvent.requestedTime;
     }
-    interface AedEventMore{
+    interface AedEventInfoDto{
         id: AedEvent.id;
         userid: User.UserId;
         username: User.Username;
@@ -75,9 +74,9 @@ declare namespace AedEvent {
         id: AedEvent.id;
     }
 }
-//export type occurrenceType = AedEvent.occurrenceType;
-export type AedEventInfo = AedEvent.AedEventInfo;
-export type AedEventMore = AedEvent.AedEventMore;
+export type AedEventCreateDto = AedEvent.AedEventCreateDto;
+export type AedEventCardDto = AedEvent.AedEventCardDto;
+export type AedEventInfoDto = AedEvent.AedEventInfoDto;
 export type AedSearchInfo = AedEvent.AedSearchInfo;
 export type AedEventRescuerInfo = AedEvent.AedEventRescuerInfo;
 export type AedEventCloseInfo = AedEvent.AedEventCloseInfo;

@@ -74,6 +74,9 @@
     "send": "Send alert",
     "situation": "Situation..",
     "live": "Live events",
+    "addr": "Address: ",
+    "comm": "More info: ",
+    "concl": "Conclusion: ",
     "upload": "Uploaded by: ",
     "complete": "Completed by: "
   },

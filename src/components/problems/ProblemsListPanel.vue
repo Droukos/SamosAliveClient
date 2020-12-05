@@ -8,10 +8,10 @@
               <v-list-item-title class="headline mb-1">{{
                 item.problemsTitle
               }}</v-list-item-title>
-              <v-list-item-title>{{ item.information }} </v-list-item-title>
-              <!--<v-list-item-subtitle bottom>{{
-                TODO item.address
-              }}</v-list-item-subtitle>-->
+              <v-list-item-title>{{ item.address }} </v-list-item-title>
+              <v-list-item-subtitle bottom>{{
+                item.information
+              }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <v-list-item-action-text
@@ -22,7 +22,7 @@
             </v-list-item-action>
           </v-list-item>
           <v-card-actions>
-            <h6>{{ formatDate(item.uploadedTime) }}</h6>
+            <h6>{{ $helper.convDate2(item.uploadedTime, "long", locale) }}</h6>
             <!--TODO date-->
             <v-spacer />
             <v-btn
@@ -42,9 +42,10 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedProblemsInfo } from "@/types";
+import { AedProblemsCardDto } from "@/types/aed-problems";
 
 const problemsList = namespace("problemsList");
+const environment = namespace("environment");
 
 @Component
 export default class ProblemsListPanel extends Vue {
@@ -63,8 +64,9 @@ export default class ProblemsListPanel extends Vue {
     console.log(formatted);
     return formatted;
   }
+  @environment.State locale!: string;
   @problemsList.State problemsTitle!: string;
-  @problemsList.State previewProblems!: AedProblemsInfo;
+  @problemsList.State previewProblems!: AedProblemsCardDto;
 
   more(id: string) {
     this.$router.push({

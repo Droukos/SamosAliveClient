@@ -1,12 +1,13 @@
 import {Action, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import store from "@/store";
-import {AedEventCloseInfo, AedEventMore, AedEventRescuerInfo, EventDto} from "@/types/aed-event";
+import {AedEventCloseInfo, AedEventInfoDto, AedEventRescuerInfo, EventDto} from "@/types/aed-event";
 import {accessToken, aedRSocketApi} from "@/plugins/api";
 import {bufToJson, dataBuf, metadataBuf} from "@/plugins/api/rsocket-util";
 import {eventApi} from "@/plugins/api/api-urls";
 import {statusOptions} from "@/plugins/enums/event-options";
 import {AedEvent} from "@/types/aed-event";
 import AedEventComplete = AedEvent.AedEventComplete;
+import L from "leaflet";
 
 @Module({
     dynamic: true,
@@ -14,7 +15,7 @@ import AedEventComplete = AedEvent.AedEventComplete;
     store: store,
     name: "aedEventInfo"
 })
-export default class AedEventInfo extends VuexModule implements AedEventMore{
+export default class AedEventInfo extends VuexModule implements AedEventInfoDto{
     id = "";
     userid = "";
     username = "";
@@ -28,8 +29,13 @@ export default class AedEventInfo extends VuexModule implements AedEventMore{
     rescuer = "";
     conclusion = "";
 
+
+    zoom = 15.5;
+    center = L.latLng(0, 0);
+    marker = L.latLng(0, 0);
+
     @Mutation
-    setAedEventInfo(data: AedEventMore) {
+    setAedEventInfo(data: AedEventInfoDto) {
         this.id = data.id;
         this.userid = data.userid;
         this.username = data.username;
@@ -42,6 +48,8 @@ export default class AedEventInfo extends VuexModule implements AedEventMore{
         this.completedTime = data.completedTime;
         this.rescuer = data.rescuer;
         this.conclusion = data.conclusion;
+        this.center = L.latLng(data.occurrencePoint.y,data.occurrencePoint.x);
+        this.marker = L.latLng(data.occurrencePoint.y,data.occurrencePoint.x);
     }
 
     @Mutation

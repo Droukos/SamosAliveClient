@@ -35,7 +35,7 @@
               <v-text-field v-model="title.text" solo></v-text-field>
               <h5 v-text="$t('problems.problemContent')" />
               <v-textarea
-                v-model="info.text"
+                v-model="body.text"
                 counter
                 maxlength="500"
                 full-width
@@ -62,8 +62,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedProblemsInfo, User } from "@/types";
+import { User } from "@/types";
 import problemsListMod from "@/store/modules/dynamic/aed/problems/problems-list";
+import { AedProblemsCreateDto } from "@/types/aed-problems";
 
 const aedProblems = namespace("aedProblems");
 const user = namespace("user");
@@ -99,7 +100,7 @@ export default class ProblemsListCard extends Vue {
   title = {
     text: ""
   };
-  info = {
+  body = {
     text: ""
   };
   dialog = false;
@@ -120,16 +121,17 @@ export default class ProblemsListCard extends Vue {
   @user.State username!: User.Username;
   @user.State address!: string;
   @aedProblems.Action createAedProblems!: (
-    data: AedProblemsInfo
+    data: AedProblemsCreateDto
   ) => Promise<void>;
 
   sendAedProblems() {
     this.createAedProblems({
       username: this.username,
-      problemsTitle: this.title.text,
-      address: this.address,
-      information: this.info.text,
-      status: 1
+      title: this.title.text,
+      body: this.body.text,
+      mapX: 0,
+      mapY: 0,
+      address: this.address
     }).then(() => {
       console.log("run");
     });
