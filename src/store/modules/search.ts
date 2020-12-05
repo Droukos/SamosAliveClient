@@ -8,7 +8,6 @@ import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import {
   RequestedPreviewUser,
-  AedEventInfo,
   NewsInfo,
   AedProblemsInfo
 } from "@/types";
@@ -24,6 +23,7 @@ import searchOptions, {
   deviceSearchTypeRadios, radiusOptions
 } from "@/plugins/enums/search-options";
 import L from "leaflet";
+import {AedEventInfo} from "@/types/aed-event";
 
 @Module({ namespaced: true })
 export default class Search extends VuexModule {
