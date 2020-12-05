@@ -46,12 +46,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              @click="sendAedProblems()"
-              v-text="$t('problems.submit')"
-            >
-            </v-btn>
+            <AedProblemsMoreButton />
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -75,6 +70,10 @@ const problemsList = namespace("problemsList");
     ProblemsListPanel: () =>
       import(
         /* webpackChunkName: "ProblemsListPanel" */ "@/components/problems/ProblemsListPanel.vue"
+      ),
+    AedProblemsMoreButton: () =>
+      import(
+        /* webpackChunkName: "ProblemsListPanel" */ "@/components/problems/info/AedProblemsMoreButton.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
@@ -105,17 +104,6 @@ export default class ProblemsListCard extends Vue {
   };
   dialog = false;
   previewProblems = [];
-  statusString(status: number) {
-    if (status == 1) {
-      return this.$t("events.statusS1");
-    }
-    if (status == 2) {
-      return this.$t("events.statusS2");
-    }
-    if (status == 3) {
-      return this.$t("events.statusS3");
-    }
-  }
 
   @problemsList.Action fetchProblemsPreview!: (title: string) => Promise<any>;
   @user.State username!: User.Username;

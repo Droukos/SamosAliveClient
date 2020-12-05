@@ -9,70 +9,26 @@
     >
       <v-card>
         <v-card-title class="primary">
-          {{ problemsTitle }}
+          <AedProblemsTitle />
         </v-card-title>
         <v-list-item three-line>
           <v-list-item-content>
-            <v-card-text>{{ address }} </v-card-text>
-            <v-card-text>{{ information }} </v-card-text>
+            <v-card-text><AedProblemsAddress /> </v-card-text>
+            <v-card-text><AedProblemsBody /> </v-card-text>
             <v-list-item-subtitle bottom
-              >{{ username }} - {{ $helper.convDate2(uploadedTime, "long", locale) }}</v-list-item-subtitle
-            >
+              ><AedProblemsUsername /> - <AedProblemsUploadedTime
+            /></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-list-item-action-text>{{
-              statusString(status)
-            }}</v-list-item-action-text>
+            <v-list-item-action-text
+              ><AedProblemsStatus
+            /></v-list-item-action-text>
           </v-list-item-action>
         </v-list-item>
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <div v-if="status === allStatus.ONPROGRESS">
-            <v-btn
-              color="primary"
-              @click="openDialog()"
-              v-text="$t('history.complete')"
-            />
-            <v-row justify="center">
-              <v-dialog v-model="dialog" persistent>
-                <v-card>
-                  <v-card-title
-                    class="headline"
-                    v-text="$t('history.conclusion')"
-                  />
-                  <v-textarea
-                    v-model="message"
-                    maxlength="200"
-                    solo
-                  ></v-textarea>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="green darken-1"
-                      text
-                      @click="dialog = false"
-                      v-text="$t('general.cancel')"
-                    >
-                    </v-btn>
-                    <v-btn
-                      color="green darken-1"
-                      text
-                      @click="closeProblems()"
-                      v-text="$t('history.complete')"
-                    /><!--TODO refresh page-->
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-row>
-          </div>
-          <div v-else-if="status === allStatus.PENDING">
-            <v-btn
-              color="primary"
-              @click="subTech()"
-              v-text="$t('history.assign')"
-            />
-          </div>
+          <AedProblemsInfoButtons />
         </v-card-actions>
       </v-card>
     </v-skeleton-loader>
@@ -82,18 +38,54 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import {
-  AedProblemsCloseInfo,
-  AedProblemsTechnicalInfo,
-  ProblemsDto
-} from "@/types/aed-problems";
+import { ProblemsDto } from "@/types/aed-problems";
 import aedProblemsInfoMod from "@/store/modules/dynamic/aed/problems/aed-problems-info";
-import { statusOptions } from "@/plugins/enums/event-options";
 
 const aedProblemsInfo = namespace("aedProblemsInfo");
-const environment = namespace("environment");
 
 @Component({
+  components: {
+    AedProblemsAddress: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/problems/info/AedProblemsAddress.vue"
+      ),
+    AedProblemsBody: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/problems/info/AedProblemsBody.vue"
+      ),
+    AedProblemsInfoButtons: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/problems/info/AedProblemsInfoButtons.vue"
+      ),
+    AedProblemsCompletedTime: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/problems/info/AedProblemsCompletedTime.vue"
+      ),
+    AedProblemsConclusion: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/problems/info/AedProblemsConclusion.vue"
+      ),
+    AedProblemsUploadedTime: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/problems/info/AedProblemsUploadedTime.vue"
+      ),
+    AedProblemsStatus: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/problems/info/AedProblemsStatus.vue"
+      ),
+    AedProblemsTechnical: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/problems/info/AedProblemsTechnical.vue"
+      ),
+    AedProblemsTitle: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/problems/info/AedProblemsTitle.vue"
+      ),
+    AedProblemsUsername: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/problems/info/AedProblemsUsername.vue"
+      )
+  },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       const problemsMoreCard = vm as ProblemsMoreCard;
@@ -108,42 +100,8 @@ const environment = namespace("environment");
   }
 })
 export default class ProblemsMoreCard extends Vue {
-  message = "";
-  dialog = false;
-  openDialog() {
-    this.dialog = true;
-  }
   loadingSkeleton = true;
-  allStatus = statusOptions;
-
-  statusString(status: number) {
-    if (status == 1) {
-      return this.$t("events.statusS1");
-    }
-    if (status == 2) {
-      return this.$t("events.statusS2");
-    }
-    if (status == 3) {
-      return this.$t("events.statusS3");
-    }
-  }
-
-  subTech() {
-    this.subTechnical({ id: this.id, technical: this.username });
-  }
-
-  closeProblems() {
-    this.closeAedProblems({ id: this.id, conclusion: this.message });
-  }
-
-  @environment.State locale!: string;
   @aedProblemsInfo.Action findProblemsId!: (data: ProblemsDto) => Promise<any>;
-  @aedProblemsInfo.Action subTechnical!: (
-    data: AedProblemsTechnicalInfo
-  ) => Promise<any>;
-  @aedProblemsInfo.Action closeAedProblems!: (
-    data: AedProblemsCloseInfo
-  ) => Promise<any>;
   @aedProblemsInfo.State id!: string;
   @aedProblemsInfo.State username!: string;
   @aedProblemsInfo.State problemsTitle!: number;

@@ -6,10 +6,10 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-const aedEventInfo = namespace("aedEventInfo");
+const aedProblemsInfo = namespace("aedProblemsInfo");
 
 @Component
-export default class AedEventUsername extends Vue {
-  @aedEventInfo.State username!: string;
+export default class AedProblemsUsername extends Vue {
+  @aedProblemsInfo.State username!: string;
 }
 </script>

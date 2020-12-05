@@ -10,7 +10,7 @@ const aedEventInfo = namespace("aedEventInfo");
 const environment = namespace("environment");
 
 @Component
-export default class AedEventRequestedTim extends Vue {
+export default class AedEventRequestedTime extends Vue {
   @aedEventInfo.State requestedTime!: string;
   @environment.State locale!: string;
 }

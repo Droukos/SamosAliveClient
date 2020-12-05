@@ -6,11 +6,11 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-const aedEventInfo = namespace("aedEventInfo");
+const aedProblemsInfo = namespace("aedProblemsInfo");
 
 @Component
-export default class AedEventStatus extends Vue {
-  @aedEventInfo.State status!: number;
+export default class AedProblemsStatus extends Vue {
+  @aedProblemsInfo.State status!: number;
   statusString(status: number) {
     if (status == 1) {
       return this.$t("events.statusS1");

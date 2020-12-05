@@ -6,12 +6,12 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-const aedEventInfo = namespace("aedEventInfo");
+const aedProblemsInfo = namespace("aedProblemsInfo");
 const environment = namespace("environment");
 
 @Component
 export default class AedEventCompletedTime extends Vue {
-  @aedEventInfo.State completedTime!: string;
+  @aedProblemsInfo.State completedTime!: string;
   @environment.State locale!: string;
 }
 </script>

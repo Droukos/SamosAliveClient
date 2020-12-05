@@ -9,7 +9,7 @@ import { namespace } from "vuex-class";
 const aedEventInfo = namespace("aedEventInfo");
 
 @Component
-export default class AedEventOccurrenceType extends Vue {
+export default class AedEventConclusion extends Vue {
   @aedEventInfo.State conclusion!: string;
 }
 </script>

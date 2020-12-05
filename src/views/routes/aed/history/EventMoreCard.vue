@@ -45,51 +45,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <div v-if="status === allStatus.ONPROGRESS">
-            <v-btn
-              color="primary"
-              @click="openDialog()"
-              v-text="$t('history.complete')"
-            />
-            <v-row justify="center">
-              <v-dialog v-model="dialog" persistent>
-                <v-card>
-                  <v-card-title
-                    class="headline"
-                    v-text="$t('history.conclusion')"
-                  />
-                  <v-textarea
-                    v-model="message"
-                    maxlength="200"
-                    solo
-                  ></v-textarea>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="green darken-1"
-                      text
-                      @click="dialog = false"
-                      v-text="$t('general.cancel')"
-                    >
-                    </v-btn>
-                    <v-btn
-                      color="green darken-1"
-                      text
-                      @click="closeEvent()"
-                      v-text="$t('history.complete')"
-                    />
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-row>
-          </div>
-          <div v-else-if="status === allStatus.PENDING">
-            <v-btn
-              color="primary"
-              @click="subResc()"
-              v-text="$t('history.assign')"
-            />
-          </div>
+          <AedEventButtons />
         </v-card-actions>
       </v-card>
     </v-skeleton-loader>
@@ -99,28 +55,28 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import {
-  AedEventCloseInfo,
-  AedEventRescuerInfo,
-  EventDto
-} from "@/types/aed-event";
+import { EventDto } from "@/types/aed-event";
 import aedEventInfoMod from "@/store/modules/dynamic/aed/events/aed-event-info";
-import { statusOptions } from "@/plugins/enums/event-options";
 import L from "leaflet";
 import { LControl, LMap } from "vue2-leaflet";
-import AedEventComment from "@/components/event/info/AedEventComment.vue";
 
 const aedEventInfo = namespace("aedEventInfo");
-const environment = namespace("environment");
 //TODO components sto card ton event kai antistoixa component gia news-problems
 @Component({
   components: {
-    AedEventComment,
     LMap,
     LControl,
     AedEventAddress: () =>
       import(
         /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventAddress.vue"
+      ),
+    AedEventButtons: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventButtons.vue"
+      ),
+    AedEventComment: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventComment.vue"
       ),
     AedEventCompletedTime: () =>
       import(
@@ -182,33 +138,12 @@ export default class EventMoreCard extends Vue {
   concl = this.$t("events.concl");
   upload = this.$t("events.upload");
   complete = this.$t("events.complete");
-  dialog = false;
-  openDialog() {
-    this.dialog = true;
-  }
-  allStatus = statusOptions;
 
   checkConclusion(conclusion: string) {
     return !(conclusion == null || conclusion != "");
   }
-
-  subResc() {
-    this.subRescuer({ id: this.id, rescuer: this.username });
-    console.log(this.completedTime);
-    console.log(this.rescuer);
-    console.log(this.conclusion);
-  }
-
-  closeEvent() {
-    this.closeAedEvent({ id: this.id, conclusion: this.message });
-  }
-
   loadingSkeleton = true;
   @aedEventInfo.Action findEventId!: (data: EventDto) => Promise<any>;
-  @aedEventInfo.Action subRescuer!: (data: AedEventRescuerInfo) => Promise<any>;
-  @aedEventInfo.Action closeAedEvent!: (
-    data: AedEventCloseInfo
-  ) => Promise<any>;
   @aedEventInfo.State id!: string;
   @aedEventInfo.State userid!: string;
   @aedEventInfo.State username!: string;

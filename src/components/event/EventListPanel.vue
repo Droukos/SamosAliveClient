@@ -5,36 +5,34 @@
         <v-card class="mx-auto" outlined>
           <v-list-item three-line>
             <v-list-item-content>
-              <v-list-item-title class="headline mb-1">{{
-                eventString(item.occurrenceType)
-              }}</v-list-item-title>
+              <v-list-item-title class="headline mb-1"
+                >{{
+                <AedEventOccurrenceType />
+                }}</v-list-item-title
+              >
               <br />
-              <v-list-item-title>{{ item.address }} </v-list-item-title>
+              <v-list-item-title><AedEventAddress /> </v-list-item-title>
               <br />
-              <v-list-item-subtitle bottom>{{
-                item.comment
-              }}</v-list-item-subtitle>
+              <v-list-item-subtitle bottom
+                >{{
+                <AedEventComment />
+                }}</v-list-item-subtitle
+              >
             </v-list-item-content>
             <v-list-item-action>
               <v-list-item-action-text
-                >{{ statusString(item.status) }}
+                ><AedEventStatus />
                 <br />
-                {{ item.username }}
+                <AedEventUsername />
               </v-list-item-action-text>
             </v-list-item-action>
           </v-list-item>
           <v-card-actions>
             <h6>
-              {{ $helper.convDate2(item.requestedTime, "long", locale) }}
+              <AedEventRequestedTime />
             </h6>
             <v-spacer />
-            <v-btn
-              color="primary"
-              dark
-              @click="more(item.id)"
-              v-text="$t('history.more')"
-            >
-            </v-btn>
+            <AedEventInfoButton />
           </v-card-actions>
         </v-card>
       </v-col>
@@ -46,11 +44,52 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { AedEventCardDto } from "@/types/aed-event";
+import AedEventComment from "@/components/event/info/AedEventComment.vue";
 
 const eventList = namespace("eventList");
 const environment = namespace("environment");
 
-@Component
+@Component({
+  components: {
+    AedEventComment,
+    AedEventAddress: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventAddress.vue"
+      ),
+    AedEventCompletedTime: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventCompletedTime.vue"
+      ),
+    AedEventConclusion: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventConclusion.vue"
+      ),
+    AedEventInfoButton: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventInfoButton.vue"
+      ),
+    AedEventOccurrenceType: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventOccurrenceType.vue"
+      ),
+    AedEventRequestedTime: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventRequestedTime.vue"
+      ),
+    AedEventRescuer: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventRescuer.vue"
+      ),
+    AedEventStatus: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventStatus.vue"
+      ),
+    AedEventUsername: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventUsername.vue"
+      )
+  }
+})
 export default class EventListPanel extends Vue {
   eventString(occ: number) {
     if (occ == 1) {
@@ -75,12 +114,5 @@ export default class EventListPanel extends Vue {
   @eventList.State selectedType!: number;
   @eventList.State selectedStatus!: number;
   @eventList.State previewEvents!: AedEventCardDto[];
-
-  more(id: string) {
-    this.$router.push({
-      name: "eventMore",
-      params: { eventID: id }
-    });
-  }
 }
 </script>
