@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row dense>
-      <v-col v-for="item in previewEvents" :key="item.index" :cols="12">
+      <v-col v-for="item in allAedEvents" :key="item.id" :cols="12">
         <v-card class="mx-auto" outlined>
           <v-list-item three-line>
             <v-list-item-content>
@@ -113,6 +113,6 @@ export default class EventListPanel extends Vue {
   @environment.State locale!: string;
   @eventList.State selectedType!: number;
   @eventList.State selectedStatus!: number;
-  @eventList.State previewEvents!: AedEventCardDto[];
+  @eventList.Getter allAedEvents!: AedEventCardDto[];
 }
 </script>

@@ -17,7 +17,7 @@ import { eventApi } from "@/plugins/api/api-urls";
   dynamic: true,
   namespaced: true,
   store: store,
-  name: "aedEventAddress"
+  name: "aedEventCreate"
 })
 export default class AedEventCreate extends VuexModule {
   fComment: FieldObject = {
