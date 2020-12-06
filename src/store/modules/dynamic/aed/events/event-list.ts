@@ -1,10 +1,10 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
 import { AedEventCardDto, AedSearchInfo } from "@/types/aed-event";
-import { accessToken, aedRSocketApi } from "@/plugins/api";
+import { aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
-import {statusOptions} from "@/plugins/enums/event-options";
+import { statusOptions } from "@/plugins/enums/event-options";
 
 @Module({
   dynamic: true,
@@ -13,74 +13,80 @@ import {statusOptions} from "@/plugins/enums/event-options";
   name: "eventList"
 })
 export default class EventList extends VuexModule {
-  previewEvents = new Map<string, AedEventCardDto>(); //AedEventInfo[] | null = null;
+  previewEvents = new Map<string, AedEventCardDto>();
+  previewEventsShow: AedEventCardDto[] = [];
   selectedType = 0;
   selectedStatus = 0;
+  listenToAedEvents = true;
 
-  updatePreviewEventMap(previewEventsMap: Map<string, AedEventCardDto>, eventInfo: AedEventCardDto) {
-    if(eventInfo.status === statusOptions.COMPLETED && previewEventsMap.has(eventInfo.id)) {
-      previewEventsMap.delete(eventInfo.id);
-    }else {
-      previewEventsMap.set(eventInfo.id, eventInfo)
-    }
-  }
   @Mutation
-  setPreviewEvent(eventInfo: AedEventCardDto[]) {
-    eventInfo.forEach(value => this.updatePreviewEventMap(this.previewEvents, value))
+  setSinglePreviewEvent(payload: AedEventCardDto) {
+    if (
+      payload.status !== statusOptions.PENDING &&
+      this.previewEvents.has(payload.id)
+    ) {
+      this.previewEvents.delete(payload.id);
+    } else {
+      this.previewEvents.set(payload.id, payload);
+    }
+    this.previewEventsShow = Array.from(this.previewEvents.values()).reverse();
   }
 
-  @Action({ commit: "setPreviewEvent" })
+  get allAedEvents() {
+    return this.previewEventsShow;
+  }
+
+  @Action
   async fetchEventsPreview(data: AedSearchInfo) {
-    return new Promise(resolve => {
-      const previewAedEvent: AedEventCardDto[] = [];
+    getAccessTokenJwt().then(token => {
       aedRSocketApi().then(aedRSocket => {
         aedRSocket
           .requestStream({
             data: dataBuf(data),
-            metadata: metadataBuf(accessToken, eventApi.findOccurrenceType)
+            metadata: metadataBuf(token, eventApi.findOccurrenceType)
           })
           .subscribe({
             onError: error => console.error(error),
-            onNext: payload => previewAedEvent.push(bufToJson(payload)),
+            onNext: payload =>
+              this.context.commit("setSinglePreviewEvent", bufToJson(payload)),
             onSubscribe: sub => sub.request(20)
           });
-        resolve(previewAedEvent);
       });
     });
   }
 
   @Action
   async listenEvents() {
-    //let requestedMsg = 10;
-    //let processedMsg = 0;
-    //let requestStreamSubscription: any ;
-    aedRSocketApi().then(aedRSocket => {
-      aedRSocket
+    if (!this.listenToAedEvents) {
+      return;
+    }
+    const requestedMsg = 10;
+    let processedMsg = 0;
+    let requestStreamSubscription: any;
+    getAccessTokenJwt().then(token => {
+      aedRSocketApi().then(aedRSocket => {
+        aedRSocket
           .requestStream({
-            metadata: metadataBuf(
-                accessToken,
-                eventApi.aedEventsListen
-            )
+            metadata: metadataBuf(token, eventApi.aedEventsListen)
           })
           .subscribe({
             onError: error => console.error(error),
             onNext: payload => {
-              //processedMsg++;
+              processedMsg++;
 
-              //if (processedMsg >= requestedMsg) {
-              //  requestStreamSubscription.request(requestedMsg);
-              //  processedMsg = 0;
-              //}
-              console.log(bufToJson(payload))
-              this.updatePreviewEventMap(this.previewEvents, bufToJson(payload))
-              //this.events.push(bufToJson(payload));
+              if (processedMsg >= requestedMsg) {
+                requestStreamSubscription.request(requestedMsg);
+                processedMsg = 0;
+              }
+              console.log(bufToJson(payload));
+              this.context.commit("setSinglePreviewEvent", bufToJson(payload));
             },
             onSubscribe: sub => {
-              //requestStreamSubscription = sub;
-              //requestStreamSubscription.request(requestedMsg);
-              sub.request(60000)
+              requestStreamSubscription = sub;
+              requestStreamSubscription.request(requestedMsg);
             }
           });
+      });
     });
   }
 }

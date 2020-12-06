@@ -30,14 +30,16 @@ const eventList = namespace("eventList");
         store.registerModule("eventList", eventListMod);
       }
       eventLiveCard.fetchEventsPreviewList();
+      //eventLiveCard.listenEvents();
     });
   },
   beforeDestroy() {
-    this.$store.unregisterModule("eventList");
+    //this.$store.unregisterModule("eventList");
   }
 })
 export default class EventLiveCard extends Vue {
-  @eventList.Action fetchEventsPreview!: (data: AedSearchInfo) => Promise<any>;
+  @eventList.Action fetchEventsPreview!: (data: AedSearchInfo) => void;
+  @eventList.Action listenEvents!: () => void;
 
   fetchEventsPreviewList() {
     setTimeout(() => {

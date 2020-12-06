@@ -18,16 +18,16 @@ import { namespace } from "vuex-class";
 import debounce from "@/plugins/helpers/debounce";
 import { AddressObject, OpenStreetObjData } from "@/types";
 
-const aedEventAddress = namespace("aedEventAddress");
+const aedEventCreate = namespace("aedEventCreate");
 
 @Component
 export default class AddressNameInputBase extends Vue {
-  @aedEventAddress.State fAddress!: AddressObject;
-  @aedEventAddress.Mutation addressValueChange!: (
+  @aedEventCreate.State fAddress!: AddressObject;
+  @aedEventCreate.Mutation addressValueChange!: (
     value: OpenStreetObjData
   ) => void;
-  @aedEventAddress.Action callOpenStreetApi!: (queryAddress: string) => void;
-  @aedEventAddress.Action vForm!: () => void;
+  @aedEventCreate.Action callOpenStreetApi!: (queryAddress: string) => void;
+  @aedEventCreate.Action vForm!: () => void;
   search = "";
 
   @Watch("search")

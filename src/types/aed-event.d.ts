@@ -27,7 +27,6 @@ declare namespace AedEvent {
     }
     interface AedEventCardDto{
         id: AedEvent.id;
-        userid: User.UserId;
         username: User.Username;
         occurrenceType: AedEvent.occurrenceType;
         address: AedEvent.address;
@@ -37,7 +36,6 @@ declare namespace AedEvent {
     }
     interface AedEventInfoDto{
         id: AedEvent.id;
-        userid: User.UserId;
         username: User.Username;
         occurrenceType: AedEvent.occurrenceType;
         occurrencePoint: AedEvent.occurrencePoint;
@@ -48,6 +46,17 @@ declare namespace AedEvent {
         completedTime: AedEvent.completedTime;
         rescuer: AedEvent.rescuer;
         conclusion: AedEvent.conclusion;
+    }
+    interface AedEventRescuerSubModule {
+
+    }
+
+    interface AedEventUserSubModule {
+
+    }
+
+    interface AedEventAdminSubModule {
+
     }
 
     interface AedEventComplete {

@@ -84,7 +84,7 @@ import L from "leaflet";
 import aedEventCreateMod from "@/store/modules/dynamic/aed/events/aed-event-create";
 import AedEventCreateDto = AedEvent.AedEventCreateDto;
 
-const aedEventCreate = namespace("aedEventAddress");
+const aedEventCreate = namespace("aedEventCreate");
 const user = namespace("user");
 
 @Component({
@@ -112,13 +112,13 @@ const user = namespace("user");
     next(vm => {
       const eventCard = vm as EventCard;
       const store = eventCard.$store;
-      if (!(store && store.state && store.state["aedEventAddress"])) {
-        store.registerModule("aedEventAddress", aedEventCreateMod);
+      if (!(store && store.state && store.state["aedEventCreate"])) {
+        store.registerModule("aedEventCreate", aedEventCreateMod);
       }
     });
   },
   beforeDestroy() {
-    this.$store.unregisterModule("aedEventAddress");
+    this.$store.unregisterModule("aedEventCreate");
   }
 })
 export default class EventCard extends Vue {
@@ -154,7 +154,6 @@ export default class EventCard extends Vue {
   ) => Promise<void>;
 
   sendAedEvent() {
-    console.log(this.fAddress.v);
     this.createAedEvent({
       username: this.username,
       occurrenceType: this.selected,
