@@ -8,20 +8,6 @@
       @click="showDialog()"
       aria-label="ShowDialog"
     />
-    <v-card class="mx-auto">
-      <v-text-field
-        color="indigo"
-        dark
-        v-model="model.search"
-        :loading="model.isLoading"
-        class="pt-1"
-        :counter="model.counter"
-        :label="model.label"
-        @keyup="searchProblem()"
-        outlined
-      ></v-text-field>
-    </v-card>
-    <ProblemsListPanel />
     <div class="text-center">
       <v-dialog v-model="dialog">
         <v-card>
@@ -46,24 +32,32 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <AedProblemsMoreButton />
+            <v-btn
+              color="primary"
+              v-text="$t('submit')"
+              @click="sendAedProblems()"
+            />
           </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
+
+    <v-card class="mx-auto">
+      <AedProblemsSearch />
+    </v-card>
+    <ProblemsListPanel />
   </v-main>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { User } from "@/types";
 import problemsListMod from "@/store/modules/dynamic/aed/problems/problems-list";
+import { User } from "@/types";
 import { AedProblemsCreateDto } from "@/types/aed-problems";
 
 const aedProblems = namespace("aedProblems");
 const user = namespace("user");
-const problemsList = namespace("problemsList");
 
 @Component({
   components: {
@@ -71,9 +65,9 @@ const problemsList = namespace("problemsList");
       import(
         /* webpackChunkName: "ProblemsListPanel" */ "@/components/problems/ProblemsListPanel.vue"
       ),
-    AedProblemsMoreButton: () =>
+    AedProblemsSearch: () =>
       import(
-        /* webpackChunkName: "ProblemsListPanel" */ "@/components/problems/info/AedProblemsMoreButton.vue"
+        /* webpackChunkName: "ProblemsListPanel" */ "@/components/problems/info/AedProblemsSearch.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
@@ -90,12 +84,6 @@ const problemsList = namespace("problemsList");
   }
 })
 export default class ProblemsListCard extends Vue {
-  model = {
-    search: "",
-    isLoading: false,
-    counter: 50,
-    label: this.$t("history.searchProblem")
-  };
   title = {
     text: ""
   };
@@ -103,11 +91,11 @@ export default class ProblemsListCard extends Vue {
     text: ""
   };
   dialog = false;
-  previewProblems = [];
 
-  @problemsList.Action fetchProblemsPreview!: (title: string) => Promise<any>;
+  showDialog() {
+    this.dialog = true;
+  }
   @user.State username!: User.Username;
-  @user.State address!: string;
   @aedProblems.Action createAedProblems!: (
     data: AedProblemsCreateDto
   ) => Promise<void>;
@@ -119,26 +107,11 @@ export default class ProblemsListCard extends Vue {
       body: this.body.text,
       mapX: 0,
       mapY: 0,
-      address: this.address
+      address: "this.address"
     }).then(() => {
       console.log("run");
     });
     this.dialog = false;
-  }
-
-  showDialog() {
-    this.dialog = true;
-  }
-
-  fetchProblemsPreviewList() {
-    setTimeout(() => {
-      this.fetchProblemsPreview(this.model.search).then(response => {
-        this.previewProblems = response;
-      });
-    }, 700);
-  }
-  searchProblem() {
-    this.fetchProblemsPreviewList();
   }
 }
 </script>

@@ -23,15 +23,13 @@
           </v-list-item>
           <v-card-actions>
             <h6>{{ $helper.convDate2(item.uploadedTime, "long", locale) }}</h6>
-            <!--TODO date-->
             <v-spacer />
             <v-btn
               color="primary"
               dark
               @click="more(item.id)"
               v-text="$t('history.more')"
-            >
-            </v-btn>
+            />
           </v-card-actions>
         </v-card>
       </v-col>

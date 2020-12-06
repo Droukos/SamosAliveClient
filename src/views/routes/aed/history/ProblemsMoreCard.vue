@@ -13,21 +13,25 @@
         </v-card-title>
         <v-list-item three-line>
           <v-list-item-content>
-            <v-card-text><AedProblemsAddress /> </v-card-text>
-            <v-card-text><AedProblemsBody /> </v-card-text>
-            <v-list-item-subtitle bottom
-              ><AedProblemsUsername /> - <AedProblemsUploadedTime
-            /></v-list-item-subtitle>
+            <v-card-text>
+              <AedProblemsAddress />
+            </v-card-text>
+            <v-card-text>
+              <AedProblemsBody />
+            </v-card-text>
+            <v-list-item-subtitle bottom>
+              <AedProblemsUsername /> - <AedProblemsUploadedTime />
+            </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-list-item-action-text
-              ><AedProblemsStatus
-            /></v-list-item-action-text>
+            <v-list-item-action-text>
+              <AedProblemsStatus />
+            </v-list-item-action-text>
           </v-list-item-action>
         </v-list-item>
-        <v-divider></v-divider>
+        <v-divider />
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <AedProblemsInfoButtons />
         </v-card-actions>
       </v-card>

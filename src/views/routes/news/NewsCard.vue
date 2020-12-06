@@ -25,7 +25,7 @@
     <div class="text-center">
       <v-dialog v-model="dialog">
         <v-card>
-          <form action id="newsForm" method="POST">
+          <form action id="newsForm">
             <v-card-title class="light-blue darken-1" primary-title>
               <h6 v-text="$t('news.form')" />
             </v-card-title>
