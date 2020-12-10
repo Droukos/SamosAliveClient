@@ -127,6 +127,12 @@ const routes: Array<RouteConfig> = [
         props: true
     },
     {
+        path: '/aed/event/:eventID/channel',
+        name: "aedEventChannel",
+        component: () => import(/* webpackChunkName: "AedEventChannelCard" */ '@/views/routes/aed/event/AedEventChannelCard.vue'),
+        props: true
+    },
+    {
         path: '/aed/eventLive',
         name: "eventLive",
         component: () => import(/* webpackChunkName: "EventLive" */ '@/views/routes/aed/history/EventLiveCard.vue')

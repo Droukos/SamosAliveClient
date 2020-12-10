@@ -119,6 +119,7 @@ declare module "vue/types/vue" {
     $helper: {
       filterInfo(jsonData: any): any;
       convDate(date: number[], format: string, lang: string): TranslateResult;
+      convDate2(date: string, format: string, lang: string): TranslateResult;
       getGreatestRole(roles: Role[]): Role;
       usernameHashCode(str: string): string;
       getRoleForLocale(role: Role): string;

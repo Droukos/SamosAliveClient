@@ -2,8 +2,12 @@ import {
   City,
   CountryCode,
   Description,
-  Name, Phones, Province, Surname, User,
-  UserInfo,
+  Name,
+  Phones,
+  Province,
+  Surname,
+  User,
+  UserInfo
 } from "@/types";
 import UserId = User.UserId;
 import Username = User.Username;
@@ -13,7 +17,12 @@ import Availability = User.Availability;
 import Avatar = User.Avatar;
 import RoleModels = User.RoleModels;
 
-export function setAddress(userInfo: UserInfo, countryCode: CountryCode, province: Province, city: City) {
+export function setAddress(
+  userInfo: UserInfo,
+  countryCode: CountryCode,
+  province: Province,
+  city: City
+) {
   userInfo.city = city;
   userInfo.province = province;
   userInfo.countryCode = countryCode;
@@ -28,7 +37,11 @@ export function setPhones(userInfo: UserInfo, phones: Phones) {
   userInfo.phones = phones;
 }
 
-export function setAvailability(userInfo: UserInfo, online: Online, availability: Availability) {
+export function setAvailability(
+  userInfo: UserInfo,
+  online: Online,
+  availability: Availability
+) {
   userInfo.online = online;
   userInfo.availability = availability;
 }
@@ -45,12 +58,20 @@ export function setRoleModels(userInfo: UserInfo, roles: RoleModels) {
   userInfo.roleModels = roles;
 }
 
-export function setNameSurname(userInfo: UserInfo, name: Name, surname: Surname) {
+export function setNameSurname(
+  userInfo: UserInfo,
+  name: Name,
+  surname: Surname
+) {
   userInfo.name = name;
   userInfo.surname = surname;
 }
 
-export function setUserIdUsername(userInfo: UserInfo, userid: UserId, username: Username) {
+export function setUserIdUsername(
+  userInfo: UserInfo,
+  userid: UserId,
+  username: Username
+) {
   userInfo.userid = userid;
   userInfo.username = username;
 }

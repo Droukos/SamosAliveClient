@@ -3,14 +3,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-
-const aedEventInfo = namespace("aedEventInfo");
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class AedEventOccurrenceType extends Vue {
-  @aedEventInfo.State status!: number;
+  @Prop() status!: number;
   statusString(status: number) {
     if (status == 1) {
       return this.$t("events.statusS1");

@@ -43,7 +43,7 @@
           location data to Google, even when no apps are running.</v-card-text
         >-->
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn color="green darken-1" text @click="dialog = false">
             {{ $t("general.cancel") }}
           </v-btn>

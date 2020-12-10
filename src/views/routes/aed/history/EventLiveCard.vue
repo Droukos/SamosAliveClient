@@ -2,7 +2,10 @@
   <v-main onload="searchEvent();">
     <h3 v-text="$t('events.eventListInfo')" />
     <v-card class="mx-auto">
-      <EventListPanel />
+      <EventListPanel
+        nextRoute="aedEventChannel"
+        :allAedEvents="allAedEvents"
+      />
     </v-card>
   </v-main>
 </template>
@@ -10,10 +13,10 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedSearchInfo } from "@/types/aed-event";
-import eventListMod from "@/store/modules/dynamic/aed/events/event-list.ts";
+import { AedEventCardDto } from "@/types/aed-event";
+import eventLiveListMod from "@/store/modules/dynamic/aed/events/event-live-list.ts";
 
-const eventList = namespace("eventList");
+const eventLiveList = namespace("eventLiveList");
 
 @Component({
   components: {
@@ -26,11 +29,12 @@ const eventList = namespace("eventList");
     next(vm => {
       const eventLiveCard = vm as EventLiveCard;
       const store = eventLiveCard.$store;
-      if (!(store && store.state && store.state["eventList"])) {
-        store.registerModule("eventList", eventListMod);
+      if (!(store && store.state && store.state["eventLiveList"])) {
+        store.registerModule("eventLiveList", eventLiveListMod);
       }
-      eventLiveCard.fetchEventsPreviewList();
-      //eventLiveCard.listenEvents();
+      eventLiveCard
+        .fetchUnassignedEventsPreview()
+        .then(() => eventLiveCard.listenEvents());
     });
   },
   beforeDestroy() {
@@ -38,16 +42,10 @@ const eventList = namespace("eventList");
   }
 })
 export default class EventLiveCard extends Vue {
-  @eventList.Action fetchEventsPreview!: (data: AedSearchInfo) => void;
-  @eventList.Action listenEvents!: () => void;
-
-  fetchEventsPreviewList() {
-    setTimeout(() => {
-      this.fetchEventsPreview({
-        occurrenceType: 0,
-        status: 1
-      });
-    }, 700);
-  }
+  @eventLiveList.Action fetchUnassignedEventsPreview!: () => Promise<void>;
+  @eventLiveList.Action listenEvents!: () => void;
+  @eventLiveList.State selectedType!: number;
+  @eventLiveList.State selectedStatus!: number;
+  @eventLiveList.Getter allAedEvents!: AedEventCardDto[];
 }
 </script>

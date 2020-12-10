@@ -1,12 +1,10 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
 import {
-  AedEventCloseInfo,
   AedEventInfoDto,
-  AedEventRescuerInfo,
   EventDto
 } from "@/types/aed-event";
-import { accessToken, aedRSocketApi } from "@/plugins/api";
+import { aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
 import { statusOptions } from "@/plugins/enums/event-options";
@@ -59,6 +57,7 @@ export default class AedEventInfo extends VuexModule
   setStatusOnProgress() {
     this.status = statusOptions.ONPROGRESS;
   }
+
   @Mutation
   setEventCompleted(data: AedEventComplete) {
     this.status = statusOptions.COMPLETED;
@@ -67,54 +66,72 @@ export default class AedEventInfo extends VuexModule
     this.conclusion = data.conclusion;
   }
 
+  get aedEvent(): AedEventInfoDto {
+    return {
+      id: this.id,
+      username: this.username,
+      occurrenceType: this.occurrenceType,
+      occurrencePoint: this.occurrencePoint,
+      address: this.address,
+      comment: this.comment,
+      status: this.status,
+      rescuer: this.rescuer,
+      requestedTime: this.requestedTime,
+      completedTime: this.completedTime,
+      conclusion: this.conclusion
+    };
+  }
+
   @Action({ commit: "setAedEventInfo" })
   async findEventId(data: EventDto) {
-    return new Promise(resolve => {
-      aedRSocketApi().then(aedRSocket =>
-        aedRSocket
-          .requestResponse({
-            data: dataBuf(data),
-            metadata: metadataBuf(accessToken, eventApi.findEventId)
-          })
-          .subscribe({
-            onComplete: value => resolve(bufToJson(value)),
-            onError: error => console.error(error)
-          })
-      );
+    return getAccessTokenJwt().then(token => {
+      return new Promise(resolve => {
+        aedRSocketApi().then(aedRSocket =>
+          aedRSocket
+            .requestResponse({
+              data: dataBuf(data),
+              metadata: metadataBuf(token, eventApi.findEventId)
+            })
+            .subscribe({
+              onComplete: value => resolve(bufToJson(value)),
+              onError: error => console.error(error)
+            })
+        );
+      });
     });
   }
 
-  @Action({ commit: "setStatusOnProgress" })
-  async subRescuer(data: AedEventRescuerInfo) {
-    return new Promise(resolve => {
-      aedRSocketApi().then(aedRSocket =>
-        aedRSocket
-          .requestResponse({
-            data: dataBuf(data),
-            metadata: metadataBuf(accessToken, eventApi.subRescuer)
-          })
-          .subscribe({
-            onComplete: value => resolve(bufToJson(value)),
-            onError: error => console.error(error)
-          })
-      );
-    });
-  }
+  //@Action({ commit: "setStatusOnProgress" })
+  //async subRescuer(data: AedEventRescuerInfo) {
+  //  return new Promise(resolve => {
+  //    aedRSocketApi().then(aedRSocket =>
+  //      aedRSocket
+  //        .requestResponse({
+  //          data: dataBuf(data),
+  //          metadata: metadataBuf(accessToken, eventApi.subRescuer)
+  //        })
+  //        .subscribe({
+  //          onComplete: value => resolve(bufToJson(value)),
+  //          onError: error => console.error(error)
+  //        })
+  //    );
+  //  });
+  //}
 
-  @Action({ commit: "setEventCompleted" })
-  async closeAedEvent(data: AedEventCloseInfo) {
-    return new Promise(resolve => {
-      aedRSocketApi().then(aedRSocket =>
-        aedRSocket
-          .requestResponse({
-            data: dataBuf(data),
-            metadata: metadataBuf(accessToken, eventApi.closeAedEvent)
-          })
-          .subscribe({
-            onComplete: value => resolve(bufToJson(value)),
-            onError: error => console.error(error)
-          })
-      );
-    });
-  }
+  //@Action({ commit: "setEventCompleted" })
+  //async closeAedEvent(data: AedEventCloseInfo) {
+  //  return new Promise(resolve => {
+  //    aedRSocketApi().then(aedRSocket =>
+  //      aedRSocket
+  //        .requestResponse({
+  //          data: dataBuf(data),
+  //          metadata: metadataBuf(accessToken, eventApi.closeAedEvent)
+  //        })
+  //        .subscribe({
+  //          onComplete: value => resolve(bufToJson(value)),
+  //          onError: error => console.error(error)
+  //        })
+  //    );
+  //  });
+  //}
 }

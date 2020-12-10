@@ -43,11 +43,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { AedEventCardDto } from "@/types/aed-event";
 
-const eventList = namespace("eventList");
 const environment = namespace("environment");
 
 @Component
@@ -72,13 +71,12 @@ export default class EventListPanel extends Vue {
   }
   //previewEvents = [];
   @environment.State locale!: string;
-  @eventList.State selectedType!: number;
-  @eventList.State selectedStatus!: number;
-  @eventList.Getter allAedEvents!: AedEventCardDto[];
+  @Prop() nextRoute!: string;
+  @Prop() allAedEvents!: AedEventCardDto[];
 
   more(id: string) {
     this.$router.push({
-      name: "eventMore",
+      name: this.nextRoute,
       params: { eventID: id }
     });
   }

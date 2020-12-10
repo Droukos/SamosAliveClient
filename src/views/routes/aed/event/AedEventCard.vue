@@ -151,7 +151,7 @@ export default class EventCard extends Vue {
   @user.State username!: User.Username;
   @aedEventCreate.Action createAedEvent!: (
     data: AedEventCreateDto
-  ) => Promise<void>;
+  ) => Promise<string>;
 
   sendAedEvent() {
     this.createAedEvent({
@@ -161,8 +161,11 @@ export default class EventCard extends Vue {
       mapX: this.fAddress.v?.x,
       mapY: this.fAddress.v?.y,
       comment: this.fComment.v
-    }).then(() => {
-      console.log("run");
+    }).then(value => {
+      this.$router.push({
+        name: "aedEventChannel",
+        params: { eventID: value }
+      });
     });
     this.dialog = false;
   }
