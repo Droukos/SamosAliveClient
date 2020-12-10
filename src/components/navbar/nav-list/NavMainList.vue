@@ -31,6 +31,8 @@ export default class NavBarMainList extends Vue {
       this.setSubNavBarOpen(subNavBabOptions.HEALTH);
     } else if (index == 8) {
       this.logoutUser();
+    } else if (index == 10) {
+      this.setSubNavBarOpen(subNavBabOptions.PROBLEMS);
     }
     this.$router.push({
       name: this.pages[index].link
@@ -107,6 +109,13 @@ export default class NavBarMainList extends Vue {
         title: this.$t("events.live"),
         icon: "$liveEv",
         rArrowIcon: false
+      },
+      {
+        index: 10,
+        link: "",
+        title: this.$t("problems.list"),
+        icon: "$history",
+        rArrowIcon: true
       }
     ];
   }

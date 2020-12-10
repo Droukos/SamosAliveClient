@@ -6,7 +6,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class AedEventOccurrenceType extends Vue {
+export default class AedEventUsername extends Vue {
   @Prop() username!: string;
 }
 </script>

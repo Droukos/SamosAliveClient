@@ -2,6 +2,7 @@
   <div>
     <NavMainList v-if="subNavBarOpen === subOptions.MAIN" />
     <NavHealthList v-if="subNavBarOpen === subOptions.HEALTH" />
+    <NavProblemsList v-if="subNavBarOpen === subOptions.PROBLEMS" />
   </div>
 </template>
 
@@ -21,6 +22,10 @@ const environment = namespace("environment");
     NavHealthList: () =>
       import(
         /* webpackChunkName: "NavHealthList" */ "@/components/navbar/nav-list/NavHealthList.vue"
+      ),
+    NavProblemsList: () =>
+      import(
+        /* webpackChunkName: "NavHealthList" */ "@/components/navbar/nav-list/NavProblemsList.vue"
       )
   }
 })

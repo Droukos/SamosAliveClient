@@ -13,8 +13,16 @@ import { eventApi } from "@/plugins/api/api-urls";
 })
 export default class EventList extends VuexModule {
   previewEventsShow: AedEventCardDto[] = [];
-  selectedType = 0;
-  selectedStatus = 0;
+  selectedType = 1;
+  selectedStatus = 1;
+
+ @Mutation
+ setType(type:number){
+   console.log(type);
+   console.log(this.selectedType);
+   this.selectedType=type;
+   console.log(this.selectedType);
+ }
 
   @Mutation
   setPreviewEvents(data: AedEventCardDto[]) {

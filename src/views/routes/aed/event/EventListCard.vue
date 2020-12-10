@@ -2,18 +2,8 @@
   <v-main>
     <h3 v-text="$t('events.eventListInfo')" />
     <v-card class="mx-auto">
-      <v-select
-        v-model="selectedType"
-        :items="types"
-        item-text="msg"
-        item-value="code"
-      ></v-select>
-      <v-select
-        v-model="selectedStatus"
-        :items="status"
-        item-text="msg"
-        item-value="code"
-      ></v-select>
+      <AedEventSelectedType />
+      <AedEventSelectedStatus />
       <br />
       <v-btn v-text="$t('history.searchEvent')" @click="searchEvent()" />
       <EventListPanel nextRoute="eventMore" :allAedEvents="allAedEvents" />
@@ -34,6 +24,14 @@ const eventList = namespace("eventList");
     EventListPanel: () =>
       import(
         /* webpackChunkName: "EventListPanel" */ "@/components/event/EventListPanel.vue"
+      ),
+    AedEventSelectedType: () =>
+      import(
+        /* webpackChunkName: "EventListPanel" */ "@/components/event/search/AedEventSelectedType.vue"
+      ),
+    AedEventSelectedStatus: () =>
+      import(
+        /* webpackChunkName: "EventListPanel" */ "@/components/event/search/AedEventSelectedStatus.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
@@ -50,22 +48,12 @@ const eventList = namespace("eventList");
   }
 })
 export default class EventListCard extends Vue {
-  types = [
-    { msg: this.$t("events.eventS1"), code: 1 },
-    { msg: this.$t("events.eventS2"), code: 2 },
-    { msg: this.$t("events.eventS3"), code: 3 }
-  ];
-  selectedType = this.types[0].code;
-  status = [
-    { msg: this.$t("events.statusS1"), code: 1 },
-    { msg: this.$t("events.statusS2"), code: 2 },
-    { msg: this.$t("events.statusS3"), code: 3 }
-  ];
-  selectedStatus = this.status[0].code;
   isLoading = false;
   label = "";
 
   @eventList.Action fetchEventsPreview!: (data: AedSearchInfo) => Promise<any>;
+  @eventList.State selectedType!: number;
+  @eventList.State selectedStatus!: number;
   @eventList.Getter allAedEvents!: AedEventInfoDto[];
 
   fetchEventsPreviewList() {

@@ -21,13 +21,13 @@ import { eventApi } from "@/plugins/api/api-urls";
 })
 export default class AedEventCreate extends VuexModule {
   fComment: FieldObject = {
-    f: i18n.t("device-register.nickname"),
+    f: i18n.t("events.comm"),
     v: "",
     e: "",
     run: false
   };
   fAddress: AddressObject = {
-    f: i18n.t("device-register.addr"),
+    f: i18n.t("events.addr"),
     v: {
       bounds: [],
       label: "",
@@ -45,6 +45,7 @@ export default class AedEventCreate extends VuexModule {
   center = L.latLng(this.fAddress.v!.y, this.fAddress.v!.x);
   marker = L.latLng(this.fAddress.v!.y, this.fAddress.v!.x);
   createVisible = false;
+  dialog = false;
 
   @Mutation
   addressValueChange(value: OpenStreetObjData) {
@@ -61,6 +62,11 @@ export default class AedEventCreate extends VuexModule {
   @Mutation
   setCreateVisible(createVisible: boolean) {
     this.createVisible = createVisible;
+  }
+
+  @Mutation
+  setDialog(dialog: boolean) {
+    this.dialog = dialog;
   }
 
   @Action({ commit: "setCreateVisible" })

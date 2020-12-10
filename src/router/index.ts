@@ -123,7 +123,7 @@ const routes: Array<RouteConfig> = [
     {
         path: '/aed/event/:eventID/more',
         name: "eventMore",
-        component: () => import(/* webpackChunkName: "EventMore" */ '@/views/routes/aed/history/EventMoreCard.vue'),
+        component: () => import(/* webpackChunkName: "EventMore" */ '@/views/routes/aed/event/EventMoreCard.vue'),
         props: true
     },
     {
@@ -135,7 +135,7 @@ const routes: Array<RouteConfig> = [
     {
         path: '/aed/eventLive',
         name: "eventLive",
-        component: () => import(/* webpackChunkName: "EventLive" */ '@/views/routes/aed/history/EventLiveCard.vue')
+        component: () => import(/* webpackChunkName: "EventLive" */ '@/views/routes/aed/event/EventLiveCard.vue')
     },
     {
         path: '/aed/history',
@@ -145,17 +145,22 @@ const routes: Array<RouteConfig> = [
     {
         path: '/aed/eventList',
         name: "eventList",
-        component: () => import(/* webpackChunkName: "eventHistory" */ '@/views/routes/aed/history/EventListCard.vue'),
+        component: () => import(/* webpackChunkName: "eventHistory" */ '@/views/routes/aed/event/EventListCard.vue'),
     },
     {
-        path: '/aed/problemList',
+        path: '/aed/problems/problemsCreate',
+        name: "problemsCreate",
+        component: () => import(/* webpackChunkName: "problemsHistory" */ '@/views/routes/aed/problems/ProblemsCreateCard.vue'),
+    },
+    {
+        path: '/aed/problems/problemList',
         name: "problemList",
-        component: () => import(/* webpackChunkName: "problemsHistory" */ '@/views/routes/aed/history/ProblemsListCard.vue'),
+        component: () => import(/* webpackChunkName: "problemsHistory" */ '@/views/routes/aed/problems/ProblemsListCard.vue'),
     },
     {
         path: '/aed/problems/:problemsID/more',
         name: "problemsMore",
-        component: () => import(/* webpackChunkName: "problemsMore" */ '@/views/routes/aed/history/ProblemsMoreCard.vue'),
+        component: () => import(/* webpackChunkName: "problemsMore" */ '@/views/routes/aed/problems/ProblemsMoreCard.vue'),
         props: true
     },
     {

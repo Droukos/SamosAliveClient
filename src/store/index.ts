@@ -5,7 +5,6 @@ import user from "@/store/modules/user";
 import profile from "@/store/modules/profile";
 import search from "@/store/modules/search";
 import news from "@/store/modules/news";
-import aedProblems from "@/store/modules/aed-problems";
 
 Vue.use(Vuex);
 
@@ -15,7 +14,6 @@ export default new Vuex.Store({
     user: user,
     search: search,
     profile: profile,
-    news: news,
-    aedProblems: aedProblems,
+    news: news
   },
 });

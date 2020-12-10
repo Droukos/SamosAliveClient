@@ -5,36 +5,32 @@
         <v-card class="mx-auto" outlined>
           <v-list-item three-line>
             <v-list-item-content>
-              <v-list-item-title class="headline mb-1">{{
-                eventString(item.occurrenceType)
-              }}</v-list-item-title>
+              <v-list-item-title class="headline mb-1">
+                <AedEventOccurrenceType :occurrenceType="item.occurrenceType" />
+              </v-list-item-title>
               <br />
-              <v-list-item-title>{{ item.address }} </v-list-item-title>
+              <v-list-item-title>
+                <AedEventAddress :address="item.address" />
+              </v-list-item-title>
               <br />
-              <v-list-item-subtitle bottom>{{
-                item.comment
-              }}</v-list-item-subtitle>
+              <v-list-item-subtitle bottom>
+                <AedEventComment :comment="item.comment" />
+              </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
-              <v-list-item-action-text
-                >{{ statusString(item.status) }}
+              <v-list-item-action-text>
+                <AedEventStatus :status="item.status" />
                 <br />
-                {{ item.username }}
+                <AedEventUsername :username="item.username" />
               </v-list-item-action-text>
             </v-list-item-action>
           </v-list-item>
           <v-card-actions>
             <h6>
-              {{ $helper.convDate2(item.requestedTime, "long", locale) }}
+              <AedEventRequestedTime :requestedTime="item.requestedTime" />
             </h6>
             <v-spacer />
-            <v-btn
-              color="primary"
-              dark
-              @click="more(item.id)"
-              v-text="$t('history.more')"
-            >
-            </v-btn>
+            <AedEventInfoButton :eventID="item.id" />
           </v-card-actions>
         </v-card>
       </v-col>
@@ -43,34 +39,51 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { AedEventCardDto } from "@/types/aed-event";
 
 const environment = namespace("environment");
 
-@Component
+@Component({
+  components: {
+    AedEventAddress: () =>
+      import(
+        /* webpackChunkName: "AedEventAddress" */ "@/components/event/info/AedEventAddress.vue"
+      ),
+    AedEventComment: () =>
+      import(
+        /* webpackChunkName: "AedEventComment" */ "@/components/event/info/AedEventComment.vue"
+      ),
+    AedEventInfoButton: () =>
+      import(
+        /* webpackChunkName: "AedEventInfoButton" */ "@/components/event/info/AedEventInfoButton.vue"
+      ),
+    AedEventOccurrenceType: () =>
+      import(
+        /* webpackChunkName: "AedEventOccurrenceType" */ "@/components/event/info/AedEventOccurrenceType.vue"
+      ),
+    AedEventRequestedTime: () =>
+      import(
+        /* webpackChunkName: "AedEventRequestedTime" */ "@/components/event/info/AedEventRequestedTime.vue"
+      ),
+    AedEventRescuer: () =>
+      import(
+        /* webpackChunkName: "AedEventRescuer" */ "@/components/event/info/AedEventRescuer.vue"
+      ),
+    AedEventStatus: () =>
+      import(
+        /* webpackChunkName: "AedEventStatus" */ "@/components/event/info/AedEventStatus.vue"
+      ),
+    AedEventUsername: () =>
+      import(
+        /* webpackChunkName: "AedEventUsername" */ "@/components/event/info/AedEventUsername.vue"
+      )
+  }
+})
 export default class EventListPanel extends Vue {
-  eventString(occ: number) {
-    if (occ == 1) {
-      return this.$t("events.eventS1");
-    } else if (occ == 2) {
-      return this.$t("events.eventS2");
-    } else {
-      return this.$t("events.eventS3");
-    }
-  }
-  statusString(status: number) {
-    if (status == 1) {
-      return this.$t("events.statusS1");
-    } else if (status == 2) {
-      return this.$t("events.statusS2");
-    } else {
-      return this.$t("events.statusS3");
-    }
-  }
-  //previewEvents = [];
-  @environment.State locale!: string;
+  @eventList.Getter allAedEvents!: AedEventCardDto[];
+
   @Prop() nextRoute!: string;
   @Prop() allAedEvents!: AedEventCardDto[];
 
