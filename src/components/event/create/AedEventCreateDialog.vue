@@ -22,27 +22,22 @@
           >
             <l-map :zoom="zoom" :center="center" style="z-index: 0;">
               <LTileLayerBase />
-              <!--<l-control position="topright">
-                <v-btn @click="alert('he')"></v-btn>
-              </l-control>-->
               <LMarkerRedSimple :marker="marker" />
             </l-map>
           </div>
-          <!--<h5 v-text="$t('events.address')" />
-          <v-text-field solo disabled :label="addresses.msg"></v-text-field>-->
           <h5 v-text="$t('events.comment')" />
           <v-textarea
             v-model="fComment.v"
-            :label="comment.msg"
+            :label="fComment.f"
             maxlength="200"
             solo
           ></v-textarea>
         </v-card-text>
       </form>
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn @click="setDialog(false)">
           Cancel
         </v-btn>
@@ -67,7 +62,6 @@ import { AddressObject, FieldObject, User } from "@/types";
 import { LMap, LControl } from "vue2-leaflet";
 import L from "leaflet";
 import AedEventCreateDto = AedEvent.AedEventCreateDto;
-//import aedProblemsCreateMod from "@/store/modules/dynamic/aed/problems/aed-problems-create";
 
 const aedEventCreate = namespace("aedEventCreate");
 const user = namespace("user");
@@ -116,12 +110,6 @@ export default class AedEventCreateDialog extends Vue {
   select = {
     msg: this.$t("events.situation")
   };
-  addresses = {
-    msg: this.$t("events.address")
-  };
-  comment = {
-    msg: this.$t("events.comInfo")
-  };
 
   @aedEventCreate.State dialog!: boolean;
   @aedEventCreate.State zoom!: number;
@@ -133,7 +121,7 @@ export default class AedEventCreateDialog extends Vue {
   @user.State username!: User.Username;
   @aedEventCreate.Action createAedEvent!: (
     data: AedEventCreateDto
-  ) => Promise<void>;
+  ) => Promise<string>;
   @aedEventCreate.Mutation setDialog!: (dialog: boolean) => void;
 
   sendAedEvent() {
@@ -144,8 +132,11 @@ export default class AedEventCreateDialog extends Vue {
       mapX: this.fAddress.v?.x,
       mapY: this.fAddress.v?.y,
       comment: this.fComment.v
-    }).then(() => {
-      console.log("run");
+    }).then(value => {
+      this.$router.push({
+        name: "aedEventChannel",
+        params: { eventID: value }
+      });
     });
     this.setDialog(false);
   }

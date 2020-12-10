@@ -30,7 +30,7 @@
               <AedEventRequestedTime :requestedTime="item.requestedTime" />
             </h6>
             <v-spacer />
-            <AedEventInfoButton :eventID="item.id" />
+            <AedEventInfoButton :nextRoute="nextRoute" :eventID="item.id" />
           </v-card-actions>
         </v-card>
       </v-col>
@@ -39,11 +39,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { AedEventCardDto } from "@/types/aed-event";
-
-const environment = namespace("environment");
 
 @Component({
   components: {
@@ -82,16 +79,7 @@ const environment = namespace("environment");
   }
 })
 export default class EventListPanel extends Vue {
-  @eventList.Getter allAedEvents!: AedEventCardDto[];
-
-  @Prop() nextRoute!: string;
   @Prop() allAedEvents!: AedEventCardDto[];
-
-  more(id: string) {
-    this.$router.push({
-      name: this.nextRoute,
-      params: { eventID: id }
-    });
-  }
+  @Prop() nextRoute!: string;
 }
 </script>

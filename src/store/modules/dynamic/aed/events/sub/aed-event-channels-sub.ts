@@ -7,29 +7,30 @@ import {
   EventDto
 } from "@/types/aed-event";
 import { accessToken, aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
-import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
+import {
+  bufToJson,
+  dataBuf,
+  metadataBuf
+} from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
 import L from "leaflet";
 import { ISubscription } from "rsocket-types";
 
-const aedEvChMap: Map<string, AedEventInfoDto> = new Map<
-  string,
-  AedEventInfoDto
->();
+const evMap: Map<string, AedEventInfoDto> = new Map<string, AedEventInfoDto>();
 const subsChMap: Map<string, ISubscription> = new Map<string, ISubscription>();
 
-function findEventProp(
-  aedEventId: string,
-  property: keyof AedEventInfoDto,
-  tracker: number
-) {
-  const elem = aedEvChMap.get(aedEventId);
-  if (tracker == 0 || aedEventId == "") return "";
-  else if (elem) return elem[property];
-}
+//function findEventProp(
+//  aedEventId: string,
+//  property: keyof AedEventInfoDto,
+//  tracker: number
+//) {
+//  const elem = evMap.get(aedEventId);
+//  if (tracker == 0 || aedEventId == "") return "";
+//  else if (elem) return elem[property];
+//}
 
 function findAedEvent(aedEventId: string, tracker: number) {
-  const elem = aedEvChMap.get(aedEventId);
+  const elem = evMap.get(aedEventId);
   if (tracker == 0 || aedEventId == "") return undefined;
   else return elem;
 }
@@ -46,14 +47,20 @@ export default class AedEventChannelsSub extends VuexModule {
 
   @Mutation
   setAedEventInfo(data: AedEventInfoDto) {
-    aedEvChMap.set(data.id, data);
-    this.aedEventChannelTracker++;
+    evMap.set(data.id, data);
+    ++this.aedEventChannelTracker;
   }
 
   @Mutation
   setStreamSubscription(data: { id: string; sub: ISubscription }) {
     subsChMap.set(data.id, data.sub);
-    this.streamSubscriptionTracker++;
+    ++this.aedEventChannelTracker;
+  }
+
+  @Mutation
+  deleteEvOnMap(aedEventId: string) {
+    subsChMap.delete(aedEventId);
+    ++this.streamSubscriptionTracker;
   }
 
   get aedEventMarker() {
@@ -64,8 +71,14 @@ export default class AedEventChannelsSub extends VuexModule {
         tracker
       );
       return aedEvent
-        ? L.latLng(aedEvent!.occurrencePoint.y, aedEvent!.occurrencePoint.x)
+        ? L.latLng(aedEvent.occurrencePoint.y, aedEvent.occurrencePoint.x)
         : L.latLng(0, 0);
+    };
+  }
+
+  get hasAedEvChannel() {
+    return function(aedEventId: string) {
+      return subsChMap.has(aedEventId) ;
     };
   }
 
@@ -125,7 +138,7 @@ export default class AedEventChannelsSub extends VuexModule {
               );
               processedMsg = 0;
             }
-            console.log(aedEventInfoDto);
+            //console.log(aedEventInfoDto);
 
             this.context.commit("setAedEventInfo", aedEventInfoDto);
           },
@@ -140,7 +153,7 @@ export default class AedEventChannelsSub extends VuexModule {
     );
   }
 
-  @Action
+  @Action({ commit: "setAedEventInfo" })
   async subRescuer(data: AedEventRescuerInfo) {
     return new Promise(resolve => {
       aedRSocketApi().then(aedRSocket =>

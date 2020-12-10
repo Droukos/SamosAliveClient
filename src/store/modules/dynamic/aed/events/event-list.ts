@@ -16,13 +16,15 @@ export default class EventList extends VuexModule {
   selectedType = 1;
   selectedStatus = 1;
 
- @Mutation
- setType(type:number){
-   console.log(type);
-   console.log(this.selectedType);
-   this.selectedType=type;
-   console.log(this.selectedType);
- }
+  @Mutation
+  setType(type: number) {
+    this.selectedType = type;
+  }
+
+  @Mutation
+  setStatus(type: number) {
+    this.selectedStatus = type;
+  }
 
   @Mutation
   setPreviewEvents(data: AedEventCardDto[]) {

@@ -25,51 +25,7 @@
           <v-divider />
           <v-card-actions>
             <v-spacer />
-            <div v-if="aedEventDto.status === allStatus.ONPROGRESS">
-              <v-btn
-                color="primary"
-                @click="openDialog()"
-                v-text="$t('history.complete')"
-              />
-              <v-row justify="center">
-                <v-dialog v-model="dialog" persistent>
-                  <v-card>
-                    <v-card-title
-                      class="headline"
-                      v-text="$t('history.conclusion')"
-                    />
-                    <v-textarea
-                      v-model="message"
-                      maxlength="200"
-                      solo
-                    ></v-textarea>
-                    <v-card-actions>
-                      <v-spacer />
-                      <v-btn
-                        color="green darken-1"
-                        text
-                        @click="dialog = false"
-                        v-text="$t('general.cancel')"
-                      >
-                      </v-btn>
-                      <v-btn
-                        color="green darken-1"
-                        text
-                        @click="closeEvent()"
-                        v-text="$t('history.complete')"
-                      />
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-row>
-            </div>
-            <div v-else-if="aedEventDto.status === allStatus.PENDING">
-              <v-btn
-                color="primary"
-                @click="subResc()"
-                v-text="$t('history.assign')"
-              />
-            </div>
+            <AedEventButtons :aedEvent="aedEventDto" />
           </v-card-actions>
         </v-card>
       </v-container>
@@ -81,23 +37,21 @@
 import { Component, Vue } from "vue-property-decorator";
 import aedEventChannelSubMod from "@/store/modules/dynamic/aed/events/sub/aed-event-channels-sub";
 import { namespace } from "vuex-class";
-import {
-  AedEventCloseInfo,
-  AedEventInfoDto,
-  AedEventRescuerInfo,
-  EventDto
-} from "@/types/aed-event";
+import { AedEventInfoDto, EventDto } from "@/types/aed-event";
 import { LatLng } from "leaflet";
-import { statusOptions } from "@/plugins/enums/event-options";
 
-const aedEventChannelSub = namespace("aedEventChannelSub");
 const user = namespace("user");
+const aedEventChannelSub = namespace("aedEventChannelSub");
 
 @Component({
   components: {
     AedEventMainInfo: () =>
       import(
         /* webpackChunkName: "AedEventMainInfo" */ "@/components/event/info/AedEventMainInfo.vue"
+      ),
+    AedEventButtons: () =>
+      import(
+        /* webpackChunkName: "AedEventButtons" */ "@/components/event/info/AedEventButtons.vue"
       ),
     AedEventOccurrenceType: () =>
       import(
@@ -123,53 +77,26 @@ const user = namespace("user");
         }
       });
     });
+  },
+  beforeDestroy() {
+    if (!this.hasAedEvChannel(this.aedEventId)) {
+      this.deleteEvOnMap(this.aedEventId);
+    }
   }
-  //beforeDestroy() {}
 })
 export default class AedEventChannelCard extends Vue {
-  @user.State username!: string;
-  @aedEventChannelSub.State aedEventChannelMap!: Map<string, AedEventInfoDto>;
-  @aedEventChannelSub.State aedEventChannelTracker!: number;
   @aedEventChannelSub.Action findEventId!: (
     data: EventDto
   ) => Promise<AedEventInfoDto>;
-  @aedEventChannelSub.Action subRescuer!: (
-    data: AedEventRescuerInfo
-  ) => Promise<any>;
-  @aedEventChannelSub.Action closeAedEvent!: (
-    data: AedEventCloseInfo
-  ) => Promise<any>;
+  @user.State username!: string;
   @aedEventChannelSub.Action listenEvent!: (data: EventDto) => void;
   @aedEventChannelSub.Getter aedEventMarker!: (aedEventId: string) => LatLng;
   @aedEventChannelSub.Getter aedEvent!: (aedEventId: string) => AedEventInfoDto;
+  @aedEventChannelSub.Getter hasAedEvChannel!: (aedEventId: string) => boolean;
+  @aedEventChannelSub.Mutation deleteEvOnMap!: (aedEventId: string) => void;
   loading = true;
   transition = "scale-transition";
   aedEventId = "";
-  allStatus = statusOptions;
-  message = "";
-
-  dialog = false;
-  openDialog() {
-    this.dialog = true;
-  }
-
-  checkConclusion(conclusion: string) {
-    return !(conclusion == null || conclusion != "");
-  }
-
-  subResc() {
-    this.subRescuer({
-      id: this.aedEventDto.id,
-      rescuer: this.username
-    }).then(() => {
-
-      this.listenEvent({ id: this.aedEventId });
-    });
-  }
-
-  closeEvent() {
-    this.closeAedEvent({ id: this.aedEventDto.id, conclusion: this.message });
-  }
 
   get aedEventDto() {
     return this.aedEvent(this.aedEventId);
