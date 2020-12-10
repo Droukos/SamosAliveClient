@@ -31,6 +31,13 @@ export default class AedProblemsInfo extends VuexModule
   technical = "";
   conclusion = "";
 
+  dialog = false;
+
+  @Mutation
+  setDialog(dialog:boolean) {
+    this.dialog = dialog;
+  }
+
   @Mutation
   setAedProblemsInfo(data: AedProblemsInfoDto) {
     this.id = data.id;

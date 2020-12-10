@@ -3,13 +3,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-
-const aedEventInfo = namespace("aedEventInfo");
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class AedEventConclusion extends Vue {
-  @aedEventInfo.State conclusion!: string;
+  @Prop() conclusion!: string;
 }
 </script>

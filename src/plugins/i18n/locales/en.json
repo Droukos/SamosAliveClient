@@ -173,11 +173,13 @@
     "title": "Privacy User Settings:"
   },
   "problems": {
+    "search": "Search an issue",
     "form": "Report an issue",
     "problemContent": "Defibrillator issue",
     "problemTitle": "Issue title",
     "submit": "Submit",
-    "live": "Live reports"
+    "live": "Live reports",
+    "list": "Reports/issues"
   },
   "register": {
     "header": "Complete the form to create a SamosAlive profile",

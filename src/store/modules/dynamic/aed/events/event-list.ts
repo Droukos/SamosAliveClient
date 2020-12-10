@@ -15,9 +15,17 @@ import { statusOptions } from "@/plugins/enums/event-options";
 export default class EventList extends VuexModule {
   previewEvents = new Map<string, AedEventCardDto>();
   previewEventsShow: AedEventCardDto[] = [];
-  selectedType = 0;
-  selectedStatus = 0;
+  selectedType = 1;
+  selectedStatus = 1;
   listenToAedEvents = true;
+
+ @Mutation
+ setType(type:number){
+   console.log(type);
+   console.log(this.selectedType);
+   this.selectedType=type;
+   console.log(this.selectedType);
+ }
 
   @Mutation
   setSinglePreviewEvent(payload: AedEventCardDto) {

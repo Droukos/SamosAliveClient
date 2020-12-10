@@ -3,15 +3,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop , Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-const aedEventInfo = namespace("aedEventInfo");
 const environment = namespace("environment");
 
 @Component
 export default class AedEventRequestedTime extends Vue {
-  @aedEventInfo.State requestedTime!: string;
+  @Prop() requestedTime!: number[];
   @environment.State locale!: string;
 }
 </script>
