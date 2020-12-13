@@ -227,7 +227,7 @@ const routes: Array<RouteConfig> = [
   }
 ];
 
-export default new VueRouter({
-  mode: "history",
-  routes
-});
+      export default new VueRouter({
+          mode: "history",
+          routes
+      });

@@ -9,8 +9,8 @@
                 <AedEventOccurrenceType :occurrenceType="item.occurrenceType" />
               </v-list-item-title>
               <br />
-              <v-list-item-title
-                ><AedEventAddress :address="item.address" />
+              <v-list-item-title>
+                <AedEventAddress :address="item.address" />
               </v-list-item-title>
               <br />
               <v-list-item-subtitle bottom>
@@ -18,8 +18,8 @@
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
-              <v-list-item-action-text
-                ><AedEventStatus :status="item.status" />
+              <v-list-item-action-text>
+                <AedEventStatus :status="item.status" />
                 <br />
                 <AedEventUsername :username="item.username" />
               </v-list-item-action-text>
@@ -30,7 +30,7 @@
               <AedEventRequestedTime :requestedTime="item.requestedTime" />
             </h6>
             <v-spacer />
-            <AedEventInfoButton :eventID="item.id" />
+            <AedEventInfoButton :nextRoute="nextRoute" :eventID="item.id" />
           </v-card-actions>
         </v-card>
       </v-col>
@@ -39,57 +39,47 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { AedEventCardDto } from "@/types/aed-event";
-
-const eventList = namespace("eventList");
 
 @Component({
   components: {
     AedEventAddress: () =>
       import(
-        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventAddress.vue"
-      ),
-    AedEventCompletedTime: () =>
-      import(
-        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventCompletedTime.vue"
+        /* webpackChunkName: "AedEventAddress" */ "@/components/event/info/AedEventAddress.vue"
       ),
     AedEventComment: () =>
       import(
-        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventComment.vue"
-      ),
-    AedEventConclusion: () =>
-      import(
-        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventConclusion.vue"
+        /* webpackChunkName: "AedEventComment" */ "@/components/event/info/AedEventComment.vue"
       ),
     AedEventInfoButton: () =>
       import(
-        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventInfoButton.vue"
+        /* webpackChunkName: "AedEventInfoButton" */ "@/components/event/info/AedEventInfoButton.vue"
       ),
     AedEventOccurrenceType: () =>
       import(
-        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventOccurrenceType.vue"
+        /* webpackChunkName: "AedEventOccurrenceType" */ "@/components/event/info/AedEventOccurrenceType.vue"
       ),
     AedEventRequestedTime: () =>
       import(
-        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventRequestedTime.vue"
+        /* webpackChunkName: "AedEventRequestedTime" */ "@/components/event/info/AedEventRequestedTime.vue"
       ),
     AedEventRescuer: () =>
       import(
-        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventRescuer.vue"
+        /* webpackChunkName: "AedEventRescuer" */ "@/components/event/info/AedEventRescuer.vue"
       ),
     AedEventStatus: () =>
       import(
-        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventStatus.vue"
+        /* webpackChunkName: "AedEventStatus" */ "@/components/event/info/AedEventStatus.vue"
       ),
     AedEventUsername: () =>
       import(
-        /* webpackChunkName: "LTileLayerBase" */ "@/components/event/info/AedEventUsername.vue"
+        /* webpackChunkName: "AedEventUsername" */ "@/components/event/info/AedEventUsername.vue"
       )
   }
 })
 export default class EventListPanel extends Vue {
-  @eventList.Getter allAedEvents!: AedEventCardDto[];
+  @Prop() allAedEvents!: AedEventCardDto[];
+  @Prop() nextRoute!: string;
 }
 </script>

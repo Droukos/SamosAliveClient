@@ -6,7 +6,7 @@
       <AedEventSelectedStatus />
       <br />
       <v-btn v-text="$t('history.searchEvent')" @click="searchEvent()" />
-      <EventListPanel />
+      <EventListPanel nextRoute="eventMore" :allAedEvents="allAedEvents" />
     </v-card>
   </v-main>
 </template>
@@ -14,7 +14,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { AedSearchInfo } from "@/types/aed-event";
+import { AedEventInfoDto, AedSearchInfo } from "@/types/aed-event";
 import eventListMod from "@/store/modules/dynamic/aed/events/event-list.ts";
 
 const eventList = namespace("eventList");
@@ -54,6 +54,7 @@ export default class EventListCard extends Vue {
   @eventList.Action fetchEventsPreview!: (data: AedSearchInfo) => Promise<any>;
   @eventList.State selectedType!: number;
   @eventList.State selectedStatus!: number;
+  @eventList.Getter allAedEvents!: AedEventInfoDto[];
 
   fetchEventsPreviewList() {
     setTimeout(() => {

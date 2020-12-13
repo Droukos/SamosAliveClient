@@ -59,6 +59,7 @@
     "comInfo": "More informations",
     "comment": "Comment: ",
     "event": "Occurrence",
+    "id": "Id",
     "eventInfo": "Choose a patient's condition",
     "eventList": "Occurrence's table",
     "eventListInfo": "This is a list of current pending occurrences",

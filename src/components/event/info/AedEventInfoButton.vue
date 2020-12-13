@@ -14,10 +14,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
 export default class AedEventInfoButton extends Vue {
   @Prop() eventID!: string;
-  //@aedEventInfo.State id!: string;
+  @Prop() nextRoute!: string;
+
   more(id: string) {
     this.$router.push({
-      name: "eventMore",
+      name: this.nextRoute,
       params: { eventID: id }
     });
   }

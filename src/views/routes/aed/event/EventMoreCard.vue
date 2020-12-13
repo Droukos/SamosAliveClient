@@ -30,6 +30,7 @@ import L from "leaflet";
 import { statusOptions } from "@/plugins/enums/event-options";
 
 const aedEventInfo = namespace("aedEventInfo");
+//TODO components sto card ton event kai antistoixa component gia news-problems
 @Component({
   components: {
     AedEventMainInfo: () =>

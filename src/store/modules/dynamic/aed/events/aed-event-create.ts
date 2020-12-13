@@ -10,7 +10,7 @@ import L from "leaflet";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import store from "@/store";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
-import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
+import {bufToData, dataBuf, metadataBuf} from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
 
 @Module({
@@ -100,7 +100,7 @@ export default class AedEventCreate extends VuexModule {
             metadata: metadataBuf(accessToken, eventApi.createEvent)
           })
           .subscribe({
-            onComplete: value => resolve(bufToJson(value)),
+            onComplete: value => resolve(bufToData(value)),
             onError: error => console.error(error)
           })
       );

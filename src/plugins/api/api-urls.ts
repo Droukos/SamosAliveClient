@@ -32,6 +32,8 @@ export const eventApi: Record<string, string> = {
     findOccurrenceType: "aed.event.get",
     findEventId: "aed.event.getId",
     aedEventsListen: "aed.event.listen",
+    aedEventListenSub: "aed.event.listen.sub",
+    aedEventsFetchUnassigned: "aed.event.fetch.pending",
     aedEventPush: "aed.event.push",
     subRescuer: "aed.event.subRescuer",
     closeAedEvent: "aed.event.close"
