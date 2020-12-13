@@ -102,7 +102,7 @@ const routes: Array<RouteConfig> = [
     props: true
   },
   {
-    path: "/newsSearchCard",
+    path: "/news/search",
     name: "newsSearchCard",
     component: () =>
       import(
@@ -110,7 +110,7 @@ const routes: Array<RouteConfig> = [
       )
   },
   {
-    path: "/newsCreate",
+    path: "/news/create",
     name: "newsCreate",
     component: () =>
       import(
@@ -118,7 +118,7 @@ const routes: Array<RouteConfig> = [
       )
   },
   {
-    path: "/:newsID/more",
+    path: "/news/:newsID/more",
     name: "newsMoreCard",
     component: () =>
       import(
@@ -227,7 +227,7 @@ const routes: Array<RouteConfig> = [
   }
 ];
 
-      export default new VueRouter({
-          mode: "history",
-          routes
-      });
+export default new VueRouter({
+  mode: "history",
+  routes
+});

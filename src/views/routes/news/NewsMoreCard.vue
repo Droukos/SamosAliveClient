@@ -31,6 +31,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
+import newsSearchInfoMod from "@/store/modules/dynamic/news/news-search-info";
 
 const newsSearchInfo = namespace("newsSearchInfo");
 
@@ -56,6 +57,10 @@ const newsSearchInfo = namespace("newsSearchInfo");
   beforeRouteEnter(to, from, next) {
     next(vm => {
       const newsMoreCard = vm as NewsMoreCard;
+      const store = newsMoreCard.$store;
+      if (!(store && store.state && store.state["newsSearchInfo"])) {
+        store.registerModule("newsSearchInfo", newsSearchInfoMod);
+      }
       newsMoreCard.findNewsId(to.params.newsID).then(() => {
         newsMoreCard.loadingSkeleton = false;
       });
