@@ -2,7 +2,7 @@ import {
   LocaleMessageArray,
   LocaleMessageObject,
   LocaleMessages,
-  TranslateResult,
+  TranslateResult
 } from "vue-i18n";
 
 declare namespace User {
@@ -206,31 +206,6 @@ export interface UpdateUserPersonal {
   city: User.City;
 }
 
-declare namespace News {
-  type id = string;
-  type newsTitle = string;
-  type content = string;
-  type uploadedTime = number [];
-
-  interface NewsInfo {
-    username: User.Username;
-    newsTitle: News.newsTitle;
-    content: News.content;
-  }
-
-  interface NewsMore {
-    id: News.id;
-    username: User.Username;
-    newsTitle: News.newsTitle;
-    content: News.content;
-    uploadedTime: News.uploadedTime;
-  }
-}
-
-export type NewsInfo = News.NewsInfo;
-export type NewsMore = News.NewsMore;
-
-
 export interface UpdateAvatar {
   userid: User.UserId;
   av: File;
@@ -261,27 +236,23 @@ export type FieldObject = {
 };
 
 export type UserIdDto = {
-  userid: User.UserId
-}
+  userid: User.UserId;
+};
 
 export type UsernameDto = {
   username: User.Username;
-}
-
-export type NewsDto = {
-  id: News.id;
-}
+};
 
 export type PrivacySetField = {
-  index: number,
-  i18n: string,
-  type: number,
-  users: string[],
-}
+  index: number;
+  i18n: string;
+  type: number;
+  users: string[];
+};
 
 export type PrivacyForm = {
-  userPrivacy: PrivacySetField[]
-}
+  userPrivacy: PrivacySetField[];
+};
 
 export type FieldObject2 = {
   f: Field;
@@ -297,7 +268,7 @@ export type FieldObject2 = {
 
 export type AddressObject = {
   f: Field;
-  v: OpenStreetObjData;// | null;
+  v: OpenStreetObjData; // | null;
   e: Error;
   run: boolean;
   hint?: OpenStreetObjData[];
@@ -305,13 +276,12 @@ export type AddressObject = {
   suMsg?: SuccessMessage;
   sh?: Show;
   i?: Icon;
-}
+};
 
 export type OpenStreetObjData = {
-  bounds: any[],
-  label: string
-  raw: object,
-  x: number,
-  y: number
-}
-
+  bounds: any[];
+  label: string;
+  raw: object;
+  x: number;
+  y: number;
+};

@@ -1,6 +1,6 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
-import { NewsInfo } from "@/types";
+import { NewsInfo } from "@/types/news";
 import { accessToken, newsRSocketApi } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { newsApi } from "@/plugins/api/api-urls";
@@ -20,7 +20,7 @@ export default class NewsList extends VuexModule {
     this.previewNews = eventInfo;
   }
 
-  @Action ({ commit: "setPreviewNews" })
+  @Action({ commit: "setPreviewNews" })
   async fetchNewsPreview(newsTitle: string) {
     return new Promise(resolve => {
       const previewNews: NewsInfo[] = [];

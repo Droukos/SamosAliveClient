@@ -27,7 +27,9 @@ export default class NavBarMainList extends Vue {
   @environment.Mutation setSubNavBarOpen!: (index: number) => void;
 
   to(index: number) {
-    if (index == 4) {
+    if (index == 3) {
+      this.setSubNavBarOpen(subNavBabOptions.NEWS);
+    } else if (index == 4) {
       this.setSubNavBarOpen(subNavBabOptions.HEALTH);
     } else if (index == 8) {
       this.logoutUser();
@@ -64,10 +66,10 @@ export default class NavBarMainList extends Vue {
       },
       {
         index: 3,
-        link: "news",
+        link: "",
         title: this.$t("news.title"),
         icon: "$news",
-        rArrowIcon: false
+        rArrowIcon: true
       },
       {
         index: 4,

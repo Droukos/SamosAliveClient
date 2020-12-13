@@ -31,7 +31,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { NewsInfo } from "@/types";
+import { NewsInfo } from "@/types/news";
 
 const newsList = namespace("newsList");
 
@@ -49,7 +49,7 @@ export default class NewsListPanel extends Vue {
 
   more(id: string) {
     this.$router.push({
-      name: "newsMore",
+      name: "newsMoreCard",
       params: { newsID: id }
     });
   }
