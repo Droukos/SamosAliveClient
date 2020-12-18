@@ -106,12 +106,6 @@ const aedProblemsInfo = namespace("aedProblemsInfo");
 export default class ProblemsMoreCard extends Vue {
   loadingSkeleton = true;
   @aedProblemsInfo.Action findProblemsId!: (data: ProblemsDto) => Promise<any>;
-  @aedProblemsInfo.State id!: string;
-  @aedProblemsInfo.State username!: string;
-  @aedProblemsInfo.State problemsTitle!: number;
-  @aedProblemsInfo.State address!: string;
-  @aedProblemsInfo.State information!: string;
-  @aedProblemsInfo.State status!: number;
-  @aedProblemsInfo.State uploadedTime!: string;
+  //@aedProblemsInfo.State id!: string;
 }
 </script>

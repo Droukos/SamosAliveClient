@@ -5,21 +5,22 @@
         <v-card class="mx-auto" outlined>
           <v-list-item three-line>
             <v-list-item-content>
-              <v-list-item-title class="headline mb-1">{{
-                item.title
-              }}</v-list-item-title>
-              <!--<v-list-item-title>{{ item.previewCont }} </v-list-item-title>-->
-              <v-list-item-subtitle>{{
-                previewCont(item)
-              }}</v-list-item-subtitle>
+              <v-list-item-title class="headline mb-1">
+                {{ item.title }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                {{ previewCont(item) }}
+              </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
-              <v-list-item-action-text>{{ item.user }}</v-list-item-action-text>
+              <v-list-item-action-text>
+                {{ item.user }}
+              </v-list-item-action-text>
             </v-list-item-action>
           </v-list-item>
 
           <v-card-actions>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn v-text="$t('news.more')" @click="more(item.id)" />
           </v-card-actions>
         </v-card>
@@ -31,7 +32,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { NewsInfo } from "@/types";
+import { NewsInfo } from "@/types/news";
 
 const newsList = namespace("newsList");
 
@@ -49,7 +50,7 @@ export default class NewsListPanel extends Vue {
 
   more(id: string) {
     this.$router.push({
-      name: "newsMore",
+      name: "newsMoreCard",
       params: { newsID: id }
     });
   }

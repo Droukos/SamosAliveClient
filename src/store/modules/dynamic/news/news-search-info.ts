@@ -3,8 +3,14 @@ import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { newsApi } from "@/plugins/api/api-urls";
 import { NewsDto, NewsInfo } from "@/types/news";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
-@Module({ namespaced: true })
-export default class News extends VuexModule implements NewsInfo {
+import store from "@/store";
+@Module({
+  dynamic: true,
+  namespaced: true,
+  store: store,
+  name: "newsSearchInfo"
+})
+export default class NewsSearchInfo extends VuexModule implements NewsInfo {
   id = "";
   username = "";
   newsTitle = "";

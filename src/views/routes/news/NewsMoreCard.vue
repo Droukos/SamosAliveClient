@@ -9,14 +9,18 @@
     >
       <v-card>
         <v-card-title class="primary">
-          {{ newsTitle }}
+          <NewsTitle />
         </v-card-title>
         <v-list-item three-line>
           <v-list-item-content>
-            <v-card-text>{{ content }} </v-card-text>
-            <v-list-item-subtitle bottom
-              >{{ username }} - {{ uploadedTime }}</v-list-item-subtitle
-            >
+            <v-card-text>
+              <NewsContent />
+            </v-card-text>
+            <v-list-item-subtitle bottom>
+              <NewsUsername />
+              -
+              <NewsUploadedTime />
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-card>
@@ -27,13 +31,36 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
+import newsSearchInfoMod from "@/store/modules/dynamic/news/news-search-info";
 
-const news = namespace("news");
+const newsSearchInfo = namespace("newsSearchInfo");
 
 @Component({
+  components: {
+    NewsContent: () =>
+      import(
+        /* webpackChunkName: "ProblemsListPanel" */ "@/components/news/info/NewsContent.vue"
+      ),
+    NewsTitle: () =>
+      import(
+        /* webpackChunkName: "ProblemsListPanel" */ "@/components/news/info/NewsTitle.vue"
+      ),
+    NewsUploadedTime: () =>
+      import(
+        /* webpackChunkName: "ProblemsListPanel" */ "@/components/news/info/NewsUploadedTime.vue"
+      ),
+    NewsUsername: () =>
+      import(
+        /* webpackChunkName: "ProblemsListPanel" */ "@/components/news/info/NewsUsername.vue"
+      )
+  },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       const newsMoreCard = vm as NewsMoreCard;
+      const store = newsMoreCard.$store;
+      if (!(store && store.state && store.state["newsSearchInfo"])) {
+        store.registerModule("newsSearchInfo", newsSearchInfoMod);
+      }
       newsMoreCard.findNewsId(to.params.newsID).then(() => {
         newsMoreCard.loadingSkeleton = false;
       });
@@ -42,11 +69,7 @@ const news = namespace("news");
 })
 export default class NewsMoreCard extends Vue {
   loadingSkeleton = true;
-  @news.Action findNewsId!: (id: string) => Promise<any>;
-  @news.State id!: string;
-  @news.State username!: string;
-  @news.State newsTitle!: string;
-  @news.State content!: string;
-  @news.State uploadedTime!: string;
+  @newsSearchInfo.Action findNewsId!: (id: string) => Promise<any>;
+  //@newsSearchInfo.State id!: string;
 }
 </script>

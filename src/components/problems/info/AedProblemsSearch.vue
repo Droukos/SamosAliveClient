@@ -17,7 +17,6 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-const aedProblemsInfo = namespace("aedProblemsInfo");
 const problemsList = namespace("problemsList");
 
 @Component
@@ -29,7 +28,6 @@ export default class AedProblemsSearch extends Vue {
     label: this.$t("history.searchProblem")
   };
 
-  @aedProblemsInfo.State requestedTime!: string;
   @problemsList.State previewProblems!: [];
   @problemsList.Action fetchProblemsPreview!: (title: string) => Promise<any>;
 

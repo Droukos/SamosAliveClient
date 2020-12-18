@@ -30,7 +30,6 @@ import L from "leaflet";
 import { statusOptions } from "@/plugins/enums/event-options";
 
 const aedEventInfo = namespace("aedEventInfo");
-const environment = namespace("environment");
 //TODO components sto card ton event kai antistoixa component gia news-problems
 @Component({
   components: {
@@ -60,12 +59,6 @@ const environment = namespace("environment");
   }
 })
 export default class EventMoreCard extends Vue {
-  message = "";
-  dialog = false;
-  openDialog() {
-    this.dialog = true;
-  }
-
   loadingSkeleton = true;
   @aedEventInfo.Action findEventId!: (data: EventDto) => Promise<any>;
   @aedEventInfo.Getter aedEvent!: AedEventInfoDto;
