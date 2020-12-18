@@ -21,7 +21,12 @@
             :aedEvent="aedEventDto"
             :center="aedEventMarkerCenter"
             :marker="aedEventMarkerCenter"
+            :searchDeviceCircle="true"
           />
+          <v-divider />
+          <div class="d-flex flex-column">
+            heyy
+          </div>
           <v-divider />
           <v-card-actions>
             <v-spacer />
@@ -39,6 +44,7 @@ import aedEventChannelSubMod from "@/store/modules/dynamic/aed/events/sub/aed-ev
 import { namespace } from "vuex-class";
 import { AedEventInfoDto, EventDto } from "@/types/aed-event";
 import { LatLng } from "leaflet";
+import { IAedDevicePreview } from "@/types/aed-device";
 
 const user = namespace("user");
 const aedEventChannelSub = namespace("aedEventChannelSub");
@@ -94,6 +100,9 @@ export default class AedEventChannelCard extends Vue {
   @aedEventChannelSub.Getter aedEvent!: (aedEventId: string) => AedEventInfoDto;
   @aedEventChannelSub.Getter hasAedEvChannel!: (aedEventId: string) => boolean;
   @aedEventChannelSub.Mutation deleteEvOnMap!: (aedEventId: string) => void;
+  @aedEventChannelSub.Action fetchAedDeviceInAreaPreview!: (
+    aedEventId: string
+  ) => Promise<IAedDevicePreview[]>;
   loading = true;
   transition = "scale-transition";
   aedEventId = "";
@@ -104,6 +113,10 @@ export default class AedEventChannelCard extends Vue {
 
   get aedEventMarkerCenter() {
     return this.aedEventMarker(this.aedEventId);
+  }
+
+  beforeUnmount() {
+    console.log("heeeee");
   }
 }
 </script>

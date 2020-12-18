@@ -7,14 +7,11 @@ import {
   EventDto
 } from "@/types/aed-event";
 import { accessToken, aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
-import {
-  bufToJson,
-  dataBuf,
-  metadataBuf
-} from "@/plugins/api/rsocket-util";
-import { eventApi } from "@/plugins/api/api-urls";
-import L from "leaflet";
+import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
+import { aedDeviceApi, eventApi } from "@/plugins/api/api-urls";
+import L, { LatLng } from "leaflet";
 import { ISubscription } from "rsocket-types";
+import { IAedDeviceMapSearchDto, IAedDevicePreview } from "@/types/aed-device";
 
 const evMap: Map<string, AedEventInfoDto> = new Map<string, AedEventInfoDto>();
 const subsChMap: Map<string, ISubscription> = new Map<string, ISubscription>();
@@ -44,6 +41,12 @@ function findAedEvent(aedEventId: string, tracker: number) {
 export default class AedEventChannelsSub extends VuexModule {
   aedEventChannelTracker = 0;
   streamSubscriptionTracker = 0;
+  previewAedDevices: IAedDevicePreview[] = [];
+
+  @Mutation
+  setPreviewAedDevices(previewAedDevices: IAedDevicePreview[]) {
+    this.previewAedDevices = previewAedDevices;
+  }
 
   @Mutation
   setAedEventInfo(data: AedEventInfoDto) {
@@ -78,7 +81,7 @@ export default class AedEventChannelsSub extends VuexModule {
 
   get hasAedEvChannel() {
     return function(aedEventId: string) {
-      return subsChMap.has(aedEventId) ;
+      return subsChMap.has(aedEventId);
     };
   }
 
@@ -94,6 +97,46 @@ export default class AedEventChannelsSub extends VuexModule {
     return function(aedEventId: string) {
       return subsChMap.get(aedEventId);
     };
+  }
+
+  get mapSearchDto() {
+    return function(aedEventId: string) {
+      const event: AedEventInfoDto | undefined = evMap.get(aedEventId);
+      return {
+        x: event!.occurrencePoint.x,
+        y: event!.occurrencePoint.y,
+        distance: 4
+      };
+    };
+    //const :LatLng = this.aedEventStreamSubscription()
+    //return {
+    //  y: this.marker.lat,
+    //  x: this.marker.lng,
+    //  distance: this.radiusSlider
+    //}
+  }
+
+  @Action({ commit: "setPreviewAedDevices" })
+  async fetchAedDeviceInAreaPreview(aedEventId: string): Promise<IAedDevicePreview[]> {
+    return new Promise(resolve => {
+      const prDevices: IAedDevicePreview[] = [];
+      aedRSocketApi().then(aedRSocket => {
+        aedRSocket
+          .requestStream({
+            data: dataBuf(this.mapSearchDto(aedEventId)),
+            metadata: metadataBuf(
+              accessToken,
+              aedDeviceApi.fetchAedDeviceInArea
+            )
+          })
+          .subscribe({
+            onError: error => console.error(error),
+            onNext: payload => prDevices.push(bufToJson(payload)),
+            onSubscribe: sub => sub.request(20)
+          });
+        resolve(prDevices);
+      });
+    });
   }
 
   @Action({ commit: "setAedEventInfo" })

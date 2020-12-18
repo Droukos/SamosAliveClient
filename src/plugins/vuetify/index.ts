@@ -37,7 +37,8 @@ import {
   mdiAntenna,
   mdiCamera,
   mdiOpenInNew,
-  mdiFilterMenu
+  mdiFilterMenu,
+  mdiBabyCarriage
 } from "@mdi/js";
 
 Vue.use(Vuetify);
@@ -80,6 +81,7 @@ const MY_ICONS = {
   openNew: mdiOpenInNew,
   liveEv: mdiAccessPoint,
   livePr: mdiAntenna,
+  deviceEv: mdiBabyCarriage,
   camera: mdiCamera,
   filterMenu: mdiFilterMenu,
   liveEvent: "fas fa-heartbeat",

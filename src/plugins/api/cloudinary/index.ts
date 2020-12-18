@@ -2,3 +2,5 @@ export const markerIconRedSimple = "https://res.cloudinary.com/droukos/image/upl
 export const markerIconShadow = "https://res.cloudinary.com/droukos/image/upload/v1605334720/samosalive/icons/map_shadow.png";
 export const markerIconAedDeviceHeart = "https://res.cloudinary.com/droukos/image/upload/v1606137922/samosalive/icons/aed-ico_eyv4xc.png";
 export const markerIconAntenna = "https://res.cloudinary.com/droukos/image/upload/v1606791866/samosalive/icons/radio-antenna_zhuprc.png";
+export const markerIconEmergencyCall = "https://res.cloudinary.com/droukos/image/upload/v1608033595/samosalive/icons/emergency-call_fcu40f.png"
+export const markerIconSupply = "https://res.cloudinary.com/droukos/image/upload/v1608033660/samosalive/icons/emergency-supply_enznma.png"

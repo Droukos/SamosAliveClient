@@ -2,29 +2,54 @@
   <v-list-item three-line>
     <v-list-item-content>
       <v-card-text>
-        {{ addr }}<AedEventAddress :address="aedEvent.address" />
+        {{ addr }}
+        <AedEventAddress :address="aedEvent.address" />
       </v-card-text>
       <v-card-text>
-        {{ comm }}<AedEventComment :comment="aedEvent.comment" />
+        {{ comm }}
+        <AedEventComment :comment="aedEvent.comment" />
       </v-card-text>
       <v-card-text>
-        {{ concl }}<AedEventConclusion :conclusion="aedEvent.conclusion" />
+        {{ concl }}
+        <AedEventConclusion :conclusion="aedEvent.conclusion" />
       </v-card-text>
       <div
-        :style="'height:' + ($vuetify.breakpoint.mdAndUp ? '600px' : '300px')"
+        :style="'height:' + ($vuetify.breakpoint.mdAndUp ? '500px' : '300px')"
       >
         <l-map :zoom="zoom" :center="center" style="z-index: 0;">
           <LTileLayerBase />
-          <LMarkerRedSimple :marker="marker" />
+          <LMarkerWithIcon :marker="marker" :icon-url="emergencyCallUrl" />
+          <LControl v-if="searchDeviceCircle" position="topright">
+            <v-menu offset-y :close-on-content-click="false">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn v-bind="attrs" v-on="on">
+                  <v-icon>{{ "$deviceEv" }}</v-icon>
+                </v-btn>
+              </template>
+              <v-card width="350">
+                <v-container> </v-container>
+              </v-card>
+            </v-menu>
+          </LControl>
+          <LCircle
+            v-if="searchDeviceCircle"
+            :lat-lng="marker"
+            :radius="3000"
+            color="blue"
+          />
         </l-map>
       </div>
       <v-list-item-subtitle bottom>
-        {{ upload }}<AedEventUsername :username="aedEvent.username" /> -
+        {{ upload }}
+        <AedEventUsername :username="aedEvent.username" />
+        -
         <AedEventRequestedTime :requestedTime="aedEvent.requestedTime" />
       </v-list-item-subtitle>
       <div v-if="aedEvent.status === allStatus.COMPLETED">
         <v-list-item-subtitle bottom>
-          {{ complete }} <AedEventRescuer :rescuer="aedEvent.rescuer" /> -
+          {{ complete }}
+          <AedEventRescuer :rescuer="aedEvent.rescuer" />
+          -
           <AedEventCompletedTime :completedTime="aedEvent.completedTime" />
         </v-list-item-subtitle>
       </div>
@@ -39,15 +64,17 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { LControl, LMap } from "vue2-leaflet";
+import { LCircle, LControl, LMap } from "vue2-leaflet";
 import { AedEventInfoDto } from "@/types/aed-event";
 import { LatLng } from "leaflet";
 import { statusOptions } from "@/plugins/enums/event-options";
+import { markerIconEmergencyCall } from "@/plugins/api/cloudinary";
 
 @Component({
   components: {
     LMap,
     LControl,
+    LCircle,
     AedEventAddress: () =>
       import(
         /* webpackChunkName: "AedEventAddress" */ "@/components/event/info/AedEventAddress.vue"
@@ -88,9 +115,9 @@ import { statusOptions } from "@/plugins/enums/event-options";
       import(
         /* webpackChunkName: "LTileLayerBase" */ "@/components/map/LTileLayerBase.vue"
       ),
-    LMarkerRedSimple: () =>
+    LMarkerWithIcon: () =>
       import(
-        /* webpackChunkName: "LMarkerRedSimple" */ "@/components/map/LMarkerRedSimple.vue"
+        /* webpackChunkName: "LMarkerWithIcon" */ "@/components/map/markers/LMarkerWithIcon.vue"
       )
   }
 })
@@ -98,6 +125,9 @@ export default class AedEventMainInfo extends Vue {
   @Prop() aedEvent!: AedEventInfoDto;
   @Prop() center!: LatLng;
   @Prop() marker!: LatLng;
+  @Prop() searchDeviceCircle!: boolean;
+
+  emergencyCallUrl = markerIconEmergencyCall;
 
   allStatus = statusOptions;
 

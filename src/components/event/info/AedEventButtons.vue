@@ -32,6 +32,46 @@
   </div>
   <div v-else-if="aedEvent.status === allStatus.PENDING">
     <v-btn color="primary" @click="subResc()" v-text="$t('history.assign')" />
+
+    <!--<v-dialog v-model="deviceChooseDialog" persistent>
+      <v-card>
+        <v-card-title
+          class="headline"
+          v-text="$t('events.deviceDialogTitle')"
+        />
+        <div
+          :style="'height:' + ($vuetify.breakpoint.mdAndUp ? '500px' : '300px')"
+        >
+          <l-map
+            :zoom="zoom"
+            :center="aedEventMarkerCenter"
+            style="z-index: 0;"
+          >
+            <LTileLayerBase />
+            <LMarkerWithIcon
+              :marker="aedEventMarkerCenter"
+              :icon-url="emergencyCallUrl"
+            />
+            <l-circle
+              :lat-lng="aedEventMarkerCenter"
+              :radius="4"
+              color="blue"
+            />
+          </l-map>
+        </div>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="green darken-1"
+            text
+            @click="deviceChooseDialog = false"
+            v-text="$t('general.cancel')"
+          >
+          </v-btn>
+          <v-btn color="green darken-1" text v-text="$t('history.complete')" />
+        </v-card-actions>
+      </v-card>
+    </v-dialog>-->
   </div>
 </template>
 
@@ -45,15 +85,35 @@ import {
   AedEventRescuerInfo,
   EventDto
 } from "@/types/aed-event";
+import { LatLng } from "leaflet";
+import { markerIconEmergencyCall } from "@/plugins/api/cloudinary";
+import { LCircle, LMap } from "vue2-leaflet";
 
 const aedEventChannelSub = namespace("aedEventChannelSub");
 const user = namespace("user");
 
-@Component
+@Component({
+  components: {
+    LMap,
+    LCircle,
+    LTileLayerBase: () =>
+      import(
+        /* webpackChunkName: "LTileLayerBase" */ "@/components/map/LTileLayerBase.vue"
+      ),
+    LMarkerWithIcon: () =>
+      import(
+        /* webpackChunkName: "LMarkerWithIcon" */ "@/components/map/markers/LMarkerWithIcon.vue"
+      )
+  }
+})
 export default class AedEventButtons extends Vue {
   message = "";
+  zoom = 15.5;
   dialog = false;
+  deviceChooseDialog = false;
   allStatus = statusOptions;
+  emergencyCallUrl = markerIconEmergencyCall;
+
   @Prop() aedEvent!: AedEventInfoDto;
   @user.State username!: string;
   @aedEventChannelSub.Action subRescuer!: (
@@ -63,14 +123,20 @@ export default class AedEventButtons extends Vue {
     data: AedEventCloseInfo
   ) => Promise<any>;
   @aedEventChannelSub.Action listenEvent!: (data: EventDto) => void;
+  @aedEventChannelSub.Getter aedEventMarker!: (aedEventId: string) => LatLng;
+
+  get aedEventMarkerCenter() {
+    return this.aedEventMarker(this.aedEvent.id);
+  }
 
   subResc() {
-    this.subRescuer({
-      id: this.aedEvent.id,
-      rescuer: this.username
-    }).then(() => {
-      this.listenEvent({ id: this.aedEvent.id });
-    });
+    this.deviceChooseDialog = !this.deviceChooseDialog;
+    //this.subRescuer({
+    //  id: this.aedEvent.id,
+    //  rescuer: this.username
+    //}).then(() => {
+    //  this.listenEvent({ id: this.aedEvent.id });
+    //});
   }
 
   openDialog() {

@@ -34,7 +34,7 @@ import AedEventDialogOpen from "@/components/event/create/AedEventCreateDialog.v
     });
   },
   beforeDestroy() {
-    this.$store.unregisterModule("aedEventCreate");
+    //this.$store.unregisterModule("aedEventCreate");
   }
 })
 export default class EventCard extends Vue {}
