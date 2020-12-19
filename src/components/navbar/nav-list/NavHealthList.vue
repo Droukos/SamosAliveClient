@@ -53,7 +53,7 @@ export default class NavBarHealthList extends Vue {
         index: 1,
         i18n: this.$t("sub-apps-health.emergency.request"),
         icon: "$medicalBag",
-        link: ""
+        link: "createAedEvent"
       },
       {
         index: 2,
