@@ -22,15 +22,31 @@
             :center="aedEventMarkerCenter"
             :marker="aedEventMarkerCenter"
             :searchDeviceCircle="true"
+            :previewAedDevice="showPreviewAedDevices"
           />
           <v-divider />
           <div class="d-flex flex-column">
-            heyy
+            <v-list>
+              <v-list-item
+                v-for="aedDevice in previewAedDevices"
+                :key="aedDevice.id"
+                @mouseover="highlightDevice(aedDevice)"
+                @dragover="highlightDevice(aedDevice)"
+                @mouseleave="showAllDevices"
+                @dragleave="showAllDevices"
+                @click="setAedDeviceSelected(aedDevice)"
+              >
+                <AedDevicePreviewInfo :aedDevicePreviewInfo="aedDevice" />
+              </v-list-item>
+            </v-list>
           </div>
           <v-divider />
           <v-card-actions>
             <v-spacer />
-            <AedEventButtons :aedEvent="aedEventDto" />
+            <AedEventButtons
+              :aedEvent="aedEventDto"
+              :aedDeviceIdSel="aedDeviceIdSel"
+            />
           </v-card-actions>
         </v-card>
       </v-container>
@@ -62,6 +78,10 @@ const aedEventChannelSub = namespace("aedEventChannelSub");
     AedEventOccurrenceType: () =>
       import(
         /* webpackChunkName: "AedEventOccurrenceType" */ "@/components/event/info/AedEventOccurrenceType.vue"
+      ),
+    AedDevicePreviewInfo: () =>
+      import(
+        /* webpackChunkName: "AedDevicePreviewInfo" */ "@/components/device/aed/info/AedDevicePreviewInfo.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
@@ -85,9 +105,9 @@ const aedEventChannelSub = namespace("aedEventChannelSub");
     });
   },
   beforeDestroy() {
-    if (!this.hasAedEvChannel(this.aedEventId)) {
-      this.deleteEvOnMap(this.aedEventId);
-    }
+    //if (!this.hasAedEvChannel(this.aedEventId)) {
+    //  this.deleteEvOnMap(this.aedEventId);
+    //}
   }
 })
 export default class AedEventChannelCard extends Vue {
@@ -95,6 +115,14 @@ export default class AedEventChannelCard extends Vue {
     data: EventDto
   ) => Promise<AedEventInfoDto>;
   @user.State username!: string;
+  @aedEventChannelSub.State previewAedDevices!: IAedDevicePreview[];
+  @aedEventChannelSub.State showPreviewAedDevices!: IAedDevicePreview[];
+  @aedEventChannelSub.Mutation setAedDeviceSelected!: (
+    aedDevice: IAedDevicePreview
+  ) => void;
+  @aedEventChannelSub.Mutation setShowPreviewAedDevice!: (
+    aedDevices: IAedDevicePreview[]
+  ) => void;
   @aedEventChannelSub.Action listenEvent!: (data: EventDto) => void;
   @aedEventChannelSub.Getter aedEventMarker!: (aedEventId: string) => LatLng;
   @aedEventChannelSub.Getter aedEvent!: (aedEventId: string) => AedEventInfoDto;
@@ -106,7 +134,15 @@ export default class AedEventChannelCard extends Vue {
   loading = true;
   transition = "scale-transition";
   aedEventId = "";
+  aedDeviceIdSel = "";
 
+  highlightDevice(aedDevice: IAedDevicePreview) {
+    this.setShowPreviewAedDevice([aedDevice]);
+  }
+
+  showAllDevices() {
+    this.setShowPreviewAedDevice(this.previewAedDevices);
+  }
   get aedEventDto() {
     return this.aedEvent(this.aedEventId);
   }

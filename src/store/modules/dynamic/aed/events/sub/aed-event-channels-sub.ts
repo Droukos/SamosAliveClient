@@ -9,9 +9,9 @@ import {
 import { accessToken, aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { aedDeviceApi, eventApi } from "@/plugins/api/api-urls";
-import L, { LatLng } from "leaflet";
+import L from "leaflet";
 import { ISubscription } from "rsocket-types";
-import { IAedDeviceMapSearchDto, IAedDevicePreview } from "@/types/aed-device";
+import { IAedDevicePreview } from "@/types/aed-device";
 
 const evMap: Map<string, AedEventInfoDto> = new Map<string, AedEventInfoDto>();
 const subsChMap: Map<string, ISubscription> = new Map<string, ISubscription>();
@@ -42,10 +42,18 @@ export default class AedEventChannelsSub extends VuexModule {
   aedEventChannelTracker = 0;
   streamSubscriptionTracker = 0;
   previewAedDevices: IAedDevicePreview[] = [];
+  showPreviewAedDevices: IAedDevicePreview[] = [];
+  aedDeviceSelected!: IAedDevicePreview;
+
+  @Mutation
+  setShowPreviewAedDevice(previewAedDevices: IAedDevicePreview[]) {
+    this.showPreviewAedDevices = previewAedDevices;
+  }
 
   @Mutation
   setPreviewAedDevices(previewAedDevices: IAedDevicePreview[]) {
     this.previewAedDevices = previewAedDevices;
+    this.showPreviewAedDevices = previewAedDevices;
   }
 
   @Mutation
@@ -66,6 +74,11 @@ export default class AedEventChannelsSub extends VuexModule {
     ++this.streamSubscriptionTracker;
   }
 
+  @Mutation
+  setAedDeviceSelected(aedDevice: IAedDevicePreview) {
+    this.aedDeviceSelected = aedDevice;
+  }
+
   get aedEventMarker() {
     const tracker = this.aedEventChannelTracker;
     return function(aedEventId: string) {
@@ -77,6 +90,10 @@ export default class AedEventChannelsSub extends VuexModule {
         ? L.latLng(aedEvent.occurrencePoint.y, aedEvent.occurrencePoint.x)
         : L.latLng(0, 0);
     };
+  }
+
+  get selectedAedDevice() {
+    return this.aedDeviceSelected;
   }
 
   get hasAedEvChannel() {
@@ -126,7 +143,7 @@ export default class AedEventChannelsSub extends VuexModule {
             data: dataBuf(this.mapSearchDto(aedEventId)),
             metadata: metadataBuf(
               accessToken,
-              aedDeviceApi.fetchAedDeviceInArea
+              aedDeviceApi.fetchAedDeviceInAreaAvailable
             )
           })
           .subscribe({

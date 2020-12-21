@@ -9,7 +9,7 @@
       <v-dialog v-model="dialog" persistent>
         <v-card>
           <v-card-title class="headline" v-text="$t('history.conclusion')" />
-          <v-textarea v-model="message" maxlength="200" solo></v-textarea>
+          <v-textarea v-model="message" maxlength="200" solo />
           <v-card-actions>
             <v-spacer />
             <v-btn
@@ -17,8 +17,7 @@
               text
               @click="dialog = false"
               v-text="$t('general.cancel')"
-            >
-            </v-btn>
+            />
             <v-btn
               color="green darken-1"
               text
@@ -31,7 +30,17 @@
     </v-row>
   </div>
   <div v-else-if="aedEvent.status === allStatus.PENDING">
-    <v-btn color="primary" @click="subResc()" v-text="$t('history.assign')" />
+    <v-btn
+      v-if="aedEvent.rescuer == null || aedEvent.rescuer === ''"
+      v-text="$t('events.deviceSel')"
+      @click="fetchAedDevices"
+    />
+    <v-btn
+      v-if="aedDeviceIdSel !== ''"
+      color="primary"
+      @click="subResc()"
+      v-text="$t('history.assign')"
+    />
 
     <!--<v-dialog v-model="deviceChooseDialog" persistent>
       <v-card>
@@ -88,6 +97,7 @@ import {
 import { LatLng } from "leaflet";
 import { markerIconEmergencyCall } from "@/plugins/api/cloudinary";
 import { LCircle, LMap } from "vue2-leaflet";
+import { IAedDevicePreview } from "@/types/aed-device";
 
 const aedEventChannelSub = namespace("aedEventChannelSub");
 const user = namespace("user");
@@ -115,6 +125,7 @@ export default class AedEventButtons extends Vue {
   emergencyCallUrl = markerIconEmergencyCall;
 
   @Prop() aedEvent!: AedEventInfoDto;
+  @Prop() aedDeviceIdSel!: string;
   @user.State username!: string;
   @aedEventChannelSub.Action subRescuer!: (
     data: AedEventRescuerInfo
@@ -123,10 +134,17 @@ export default class AedEventButtons extends Vue {
     data: AedEventCloseInfo
   ) => Promise<any>;
   @aedEventChannelSub.Action listenEvent!: (data: EventDto) => void;
+  @aedEventChannelSub.Action fetchAedDeviceInAreaPreview!: (
+    aedEventId: string
+  ) => Promise<IAedDevicePreview[]>;
   @aedEventChannelSub.Getter aedEventMarker!: (aedEventId: string) => LatLng;
 
   get aedEventMarkerCenter() {
     return this.aedEventMarker(this.aedEvent.id);
+  }
+
+  fetchAedDevices() {
+    this.fetchAedDeviceInAreaPreview(this.aedEvent.id);
   }
 
   subResc() {

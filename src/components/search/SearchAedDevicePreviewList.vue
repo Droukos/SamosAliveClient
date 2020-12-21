@@ -6,7 +6,8 @@
         :key="item.id"
         @click="goToAedDevice(item.id)"
       >
-        <v-list-item-avatar :size="70">
+        <AedDevicePreviewInfo :aedDevicePreviewInfo="item" />
+        <!--<v-list-item-avatar :size="70">
           <AedDevicePic :size="70" :url="item.picUrl" />
         </v-list-item-avatar>
 
@@ -41,7 +42,7 @@
           <p :class="getStatusColor(item.status)" style="font-size:16px;">
             {{ $t("aed-device-status." + item.status) }}
           </p>
-        </v-list-item-content>
+        </v-list-item-content>-->
       </v-list-item>
     </v-list>
   </v-card>
@@ -50,25 +51,24 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { IAedDevicePreview } from "@/types/aed-device";
-import { getAedDeviceStatusColor } from "@/plugins/enums/device/aed/aed-device-status";
 import { namespace } from "vuex-class";
 
 const search = namespace("search");
 
 @Component({
   components: {
-    AedDevicePic: () =>
+    AedDevicePreviewInfo: () =>
       import(
-        /* webpackChunkName: "AedDevicePic" */ "@/components/device/aed/info/AedDevicePic.vue"
+        /* webpackChunkName: "AedDevicePreviewInfo" */ "@/components/device/aed/info/AedDevicePreviewInfo.vue"
       )
   }
 })
 export default class SearchAedDevicePreviewList extends Vue {
   @search.State previewAedDevices!: IAedDevicePreview[];
 
-  getStatusColor(statusCode: number) {
-    return getAedDeviceStatusColor(statusCode);
-  }
+  //getStatusColor(statusCode: number) {
+  //  return getAedDeviceStatusColor(statusCode);
+  //}
 
   goToAedDevice(aedDeviceId: string) {
     this.$router.push({

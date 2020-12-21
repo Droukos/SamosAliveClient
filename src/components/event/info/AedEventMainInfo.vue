@@ -19,18 +19,15 @@
         <l-map :zoom="zoom" :center="center" style="z-index: 0;">
           <LTileLayerBase />
           <LMarkerWithIcon :marker="marker" :icon-url="emergencyCallUrl" />
-          <LControl v-if="searchDeviceCircle" position="topright">
-            <v-menu offset-y :close-on-content-click="false">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on">
-                  <v-icon>{{ "$deviceEv" }}</v-icon>
-                </v-btn>
-              </template>
-              <v-card width="350">
-                <v-container> </v-container>
-              </v-card>
-            </v-menu>
-          </LControl>
+          <div v-if="searchDeviceCircle">
+            <LMarkerWithIcon
+              v-for="aedDevice in previewAedDevice"
+              :key="aedDevice.id"
+              :marker="getLatLon(aedDevice)"
+              :icon-url="supplyAedUrl"
+            />
+          </div>
+
           <LCircle
             v-if="searchDeviceCircle"
             :lat-lng="marker"
@@ -66,9 +63,14 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { LCircle, LControl, LMap } from "vue2-leaflet";
 import { AedEventInfoDto } from "@/types/aed-event";
+import L from "leaflet";
 import { LatLng } from "leaflet";
 import { statusOptions } from "@/plugins/enums/event-options";
-import { markerIconEmergencyCall } from "@/plugins/api/cloudinary";
+import {
+  markerIconEmergencyCall,
+  markerIconSupply
+} from "@/plugins/api/cloudinary";
+import { IAedDevicePreview } from "@/types/aed-device";
 
 @Component({
   components: {
@@ -126,8 +128,10 @@ export default class AedEventMainInfo extends Vue {
   @Prop() center!: LatLng;
   @Prop() marker!: LatLng;
   @Prop() searchDeviceCircle!: boolean;
+  @Prop() previewAedDevice!: IAedDevicePreview[];
 
   emergencyCallUrl = markerIconEmergencyCall;
+  supplyAedUrl = markerIconSupply;
 
   allStatus = statusOptions;
 
@@ -137,5 +141,9 @@ export default class AedEventMainInfo extends Vue {
   concl = this.$t("events.concl");
   upload = this.$t("events.upload");
   complete = this.$t("events.complete");
+
+  getLatLon(aedDevice: IAedDevicePreview) {
+    return L.latLng(aedDevice.homePoint.y, aedDevice.homePoint.x);
+  }
 }
 </script>

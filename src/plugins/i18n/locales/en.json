@@ -78,6 +78,7 @@
     "addr": "Address: ",
     "comm": "More info: ",
     "concl": "Conclusion: ",
+    "deviceSel": "Select Device",
     "upload": "Uploaded by: ",
     "complete": "Completed by: ",
     "deviceDialogTitle": "Available Aed Devices for Emergency"
