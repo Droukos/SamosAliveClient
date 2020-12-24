@@ -39,5 +39,5 @@ import { Component, Vue } from "vue-property-decorator";
       )
   }
 })
-export default class NavBarProfile extends Vue {}
+export default class NavProfileCard extends Vue {}
 </script>

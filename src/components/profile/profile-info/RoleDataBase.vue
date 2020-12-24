@@ -5,17 +5,22 @@
       :key="role.code"
       class="'title text-wrap"
     >
-      <p :class="$helper.getUserRoleColorText(role.code)">
-        {{ $t(role.role) }}
-      </p>
+      <p
+        :class="$helper.getUserRoleColorText(role.code)"
+        v-text="$t(role.role)"
+      />
     </v-list-item>
 
-    <v-list-item-subtitle v-if="isOnline" style="color:#18FFFF">{{
-      $t("user.online")
-    }}</v-list-item-subtitle>
-    <v-list-item-subtitle v-else style="color:#455A64">{{
-      $t("user.offline")
-    }}</v-list-item-subtitle>
+    <v-list-item-subtitle
+      v-if="isOnline"
+      style="color:#18FFFF"
+      v-text="$t('user.online')"
+    />
+    <v-list-item-subtitle
+      v-else
+      style="color:#455A64"
+      v-text="$t('user.offline')"
+    />
   </div>
 </template>
 

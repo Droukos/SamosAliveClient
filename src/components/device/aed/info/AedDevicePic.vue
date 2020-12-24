@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex justify-center">
-    <span
-      ><img :src="url" :style="picBackStyle" alt class="user-profile-avatar"
-    /></span>
+    <span>
+      <img :src="url" :style="picBackStyle" alt class="user-profile-avatar" />
+    </span>
   </div>
 </template>
 

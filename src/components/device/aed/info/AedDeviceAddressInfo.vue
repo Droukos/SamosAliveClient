@@ -3,9 +3,10 @@
     <div class="d-flex flex-row">
       <div class="d-flex flex-column">
         <v-card outlined>
-          <span class="subtitle-1">{{
-            $t("device-register.addr") + ": " + address
-          }}</span>
+          <span
+            class="subtitle-1"
+            v-text="$t('device-register.addr') + ': ' + address"
+          />
         </v-card>
       </div>
       <v-spacer />
@@ -13,10 +14,10 @@
     </div>
     <span class="subtitle-1">{{ $t("device-register.addrOnMap") }}</span>
     <div :style="'height:' + ($vuetify.breakpoint.mdAndUp ? '600px' : '300px')">
-      <l-map :zoom="zoom" :center="center" style="z-index: 0;">
+      <LMap :zoom="zoom" :center="center" style="z-index: 0;">
         <LTileLayerBase />
         <LMarkerAedDeviceHeart :marker="marker" />
-      </l-map>
+      </LMap>
     </div>
   </div>
 </template>

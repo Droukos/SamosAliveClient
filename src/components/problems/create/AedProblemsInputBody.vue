@@ -7,7 +7,7 @@
     :label="fBody.f"
     maxlength="500"
     full-width
-  ></v-text-field>
+  />
 </template>
 
 <script lang="ts">

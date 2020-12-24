@@ -1,13 +1,14 @@
 import { User } from "@/types/index";
+import {AedDevice} from "@/types/aed-device";
 
 declare namespace AedEvent {
   type id = string;
   type occurrenceType = number;
-  type mapX = number;
-  type mapY = number;
+  type mapLat = number;
+  type mapLon = number;
   interface OccurrencePoint {
-    x: AedEvent.mapX;
-    y: AedEvent.mapY;
+    x: AedEvent.mapLat;
+    y: AedEvent.mapLon;
   }
   type address = string;
   type comment = string;
@@ -20,8 +21,8 @@ declare namespace AedEvent {
   interface AedEventCreateDto {
     username: User.Username;
     occurrenceType: AedEvent.occurrenceType;
-    mapX: AedEvent.mapX;
-    mapY: AedEvent.mapY;
+    mapLat: AedEvent.mapLat;
+    mapLon: AedEvent.mapLon;
     address: AedEvent.address;
     comment: AedEvent.comment;
   }
@@ -62,6 +63,7 @@ declare namespace AedEvent {
   interface AedEventRescuerInfo {
     id: AedEvent.id;
     rescuer: AedEvent.rescuer;
+    aedDeviceId: AedDevice.AedDeviceId;
   }
 
   interface AedEventCloseInfo {

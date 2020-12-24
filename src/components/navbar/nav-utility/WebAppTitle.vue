@@ -1,6 +1,6 @@
 <template>
   <v-btn class="text-none" text>
-    <span class="text-h6 teal--text text--darken-1">{{ $t("webapp") }}</span>
+    <span class="text-h6 teal--text text--darken-1" v-text="$t('webapp')" />
   </v-btn>
 </template>
 

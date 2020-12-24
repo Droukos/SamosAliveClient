@@ -3,15 +3,19 @@
     <v-row no-gutters>
       <template v-for="option in accountOptions">
         <v-col :key="option.index">
-          <v-btn text block class="text-none subtitle-1" @click="to(option)">
-            {{ option.name }}
-          </v-btn>
+          <v-btn
+            text
+            block
+            class="text-none subtitle-1"
+            @click="to(option)"
+            v-text="option.name"
+          />
         </v-col>
         <v-responsive
           v-if="option.index % 2 === 0"
           :key="`width-${option.index}`"
           width="100%"
-        ></v-responsive>
+        />
       </template>
     </v-row>
   </v-sheet>

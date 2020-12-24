@@ -1,11 +1,5 @@
 <template>
-  <v-btn
-      color="primary"
-      dark
-      @click="more(id)"
-      v-text="$t('history.more')"
-  >
-  </v-btn>
+  <v-btn color="primary" dark @click="more(id)" v-text="$t('history.more')" />
 </template>
 
 <script lang="ts">

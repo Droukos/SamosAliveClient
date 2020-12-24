@@ -39,6 +39,12 @@ export const eventApi: Record<string, string> = {
     closeAedEvent: "aed.event.close"
 };
 
+export const osmApi: Record<string, string> = {
+    osmSearchAddress: "aed.osm.search",
+    osmReverseSearch: "aed.osm.reverse",
+    osrmSearchWaypoints: "aed.osrm.search"
+}
+
 export const aedDeviceApi: Record<string, string> = {
     registerAedDevice: "aed.device.register",
     fetchAedDevice: "aed.device.fetch.byId",

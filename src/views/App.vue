@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <HeadNavbarBundler></HeadNavbarBundler>
-    <router-view></router-view>
-    <v-footer app> </v-footer>
+    <HeadNavbarBundler />
+    <router-view />
+    <v-footer app />
   </v-app>
 </template>
 

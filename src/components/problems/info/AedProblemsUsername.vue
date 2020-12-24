@@ -1,5 +1,5 @@
 <template>
-  <span>{{ username }}</span>
+  <span v-text="username" />
 </template>
 
 <script lang="ts">

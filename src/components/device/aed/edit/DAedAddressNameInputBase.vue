@@ -11,7 +11,7 @@
     outlined
     dense
     :counter="150"
-  ></v-combobox>
+  />
 </template>
 
 <script lang="ts">

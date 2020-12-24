@@ -279,9 +279,7 @@ export type AddressObject = {
 };
 
 export type OpenStreetObjData = {
-  bounds: any[];
   label: string;
-  raw: object;
   x: number;
   y: number;
 };

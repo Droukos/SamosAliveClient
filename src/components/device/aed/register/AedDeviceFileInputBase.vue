@@ -10,7 +10,7 @@
       clearable
       prepend-icon="$camera"
       :label="$t('device-register.devPic')"
-    ></v-file-input>
+    />
     <v-avatar v-if="tempFile !== ''" tile size="160">
       <img :src="tempFile" alt />
     </v-avatar>

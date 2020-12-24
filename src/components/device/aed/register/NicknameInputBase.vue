@@ -6,7 +6,7 @@
     :counter="30"
     :label="fNickname.f"
     required
-  ></v-text-field>
+  />
 </template>
 
 <script lang="ts">

@@ -2,7 +2,7 @@
   <v-content>
     <v-card>
       <v-container>
-        <h2>{{ $t("device-register.title") }}</h2>
+        <h2 v-text="$t('device-register.title')" />
         <v-spacer />
         <NicknameInputBase />
         <ModelNameInputBase />
@@ -15,13 +15,10 @@
         <div
           :style="'height:' + ($vuetify.breakpoint.mdAndUp ? '600px' : '300px')"
         >
-          <l-map :zoom="zoom" :center="center" style="z-index: 0;">
+          <LMap :zoom="zoom" :center="center" style="z-index: 0;">
             <LTileLayerBase />
-            <!--<l-control position="topright">
-              <v-btn @click="alert('he')"></v-btn>
-            </l-control>-->
-            <LMarkerRedSimple :marker="marker" />
-          </l-map>
+            <LMarkerDeviceDraggable />
+          </LMap>
         </div>
       </v-container>
       <v-btn
@@ -32,12 +29,14 @@
         style="color:white;"
         @click="createAedDevice()"
         aria-label="AedCreate"
-      >
-        {{ $t("forms.create") }}
-      </v-btn>
-      <span v-if="showError" :class="errorClass">{{
-        $t("edit.errorUpdated")
-      }}</span>
+        v-text="$t('forms.create')"
+      />
+
+      <span
+        v-if="showError"
+        :class="errorClass"
+        v-text="$t('edit.errorUpdated')"
+      />
     </v-card>
   </v-content>
 </template>
@@ -48,6 +47,7 @@ import aedDeviceRegisterMod from "@/store/modules/dynamic/aed/device/aed-device-
 import { LMap, LControl } from "vue2-leaflet";
 import L from "leaflet";
 import { namespace } from "vuex-class";
+import { getLocation } from "@/plugins/geolocation";
 
 const aedDeviceRegister = namespace("aedDeviceRegister");
 
@@ -59,13 +59,9 @@ const aedDeviceRegister = namespace("aedDeviceRegister");
       import(
         /* webpackChunkName: "LTileLayerBase" */ "@/components/map/LTileLayerBase.vue"
       ),
-    LMarkerRedSimple: () =>
+    LMarkerDeviceDraggable: () =>
       import(
-        /* webpackChunkName: "LMarkerRedSimple" */ "@/components/map/LMarkerRedSimple.vue"
-      ),
-    LGeoSearch: () =>
-      import(
-        /* webpackChunkName: "LGeoSearch" */ "@/components/map/LGeoSearch.vue"
+        /* webpackChunkName: "LMarkerDeviceDraggable" */ "@/components/map/markers/LMarkerDeviceDraggable.vue"
       ),
     NicknameInputBase: () =>
       import(
@@ -99,6 +95,7 @@ const aedDeviceRegister = namespace("aedDeviceRegister");
       if (!(store && store.state && store.state["aedDeviceRegister"])) {
         store.registerModule("aedDeviceRegister", aedDeviceRegisterMod);
       }
+      getLocation(registerAedDeviceCard.osmReverseGeoCodingOnCurPos);
     });
   },
   beforeDestroy() {
@@ -110,6 +107,9 @@ export default class RegisterAedDeviceCard extends Vue {
   @aedDeviceRegister.State center!: L.LatLng;
   @aedDeviceRegister.State marker!: L.LatLng;
   @aedDeviceRegister.State createVisible!: boolean;
+  @aedDeviceRegister.Action osmReverseGeoCodingOnCurPos!: (
+    position: Position
+  ) => void;
   @aedDeviceRegister.Action registerAedDevice!: () => Promise<string>;
 
   showError = false;

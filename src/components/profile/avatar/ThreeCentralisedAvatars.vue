@@ -6,7 +6,7 @@
         :username="username"
         :avatar="avatar"
         :style="image.style"
-      ></AvatarBase>
+      />
     </div>
   </div>
 </template>

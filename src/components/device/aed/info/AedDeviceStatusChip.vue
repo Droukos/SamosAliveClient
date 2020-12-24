@@ -1,7 +1,8 @@
 <template>
-  <v-chip :class="aedDeviceStatusBackground(status)">{{
-    $t("aed-device-status." + status)
-  }}</v-chip>
+  <v-chip
+    :class="aedDeviceStatusBackground(status)"
+    v-text="$t('aed-device-status.' + status)"
+  />
 </template>
 
 <script lang="ts">

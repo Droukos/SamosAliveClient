@@ -17,14 +17,13 @@
               text
               @click="dialog = false"
               v-text="$t('general.cancel')"
-            >
-            </v-btn>
+            />
             <v-btn
               color="green darken-1"
               text
               @click="closeProblems()"
               v-text="$t('history.complete')"
-            /><!--TODO refresh page-->
+            />
           </v-card-actions>
         </v-card>
       </v-dialog>

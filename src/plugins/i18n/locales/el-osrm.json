@@ -1,0 +1,521 @@
+{
+  "v5": {
+    "arrive": {
+      "default": {
+        "default": "Έχετε φτάσει στον {nth} προορισμό σας",
+        "named": "Έχετε φτάσει στη {waypoint_name}",
+        "short": "Έχετε φτάσει",
+        "short-upcoming": "Θα φτάσετε",
+        "upcoming": "Θα φτάσετε στον {nth} προορισμό σας"
+      },
+      "left": {
+        "default": "Έχετε φτάσει στον {nth} προορισμό σας, στα αριστερά",
+        "named": "Φτάσατε στη {waypoint_name}, στα αριστερά",
+        "short": "Έχετε φτάσει",
+        "short-upcoming": "Θα φτάσετε",
+        "upcoming": "Θα φτάσετε στη { nth} προορισμός, στα αριστερά"
+      },
+      "right": {
+        "default": "Φτάσατε στον {nth} προορισμό σας, στα δεξιά",
+        "named": "Φτάσατε στη {waypoint_name}, στις δεξιά",
+        "short": "Έχετε φτάσει",
+        "short-upcoming": "Θα φτάσετε",
+        "upcoming": "Θα φτάσετε στον {nth} προορισμό σας, στα δεξιά"
+      },
+      "sharp left": {
+        "default": "Έχετε φτάσει στον {nth} προορισμό σας, στα αριστερά",
+        "named": "Έχετε φτάσει στη {waypoint_name}, στα αριστερά",
+        "short": "Έχετε φτάσει",
+        "short-upcoming": "Θα φτάσετε",
+        "upcoming": "Θα φτάσετε στον {nth} προορισμό σας, στα αριστερά "
+      },
+      "sharp right": {
+        "default": "Έχετε φτάσει στον {nth} προορισμό σας, στα δεξιά",
+        "named": "Έχετε φτάσει στη {waypoint_name}, στα δεξιά",
+        "short": "Έχετε φτάσει",
+        "short-upcoming": "Θα φτάσετε",
+        "upcoming": "Θα φτάσετε στον {nth} προορισμό σας, στα δεξιά"
+      },
+      "slight left": {
+        "default": "Φτάσατε στον {nth} προορισμό σας, στα αριστερά",
+        "named": "Έχετε φτάσει στη {waypoint_name }, στα αριστερά",
+        "short": "Έχετε φτάσει",
+        "short-upcoming": "Θα φτάσετε",
+        "upcoming": "Θα φτάσετε στον {nth} προορισμό σας, στα αριστερά"
+      },
+      "slight right": {
+        "default": "Φτάσατε στον {nth} προορισμό σας, στα δεξιά",
+        "named": "Φτάσατε στη {waypoint_name}, στα δεξιά",
+        "short": "Εσείς έχουν φτάσει",
+        "short-upcoming": "Θα φτάσετε",
+        "upcoming": "Θα φτάσετε στον {nth} προορισμό σας, στα δεξιά"
+      },
+      "straight": {
+        "default": "Έχετε φτάσει στη τον {nth} προορισμό σας, ευθεία μπροστά",
+        "named": "Φτάσατε στη {waypoint_name}, ευθεία μπροστά",
+        "short": "Έχετε φτάσει",
+        "short-upcoming": "Θα φτάσετε",
+        "upcoming": "Θα φτάσετε στον {nth} προορισμό σας, ευθεία μπροστά"
+      }
+    },
+    "constants": {
+      "direction": {
+        "east": "ανατολικά",
+        "north": "βόρεια",
+        "northeast": "βορειοανατολικά",
+        "northwest": "βορειοδυτικά",
+        "south": "νότια",
+        "southeast": "νοτιοανατολικά",
+        "southwest": "νοτιοδυτικά",
+        "west": "δυτικά"
+      },
+      "lanes": {
+        "ox": "Μείνετε αριστερά",
+        "oxo": "Μείνετε αριστερά ή δεξιά",
+        "xo": "Μείνετε δεξιά",
+        "xox": "Μείνετε στη μέση"
+      },
+      "modifier": {
+        "left": "αριστερά",
+        "right": "δεξιά",
+        "sharp left": "απότομα αριστερά",
+        "sharp right": "απότομα δεξιά",
+        "slight left": "ελαφρά αριστερά",
+        "slight right": "ελαφρά δεξιά",
+        "straight": "ευθεία",
+        "uturn": "στροφή"
+      },
+      "ordinalize": {
+        "1": "1η",
+        "10": "10η",
+        "2": "2η",
+        "3": "3η",
+        "4": "4η",
+        "5": "5η",
+        "6": "6η",
+        "7": "7η",
+        "8": "8η",
+        "9": "9η "
+      }
+    },
+    "continue": {
+      "default": {
+        "default": "Στρίψτε {modifier}",
+        "destination": "Στρίψτε {modifier} προς {destination}",
+        "exit": "Στρίψτε {modifier} σε {way_name}",
+        "name": "Στρίψτε {modifier} για να παραμείνετε στη {way_name}"
+      },
+      "sharp left": {
+        "default": "Στρίψτε αριστερά",
+        "destination": "Στρίψτε αριστερά προς {destination}",
+        "junction_name": "Στρίψτε αριστερά στη {junction_name}",
+        "name": "Στρίψτε αριστερά για να παραμείνετε {way_name}"
+      },
+      "sharp right": {
+        "default": "Στρίψτε δεξιά",
+        "destination": "Στρίψτε δεξιά προς {destination}",
+        "junction_name": "Στρίψτε δεξιά στην {junction_name }",
+        "name": "Στρίψτε δεξιά για να παραμείνετε στη {way_name}"
+      },
+      "slight left": {
+        "default": "Κάντε ελαφρώς αριστερά",
+        "destination": "Στρίψτε ελαφρώς αριστερά προς {destination }",
+        "junction_name": "Στρίψτε ελαφρώς αριστερά στη {junction_name}",
+        "name": "Στρίψτε ελαφρώς αριστερά για να παραμείνετε στη {way_name}"
+      },
+      "slight right": {
+        "default": "Κάντε ελαφρύ δεξιά",
+        "destination": "Στρίψτε ελαφρώς προς {destination}",
+        "junction_name": "Στρίψτε ελαφρώς δεξιά στη {junction_name}",
+        "name": "Κάντε ένα ελαφρύ δικαίωμα να παραμείνετε στη {way_n ame}"
+      },
+      "straight": {
+        "default": "Συνέχεια ευθεία",
+        "destination": "Συνεχίστε προς {προορισμός}",
+        "distance": "Συνεχίστε ευθεία για {απόσταση}",
+        "name": "Συνέχεια ευθεία για να παραμείνετε στη {way_name}",
+        "namedistance": "Συνεχίστε στη {way_name} για {απόσταση}"
+      },
+      "uturn": {
+        "default": "Κάντε μια στροφή",
+        "destination": "Κάντε ένα Στρίψτε προς την κατεύθυνση {destination}",
+        "junction_name": "Κάντε μια στροφή στη {junction_name}",
+        "name": "Κάντε μια στροφή και συνεχίστε στη {way_name}"
+      }
+    },
+    "depart": {
+      "default": {
+        "default": "Κατευνθείτε {direction}",
+        "name": "Κατευνθείτε {direction} προς {way_name}",
+        "namedistance": "Κατευνθείτε {direction} στη {way_name} για {απόσταση}"
+      }
+    },
+    "end of road": {
+      "default": {
+        "default": "Στρίψτε {modifier}",
+        "destination": "Στρίψτε {modifier} menuju {destination}",
+        "junction_name": "Στρίψτε {modifier} at {junction_name}",
+        "name": "Στρίψτε {modifier} σε {way_name}"
+      },
+      "straight": {
+        "default": "Συνεχίστε ευθεία",
+        "destination": "Συνεχίστε ευθεία προς {destination}",
+        "junction_name": "Συνεχίστε ευθεία στη {junction_ name}",
+        "name": "Συνεχίστε ευθεία στη {way_name}"
+      },
+      "uturn": {
+        "default": "Κάντε μια στροφή U στη τέλος του δρόμου",
+        "destination": "Κάντε ένα U- στρίψτε προς {destination} στη τέλος του δρόμου",
+        "junction_name": "Κάντε μια στροφή στη {junction_name}",
+        "name": "Κάντε μια στροφή προς το {way_name} στη τέλος του δρόμου"
+      }
+    },
+    "exit rotary": {
+      "default": {
+        "default": "Έξοδος από τον κυκλικό κόμβο",
+        "destination": "Έξοδος από τον κυκλικό κόμβο προς {destination}",
+        "name": "Έξοδος από τον κυκλικό κόμβο στη {way_name}"
+      }
+    },
+    "exit κυκλικό κόμβο": {
+      "default": {
+        "default": "Έξοδος από τον κυκλικό κόμβο",
+        "destination": "Έξοδος από τον κυκλικό κόμβο προς {destination}",
+        "name": "Έξοδος από τον κυκλικό κόμβο σε {way_name }"
+      }
+    },
+    "fork": {
+      "default": {
+        "default": "Keep {modifier} at the fork",
+        "destination": "Keep {modifier} προς {destination}",
+        "name": "Keep {modifier} στη {way_name}"
+      },
+      "sharp left": {
+        "default": "Στρίψτε αριστερά στη fork",
+        "destination": "Στρίψτε αριστερά προς {destination}",
+        "name": "Στρίψτε αριστερά στην {way_name}"
+      },
+      "sharp right": {
+        "default": "Στρίψτε κάθετα δεξιά στη fork",
+        "destination": "Στρίψτε δεξιά προς {destination}",
+        "name": "Στρίψτε δεξιά στην {way_name}"
+      },
+      "slight left": {
+        "default": "Κρατήστε αριστερά στη fork",
+        "destination": "Κρατήστε αριστερά προς {destination}",
+        "name": "Κρατήστε αριστερά στη {way_name}"
+      },
+      "slight right": {
+        "default": "Διατηρήστε δεξιά στη fork",
+        "destination": "Κρατήστε δεξιά προς {destination}",
+        "name": "Διατηρήστε δεξιά στη {way_name}"
+      },
+      "uturn": {
+        "default": "Πραγματοποιήστε μια στροφή",
+        "destination": "Πραγματοποιήστε μια στροφή προς την κατεύθυνση {destination}",
+        "name": "Κάντε μια στροφή σε {way_name}"
+      }
+    },
+    "merge": {
+      "default": {
+        "default": "Merge {modifier}",
+        "destination": "Συγχώνευση {modifier} προς {destination}",
+        "name": "Συγχώνευση {modifier} στη {way_name}"
+      },
+      "sharp left": {
+        "default": "Συγχώνευση αριστερά",
+        "destination": "Συγχώνευση αριστερά προς {destination}",
+        "name": "Συγχώνευση αριστερά στη {way_name}"
+      },
+      "sharp right": {
+        "default": "Συγχώνευση δεξιά",
+        "destination": "Συγχώνευση δεξιά προς {destination}",
+        "name": "Συγχώνευση δεξιά σε {way_name}"
+      },
+      "slight left": {
+        "default": "Συγχώνευση αριστερά",
+        "destination": "Συγχώνευση αριστερά προς {destination}",
+        "name": "Συγχώνευση αριστερά στη {way_name}"
+      },
+      "slight right": {
+        "default": "Merge right",
+        "destination": "Merge right to {destination}",
+        "name": "Merge right on {way_name}"
+      },
+      "straight": {
+        "default": "Συγχώνευση",
+        "destination": "Συγχώνευση προς {destination}",
+        "name": "Συγχώνευση σε {way_name}"
+      },
+      "uturn": {
+        "default": "Πραγματοποιήστε μια στροφή",
+        "destination": "Πραγματοποιήστε μια στροφή προς την κατεύθυνση {destination}",
+        "name": "Κάντε μια στροφή σε {way_name}"
+      }
+    },
+    "modes": {
+      "ferry": {
+        "default": "Πάρτε το πλοίο",
+        "destination": "Πάρτε το πλοίο προς {destination}",
+        "name": "Πάρτε το πλοίο {way_name}"
+      }
+    },
+    "new name": {
+      "default": {
+        "default": "Συνέχεια {modifier}",
+        "destination": "Συνέχεια {modifier} προς {destination}",
+        "name": "Συνέχεια {modifier} επάνω {way_name}"
+      },
+      "sharp left": {
+        "default": "Πάρτε μια αιχμηρή αριστερά",
+        "destination": "Στρίψτε κάθετα αριστερά προς {destination}",
+        "name": "Στρίψτε αριστερά στην { way_name}"
+      },
+      "sharp right": {
+        "default": "Στρίψτε δεξιά",
+        "destination": "Στρίψτε δεξιά προς {destination}",
+        "name": "Στρίψτε δεξιά στην {way_name}"
+      },
+      "slight left": {
+        "default": "Συνεχίστε ελαφρώς αριστερά",
+        "destination": "Συνεχίστε ελαφρώς αριστερά προς {destination}",
+        "name": "Συνεχίστε ελαφρώς αριστερά στη {way_name}"
+      },
+      "slight right": {
+        "default": "Συνεχίστε ελαφρώς δεξιά",
+        "destination": "Συνεχίστε ελαφρώς δεξιά προς {destination}",
+        "name": "Συνεχίστε ελαφρώς δεξιά στη {way_name}"
+      },
+      "straight": {
+        "default": "Συνεχίστε ευθεία",
+        "destination": "Συνεχίστε προς {destination}",
+        "name": "Συνέχεια σε {way_name}"
+      },
+      "uturn": {
+        "default": "Κάντε μια στροφή",
+        "destination": "Κάντε μια στροφή προς το {destination}",
+        "name": "Κάντε μια στροφή προς το {way_name}"
+      }
+    },
+    "notification": {
+      "default": {
+        "default": "Συνεχίστε {modifier}",
+        "destination": "Συνέχεια {modifier} προς {destination}",
+        "name": "Συνέχεια {modifier} στη {way_name}"
+      },
+      "uturn": {
+        "default": "Πραγματοποίηση στροφής",
+        "destination": "Κάντε μια στροφή προς την κατεύθυνση {destination}",
+        "name": "Κάντε μια στροφή σε {way_name}"
+      }
+    },
+    "off ramp": {
+      "default": {
+        "default": "Πάρτε τη ράμπα",
+        "destination": "Πάρτε τη ράμπα προς {destination}",
+        "exit": "Πάρτε την έξοδο {exit}",
+        "exit_destination": "Πάρτε την έξοδο {exit} προς {destination}",
+        "name": "Πάρτε τη ράμπα προς {way_name}"
+      },
+      "left": {
+        "default": "Πάρτε τη ράμπα στα αριστερά",
+        "destination": "Πάρτε τη ράμπα στα αριστερά προς {destination}",
+        "exit": "Πάρτε την έξοδο {exit} στα αριστερά",
+        "exit_destination": "Πάρτε την έξοδο {exit} στα αριστερά προς {destination}",
+        "name": "Πάρτε τη ράμπα στα αριστερά προς {way_name}"
+      },
+      "right": {
+        "default": "Πάρτε τη ράμπα στα δεξιά",
+        "destination": "Πάρτε τη ράμπα στα δεξιά προς {destination}",
+        "exit": "Πάρτε την έξοδο {exit} στα δεξιά",
+        "exit_destination": "Βγείτε στην έξοδο {exit} στα δεξιά προς {destination}",
+        "name": "Πάρτε τη ράμπα δεξιά προς {way_name}"
+      },
+      "sharp left": {
+        "default": "Πάρτε τη ράμπα αριστερά",
+        "destination": "Πάρτε τη ράμπα στα αριστερά προς {destination}",
+        "exit": "Πάρτε την έξοδο {exit} στα αριστερά",
+        "exit_destination": "Βγείτε στην έξοδο {exit} στα αριστερά προς {destination}",
+        "name": "Πάρτε το ράμπα στα αριστερά προς {way_name}"
+      },
+      "sharp right": {
+        "default": "Πάρτε τη ράμπα στα δεξιά",
+        "destination": "Πάρτε τη ράμπα στα δεξιά προς {destination}",
+        "exit": "Βγείτε στην έξοδο {exit} στα δεξιά",
+        "exit_destination": "Πάρτε την έξοδο {exit} στα δεξιά προς {destination}",
+        "name": "Πάρτε τη ράμπα στα δεξιά προς {way_name}"
+      },
+      "slight left": {
+        "default": "Πάρτε τη ράμπα στα αριστερά",
+        "destination": "Πάρτε τη ράμπα στα αριστερά προς {destination}",
+        "exit": "Πάρτε την έξοδο {exit} στα αριστερά",
+        "exit_destination": "Πάρτε την έξοδο {exit} στα αριστερά προς {destination}",
+        "name": "Πάρτε τη ράμπα στα αριστερά προς {way_name}"
+      },
+      "slight right": {
+        "default": "Πάρτε το ράμπα στα δεξιά",
+        "destination": "Πάρτε τη ράμπα στα δεξιά προς {destination}",
+        "exit": "Πάρτε την έξοδο {exit} στα δεξιά",
+        "exit_destination": "Πάρτε την έξοδο {exit} o n δεξιά προς {destination}",
+        "name": "Πάρτε τη ράμπα δεξιά προς {way_name}"
+      }
+    },
+    "on ramp": {
+      "default": {
+        "default": "Πάρτε τη ράμπα",
+        "destination": "Πάρτε τη ράμπα προς {destination}",
+        "name": "Πάρτε τη ράμπα προς {way_name}"
+      },
+      "left": {
+        "default": "Πάρτε τη ράμπα στα αριστερά",
+        "destination": "Πάρτε τη ράμπα στα αριστερά προς {destination}",
+        "name": "Πάρτε τη ράμπα στα αριστερά στη {way_name}"
+      },
+      "right": {
+        "default": "Πάρτε τη ράμπα στα δεξιά",
+        "destination": "Πάρτε τη ράμπα στα δεξιά προς {destination}",
+        "name": "Πάρτε τη ράμπα στα δεξιά στη {way_name}"
+      },
+      "sharp left": {
+        "default": "Πάρτε τη ράμπα στη αριστερά",
+        "destination": "Πάρτε τη ράμπα στα αριστερά προς {destination}",
+        "name": "Πάρτε τη ράμπα στα αριστερά προς {way_name}"
+      },
+      "sharp right": {
+        "default": "Πάρτε η ράμπα στα δεξιά",
+        "destination": "Πάρτε τη ράμπα στα δεξιά προς {destination}",
+        "name": "Πάρτε τη ράμπα δεξιά προς {way_name}"
+      },
+      "slight left": {
+        "default": "Πάρτε τη ράμπα στα αριστερά",
+        "destination": "Πάρτε τη ράμπα στα αριστερά προς {destination}",
+        "name": "Πάρτε τη ράμπα στα αριστερά προς {way_name}"
+      },
+      "slight right": {
+        "default": "Πάρτε τη ράμπα στα δεξιά",
+        "destination": "Πάρτε τη ράμπα στα δεξιά προς {destination}",
+        "name": "Πάρτε τη ράμπα στα δεξιά προς {way_name}"
+      }
+    },
+    "phrase": {
+      "exit with number": "exit {exit}",
+      "name and ref": "{name} ({ref})",
+      "one in distance": "Σε {απόσταση}, {εντολή_one}",
+      "two linked": "{direction_one}, στη συνέχεια, {instruksi_two}",
+      "two linked by distance": "{direction_one}, στη συνέχεια, σε {απόσταση}, {εντολή_two}"
+    },
+    "rotary": {
+      "default": {
+        "default": {
+          "default": "Μπείτε στο κυκλικό κόμβο",
+          "destination": "Μπείτε στο κυκλικό κόμβο and exit out to {destination}",
+          "name": "Μπείτε στο κυκλικό κόμβο και βγείτε στη {way_name}"
+        },
+        "exit": {
+          "default": "Εισαγάγετε τον κυκλικό κόμβο και πάρτε την έξοδο {exit_number}",
+          "destination": "Εισαγάγετε τον κυκλικό κόμβο και πάρτε την έξοδο {exit_number} προς {destination}",
+          "name": "Εισαγάγετε τον κυκλικό κόμβο και πάρτε την έξοδο {exit_number} στη {way_name}"
+        },
+        "name": {
+          "default": "Enter {rotary_name}",
+          "destination": "Enter {rotary_name} και βγείτε προς {destination}",
+          "name": "Enter {rotary_name} και έξοδος σε {way_name}"
+        },
+        "name_exit": {
+          "default": "Enter {rotary_name} και πάρτε την έξοδο {exit_number}",
+          "destination": "Enter {rotary_name} και πάρτε το { exit_number} έξοδος προς {destination}",
+          "name": "Enter {rotary_name} και πάρτε την έξοδο {exit_number} στην {way_name}"
+        }
+      }
+    },
+    "roundabout": {
+      "default": {
+        "default": {
+          "default": "Εισαγάγετε τον κυκλικό κόμβο",
+          "destination": "Εισαγάγετε τον κυκλικό κόμβο και βγείτε προς {destination}",
+          "name": "Μπείτε στο κυκλικό κόμβο και βγείτε στη {way_name}"
+        },
+        "exit": {
+          "default": "Εισαγάγετε τον κυκλικό κόμβο και πάρτε την έξοδο {exit_number}",
+          "destination": "Εισαγάγετε τον κυκλικό κόμβο και πάρτε την έξοδο {exit_number} προς {destination}",
+          "name": "Εισαγάγετε τον κυκλικό κόμβο και πάρτε την έξοδο {exit_number} στη {way_name}"
+        }
+      }
+    },
+    "roundabout turn": {
+      "default": {
+        "default": "Δημιουργία {modifier}",
+        "destination": "Κάντε μία {modifier} προς {destination}",
+        "name": "Κάντε μία {modifier} στη {way_name}"
+      },
+      "left": {
+        "default": "Στρίψτε αριστερά",
+        "destination": "Στρίψτε αριστερά προς {destination}",
+        "name": "Στρίψτε αριστερά στη {way_name}"
+      },
+      "right": {
+        "default": "Στρίψτε δεξιά",
+        "destination": "Στρίψτε δεξιά προς {destination}",
+        "name": "Στρίψτε δεξιά στη {way_name}"
+      },
+      "straight": {
+        "default": "Συνεχίστε ευθεία",
+        "destination": "Συνεχίστε ευθεία προς {destination}",
+        "name": "Συνεχίστε ευθεία στη {way_name}"
+      }
+    },
+    "turn": {
+      "default": {
+        "default": "Στρίψτε {modifier}",
+        "destination": "Στρίψτε {modifier} προς {destination}",
+        "junction_name": "Στρίψτε {modifier} στη {junction_name}",
+        "name": "Στρίψτε {modifier} στη {way_name}"
+      },
+      "left": {
+        "default": "Στρίψτε αριστερά",
+        "destination": "Στρίψτε αριστερά προς {destination}",
+        "junction_name": "Στρίψτε αριστερά στη {junction_name}",
+        "name": "Στρίψτε αριστερά στη {way_name}"
+      },
+      "right": {
+        "default": "Στρίψτε δεξιά",
+        "destination": "Στρίψτε δεξιά προς {destination}",
+        "junction_name": "Στρίψτε δεξιά στη {junction_name}",
+        "name": "Στρίψτε δεξιά στη {way_name}"
+      },
+      "straight": {
+        "default": "Μεταβείτε ευθεία",
+        "destination": "Μεταβείτε ευθεία στη {destination }",
+        "junction_name": "Μεταβείτε ευθεία στη {junction_name}",
+        "name": "Μεταβείτε κατευθείαν στη {way_name}"
+      }
+    },
+    "use lane": {
+      "default": {
+        "default": "{lane_instruction}"
+      },
+      "no_lanes": {
+        "default": "Συνεχίστε ευθεία"
+      }
+    },
+    "abbrDirections": {
+      "N": "Β",
+      "NE": "ΝΑ",
+      "E": "Α",
+      "SE": "ΝΑ",
+      "S:": "Ν",
+      "SW" : "ΝΔ",
+      "W": "Δ",
+      "NW": "ΒΔ"
+    },
+    "units": {
+      "meters": "μέτρα",
+      "kilometers": "χιλιόμετρα",
+      "yards": "γρδ",
+      "miles": "μιλ",
+      "hours": "ώρες",
+      "minutes": "λεπτ",
+      "seconds": "δευτ"
+    }
+  }
+}

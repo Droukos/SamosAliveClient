@@ -1,7 +1,7 @@
 <template>
-  <v-btn @click="setSubNavBarOpen(subNavOptions.MAIN)"
-    ><v-icon>{{ "$back" }}</v-icon></v-btn
-  >
+  <v-btn @click="setSubNavBarOpen(subNavOptions.MAIN)">
+    <v-icon v-text="'$back'" />
+  </v-btn>
 </template>
 
 <script lang="ts">

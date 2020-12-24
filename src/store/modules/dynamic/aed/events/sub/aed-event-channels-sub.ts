@@ -8,13 +8,19 @@ import {
 } from "@/types/aed-event";
 import { accessToken, aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
-import { aedDeviceApi, eventApi } from "@/plugins/api/api-urls";
-import L from "leaflet";
+import { aedDeviceApi, eventApi, osmApi } from "@/plugins/api/api-urls";
+import L, {latLng, LatLng} from "leaflet";
 import { ISubscription } from "rsocket-types";
 import { IAedDevicePreview } from "@/types/aed-device";
+import { OsrmWaypointsExtra, ResponseRouteInfo } from "@/types/osm";
+import { convertRoute } from "@/plugins/geolocation/routing_machine/osrm.ts";
 
 const evMap: Map<string, AedEventInfoDto> = new Map<string, AedEventInfoDto>();
 const subsChMap: Map<string, ISubscription> = new Map<string, ISubscription>();
+const waypointDevToEvCache: Map<string, ResponseRouteInfo> = new Map<
+  string,
+  ResponseRouteInfo
+>();
 
 //function findEventProp(
 //  aedEventId: string,
@@ -44,10 +50,37 @@ export default class AedEventChannelsSub extends VuexModule {
   previewAedDevices: IAedDevicePreview[] = [];
   showPreviewAedDevices: IAedDevicePreview[] = [];
   aedDeviceSelected!: IAedDevicePreview;
+  selectedRouteInfo: ResponseRouteInfo | undefined = {
+    coordinates: [],
+    instructions: [],
+    name: "",
+    summary: {
+      totalDistance: 0,
+      totalTime: 0
+    },
+    waypointIndices: []
+  };
+  rescuerPosition: LatLng | null = null;
+  verifiedPosition = false;
 
   @Mutation
   setShowPreviewAedDevice(previewAedDevices: IAedDevicePreview[]) {
     this.showPreviewAedDevices = previewAedDevices;
+  }
+
+  @Mutation
+  setRescuerPos(data: LatLng) {
+    this.rescuerPosition = data;
+  }
+
+  @Mutation
+  verifyRescuerPos(verify: boolean) {
+    this.verifiedPosition = verify;
+  }
+
+  @Mutation
+  setRescuerPos2(data: Position) {
+    this.rescuerPosition = latLng(data.coords.latitude, data.coords.longitude);
   }
 
   @Mutation
@@ -77,6 +110,52 @@ export default class AedEventChannelsSub extends VuexModule {
   @Mutation
   setAedDeviceSelected(aedDevice: IAedDevicePreview) {
     this.aedDeviceSelected = aedDevice;
+  }
+
+  @Mutation
+  setOsrmHints(data: {
+    aedDeviceId: string;
+    aedEventId: string;
+    responseRoute: ResponseRouteInfo;
+  }) {
+    if (data.responseRoute == undefined) {
+      this.selectedRouteInfo = waypointDevToEvCache.get(
+        data.aedEventId + "@" + data.aedDeviceId
+      );
+      return;
+    } else {
+      waypointDevToEvCache.set(
+        data.aedEventId + "@" + data.aedDeviceId,
+        data.responseRoute
+      );
+      this.selectedRouteInfo = data.responseRoute;
+      for (let i = 0; i < this.previewAedDevices.length; i++) {
+        if (this.previewAedDevices[i].id == data.aedDeviceId) {
+          this.previewAedDevices[i] = {
+            id: this.previewAedDevices[i].id,
+            modelName: this.previewAedDevices[i].modelName,
+            homePoint: this.previewAedDevices[i].homePoint,
+            uniqueNickname: this.previewAedDevices[i].uniqueNickname,
+            onUserId: this.previewAedDevices[i].onUserId,
+            onEventId: this.previewAedDevices[i].onEventId,
+            description: this.previewAedDevices[i].description,
+            address: this.previewAedDevices[i].address,
+            status: this.previewAedDevices[i].status,
+            picUrl: this.previewAedDevices[i].picUrl,
+            responseRouteInfo: data.responseRoute
+          };
+          break;
+        }
+      }
+      this.previewAedDevices.sort((a,b) => {
+        if(a.responseRouteInfo == undefined && b.responseRouteInfo ==undefined) return 0;
+        else if(a.responseRouteInfo == undefined) return -1;
+        else if(b.responseRouteInfo == undefined) return 1;
+        else if(a.responseRouteInfo.summary.totalDistance > b.responseRouteInfo.summary.totalDistance) return 1;
+        else if(a.responseRouteInfo.summary.totalDistance < b.responseRouteInfo.summary.totalDistance) return -1;
+        else return 0;
+      });
+    }
   }
 
   get aedEventMarker() {
@@ -134,7 +213,9 @@ export default class AedEventChannelsSub extends VuexModule {
   }
 
   @Action({ commit: "setPreviewAedDevices" })
-  async fetchAedDeviceInAreaPreview(aedEventId: string): Promise<IAedDevicePreview[]> {
+  async fetchAedDeviceInAreaPreview(
+    aedEventId: string
+  ): Promise<IAedDevicePreview[]> {
     return new Promise(resolve => {
       const prDevices: IAedDevicePreview[] = [];
       aedRSocketApi().then(aedRSocket => {
@@ -153,6 +234,34 @@ export default class AedEventChannelsSub extends VuexModule {
           });
         resolve(prDevices);
       });
+    });
+  }
+
+  @Action({ commit: "setOsrmHints" })
+  async findWaypointInRescuerToDeviceToEvent(data: OsrmWaypointsExtra) {
+    if (waypointDevToEvCache.has(data.aedEventId + "@" + data.aedDeviceId)) {
+      return {
+        aedEventId: data.aedEventId,
+        aedDeviceId: data.aedDeviceId
+      };
+    }
+    return new Promise(resolve => {
+      aedRSocketApi().then(aedRSocket =>
+        aedRSocket
+          .requestResponse({
+            data: dataBuf(data),
+            metadata: metadataBuf(accessToken, osmApi.osrmSearchWaypoints)
+          })
+          .subscribe({
+            onComplete: value =>
+              resolve({
+                aedEventId: data.aedEventId,
+                aedDeviceId: data.aedDeviceId,
+                responseRoute: convertRoute(bufToJson(value).routes[0], data.locale)
+              }),
+            onError: error => console.error(error)
+          })
+      );
     });
   }
 

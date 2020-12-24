@@ -10,7 +10,7 @@
       clearable
       prepend-icon="mdi-camera"
       :label="$t('fields.avatar')"
-    ></v-file-input>
+    />
   </div>
 </template>
 

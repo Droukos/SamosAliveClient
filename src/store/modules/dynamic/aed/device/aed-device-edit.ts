@@ -2,12 +2,12 @@ import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
 import {AddressObject, FieldObject, FieldObject2, FileImg, OpenStreetObjData} from "@/types";
 import i18n from "@/plugins/i18n";
-import { OpenStreetMapProvider } from "leaflet-geosearch";
 import L from "leaflet";
 import { IAedDeviceEdit, IAedDeviceInfo } from "@/types/aed-device";
 import api, { accessToken, aedRSocketApi } from "@/plugins/api";
 import { aedDeviceApi, apiWithVar, cdnApi } from "@/plugins/api/api-urls";
 import { bufToData, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
+import {searchOsmAddress} from "@/plugins/osm-util";
 
 @Module({
   dynamic: true,
@@ -32,9 +32,7 @@ export default class AedDeviceEdit extends VuexModule {
   fAddress: AddressObject = {
     f: i18n.t("device-register.addr"),
     v: {
-      bounds: [],
       label: "",
-      raw: {},
       x: 23.7613248,
       y: 37.977308
     },
@@ -61,7 +59,6 @@ export default class AedDeviceEdit extends VuexModule {
     e: "",
     run: false
   };
-  provider = new OpenStreetMapProvider();
   zoom = 15.5;
   center = L.latLng(this.fAddress.v!.y, this.fAddress.v!.x);
   marker = L.latLng(this.fAddress.v!.y, this.fAddress.v!.x);
@@ -188,10 +185,7 @@ export default class AedDeviceEdit extends VuexModule {
   async callOpenStreetApi(queryAddress: string) {
     if (this.fAddress.v != null) {
       this.fAddress.loading = true;
-      return await this.provider.search({ query: queryAddress }).then(value => {
-        this.fAddress.loading = false;
-        return value;
-      });
+      return searchOsmAddress({ address: queryAddress });
     }
   }
 

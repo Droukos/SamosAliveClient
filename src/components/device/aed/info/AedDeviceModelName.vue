@@ -1,5 +1,5 @@
 <template>
-  <span>{{ $t("device.modelName") + ": " + modelName }}</span>
+  <span v-text="$t('device.modelName') + ': ' + modelName" />
 </template>
 
 <script lang="ts">

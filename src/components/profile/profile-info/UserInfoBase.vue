@@ -1,24 +1,24 @@
 <template>
   <v-list-item color="rgba(0, 0, 0, .4)">
     <v-list-item-content>
-      <v-list-item-title class="title">{{
-        $t("user.information")
-      }}</v-list-item-title>
-      <v-list-item-subtitle v-if="showEmail"
-        >{{ $t("fields.email") + ": " }}{{ email }}</v-list-item-subtitle
-      >
-      <v-list-item-subtitle v-if="showAddress"
-        >{{ $t("fields.address") + ": " }}
+      <v-list-item-title class="title" v-text="$t('user.information')" />
+      <v-list-item-subtitle
+        v-if="showEmail"
+        v-text="$t('fields.email') + ': ' + email"
+      />
+      <v-list-item-subtitle v-if="showAddress">
+        {{ $t("fields.address") + ": " }}
         <div class="d-flex flex-row">
-          <span class="pr-1"
-            ><v-img :src="getCountryImage" max-width="22"></v-img
-          ></span>
-          <span>{{ address }}</span>
+          <span class="pr-1">
+            <v-img :src="getCountryImage" max-width="22" />
+          </span>
+          <span v-text="address" />
         </div>
       </v-list-item-subtitle>
-      <v-list-item-subtitle v-if="showPhone"
-        >{{ $t("fields.phone") + ": " }}{{ phone }}</v-list-item-subtitle
-      >
+      <v-list-item-subtitle
+        v-if="showPhone"
+        v-text="$t('fields.phone') + ': ' + phone"
+      />
     </v-list-item-content>
   </v-list-item>
 </template>

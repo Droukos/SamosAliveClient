@@ -8,7 +8,7 @@
     :label="model.label"
     @keyup="searchNews()"
     outlined
-  ></v-text-field>
+  />
 </template>
 
 <script lang="ts">

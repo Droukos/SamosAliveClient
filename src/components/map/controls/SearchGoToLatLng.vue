@@ -1,6 +1,6 @@
 <template>
   <v-card outlined>
-    <span>{{ $t("search.currentPos") }}</span>
+    <span v-text="$t('search.currentPos')" />
     <div class="d-flex flex-row">
       <v-text-field
         dense
@@ -9,7 +9,7 @@
         label="lat"
         hide-details
         readonly
-      ></v-text-field>
+      />
       <v-text-field
         dense
         outlined
@@ -17,7 +17,7 @@
         label="lng"
         hide-details
         readonly
-      ></v-text-field>
+      />
     </div>
     <span>{{ $t("search.goTo") }}</span>
     <div class="d-flex flex-row">
@@ -28,7 +28,7 @@
         @input="isXYValid"
         :rules="[rules.isNumber]"
         label="lat"
-      ></v-text-field>
+      />
       <v-text-field
         dense
         outlined
@@ -36,7 +36,7 @@
         @input="isXYValid"
         :rules="[rules.isNumber]"
         label="lng"
-      ></v-text-field>
+      />
     </div>
     <div class="d-flex flex-row">
       <v-spacer />
@@ -44,8 +44,8 @@
         v-if="validGo"
         small
         @click="setSearchableMarkerLatLong({ y: yToGo, x: xToGo })"
-        >{{ $t("search.go") }}</v-btn
-      >
+        v-text="$t('search.go')"
+      />
     </div>
   </v-card>
 </template>

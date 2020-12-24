@@ -8,13 +8,15 @@
       type="card"
     >
       <v-container>
-        <p class="display-1" style="color:#00897B">
-          {{ $t("edit.title") }}{{ username }}
-        </p>
+        <p
+          class="display-1"
+          style="color:#00897B"
+          v-text="$t('edit.title') + ' ' + username"
+        />
         <v-spacer />
         <v-card outlined>
           <div class="justify-center mb-6 pa-3">
-            <p class="headline">{{ $t("edit.userPersonal") }}</p>
+            <p class="headline" v-text="$t('edit.userPersonal')" />
 
             <NameInputBase />
             <SurnameInputBase />
@@ -25,18 +27,15 @@
                 clazz=""
                 :username="username"
                 :avatar="fAvatar.v"
-              ></ThreeCentralisedAvatars>
-              <FileInputBase
-                styl=""
-                :uploadVis="uploadVisibility"
-              ></FileInputBase>
+              />
+              <FileInputBase styl="" :uploadVis="uploadVisibility" />
             </div>
             <div v-else class="d-flex flex-row">
               <v-col>
                 <FileInputBase
                   styl="width:500px;"
                   :uploadVis="uploadVisibility"
-                ></FileInputBase>
+                />
                 <v-btn
                   block
                   v-if="uploadVisible"
@@ -45,19 +44,20 @@
                   @click="uploadAvatar()"
                   aria-label="UploadAvatar"
                   rounded
-                >
-                  {{ $t("edit.upload") }}
-                </v-btn>
-                <span v-if="avatarUpdateShow" :class="avatarUpdateClass">{{
-                  avatarUpdateMessage
-                }}</span>
+                  v-text="$t('edit.upload')"
+                />
+                <span
+                  v-if="avatarUpdateShow"
+                  :class="avatarUpdateClass"
+                  v-text="avatarUpdateMessage"
+                />
               </v-col>
 
               <ThreeCentralisedAvatars
                 clazz="d-flex flex-column-6"
                 :username="username"
                 :avatar="fAvatar.v"
-              ></ThreeCentralisedAvatars>
+              />
             </div>
 
             <div v-if="$vuetify.breakpoint.smAndDown">
@@ -69,14 +69,15 @@
                 @click="uploadAvatar()"
                 aria-label="UploadAvatar"
                 rounded
-              >
-                {{ $t("edit.upload") }}
-              </v-btn>
-              <span v-if="avatarUpdateShow" :class="avatarUpdateClass">{{
-                avatarUpdateMessage
-              }}</span>
+                v-text="$t('edit.upload')"
+              />
+              <span
+                v-if="avatarUpdateShow"
+                :class="avatarUpdateClass"
+                v-text="avatarUpdateMessage"
+              />
             </div>
-            <AddressInputBase class="pt-2"></AddressInputBase>
+            <AddressInputBase class="pt-2" />
           </div>
           <v-btn
             v-if="updateVisible"
@@ -86,13 +87,13 @@
             rounded
             @click="updateUInfo()"
             aria-label="EditUpdate"
-            >{{ $t("edit.update") }}
-          </v-btn>
+            v-text="$t('edit.update')"
+          />
           <span
             v-if="updateResultShow"
             :class="updateResultClass + 'mx-auto'"
-            >{{ updateResultMessage }}</span
-          >
+            v-text="updateResultMessage"
+          />
         </v-card>
       </v-container>
     </v-skeleton-loader>

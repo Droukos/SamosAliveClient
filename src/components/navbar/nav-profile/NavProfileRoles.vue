@@ -1,6 +1,6 @@
 <template>
   <v-sheet class="pa-1 d-flex flex-row">
-    <span>{{ $t("roles.title") }}</span>
+    <span v-text="$t('roles.title')" />
     <v-spacer />
 
     <v-dialog v-model="dialog">
@@ -8,14 +8,12 @@
         <v-btn text v-bind="attrs" v-on="on" aria-label="ToRolesDialog">
           <v-chip :class="greatestRole.class">
             {{ greatestRole.title }}
-            <v-icon>{{ "$chevDown" }}</v-icon>
+            <v-icon v-text="'$chevDown'" />
           </v-chip>
         </v-btn>
       </template>
       <v-card>
-        <v-card-title class="headline">
-          {{ $t("roles.change.title") }}
-        </v-card-title>
+        <v-card-title class="headline" v-text="$t('roles.change.title')" />
         <v-list-item-group>
           <v-list-item v-for="(item, index) in rolesInfo" :key="index">
             <v-tooltip bottom>
@@ -31,23 +29,22 @@
                     class="ml-2"
                     :disabled="isNotLastActiveRole"
                     input-value="true"
-                  ></v-checkbox>
+                  />
                 </v-btn>
               </template>
-              <span>{{ item.tooltip }}</span>
+              <span v-text="item.tooltip" />
             </v-tooltip>
           </v-list-item>
         </v-list-item-group>
-        <!--<v-card-text
-          >Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.</v-card-text
-        >-->
         <v-card-actions>
           <v-spacer />
-          <v-btn color="green darken-1" text @click="dialog = false">
-            {{ $t("general.cancel") }}
-          </v-btn>
-          <v-btn block v-if="roleChanged">{{ $t("forms.apply") }}</v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+            v-text="$t('general.cancel')"
+          />
+          <v-btn block v-if="roleChanged" v-text="$t('forms.apply')" />
         </v-card-actions>
       </v-card>
     </v-dialog>

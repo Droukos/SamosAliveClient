@@ -1,8 +1,11 @@
 <template>
   <v-tabs center-active show-arrows>
-    <v-tab v-for="item in searchItems" :key="item.id" @click="selectTab(item)"
-      >{{ item.label }}
-    </v-tab>
+    <v-tab
+      v-for="item in searchItems"
+      :key="item.id"
+      @click="selectTab(item)"
+      v-text="item.label"
+    />
   </v-tabs>
 </template>
 

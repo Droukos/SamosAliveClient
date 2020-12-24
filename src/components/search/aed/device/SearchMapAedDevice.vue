@@ -1,6 +1,6 @@
 <template>
   <div :style="'height:' + ($vuetify.breakpoint.mdAndUp ? '600px' : '300px')">
-    <l-map
+    <LMap
       class="custom-popup"
       :zoom="zoom"
       :center="center"
@@ -18,11 +18,11 @@
       >
         <LPopup :options="classObj">
           <v-card>
-            <span>{{ aedDevice.modelName }}</span>
+            <span v-text="aedDevice.modelName" />
           </v-card>
         </LPopup>
       </LMarker>
-    </l-map>
+    </LMap>
   </div>
 </template>
 

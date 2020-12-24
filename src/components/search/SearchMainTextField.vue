@@ -6,7 +6,7 @@
     :label="searchLabel"
     @keyup="search(searchOption)"
     outlined
-  ></v-text-field>
+  />
 </template>
 
 <script lang="ts">

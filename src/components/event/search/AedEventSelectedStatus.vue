@@ -5,7 +5,7 @@
     item-text="msg"
     item-value="code"
     v-on:change="choose(statusChoice)"
-  ></v-select>
+  />
 </template>
 
 <script lang="ts">

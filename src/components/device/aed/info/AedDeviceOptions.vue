@@ -1,9 +1,12 @@
 <template>
   <v-menu>
     <template v-slot:activator="{ on }">
-      <v-btn rounded v-on="on" aria-label="MoreOptions">
-        {{ $t("device.deviceOptions") }}
-      </v-btn>
+      <v-btn
+        rounded
+        v-on="on"
+        aria-label="MoreOptions"
+        v-text="$t('device.deviceOptions')"
+      />
     </template>
     <v-list>
       <v-list-item
@@ -11,7 +14,7 @@
         :key="item.index"
         @click="optionClicked(item)"
       >
-        <v-list-item-title>{{ item.title }}</v-list-item-title>
+        <v-list-item-title v-text="item.title" />
       </v-list-item>
     </v-list>
   </v-menu>

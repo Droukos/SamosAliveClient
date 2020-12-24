@@ -1,5 +1,5 @@
 <template>
-  <span>{{ conclusion }}</span>
+  <span v-text="conclusion" />
 </template>
 
 <script lang="ts">

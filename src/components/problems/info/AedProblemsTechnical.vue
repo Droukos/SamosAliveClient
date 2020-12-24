@@ -1,5 +1,5 @@
 <template>
-  <span>{{ technical }}</span>
+  <span v-text="technical" />
 </template>
 
 <script lang="ts">

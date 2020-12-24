@@ -11,7 +11,7 @@
         clearable
         prepend-icon="$camera"
         :label="$t('device-register.devPic')"
-      ></v-file-input>
+      />
       <v-btn
         block
         rounded
@@ -20,15 +20,18 @@
         style="color:white;"
         @click="uploadDeviceImg()"
         aria-label="AedCreate"
-      >
-        {{ $t("edit.upload") }}
-      </v-btn>
-      <span v-if="showUploadedDevicePic" class="green--text text--darken-2">{{
-        $t("edit.updated")
-      }}</span>
-      <span v-if="showErrorDevicePic" class="red--text text--darken-2">{{
-        $t("edit.errorUpdated")
-      }}</span>
+        v-text="$t('edit.upload')"
+      />
+      <span
+        v-if="showUploadedDevicePic"
+        class="green--text text--darken-2"
+        v-text="$t('edit.updated')"
+      />
+      <span
+        v-if="showErrorDevicePic"
+        class="red--text text--darken-2"
+        v-text="$t('edit.errorUpdated')"
+      />x
     </v-col>
     <v-avatar v-if="tempFile !== ''" tile size="160">
       <img :src="tempFile" alt />

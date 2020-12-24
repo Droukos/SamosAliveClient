@@ -38,7 +38,16 @@ import {
   mdiCamera,
   mdiOpenInNew,
   mdiFilterMenu,
-  mdiBabyCarriage
+  mdiBabyCarriage,
+  mdiArrowBottomLeftThick,
+  mdiArrowBottomRightThick,
+  mdiArrowLeftThick,
+  mdiArrowDownThick,
+  mdiArrowRightThick,
+  mdiAppleSafari,
+  mdiArrowTopRightThick,
+  mdiArrowTopLeftThick,
+  mdiArrowUpThick, mdiRotateLeft, mdiAndroidAuto
 } from "@mdi/js";
 
 Vue.use(Vuetify);
@@ -83,6 +92,17 @@ const MY_ICONS = {
   livePr: mdiAntenna,
   deviceEv: mdiBabyCarriage,
   camera: mdiCamera,
+  mapDirections: mdiAppleSafari,
+  arrowBotLeft: mdiArrowBottomLeftThick,
+  arrowBotRight: mdiArrowBottomRightThick,
+  arrowLeft: mdiArrowLeftThick,
+  arrowRight: mdiArrowRightThick,
+  arrowBot: mdiArrowDownThick,
+  arrowTopRight: mdiArrowTopRightThick,
+  arrowTopLeft: mdiArrowTopLeftThick,
+  arrowTop: mdiArrowUpThick,
+  roundabout: mdiRotateLeft,
+  destination: mdiAndroidAuto,
   filterMenu: mdiFilterMenu,
   liveEvent: "fas fa-heartbeat",
   appbar: "deep-purple darken-3"

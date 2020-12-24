@@ -9,7 +9,7 @@
     </v-avatar>
 
     <v-btn text class="text-none font-weight-bold" left @click="goToProfile">
-      <span class="red--text">{{ username }}</span>
+      <span class="red--text" v-text="username" />
     </v-btn>
   </div>
 </template>

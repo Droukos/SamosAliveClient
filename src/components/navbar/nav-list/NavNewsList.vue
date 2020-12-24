@@ -7,12 +7,12 @@
       @click="to(index)"
     >
       <v-list-item-icon>
-        <v-icon>{{ item.icon }}</v-icon>
+        <v-icon v-text="item.icon" />
       </v-list-item-icon>
-      <v-list-item-title>{{ item.i18n }}</v-list-item-title>
+      <v-list-item-title v-text="item.i18n" />
       <div v-if="item.rArrowIcon">
         <v-spacer />
-        <v-icon>{{ "$chevRight" }}</v-icon>
+        <v-icon v-text="'$chevRight'" />
       </div>
     </v-list-item>
   </div>

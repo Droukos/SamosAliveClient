@@ -1,5 +1,5 @@
 <template>
-  <span>{{ $helper.convDate2(requestedTime, "long", locale) }}</span>
+  <span v-text="$helper.convDate2(requestedTime, 'long', locale)" />
 </template>
 
 <script lang="ts">

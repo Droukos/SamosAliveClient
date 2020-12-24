@@ -30,57 +30,22 @@
     </v-row>
   </div>
   <div v-else-if="aedEvent.status === allStatus.PENDING">
+    <v-tooltip v-if="rescuerPosition == null || !verifiedPosition" top>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          @click="verifyRescuerPosition"
+          v-text="$t('routing.verifyPos')"
+        />
+      </template>
+      <span v-text="$t('routing.verifyPosHint')" />
+    </v-tooltip>
     <v-btn
-      v-if="aedEvent.rescuer == null || aedEvent.rescuer === ''"
-      v-text="$t('events.deviceSel')"
+      v-else-if="aedEvent.rescuer == null || aedEvent.rescuer === ''"
+      v-text="$t('events.deviceSear')"
       @click="fetchAedDevices"
     />
-    <v-btn
-      v-if="aedDeviceIdSel !== ''"
-      color="primary"
-      @click="subResc()"
-      v-text="$t('history.assign')"
-    />
-
-    <!--<v-dialog v-model="deviceChooseDialog" persistent>
-      <v-card>
-        <v-card-title
-          class="headline"
-          v-text="$t('events.deviceDialogTitle')"
-        />
-        <div
-          :style="'height:' + ($vuetify.breakpoint.mdAndUp ? '500px' : '300px')"
-        >
-          <l-map
-            :zoom="zoom"
-            :center="aedEventMarkerCenter"
-            style="z-index: 0;"
-          >
-            <LTileLayerBase />
-            <LMarkerWithIcon
-              :marker="aedEventMarkerCenter"
-              :icon-url="emergencyCallUrl"
-            />
-            <l-circle
-              :lat-lng="aedEventMarkerCenter"
-              :radius="4"
-              color="blue"
-            />
-          </l-map>
-        </div>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="green darken-1"
-            text
-            @click="deviceChooseDialog = false"
-            v-text="$t('general.cancel')"
-          >
-          </v-btn>
-          <v-btn color="green darken-1" text v-text="$t('history.complete')" />
-        </v-card-actions>
-      </v-card>
-    </v-dialog>-->
   </div>
 </template>
 
@@ -138,6 +103,9 @@ export default class AedEventButtons extends Vue {
     aedEventId: string
   ) => Promise<IAedDevicePreview[]>;
   @aedEventChannelSub.Getter aedEventMarker!: (aedEventId: string) => LatLng;
+  @aedEventChannelSub.Mutation verifyRescuerPos!: (verify: boolean) => void;
+  @aedEventChannelSub.State rescuerPosition!: LatLng;
+  @aedEventChannelSub.State verifiedPosition!: boolean;
 
   get aedEventMarkerCenter() {
     return this.aedEventMarker(this.aedEvent.id);
@@ -155,6 +123,10 @@ export default class AedEventButtons extends Vue {
     //}).then(() => {
     //  this.listenEvent({ id: this.aedEvent.id });
     //});
+  }
+
+  verifyRescuerPosition() {
+    this.verifyRescuerPos(true);
   }
 
   openDialog() {
