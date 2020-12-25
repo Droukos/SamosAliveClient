@@ -1,5 +1,5 @@
 import { User } from "@/types/index";
-import {AedDevice} from "@/types/aed-device";
+import {AedDevice, IAedDevPreview} from "@/types/aed-device";
 
 declare namespace AedEvent {
   type id = string;
@@ -10,12 +10,14 @@ declare namespace AedEvent {
     x: AedEvent.mapLat;
     y: AedEvent.mapLon;
   }
+  type phone = string;
   type address = string;
   type comment = string;
   type status = number;
   type requestedTime = string; //number [];
   type completedTime = string;
   type rescuer = string;
+  type callee = string;
   type conclusion = string;
 
   interface AedEventCreateDto {
@@ -23,6 +25,8 @@ declare namespace AedEvent {
     occurrenceType: AedEvent.occurrenceType;
     mapLat: AedEvent.mapLat;
     mapLon: AedEvent.mapLon;
+    callee: AedEvent.callee,
+    phone: AedEvent.phone,
     address: AedEvent.address;
     comment: AedEvent.comment;
   }
@@ -35,18 +39,27 @@ declare namespace AedEvent {
     status: AedEvent.status;
     requestedTime: AedEvent.requestedTime;
   }
+  interface Comment {
+    username: string,
+    message: string,
+    posted: string
+  }
   interface AedEventInfoDto {
-    id: AedEvent.id;
-    username: User.Username;
-    occurrenceType: AedEvent.occurrenceType;
-    occurrencePoint: AedEvent.OccurrencePoint;
-    address: AedEvent.address;
-    comment: AedEvent.comment;
-    status: AedEvent.status;
-    requestedTime: AedEvent.requestedTime;
-    completedTime: AedEvent.completedTime;
-    rescuer: AedEvent.rescuer;
-    conclusion: AedEvent.conclusion;
+    id: AedEvent.id,
+    username: User.Username,
+    occurrenceType: AedEvent.occurrenceType,
+    occurrencePoint: AedEvent.OccurrencePoint,
+    aedDeviceId: AedDevice.AedDeviceId,
+    address: AedEvent.address,
+    comment: AedEvent.comment,
+    status: AedEvent.status,
+    phone: AedEvent.phone,
+    requestedTime: AedEvent.requestedTime,
+    completedTime: AedEvent.completedTime,
+    rescuer: AedEvent.rescuer,
+    conclusion: AedEvent.conclusion,
+    callee: AedEvent.callee,
+    comments?: Comment
   }
 
   interface AedEventComplete {
@@ -64,6 +77,7 @@ declare namespace AedEvent {
     id: AedEvent.id;
     rescuer: AedEvent.rescuer;
     aedDeviceId: AedDevice.AedDeviceId;
+    aedDevicePreview?: IAedDevPreview
   }
 
   interface AedEventCloseInfo {

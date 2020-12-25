@@ -47,7 +47,7 @@ import {
   mdiAppleSafari,
   mdiArrowTopRightThick,
   mdiArrowTopLeftThick,
-  mdiArrowUpThick, mdiRotateLeft, mdiAndroidAuto
+  mdiArrowUpThick, mdiRotateLeft, mdiAndroidAuto, mdiMap
 } from "@mdi/js";
 
 Vue.use(Vuetify);
@@ -103,6 +103,7 @@ const MY_ICONS = {
   arrowTop: mdiArrowUpThick,
   roundabout: mdiRotateLeft,
   destination: mdiAndroidAuto,
+  map: mdiMap,
   filterMenu: mdiFilterMenu,
   liveEvent: "fas fa-heartbeat",
   appbar: "deep-purple darken-3"

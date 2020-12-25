@@ -42,7 +42,8 @@ export const eventApi: Record<string, string> = {
 export const osmApi: Record<string, string> = {
     osmSearchAddress: "aed.osm.search",
     osmReverseSearch: "aed.osm.reverse",
-    osrmSearchWaypoints: "aed.osrm.search"
+    osrmSearchWaypoints: "aed.osrm.search",
+    osrmSearchRescDevEv: "aed.osrm.search.resc_dev_ev"
 }
 
 export const aedDeviceApi: Record<string, string> = {
@@ -50,6 +51,7 @@ export const aedDeviceApi: Record<string, string> = {
     fetchAedDevice: "aed.device.fetch.byId",
     fetchAedDeviceInArea: "aed.device.fetch.inArea",
     fetchAedDeviceInAreaAvailable: "aed.device.fetch.inArea.available",
+    fetchAedDeviceInAreaAvailableWithRouteInfo: "aed.device.fetch.inArea.available.withRouteInfo",
     fetchAedDevicePreviews: "aed.device.fetch.preview.byNickname",
     editAedDeviceInfo: "aed.device.info.edit"
 }

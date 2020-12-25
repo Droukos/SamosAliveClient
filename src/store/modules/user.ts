@@ -116,6 +116,10 @@ export default class User extends VuexModule implements UserInfo {
     return this.avatar;
   }
 
+  get nameSurname() {
+    return this.surname + " " + this.name;
+  }
+
   get userRoles() {
     return this.roleModels;
   }

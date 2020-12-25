@@ -185,7 +185,7 @@ export interface Tab {
   searchLabel: string;
 }
 
-export interface RequestedPreviewUser {
+export interface PreviewUser {
   id: User.UserId;
   user: User.Username;
   name: User.Name;

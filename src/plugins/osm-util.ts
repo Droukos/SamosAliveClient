@@ -7,11 +7,43 @@ import {
   ReverseOsmLatLon,
   SearchOsmAddress
 } from "@/types/osm";
+import {IAedDevPreview} from "@/types/aed-device";
+
+export function emptyRouteInfo() {
+  return {
+    coordinates: [],
+    instructions: [],
+    name: "",
+    summary: {
+      totalDistance: 0,
+      totalTime: 0
+    },
+    waypointIndices: []
+  };
+}
+
+export function sortAedDevices(previewAedDevices: IAedDevPreview[]) {
+  previewAedDevices.sort((a, b) => {
+    if (a.responseRouteInfo == undefined && b.responseRouteInfo == undefined)
+      return 0;
+    else if (a.responseRouteInfo == undefined) return -1;
+    else if (b.responseRouteInfo == undefined) return 1;
+    else if (
+        a.responseRouteInfo.summary.totalDistance >
+        b.responseRouteInfo.summary.totalDistance
+    )
+      return 1;
+    else if (
+        a.responseRouteInfo.summary.totalDistance <
+        b.responseRouteInfo.summary.totalDistance
+    )
+      return -1;
+    else return 0;
+  });
+}
 
 function getAddressLabelFromSplitData(data: string) {
   const address: string[] = data.split(", ");
-  //console.log(address.length);
-  //console.log(address);
   if (address.length == 8) {
     return (
       address[0] +
@@ -119,3 +151,26 @@ export function getAddressLabel(data: OsmAddress) {
     data.country
   );
 }
+
+//export async function findRouteRescuerDeviceEvent(
+//  data: OsrmRoutesToSearch
+//): Promise<RouteResult[]> {
+//  return getAccessTokenJwt().then(token => {
+//    return new Promise(resolve => {
+//      const routeResults: RouteResult[] = [];
+//      aedRSocketApi().then(aedRSocket => {
+//        aedRSocket
+//          .requestStream({
+//            data: dataBuf(data.routesToSearch),
+//            metadata: metadataBuf(token, osmApi.osrmSearchRescDevEv)
+//          })
+//          .subscribe({
+//            onNext: value => routeResults.push(bufToJson(value)),
+//            onError: error => console.error(error),
+//            onSubscribe: sub => sub.request(data.routesToSearch.length)
+//          });
+//        resolve(routeResults);
+//      });
+//    });
+//  });
+//}

@@ -14,8 +14,8 @@ import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import debounce from "@/plugins/helpers/debounce";
 import searchOptions from "@/plugins/enums/search-options";
-import { RequestedPreviewUser } from "@/types";
-import { IAedDevicePreview } from "@/types/aed-device";
+import { PreviewUser } from "@/types";
+import { IAedDevPreview } from "@/types/aed-device";
 
 const search = namespace("search");
 
@@ -27,18 +27,14 @@ export default class SearchMainTextField extends Vue {
   @search.State searchLabel!: string;
   @search.State searchCounter!: number;
   @search.State searchOption!: number;
-  @search.Action fetchUsersPreview!: (
-    user: string
-  ) => Promise<RequestedPreviewUser[]>;
+  @search.Action fetchUsersPreview!: (user: string) => Promise<PreviewUser[]>;
   @search.Action fetchAedDevicesPreview!: (
     aedDeviceNickname: string
-  ) => Promise<IAedDevicePreview[]>;
+  ) => Promise<IAedDevPreview[]>;
   @search.Mutation setPreviewAedDevices!: (
-    previewAedDevices: IAedDevicePreview[]
+    previewAedDevices: IAedDevPreview[]
   ) => void;
-  @search.Mutation setPreviewUsers!: (
-    previewUsers: RequestedPreviewUser[]
-  ) => void;
+  @search.Mutation setPreviewUsers!: (previewUsers: PreviewUser[]) => void;
 
   fetchUserPreviewList() {
     if (this.model.length < 2) {

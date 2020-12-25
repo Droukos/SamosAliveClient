@@ -1,6 +1,6 @@
 import { User } from "@/types/index";
 import AedDeviceId = AedDevice.AedDeviceId;
-import {ResponseRouteInfo} from "@/types/osm";
+import {RouteInfo} from "@/types/osm";
 
 declare namespace AedDevice {
   type AedDeviceId = string;
@@ -77,7 +77,7 @@ export interface IAedDeviceInfo {
   onEstimatedFinish: AedDevice.EstimatedFinish;
 }
 
-export interface IAedDevicePreview {
+export interface IAedDevPreview {
   id: AedDevice.AedDeviceId;
   uniqueNickname: AedDeviceUniqueNickname;
   modelName: AedDeviceModelName;
@@ -88,7 +88,7 @@ export interface IAedDevicePreview {
   homePoint: AedDevice.HomePoint;
   onEventId: AedDevice.OnEventId;
   onUserId: AedDevice.OnUserId;
-  responseRouteInfo?: ResponseRouteInfo | null
+  responseRouteInfo?: RouteInfo | null
 }
 
 export interface IAedDeviceMapSearchDto {

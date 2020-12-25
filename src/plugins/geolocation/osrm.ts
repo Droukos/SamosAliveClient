@@ -5,12 +5,12 @@ import L, { LatLng } from "leaflet";
 import polyline from "@mapbox/polyline";
 import en from "@/plugins/i18n/locales/en-osrm.json";
 import el from "@/plugins/i18n/locales/el-osrm.json";
-import { Osm } from "@/types/osm";
-import Steps = Osm.Steps;
-import Routes = Osm.Routes;
-import OsrmInstruction = Osm.OsrmInstruction;
-import Maneuver = Osm.Maneuver;
-import Lane = Osm.Lane;
+import { OsmGeneral } from "@/types/osm";
+import Steps = OsmGeneral.Steps;
+import Routes = OsmGeneral.Routes;
+import OsrmInstruction = OsmGeneral.OsrmInstruction;
+import Maneuver = OsmGeneral.Maneuver;
+import Lane = OsmGeneral.Lane;
 
 export function decodePolyline(routeGeometry: string): LatLng[] {
   const cs = polyline.decode(routeGeometry, 5),

@@ -6,12 +6,12 @@ import {
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import {
-  RequestedPreviewUser,
+  PreviewUser,
 } from "@/types";
 import {
     userApi, aedDeviceApi
 } from "@/plugins/api/api-urls.ts";
-import {IAedDeviceMapSearchDto, IAedDevicePreview} from "@/types/aed-device";
+import {IAedDeviceMapSearchDto, IAedDevPreview} from "@/types/aed-device";
 import searchOptions, {
   deviceSearchTypeRadios, radiusOptions
 } from "@/plugins/enums/search-options";
@@ -27,8 +27,8 @@ export default class Search extends VuexModule {
   expandSettings = false;
   expandFilters = false;
   validToSearch = true;
-  previewUsers: RequestedPreviewUser[] = [];
-  previewAedDevices: IAedDevicePreview[] = [];
+  previewUsers: PreviewUser[] = [];
+  previewAedDevices: IAedDevPreview[] = [];
   zoom = 12.8;
   center = L.latLng(37.977308, 23.7613248);
   marker = L.latLng(37.977308, 23.7613248);
@@ -84,12 +84,12 @@ export default class Search extends VuexModule {
   }
 
   @Mutation
-  setPreviewUsers(previewUsers: RequestedPreviewUser[]) {
+  setPreviewUsers(previewUsers: PreviewUser[]) {
     this.previewUsers = previewUsers;
   }
 
   @Mutation
-  setPreviewAedDevices(previewAedDevices: IAedDevicePreview[]) {
+  setPreviewAedDevices(previewAedDevices: IAedDevPreview[]) {
     this.previewAedDevices = previewAedDevices;
   }
 
@@ -122,9 +122,9 @@ export default class Search extends VuexModule {
   }
 
   @Action({commit: "setPreviewAedDevices"})
-  async fetchAedDeviceInAreaPreview(): Promise<IAedDevicePreview[]> {
+  async fetchAedDeviceInAreaPreview(): Promise<IAedDevPreview[]> {
     return new Promise(resolve => {
-      const prDevices: IAedDevicePreview[] = [];
+      const prDevices: IAedDevPreview[] = [];
       aedRSocketApi().then(aedRSocket => {
         aedRSocket
             .requestStream({
@@ -142,9 +142,9 @@ export default class Search extends VuexModule {
   }
 
   @Action
-  async fetchUsersPreview(user: string): Promise<RequestedPreviewUser[]> {
+  async fetchUsersPreview(user: string): Promise<PreviewUser[]> {
     return new Promise(resolve => {
-      const prUsers: RequestedPreviewUser[] = [];
+      const prUsers: PreviewUser[] = [];
       userRSocketApi().then(userRSocket => {
         userRSocket
           .requestStream({
@@ -164,9 +164,9 @@ export default class Search extends VuexModule {
   @Action
   async fetchAedDevicesPreview(
     aedDeviceNickname: string
-  ): Promise<IAedDevicePreview[]> {
+  ): Promise<IAedDevPreview[]> {
     return new Promise(resolve => {
-      const prAedDevices: IAedDevicePreview[] = [];
+      const prAedDevices: IAedDevPreview[] = [];
       aedRSocketApi().then(aedRSocket => {
         aedRSocket
           .requestStream({

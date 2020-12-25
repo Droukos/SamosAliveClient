@@ -8,32 +8,36 @@ import {
 } from "@/types/aed-event";
 import { accessToken, aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
-import { aedDeviceApi, eventApi, osmApi } from "@/plugins/api/api-urls";
-import L, {latLng, LatLng} from "leaflet";
+import { aedDeviceApi, eventApi } from "@/plugins/api/api-urls";
+import L, { latLng, LatLng } from "leaflet";
 import { ISubscription } from "rsocket-types";
-import { IAedDevicePreview } from "@/types/aed-device";
-import { OsrmWaypointsExtra, ResponseRouteInfo } from "@/types/osm";
-import { convertRoute } from "@/plugins/geolocation/routing_machine/osrm.ts";
+import { IAedDevPreview } from "@/types/aed-device";
+import {
+  AedDeviceAreaLookWithRoute,
+  AedDevicePreviewWithRouteDto,
+  DevRoutesResult,
+  RouteInfo
+} from "@/types/osm";
+import { convertRoute } from "@/plugins/geolocation/osrm.ts";
+import { PreviewUser } from "@/types";
+import { emptyRouteInfo, sortAedDevices } from "@/plugins/osm-util";
 
 const evMap: Map<string, AedEventInfoDto> = new Map<string, AedEventInfoDto>();
+//const routeEvMap: Map<string, RouteInfo> = new Map<string, RouteInfo>();
+const rescuerEvMap: Map<string, PreviewUser> = new Map<string, PreviewUser>();
+const devEvMap: Map<string, IAedDevPreview> = new Map<string, IAedDevPreview>();
 const subsChMap: Map<string, ISubscription> = new Map<string, ISubscription>();
-const waypointDevToEvCache: Map<string, ResponseRouteInfo> = new Map<
+const routeDevsToEvMap: Map<string, IAedDevPreview[]> = new Map<
   string,
-  ResponseRouteInfo
+  IAedDevPreview[]
 >();
 
-//function findEventProp(
-//  aedEventId: string,
-//  property: keyof AedEventInfoDto,
-//  tracker: number
-//) {
-//  const elem = evMap.get(aedEventId);
-//  if (tracker == 0 || aedEventId == "") return "";
-//  else if (elem) return elem[property];
-//}
-
-function findAedEvent(aedEventId: string, tracker: number) {
-  const elem = evMap.get(aedEventId);
+function findElemOnChMap(
+  aedEventId: string,
+  map: Map<string, any>,
+  tracker: number
+) {
+  const elem = map.get(aedEventId);
   if (tracker == 0 || aedEventId == "") return undefined;
   else return elem;
 }
@@ -47,30 +51,74 @@ function findAedEvent(aedEventId: string, tracker: number) {
 export default class AedEventChannelsSub extends VuexModule {
   aedEventChannelTracker = 0;
   streamSubscriptionTracker = 0;
-  previewAedDevices: IAedDevicePreview[] = [];
-  showPreviewAedDevices: IAedDevicePreview[] = [];
-  aedDeviceSelected!: IAedDevicePreview;
-  selectedRouteInfo: ResponseRouteInfo | undefined = {
-    coordinates: [],
-    instructions: [],
-    name: "",
-    summary: {
-      totalDistance: 0,
-      totalTime: 0
-    },
-    waypointIndices: []
-  };
+  routeChTracker = 0;
+  rescuerChTracker = 0;
+  devChTracker = 0;
+
+  previewAedDevices: IAedDevPreview[] = [];
+  showPreviewAedDevices: IAedDevPreview[] = [];
+  aedDeviceSelected: IAedDevPreview | null = null;
+  selectedRouteInfo: RouteInfo | null | undefined = emptyRouteInfo();
+  selectedRescuer: PreviewUser | null = null;
   rescuerPosition: LatLng | null = null;
   verifiedPosition = false;
+  onMapDialog = false;
 
   @Mutation
-  setShowPreviewAedDevice(previewAedDevices: IAedDevicePreview[]) {
-    this.showPreviewAedDevices = previewAedDevices;
+  setMapDialog(bool: boolean) {
+    this.onMapDialog = bool;
   }
 
   @Mutation
-  setRescuerPos(data: LatLng) {
-    this.rescuerPosition = data;
+  setPreviewDevices(data: IAedDevPreview[]) {
+    this.previewAedDevices = data;
+    this.showPreviewAedDevices = data;
+  }
+
+  @Mutation
+  setSelectedDevice(data: IAedDevPreview) {
+    this.aedDeviceSelected = data;
+    if(data.responseRouteInfo !== undefined){
+      this.selectedRouteInfo = data.responseRouteInfo;
+    }
+  }
+
+  @Mutation
+  initChannelData(aedEventId: string) {
+    if (routeDevsToEvMap.has(aedEventId)) {
+      this.previewAedDevices = [...routeDevsToEvMap.get(aedEventId)!.values()];
+      this.verifiedPosition = false;
+      this.selectedRouteInfo = emptyRouteInfo();
+      this.aedDeviceSelected = null;
+      this.selectedRescuer = null;
+    } else if (devEvMap.has(aedEventId)) {
+      this.aedDeviceSelected = devEvMap.get(aedEventId)!;
+      this.selectedRouteInfo = this.aedDeviceSelected.responseRouteInfo;
+      this.selectedRescuer = rescuerEvMap.get(aedEventId)!;
+      this.previewAedDevices = [this.aedDeviceSelected];
+      this.verifiedPosition = true;
+    } else {
+      this.previewAedDevices = [];
+      this.verifiedPosition = false;
+      this.selectedRouteInfo = emptyRouteInfo();
+      this.selectedRescuer = null;
+      this.aedDeviceSelected = null;
+    }
+    this.showPreviewAedDevices = this.previewAedDevices;
+    this.onMapDialog = false;
+  }
+
+  @Mutation
+  setShowPreviewAedDevice(previewAedDevices: IAedDevPreview[]) {
+    if (this.onMapDialog) {
+      return;
+    }
+    this.showPreviewAedDevices = previewAedDevices;
+    if (previewAedDevices.length == 1) {
+      this.selectedRouteInfo = previewAedDevices[0].responseRouteInfo;
+    } else {
+      this.selectedRouteInfo = emptyRouteInfo();
+    }
   }
 
   @Mutation
@@ -79,18 +127,38 @@ export default class AedEventChannelsSub extends VuexModule {
   }
 
   @Mutation
+  setRescuerPos(data: LatLng) {
+    this.rescuerPosition = data;
+  }
+
+  @Mutation
   setRescuerPos2(data: Position) {
     this.rescuerPosition = latLng(data.coords.latitude, data.coords.longitude);
   }
 
   @Mutation
-  setPreviewAedDevices(previewAedDevices: IAedDevicePreview[]) {
-    this.previewAedDevices = previewAedDevices;
-    this.showPreviewAedDevices = previewAedDevices;
+  setPreviewAedDevices(data: DevRoutesResult) {
+    const aedEventId = data.devRoutes[0].aedEventId;
+    const locale = data.locale;
+
+    this.showPreviewAedDevices = [];
+    for (const dto of data.devRoutes) {
+      dto.aedDeviceInfoPreviewDto.responseRouteInfo = convertRoute(
+        JSON.parse(dto.routeInfo).routes[0],
+        locale
+      );
+      this.showPreviewAedDevices.push(dto.aedDeviceInfoPreviewDto);
+    }
+    routeDevsToEvMap.set(aedEventId, this.showPreviewAedDevices);
+    this.previewAedDevices = this.showPreviewAedDevices;
+    sortAedDevices(this.previewAedDevices);
   }
 
   @Mutation
   setAedEventInfo(data: AedEventInfoDto) {
+    //routeDevsToEvMap.delete(data.id);
+    //this.previewAedDevices = [];
+    //this.showPreviewAedDevices = [];
     evMap.set(data.id, data);
     ++this.aedEventChannelTracker;
   }
@@ -108,61 +176,16 @@ export default class AedEventChannelsSub extends VuexModule {
   }
 
   @Mutation
-  setAedDeviceSelected(aedDevice: IAedDevicePreview) {
+  setAedDeviceSelected(aedDevice: IAedDevPreview) {
     this.aedDeviceSelected = aedDevice;
-  }
-
-  @Mutation
-  setOsrmHints(data: {
-    aedDeviceId: string;
-    aedEventId: string;
-    responseRoute: ResponseRouteInfo;
-  }) {
-    if (data.responseRoute == undefined) {
-      this.selectedRouteInfo = waypointDevToEvCache.get(
-        data.aedEventId + "@" + data.aedDeviceId
-      );
-      return;
-    } else {
-      waypointDevToEvCache.set(
-        data.aedEventId + "@" + data.aedDeviceId,
-        data.responseRoute
-      );
-      this.selectedRouteInfo = data.responseRoute;
-      for (let i = 0; i < this.previewAedDevices.length; i++) {
-        if (this.previewAedDevices[i].id == data.aedDeviceId) {
-          this.previewAedDevices[i] = {
-            id: this.previewAedDevices[i].id,
-            modelName: this.previewAedDevices[i].modelName,
-            homePoint: this.previewAedDevices[i].homePoint,
-            uniqueNickname: this.previewAedDevices[i].uniqueNickname,
-            onUserId: this.previewAedDevices[i].onUserId,
-            onEventId: this.previewAedDevices[i].onEventId,
-            description: this.previewAedDevices[i].description,
-            address: this.previewAedDevices[i].address,
-            status: this.previewAedDevices[i].status,
-            picUrl: this.previewAedDevices[i].picUrl,
-            responseRouteInfo: data.responseRoute
-          };
-          break;
-        }
-      }
-      this.previewAedDevices.sort((a,b) => {
-        if(a.responseRouteInfo == undefined && b.responseRouteInfo ==undefined) return 0;
-        else if(a.responseRouteInfo == undefined) return -1;
-        else if(b.responseRouteInfo == undefined) return 1;
-        else if(a.responseRouteInfo.summary.totalDistance > b.responseRouteInfo.summary.totalDistance) return 1;
-        else if(a.responseRouteInfo.summary.totalDistance < b.responseRouteInfo.summary.totalDistance) return -1;
-        else return 0;
-      });
-    }
   }
 
   get aedEventMarker() {
     const tracker = this.aedEventChannelTracker;
     return function(aedEventId: string) {
-      const aedEvent: AedEventInfoDto | undefined = findAedEvent(
+      const aedEvent: AedEventInfoDto | undefined = findElemOnChMap(
         aedEventId,
+        evMap,
         tracker
       );
       return aedEvent
@@ -171,8 +194,10 @@ export default class AedEventChannelsSub extends VuexModule {
     };
   }
 
-  get selectedAedDevice() {
-    return this.aedDeviceSelected;
+  get potentialAedDevices() {
+    return function(aedEventId: string) {
+      return findElemOnChMap(aedEventId, routeDevsToEvMap, 1);
+    };
   }
 
   get hasAedEvChannel() {
@@ -184,7 +209,7 @@ export default class AedEventChannelsSub extends VuexModule {
   get aedEvent() {
     const tracker = this.aedEventChannelTracker;
     return function(aedEventId: string) {
-      const eventInfoDto = findAedEvent(aedEventId, tracker);
+      const eventInfoDto = findElemOnChMap(aedEventId, evMap, tracker);
       return eventInfoDto ? eventInfoDto : "";
     };
   }
@@ -195,73 +220,60 @@ export default class AedEventChannelsSub extends VuexModule {
     };
   }
 
-  get mapSearchDto() {
-    return function(aedEventId: string) {
-      const event: AedEventInfoDto | undefined = evMap.get(aedEventId);
-      return {
-        x: event!.occurrencePoint.x,
-        y: event!.occurrencePoint.y,
-        distance: 4
-      };
-    };
-    //const :LatLng = this.aedEventStreamSubscription()
-    //return {
-    //  y: this.marker.lat,
-    //  x: this.marker.lng,
-    //  distance: this.radiusSlider
-    //}
-  }
-
   @Action({ commit: "setPreviewAedDevices" })
   async fetchAedDeviceInAreaPreview(
-    aedEventId: string
-  ): Promise<IAedDevicePreview[]> {
-    return new Promise(resolve => {
-      const prDevices: IAedDevicePreview[] = [];
-      aedRSocketApi().then(aedRSocket => {
-        aedRSocket
-          .requestStream({
-            data: dataBuf(this.mapSearchDto(aedEventId)),
-            metadata: metadataBuf(
-              accessToken,
-              aedDeviceApi.fetchAedDeviceInAreaAvailable
-            )
-          })
-          .subscribe({
-            onError: error => console.error(error),
-            onNext: payload => prDevices.push(bufToJson(payload)),
-            onSubscribe: sub => sub.request(20)
-          });
-        resolve(prDevices);
+    data: {
+      locale: string,
+      dto: AedDeviceAreaLookWithRoute
+    }
+  ): Promise<DevRoutesResult> {
+    return getAccessTokenJwt().then(token => {
+      return new Promise(resolve => {
+        const deviceRouteResults: AedDevicePreviewWithRouteDto[] = [];
+
+        aedRSocketApi().then(aedRSocket => {
+          aedRSocket
+            .requestStream({
+              data: dataBuf(data.dto),
+              metadata: metadataBuf(
+                token,
+                aedDeviceApi.fetchAedDeviceInAreaAvailableWithRouteInfo
+              )
+            })
+            .subscribe({
+              onNext: value => {
+                //console.log(bufToJson(value));
+                deviceRouteResults.push(bufToJson(value));
+              },
+              onError: error => console.error(error),
+              onComplete: () =>
+                resolve({
+                  locale: data.locale,
+                  devRoutes: deviceRouteResults
+                }),
+              onSubscribe: sub => sub.request(20)
+            });
+        });
       });
     });
   }
 
-  @Action({ commit: "setOsrmHints" })
-  async findWaypointInRescuerToDeviceToEvent(data: OsrmWaypointsExtra) {
-    if (waypointDevToEvCache.has(data.aedEventId + "@" + data.aedDeviceId)) {
-      return {
-        aedEventId: data.aedEventId,
-        aedDeviceId: data.aedDeviceId
-      };
-    }
-    return new Promise(resolve => {
-      aedRSocketApi().then(aedRSocket =>
-        aedRSocket
-          .requestResponse({
-            data: dataBuf(data),
-            metadata: metadataBuf(accessToken, osmApi.osrmSearchWaypoints)
-          })
-          .subscribe({
-            onComplete: value =>
-              resolve({
-                aedEventId: data.aedEventId,
-                aedDeviceId: data.aedDeviceId,
-                responseRoute: convertRoute(bufToJson(value).routes[0], data.locale)
-              }),
-            onError: error => console.error(error)
-          })
-      );
+  @Action({ commit: "setSelectedDevice" })
+  async findAedDeviceById(aedDeviceId: string) {
+    return getAccessTokenJwt().then(token => {
+      return new Promise(resolve => {
+        aedRSocketApi().then(aedRSocket => {
+          aedRSocket
+            .requestResponse({
+              data: dataBuf({ id: aedDeviceId }),
+              metadata: metadataBuf(token, aedDeviceApi.fetchAedDevice)
+            })
+            .subscribe({
+              onComplete: value => resolve(bufToJson(value)),
+              onError: error => console.log(error)
+            });
+        });
+      });
     });
   }
 
@@ -332,7 +344,15 @@ export default class AedEventChannelsSub extends VuexModule {
             metadata: metadataBuf(accessToken, eventApi.subRescuer)
           })
           .subscribe({
-            onComplete: value => resolve(bufToJson(value)),
+            onComplete: value => {
+              routeDevsToEvMap.delete(data.id);
+              this.context.commit("setPreviewDevices", []);
+              if (data.aedDevicePreview !== undefined) {
+                devEvMap.set(data.id, data.aedDevicePreview);
+                this.context.commit("setSelectedDevice", data.aedDevicePreview);
+              }
+              resolve(bufToJson(value));
+            },
             onError: error => console.error(error)
           })
       );
@@ -356,6 +376,48 @@ export default class AedEventChannelsSub extends VuexModule {
     });
   }
 
+  //get mapSearchDto() {
+  //  return function(aedEventId: string) {
+  //    const event: AedEventInfoDto | undefined = evMap.get(aedEventId);
+  //    return {
+  //      x: event!.occurrencePoint.x,
+  //      y: event!.occurrencePoint.y,
+  //      distance: 4
+  //    };
+  //  };
+  //  //const :LatLng = this.aedEventStreamSubscription()
+  //  //return {
+  //  //  y: this.marker.lat,
+  //  //  x: this.marker.lng,
+  //  //  distance: this.radiusSlider
+  //  //}
+  //}
+
+  //@Action({ commit: "setPreviewAedDevices" })
+  //async fetchAedDeviceInAreaPreview(
+  //    aedEventId: string
+  //): Promise<IAedDevPreview[]> {
+  //  return new Promise(resolve => {
+  //    const prDevices: IAedDevPreview[] = [];
+  //    aedRSocketApi().then(aedRSocket => {
+  //      aedRSocket
+  //          .requestStream({
+  //            data: dataBuf(this.mapSearchDto(aedEventId)),
+  //            metadata: metadataBuf(
+  //                accessToken,
+  //                aedDeviceApi.fetchAedDeviceInAreaAvailable
+  //            )
+  //          })
+  //          .subscribe({
+  //            onError: error => console.error(error),
+  //            onNext: payload => prDevices.push(bufToJson(payload)),
+  //            onSubscribe: sub => sub.request(20)
+  //          });
+  //      resolve(prDevices);
+  //    });
+  //  });
+  //}
+
   //@Mutation
   //setStatusOnProgress() {
   //  this.status = statusOptions.ONPROGRESS;
@@ -368,4 +430,66 @@ export default class AedEventChannelsSub extends VuexModule {
   //  this.rescuer = data.rescuer;
   //  this.conclusion = data.conclusion;
   //}
+
+  //@Mutation
+  //setOsrmHints(data: RouteResult) {
+  //  if (data.responseRoute == undefined) {
+  //    this.selectedRouteInfo = routeDevsToEvMap.get(
+  //      routeDevEvKey(data)
+  //    )!.routeInfo;
+  //    return;
+  //  } else {
+  //    routeDevsToEvMap.get(routeDevEvKey(data))!.routeInfo = data.responseRoute;
+  //    this.selectedRouteInfo = data.responseRoute;
+  //for (let i = 0; i < this.previewAedDevices.length; i++) {
+  //  if (this.previewAedDevices[i].id == data.aedDeviceId) {
+  //    this.previewAedDevices[i] = {
+  //      id: this.previewAedDevices[i].id,
+  //      modelName: this.previewAedDevices[i].modelName,
+  //      homePoint: this.previewAedDevices[i].homePoint,
+  //      uniqueNickname: this.previewAedDevices[i].uniqueNickname,
+  //      onUserId: this.previewAedDevices[i].onUserId,
+  //      onEventId: this.previewAedDevices[i].onEventId,
+  //      description: this.previewAedDevices[i].description,
+  //      address: this.previewAedDevices[i].address,
+  //      status: this.previewAedDevices[i].status,
+  //      picUrl: this.previewAedDevices[i].picUrl,
+  //      responseRouteInfo: data.responseRoute
+  //    };
+  //    break;
+  //  }
+  //}
+  //  }
+  //}
+
+  //  @Action({ commit: "setOsrmHints" })
+  //  async findWaypointInRescuerToDeviceToEvent(data: OsrmWaypointsExtra) {
+  //    if (routeDevsToEvMap.has(data.aedEventId + "@" + data.aedDeviceId)) {
+  //      return {
+  //        aedEventId: data.aedEventId,
+  //        aedDeviceId: data.aedDeviceId
+  //      };
+  //    }
+  //    return new Promise(resolve => {
+  //      aedRSocketApi().then(aedRSocket =>
+  //        aedRSocket
+  //          .requestResponse({
+  //            data: dataBuf(data),
+  //            metadata: metadataBuf(accessToken, osmApi.osrmSearchWaypoints)
+  //          })
+  //          .subscribe({
+  //            onComplete: value =>
+  //              resolve({
+  //                aedEventId: data.aedEventId,
+  //                aedDeviceId: data.aedDeviceId,
+  //                responseRoute: convertRoute(
+  //                  bufToJson(value).routes[0],
+  //                  data.locale
+  //                )
+  //              }),
+  //            onError: error => console.error(error)
+  //          })
+  //      );
+  //    });
+  //  }
 }

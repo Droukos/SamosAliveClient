@@ -1,6 +1,33 @@
 import { LatLng } from "leaflet";
+import {AedEvent} from "@/types/aed-event";
+import {IAedDevPreview} from "@/types/aed-device";
 
-declare namespace Osm {
+declare namespace OsmServer {
+
+  interface AedDevicePreviewWithRouteDto {
+    aedEventId: AedEvent.id,
+    aedDeviceInfoPreviewDto: IAedDevPreview,
+    routeInfo: any
+  }
+}
+
+declare namespace OsmClient {
+
+  interface AedDeviceAreaLookWithRoute {
+    eventId: AedEvent.id,
+    eventLat: number,
+    eventLng: number,
+    distance: number,
+    rescuerLat: number,
+    rescuerLng: number
+  }
+}
+
+export type AedDeviceAreaLookWithRoute = OsmClient.AedDeviceAreaLookWithRoute;
+
+export type AedDevicePreviewWithRouteDto = OsmServer.AedDevicePreviewWithRouteDto;
+
+declare namespace OsmGeneral {
   type geometry = string;
   type code = string;
   type weight = number;
@@ -43,7 +70,7 @@ declare namespace Osm {
     instructions: instructions,
     name: string,
     summary: Summary,
-    waypointIndices: waypointIndices
+    waypointIndices?: waypointIndices
   }
 
   interface Maneuver {
@@ -54,7 +81,6 @@ declare namespace Osm {
     modifier: Modifier;
     exit?: number;
   }
-
 
   type Modifier =
     | "left"
@@ -68,8 +94,8 @@ declare namespace Osm {
 
   interface Language {}
   interface Summary {
-    totalDistance: Osm.distance;
-    totalTime: Osm.duration;
+    totalDistance: OsmGeneral.distance;
+    totalTime: OsmGeneral.duration;
   }
   interface OsrmInstruction {
     name: string;
@@ -134,16 +160,16 @@ declare namespace Osm {
   }
 }
 
-export type Instruction = Osm.Instruction;
-export type Summary = Osm.Summary;
-export type ResponseRouteInfo = Osm.ResponseRouteInfo;
-export type OsrmWaypoints = Osm.OsrmWaypoints;
-export type OsrmInstruction = Osm.OsrmInstruction;
-export type OsrmWaypointsExtra = Osm.OsrmWaypointsExtra;
-export type Geometry = Osm.geometry;
-export type Maneuver = Osm.Maneuver;
-export type OsmResponse = Osm.OsmResponse;
-export type Routes = Osm.Routes;
+export type Instruction = OsmGeneral.Instruction;
+export type Summary = OsmGeneral.Summary;
+export type RouteInfo = OsmGeneral.ResponseRouteInfo;
+export type OsrmWaypoints = OsmGeneral.OsrmWaypoints;
+export type OsrmInstruction = OsmGeneral.OsrmInstruction;
+export type OsrmWaypointsExtra = OsmGeneral.OsrmWaypointsExtra;
+export type Geometry = OsmGeneral.geometry;
+export type Maneuver = OsmGeneral.Maneuver;
+export type OsmResponse = OsmGeneral.OsmResponse;
+export type Routes = OsmGeneral.Routes;
 
 export interface SearchOsmAddress {
   address: string;
@@ -166,6 +192,17 @@ export interface OsmAddress {
   state: string;
   state_district: string;
   suburb: string;
+}
+
+export interface DevRoutesResult {
+  locale: string;
+  devRoutes: AedDevicePreviewWithRouteDto[];
+}
+
+export interface RouteResult  {
+  aedDeviceId: string;
+  aedEventId: string;
+  responseRoute: OsrmInstruction;
 }
 
 export interface IReverseOsmData {

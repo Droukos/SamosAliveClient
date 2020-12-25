@@ -50,12 +50,9 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { LControl } from "vue2-leaflet";
 import humanizeDuration from "humanize-duration";
-import {
-  directionIcon,
-  formatDistance
-} from "@/plugins/geolocation/routing_machine/osrm";
+import { directionIcon, formatDistance } from "@/plugins/geolocation/osrm";
 import { namespace } from "vuex-class";
-import { ResponseRouteInfo } from "@/types/osm";
+import { RouteInfo } from "@/types/osm";
 
 const environment = namespace("environment");
 
@@ -66,7 +63,7 @@ const environment = namespace("environment");
 })
 export default class LControlRouteInfo extends Vue {
   @environment.State locale!: string;
-  @Prop() routeInfo!: ResponseRouteInfo;
+  @Prop() routeInfo!: RouteInfo;
 
   getFormattedTime(duration: number) {
     return humanizeDuration(duration * 1000, { language: this.locale });

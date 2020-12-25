@@ -24,13 +24,17 @@ export default class AedEventInfo extends VuexModule
   username = "";
   occurrenceType = 0;
   occurrencePoint = { x: 0, y: 0 };
+  aedDeviceId = "";
   address = "";
+  phone = "";
   comment = "";
   status = statusOptions.UNKNOWN;
   requestedTime = "";
   completedTime = "";
+  callee = "";
   rescuer = "";
   conclusion = "";
+  //comments = Comment[];
 
   zoom = 15.5;
   center = L.latLng(0, 0);
@@ -43,6 +47,7 @@ export default class AedEventInfo extends VuexModule
     this.occurrenceType = data.occurrenceType;
     this.occurrencePoint = data.occurrencePoint;
     this.address = data.address;
+    //this.phone
     this.comment = data.comment;
     this.status = data.status;
     this.requestedTime = data.requestedTime;
@@ -73,12 +78,15 @@ export default class AedEventInfo extends VuexModule
       occurrenceType: this.occurrenceType,
       occurrencePoint: this.occurrencePoint,
       address: this.address,
+      aedDeviceId: this.aedDeviceId,
+      phone: this.phone,
       comment: this.comment,
       status: this.status,
       rescuer: this.rescuer,
       requestedTime: this.requestedTime,
       completedTime: this.completedTime,
-      conclusion: this.conclusion
+      conclusion: this.conclusion,
+      callee: this.callee
     };
   }
 
@@ -100,38 +108,4 @@ export default class AedEventInfo extends VuexModule
       });
     });
   }
-
-  //@Action({ commit: "setStatusOnProgress" })
-  //async subRescuer(data: AedEventRescuerInfo) {
-  //  return new Promise(resolve => {
-  //    aedRSocketApi().then(aedRSocket =>
-  //      aedRSocket
-  //        .requestResponse({
-  //          data: dataBuf(data),
-  //          metadata: metadataBuf(accessToken, eventApi.subRescuer)
-  //        })
-  //        .subscribe({
-  //          onComplete: value => resolve(bufToJson(value)),
-  //          onError: error => console.error(error)
-  //        })
-  //    );
-  //  });
-  //}
-
-  //@Action({ commit: "setEventCompleted" })
-  //async closeAedEvent(data: AedEventCloseInfo) {
-  //  return new Promise(resolve => {
-  //    aedRSocketApi().then(aedRSocket =>
-  //      aedRSocket
-  //        .requestResponse({
-  //          data: dataBuf(data),
-  //          metadata: metadataBuf(accessToken, eventApi.closeAedEvent)
-  //        })
-  //        .subscribe({
-  //          onComplete: value => resolve(bufToJson(value)),
-  //          onError: error => console.error(error)
-  //        })
-  //    );
-  //  });
-  //}
 }

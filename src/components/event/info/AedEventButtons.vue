@@ -41,11 +41,6 @@
       </template>
       <span v-text="$t('routing.verifyPosHint')" />
     </v-tooltip>
-    <v-btn
-      v-else-if="aedEvent.rescuer == null || aedEvent.rescuer === ''"
-      v-text="$t('events.deviceSear')"
-      @click="fetchAedDevices"
-    />
   </div>
 </template>
 
@@ -60,11 +55,12 @@ import {
   EventDto
 } from "@/types/aed-event";
 import { LatLng } from "leaflet";
-import { markerIconEmergencyCall } from "@/plugins/api/cloudinary";
 import { LCircle, LMap } from "vue2-leaflet";
-import { IAedDevicePreview } from "@/types/aed-device";
+import { IAedDevPreview } from "@/types/aed-device";
+import { AedDeviceAreaLookWithRoute } from "@/types/osm";
 
 const aedEventChannelSub = namespace("aedEventChannelSub");
+const environment = namespace("environment");
 const user = namespace("user");
 
 @Component({
@@ -87,11 +83,10 @@ export default class AedEventButtons extends Vue {
   dialog = false;
   deviceChooseDialog = false;
   allStatus = statusOptions;
-  emergencyCallUrl = markerIconEmergencyCall;
 
   @Prop() aedEvent!: AedEventInfoDto;
-  @Prop() aedDeviceIdSel!: string;
   @user.State username!: string;
+  @environment.State locale!: string;
   @aedEventChannelSub.Action subRescuer!: (
     data: AedEventRescuerInfo
   ) => Promise<AedEventInfoDto>;
@@ -99,9 +94,10 @@ export default class AedEventButtons extends Vue {
     data: AedEventCloseInfo
   ) => Promise<any>;
   @aedEventChannelSub.Action listenEvent!: (data: EventDto) => void;
-  @aedEventChannelSub.Action fetchAedDeviceInAreaPreview!: (
-    aedEventId: string
-  ) => Promise<IAedDevicePreview[]>;
+  @aedEventChannelSub.Action fetchAedDeviceInAreaPreview!: (data: {
+    locale: string;
+    dto: AedDeviceAreaLookWithRoute;
+  }) => Promise<IAedDevPreview[]>;
   @aedEventChannelSub.Getter aedEventMarker!: (aedEventId: string) => LatLng;
   @aedEventChannelSub.Mutation verifyRescuerPos!: (verify: boolean) => void;
   @aedEventChannelSub.State rescuerPosition!: LatLng;
@@ -111,22 +107,18 @@ export default class AedEventButtons extends Vue {
     return this.aedEventMarker(this.aedEvent.id);
   }
 
-  fetchAedDevices() {
-    this.fetchAedDeviceInAreaPreview(this.aedEvent.id);
-  }
-
-  subResc() {
-    this.deviceChooseDialog = !this.deviceChooseDialog;
-    //this.subRescuer({
-    //  id: this.aedEvent.id,
-    //  rescuer: this.username
-    //}).then(() => {
-    //  this.listenEvent({ id: this.aedEvent.id });
-    //});
-  }
-
   verifyRescuerPosition() {
-    this.verifyRescuerPos(true);
+    this.fetchAedDeviceInAreaPreview({
+      locale: this.locale,
+      dto: {
+        eventId: this.aedEvent.id,
+        eventLat: this.aedEvent.occurrencePoint.y,
+        eventLng: this.aedEvent.occurrencePoint.x,
+        rescuerLat: this.rescuerPosition.lat,
+        rescuerLng: this.rescuerPosition.lng,
+        distance: 3
+      }
+    }).then(() => this.verifyRescuerPos(true));
   }
 
   openDialog() {

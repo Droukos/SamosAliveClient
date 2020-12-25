@@ -4,12 +4,14 @@
     "1": "Broken",
     "2": "Stolen",
     "3": "On Repair",
-    "4": "Borrowed"
+    "4": "Borrowed",
+    "5": "On Return"
   },
   "apps": {
     "health": "Health"
   },
   "clear": "Clear",
+  "close": "Close",
   "device": {
     "deviceEdit": "Edit Device",
     "deviceOptions": "Device options",
@@ -52,13 +54,19 @@
     "verifyPosHint": "Verify your current position in map"
   },
   "events": {
-    "addr": "Address: ",
     "address": "Address: ",
-    "comInfo": "More informations",
-    "comm": "More info: ",
+    "callee": "Callee",
+    "phone": "Phone Number",
+    "comInfo": "More information",
     "comment": "Comment: ",
     "complete": "Completed by: ",
+    "invalidCallee": "Invalid Callee Name",
+    "invalidPhone": "Invalid Phone Number",
     "concl": "Conclusion: ",
+    "selDevice": "Selected Aed Device:",
+    "yetSelDevice": "Aed device not selected yet",
+    "selRescuer": "Selected rescuer:",
+    "yetSelRescuer": "Rescuer not selected yet",
     "deviceDialogTitle": "Available Aed Devices for Emergency",
     "deviceSel": "Select Device",
     "deviceSear": "Search Device",
