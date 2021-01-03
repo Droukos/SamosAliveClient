@@ -34,7 +34,7 @@ export default class AedEventInfo extends VuexModule
   callee = "";
   rescuer = "";
   conclusion = "";
-  //comments = Comment[];
+  commsN = 0;
 
   zoom = 15.5;
   center = L.latLng(0, 0);
@@ -86,7 +86,8 @@ export default class AedEventInfo extends VuexModule
       requestedTime: this.requestedTime,
       completedTime: this.completedTime,
       conclusion: this.conclusion,
-      callee: this.callee
+      callee: this.callee,
+      commsN: this.commsN
     };
   }
 

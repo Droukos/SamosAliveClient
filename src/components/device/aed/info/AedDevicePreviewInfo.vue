@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mx-auto">
     <div class="d-flex flex-row">
       <v-avatar size="70">
         <AedDevicePic :size="70" :url="aedDevicePreviewInfo.picUrl" />

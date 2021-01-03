@@ -36,7 +36,15 @@ export const eventApi: Record<string, string> = {
     aedEventsFetchUnassigned: "aed.event.fetch.pending",
     aedEventPush: "aed.event.push",
     subRescuer: "aed.event.subRescuer",
-    closeAedEvent: "aed.event.close"
+    closeAedEvent: "aed.event.close",
+    fetchDeviceAndRescuer: "aed.event.fetch.rescuer.and.device",
+    rescuerListenSub: "aed.event.listen.sub.rescuer",
+    aedDeviceListenSub: "aed.event.listen.sub.device",
+    aedDiscussionListenSub: "aed.event.listen.sub.discussion",
+    aedEventUsersListenSub: "aed.event.listen.sub.user",
+    aedEventPreviewUsers: "aed.event.fetch.preview.users",
+    aedEventPostComment: "aed.event.sub.post.comment",
+    aedEventFetchComments: "aed.event.sub.fetch.discussion"
 };
 
 export const osmApi: Record<string, string> = {
@@ -51,7 +59,7 @@ export const aedDeviceApi: Record<string, string> = {
     fetchAedDevice: "aed.device.fetch.byId",
     fetchAedDeviceInArea: "aed.device.fetch.inArea",
     fetchAedDeviceInAreaAvailable: "aed.device.fetch.inArea.available",
-    fetchAedDeviceInAreaAvailableWithRouteInfo: "aed.device.fetch.inArea.available.withRouteInfo",
+    devicesAreaAvailableWRoute: "aed.device.fetch.inArea.available.withRouteInfo",
     fetchAedDevicePreviews: "aed.device.fetch.preview.byNickname",
     editAedDeviceInfo: "aed.device.info.edit"
 }

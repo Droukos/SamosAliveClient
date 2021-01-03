@@ -103,6 +103,7 @@ const user = namespace("user");
         store.registerModule("aedEventCreate", aedEventCreateMod);
       }
       getLocation(aedEventCreateCard.osmReverseGeoCodingOnCurPos);
+      aedEventCreateCard.fCallee.v = aedEventCreateCard.nameSurname;
     });
   },
   beforeDestroy() {
@@ -159,6 +160,7 @@ export default class AedEventCreateCard extends Vue {
 
   @Watch("nameSurname")
   onNameChanged(newName: string) {
+    console.log(newName);
     this.fCallee.v = newName;
   }
 

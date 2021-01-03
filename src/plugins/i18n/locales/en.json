@@ -8,7 +8,8 @@
     "5": "On Return"
   },
   "apps": {
-    "health": "Health"
+    "health": "Health",
+    "admin": "Administration"
   },
   "clear": "Clear",
   "close": "Close",
@@ -62,15 +63,18 @@
     "complete": "Completed by: ",
     "invalidCallee": "Invalid Callee Name",
     "invalidPhone": "Invalid Phone Number",
+    "discuss": "Discussion",
     "concl": "Conclusion: ",
+    "avAedDev": "Available aed devices in area",
+    "unAvAedDev": "Unavailable aed devices in area",
     "selDevice": "Selected Aed Device:",
     "yetSelDevice": "Aed device not selected yet",
-    "selRescuer": "Selected rescuer:",
+    "selRescuer": "Selected Rescuer:",
     "yetSelRescuer": "Rescuer not selected yet",
     "deviceDialogTitle": "Available Aed Devices for Emergency",
     "deviceSel": "Select Device",
     "deviceSear": "Search Device",
-    "event": "Occurrence",
+    "event": "Event",
     "eventInfo": "Choose a patient's condition",
     "eventList": "Occurrence's table",
     "eventListInfo": "This is a list of current pending occurrences",
@@ -82,7 +86,7 @@
     "live": "Live events",
     "problemList": "Technical problems",
     "problemListInfo": "This is a list of current pending technical problems",
-    "send": "Send alert",
+    "send": "Send",
     "situation": "Situation..",
     "statusS1": "Pending",
     "statusS2": "On progress",
@@ -209,13 +213,10 @@
     "203": "",
     "AREA_ADMIN": "Area Admin",
     "EKAB": "ΕΚΑΒ",
+    "RESCUER": "Rescuer",
     "GENERAL_ADMIN": "General Admin",
     "USER": "User",
     "addedBy": "Added by {0} on {1}",
-    "admins": {
-      "  1000": "",
-      "0": ""
-    },
     "change": {
       "  title": "",
       "title": "Change between current available roles:"

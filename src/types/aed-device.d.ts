@@ -88,6 +88,8 @@ export interface IAedDevPreview {
   homePoint: AedDevice.HomePoint;
   onEventId: AedDevice.OnEventId;
   onUserId: AedDevice.OnUserId;
+  takenOn: AedDevice.TakenOn;
+  estimatedFinish: AedDevice.EstimatedFinish;
   responseRouteInfo?: RouteInfo | null
 }
 

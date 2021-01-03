@@ -1,0 +1,7 @@
+export const roles = {
+    GENERAL_ADMIN: "GENERAL_ADMIN",
+    AREA_ADMIN: "AREA_ADMIN",
+    RESCUER: "RESCUER",
+    TECHNICIAN: "TECHNICIAN",
+    USER: "USER"
+}

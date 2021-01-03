@@ -7,7 +7,7 @@ import api, {
   userRSocketApi
 } from "@/plugins/api";
 import { authApi, userApi } from "@/plugins/api/api-urls";
-import { LoginResponse, UserInfo, UserLogin, UserRegister } from "@/types";
+import {LoginResponse, PreviewUserCh, Role, UserInfo, UserLogin, UserRegister} from "@/types";
 import VueCookies from "vue-cookies";
 import { AxiosResponse } from "axios";
 import {
@@ -36,7 +36,7 @@ export default class User extends VuexModule implements UserInfo {
   surname = "";
   email = "";
   avatar = "";
-  roleModels = [];
+  roleModels: Role[] = [];
   countryCode = "";
   country = "";
   province = "";
@@ -118,6 +118,20 @@ export default class User extends VuexModule implements UserInfo {
 
   get nameSurname() {
     return this.surname + " " + this.name;
+  }
+
+  get userPreview(): PreviewUserCh {
+    const roleCodes: string[] = [];
+    for(const role of this.roleModels) {
+      roleCodes.push(role.code)
+    }
+    return {
+      id: this.userid,
+      username: this.username,
+      avatar: this.avatar,
+      status: this.availability,
+      roles: roleCodes
+    }
   }
 
   get userRoles() {

@@ -17,6 +17,7 @@ declare namespace User {
   type Avatar = string | null;
   type Description = string | null;
   type Phones = string[] | null;
+  type Phone = string | null;
 
   type CountryCode = string | null;
   type Country = string | null;
@@ -191,6 +192,27 @@ export interface PreviewUser {
   name: User.Name;
   sur: User.Surname;
   avatar: User.Avatar;
+  on: User.Online;
+  status: User.Availability;
+  roles: string[];
+}
+
+export interface PreviewUserCh {
+  id: User.UserId,
+  username: User.Username,
+  avatar: User.Avatar,
+  status: User.Availability,
+  roles: string[]
+}
+
+export interface PreviewRescuer {
+  id: User.UserId;
+  user: User.Username;
+  name: User.Name;
+  sur: User.Surname;
+  email: User.Email;
+  avatar: User.Avatar;
+  phone: User.Phone;
   on: User.Online;
   status: User.Availability;
   roles: string[];

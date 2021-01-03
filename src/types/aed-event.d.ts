@@ -1,5 +1,7 @@
-import { User } from "@/types/index";
+import {PreviewRescuer, PreviewUserCh, User} from "@/types/index";
 import {AedDevice, IAedDevPreview} from "@/types/aed-device";
+import {ISubscription} from "rsocket-types";
+import AedComment = AedEvent.AedComment;
 
 declare namespace AedEvent {
   type id = string;
@@ -39,11 +41,7 @@ declare namespace AedEvent {
     status: AedEvent.status;
     requestedTime: AedEvent.requestedTime;
   }
-  interface Comment {
-    username: string,
-    message: string,
-    posted: string
-  }
+
   interface AedEventInfoDto {
     id: AedEvent.id,
     username: User.Username,
@@ -59,7 +57,29 @@ declare namespace AedEvent {
     rescuer: AedEvent.rescuer,
     conclusion: AedEvent.conclusion,
     callee: AedEvent.callee,
-    comments?: Comment
+    commsN: number
+  }
+
+  interface AedDeviceRescuer {
+    id: string,
+    uniqueNickname: AedDevice.UniqueNickname;
+    modelName: AedDevice.ModelName;
+    description: AedDevice.ModelDescription;
+    status: AedDevice.Status;
+    picUrl: AedDevice.DevicePic;
+    address: AedDevice.Address;
+    homePoint: AedDevice.HomePoint;
+    onEventId: AedDevice.OnEventId;
+    takenOn: AedDevice.TakenOn;
+    estimatedFinish: AedDevice.EstimatedFinish;
+    rescuerUsername: User.Username;
+    rescuerName: User.Name;
+    rescuerSurname: User.Surname;
+    rescuerEmail: User.Email;
+    rescuerPhone: User.Phone;
+    rescuerAvatar: User.Avatar;
+    rescuerStatus: User.Availability;
+    rescuerRoles: string[];
   }
 
   interface AedEventComplete {
@@ -77,6 +97,7 @@ declare namespace AedEvent {
     id: AedEvent.id;
     rescuer: AedEvent.rescuer;
     aedDeviceId: AedDevice.AedDeviceId;
+    estimatedFinish: AedDevice.EstimatedFinish;
     aedDevicePreview?: IAedDevPreview
   }
 
@@ -87,7 +108,77 @@ declare namespace AedEvent {
   export type EventDto = {
     id: AedEvent.id;
   };
+
+  export interface AedEventCommentDto {
+    eventId: string,
+    comment: string
+  }
+
+  export interface AedComment {
+    id: string,
+    eventId: AedEvent.id,
+    username: User.Username,
+    message: string,
+    posted: string,
+    allComments?: number
+  }
+
+  export interface AedCommentReqDto {
+    eventId: AedEvent.id,
+    pageOffset: number
+  }
+
+  export interface AedCommentsResDto {
+    pageOffset: number,
+    comments: AedComment[];
+  }
+
+  export interface EventPreviewUsers {
+    users: PreviewUserCh[];
+  }
 }
+
+interface ChannelSubs {
+  event: ISubscription;
+  device: ISubscription;
+  rescuer: ISubscription;
+  users: ISubscription;
+  discussion: ISubscription;
+}
+
+export interface EventChannelSub {
+  eventId: string;
+  value: ChannelSubs;
+}
+
+export interface EventComment {
+  eventId: string;
+  value: AedComment;
+}
+export interface EventUser {
+  eventId: string;
+  value: PreviewUserCh;
+}
+export interface EventDevice {
+  eventId: string;
+  value: IAedDevPreview;
+}
+
+export interface EventUsers {
+  eventId: string;
+  value: PreviewUserCh[];
+}
+
+export interface EventRescuer {
+  eventId: string;
+  value: PreviewRescuer;
+}
+
+export interface EventInfo {
+  eventId: string;
+  value: AedEventInfoDto
+}
+
 export type AedEventCreateDto = AedEvent.AedEventCreateDto;
 export type AedEventCardDto = AedEvent.AedEventCardDto;
 export type AedEventInfoDto = AedEvent.AedEventInfoDto;

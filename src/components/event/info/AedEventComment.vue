@@ -1,5 +1,5 @@
 <template>
-  <v-textarea outlined readonly height="95" :value="comment" />
+  <span v-text="comment" />
 </template>
 
 <script lang="ts">
