@@ -6,9 +6,10 @@
     class="pt-1"
     :counter="model.counter"
     :label="model.label"
-    @keyup="searchNews()"
+    @keyup="chooseTitle(model.search)"
     outlined
   ></v-text-field>
+  <!--"searchNews()"-->
 </template>
 
 <script lang="ts">
@@ -23,18 +24,13 @@ export default class NewsSearch extends Vue {
     search: "",
     isLoading: false,
     counter: 50,
-    label: this.$t("history.searchEvent")
+    label: this.$t("news.search")
   };
+  @newsList.Action selectTitle!: (title: string) => void;
 
-  @newsList.Action fetchNewsPreview!: (newsTitle: string) => Promise<any>;
-  fetchNewsPreviewList() {
-    setTimeout(() => {
-      this.fetchNewsPreview(this.model.search);
-    }, 700);
-  }
-  searchNews() {
-    this.model.isLoading = true;
-    this.fetchNewsPreviewList();
+  chooseTitle(title: string) {
+    console.log(title);
+    this.selectTitle(title);
   }
 }
 </script>

@@ -1,17 +1,16 @@
 <template>
   <v-main>
+    <h2 v-text="$t('info.message')" />
     <v-card>
-      <v-card-title class="light-blue darken-1" primary-title>
-        <h3 v-text="$t('news.form')" />
+      <v-card-title primary-title>
+        <h3 v-text="$t('news.idea')" />
       </v-card-title>
 
       <v-card-text>
-        <h4 v-text="$t('news.formTitle')" />
+        <h4 v-text="$t('news.ideaTitle')" />
         <NewsTitleInput />
         <h4 v-text="$t('news.formContent')" />
         <NewsContentInput />
-        <h4 v-text="$t('news.formTag')" />
-        <NewsTagSelect />
       </v-card-text>
       <v-divider />
 
@@ -43,16 +42,12 @@ const newsCreate = namespace("newsCreate");
     NewsContentInput: () =>
       import(
         /* webpackChunkName: "NewsContentInput" */ "@/components/news/create/NewsContentInput.vue"
-      ),
-    NewsTagSelect: () =>
-      import(
-        /* webpackChunkName: "NewsTagSelect" */ "@/components/news/create/NewsTagSelect.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      const newsCreate = vm as NewsCreate;
-      const store = newsCreate.$store;
+      const ideasCard = vm as IdeasCard;
+      const store = ideasCard.$store;
       if (!(store && store.state && store.state["newsCreate"])) {
         store.registerModule("newsCreate", newsCreateMod);
       }
@@ -62,11 +57,10 @@ const newsCreate = namespace("newsCreate");
     this.$store.unregisterModule("newsCreate");
   }
 })
-export default class NewsCreate extends Vue {
+export default class IdeasCard extends Vue {
   @user.State username!: User.Username;
   @newsCreate.State fNewsTitle!: FieldObject;
   @newsCreate.State fContent!: FieldObject;
-  @newsCreate.State fTag!: number[];
   @newsCreate.State createVisible!: boolean;
   @newsCreate.Action createNews!: (data: NewsCard) => Promise<void>;
 
@@ -75,7 +69,7 @@ export default class NewsCreate extends Vue {
       username: this.username,
       newsTitle: this.fNewsTitle.v,
       content: this.fContent.v,
-      tag: this.fTag
+      tag: [0]
     }).then(() => {
       console.log("news created");
     });

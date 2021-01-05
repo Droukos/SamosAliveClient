@@ -3,15 +3,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-const newsSearchInfo = namespace("newsSearchInfo");
 const environment = namespace("environment");
 
 @Component
 export default class NewsUploadedTime extends Vue {
-  @newsSearchInfo.State uploadedTime!: string;
+  @Prop() uploadedTime!: number[];
   @environment.State locale!: string;
 }
 </script>

@@ -123,7 +123,7 @@
     "title": "Occurrence history"
   },
   "info": {
-    "message": "General information and Q&A for the application",
+    "message": "General information for this application and generally health",
     "title": "Information"
   },
   "lang": "English",
@@ -148,13 +148,17 @@
   "news": {
     "content": "Latest announcements",
     "form": "Post announcement",
-    "formContent": "Content:",
-    "formTitle": "Title of announcement:",
+    "formContent": "Content",
+    "formTitle": "Title of announcement",
+    "formTag": "Choose tags",
     "latestNews": "@:filter.latest @:news.title",
     "more": "Learn more..",
     "search": "Search a title",
     "submit": "Post",
-    "title": "Announcements"
+    "title": "Announcements",
+    "idea": "Post a comment or an idea for the project",
+    "ideaTitle": "Title",
+    "or": "Or search based on tag"
   },
   "privacy": {
     "accountCreated": "Account Created:",

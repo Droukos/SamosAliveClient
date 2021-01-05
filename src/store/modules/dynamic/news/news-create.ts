@@ -26,11 +26,17 @@ export default class NewsCreate extends VuexModule {
     e: "",
     run: false
   };
+  fTag = [-1];
 
   createVisible = false;
   @Mutation
   setCreateVisible(createVisible: boolean) {
     this.createVisible = createVisible;
+  }
+
+  @Mutation
+  setTags(tag: number[]) {
+    this.fTag = tag;
   }
 
   @Action({ commit: "setCreateVisible" })

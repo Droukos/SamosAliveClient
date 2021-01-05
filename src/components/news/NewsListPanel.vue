@@ -20,6 +20,7 @@
           </v-list-item>
 
           <v-card-actions>
+            <NewsUploadedTime :uploadedTime="item.uploadedTime" />
             <v-spacer />
             <v-btn v-text="$t('news.more')" @click="more(item.id)" />
           </v-card-actions>
@@ -36,7 +37,14 @@ import { NewsInfo } from "@/types/news";
 
 const newsList = namespace("newsList");
 
-@Component
+@Component({
+  components: {
+    NewsUploadedTime: () =>
+      import(
+        /* webpackChunkName: "NewsUploadedTime" */ "@/components/news/info/NewsUploadedTime.vue"
+      )
+  }
+})
 export default class NewsListPanel extends Vue {
   @newsList.State newsTitle!: string;
   @newsList.State previewNews!: NewsInfo[];

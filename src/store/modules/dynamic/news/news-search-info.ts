@@ -15,6 +15,7 @@ export default class NewsSearchInfo extends VuexModule implements NewsInfo {
   username = "";
   newsTitle = "";
   content = "";
+  tag = [-1];
   uploadedTime = [0];
 
   @Mutation
@@ -23,6 +24,7 @@ export default class NewsSearchInfo extends VuexModule implements NewsInfo {
     this.username = data.username;
     this.newsTitle = data.newsTitle;
     this.content = data.content;
+    this.tag = data.tag;
     this.uploadedTime = data.uploadedTime;
   }
 

@@ -218,6 +218,14 @@ const routes: Array<RouteConfig> = [
       )
   },
   {
+    path: "/info",
+    name: "info",
+    component: () =>
+      import(
+        /* webpackChunkName: "InfoCard" */ "@/views/routes/info/InfoCard.vue"
+      )
+  },
+  {
     path: "/settings",
     name: "settings",
     component: () =>

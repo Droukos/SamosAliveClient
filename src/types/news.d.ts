@@ -5,11 +5,14 @@ declare namespace News {
   type newsTitle = string;
   type content = string;
   type uploadedTime = number[];
+  type tag = number[];
+  type searchTag = number;
 
   interface NewsCard {
     username: User.Username;
     newsTitle: News.newsTitle;
     content: News.content;
+    tag: News.tag;
   }
 
   interface NewsInfo {
@@ -17,7 +20,13 @@ declare namespace News {
     username: User.Username;
     newsTitle: News.newsTitle;
     content: News.content;
+    tag: News.tag;
     uploadedTime: News.uploadedTime;
+  }
+
+  interface NewsSearch {
+    newsTitle: News.newsTitle;
+    searchTag: News.searchTag;
   }
 }
 
