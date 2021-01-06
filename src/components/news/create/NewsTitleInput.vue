@@ -7,7 +7,7 @@
     :label="fNewsTitle.f"
     maxlength="50"
     full-width
-  ></v-text-field>
+  />
 </template>
 
 <script lang="ts">

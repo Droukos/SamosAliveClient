@@ -1,5 +1,5 @@
 <template>
-  <span>{{ comment }}</span>
+  <span v-text="comment" />
 </template>
 
 <script lang="ts">

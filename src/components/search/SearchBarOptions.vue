@@ -1,16 +1,19 @@
 <template>
   <v-card class="d-flex flex-row">
-    <v-btn small class="deep-purple darken-2" disabled>{{
-      $t("search.previous")
-    }}</v-btn>
-    <v-btn small class="deep-purple darken-2">{{ $t("search.next") }}</v-btn>
+    <v-btn
+      small
+      class="deep-purple darken-2"
+      disabled
+      v-text="$t('search.previous')"
+    />
+    <v-btn small class="deep-purple darken-2" v-text="$t('search.next')" />
 
     <v-spacer />
     <v-btn icon @click="toggleSearchFilters()">
-      <v-icon>{{ "$filterMenu" }}</v-icon>
+      <v-icon v-text="'$filterMenu'" />
     </v-btn>
     <v-btn icon @click="toggleSearchSettings()">
-      <v-icon>{{ "$settings" }}</v-icon>
+      <v-icon v-text="'$settings'" />
     </v-btn>
   </v-card>
 </template>

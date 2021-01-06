@@ -5,7 +5,7 @@
     item-text="msg"
     item-value="code"
     v-on:change="choose(typeChoice)"
-  ></v-select>
+  />
 </template>
 
 <script lang="ts">

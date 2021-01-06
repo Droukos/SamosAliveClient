@@ -7,7 +7,7 @@
     :label="fContent.f"
     maxlength="500"
     full-width
-  ></v-textarea>
+  />
 </template>
 
 <script lang="ts">

@@ -8,18 +8,18 @@
       type="card"
     >
       <v-container>
-        <p class="display-1" style="color:#00897B">
-          {{ $t("privacy.title") }}{{ username }}
-        </p>
+        <p
+          class="display-1"
+          style="color:#00897B"
+          v-text="$t('privacy.title') + ' ' + username"
+        />
         <v-card outlined>
           <v-expansion-panels>
             <v-expansion-panel
               v-for="privySet in privacyForm.userPrivacy"
               :key="privySet.index"
             >
-              <v-expansion-panel-header>{{
-                $t(privySet.i18n)
-              }}</v-expansion-panel-header>
+              <v-expansion-panel-header v-text="$t(privySet.i18n)" />
               <v-expansion-panel-content>
                 <v-select
                   v-model="privySet.type"
@@ -31,8 +31,7 @@
                   item-text="preview"
                   item-value="type"
                   :label="$t('privacy.showType')"
-                >
-                </v-select>
+                />
 
                 <v-autocomplete
                   v-if="isNotPublicOrPrivate(privySet.type)"
@@ -52,7 +51,7 @@
                   :placeholder="$t('user.usersSearch')"
                   prepend-icon="$database"
                   return-object
-                ></v-autocomplete>
+                />
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -64,13 +63,13 @@
             rounded
             @click="updatePrivacyInfo()"
             aria-label="PrivacyUpdate"
-            >{{ $t("edit.update") }}
-          </v-btn>
+            v-text="$t('edit.update')"
+          />
           <span
             v-if="updateResultShow"
             :class="updateResultClass + 'mx-auto'"
-            >{{ updateResultMessage }}</span
-          >
+            v-text="updateResultMessage"
+          />
         </v-card>
       </v-container>
     </v-skeleton-loader>

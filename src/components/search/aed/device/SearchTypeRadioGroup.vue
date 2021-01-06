@@ -5,7 +5,7 @@
       :key="item.id"
       :label="item.label"
       :value="item.value"
-    ></v-radio>
+    />
   </v-radio-group>
 </template>
 

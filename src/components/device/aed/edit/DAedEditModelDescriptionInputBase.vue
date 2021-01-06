@@ -9,7 +9,7 @@
     :label="fModelDescription.f"
     :row-height="textareaProps.rowHeight"
     :rows="textareaProps.rows"
-  ></v-textarea>
+  />
 </template>
 
 <script lang="ts">

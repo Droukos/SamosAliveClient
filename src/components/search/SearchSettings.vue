@@ -5,7 +5,7 @@
         <SearchOptionsTabs />
         <v-spacer />
         <v-btn rounded color="red" @click="closeSearchSettings">
-          <v-icon>{{ "$close" }}</v-icon>
+          <v-icon v-text="'$close'" />
         </v-btn>
       </div>
 

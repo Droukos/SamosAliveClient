@@ -1,0 +1,521 @@
+{
+  "v5": {
+    "arrive": {
+      "default": {
+        "default": "You have arrived at your {nth} destination",
+        "named": "You have arrived at {waypoint_name}",
+        "short": "You have arrived",
+        "short-upcoming": "You will arrive",
+        "upcoming": "You will arrive at your {nth} destination"
+      },
+      "left": {
+        "default": "You have arrived at your {nth} destination, on the left",
+        "named": "You have arrived at {waypoint_name}, on the left",
+        "short": "You have arrived",
+        "short-upcoming": "You will arrive",
+        "upcoming": "You will arrive at your {nth} destination, on the left"
+      },
+      "right": {
+        "default": "You have arrived at your {nth} destination, on the right",
+        "named": "You have arrived at {waypoint_name}, on the right",
+        "short": "You have arrived",
+        "short-upcoming": "You will arrive",
+        "upcoming": "You will arrive at your {nth} destination, on the right"
+      },
+      "sharp left": {
+        "default": "You have arrived at your {nth} destination, on the left",
+        "named": "You have arrived at {waypoint_name}, on the left",
+        "short": "You have arrived",
+        "short-upcoming": "You will arrive",
+        "upcoming": "You will arrive at your {nth} destination, on the left"
+      },
+      "sharp right": {
+        "default": "You have arrived at your {nth} destination, on the right",
+        "named": "You have arrived at {waypoint_name}, on the right",
+        "short": "You have arrived",
+        "short-upcoming": "You will arrive",
+        "upcoming": "You will arrive at your {nth} destination, on the right"
+      },
+      "slight left": {
+        "default": "You have arrived at your {nth} destination, on the left",
+        "named": "You have arrived at {waypoint_name}, on the left",
+        "short": "You have arrived",
+        "short-upcoming": "You will arrive",
+        "upcoming": "You will arrive at your {nth} destination, on the left"
+      },
+      "slight right": {
+        "default": "You have arrived at your {nth} destination, on the right",
+        "named": "You have arrived at {waypoint_name}, on the right",
+        "short": "You have arrived",
+        "short-upcoming": "You will arrive",
+        "upcoming": "You will arrive at your {nth} destination, on the right"
+      },
+      "straight": {
+        "default": "You have arrived at your {nth} destination, straight ahead",
+        "named": "You have arrived at {waypoint_name}, straight ahead",
+        "short": "You have arrived",
+        "short-upcoming": "You will arrive",
+        "upcoming": "You will arrive at your {nth} destination, straight ahead"
+      }
+    },
+    "constants": {
+      "direction": {
+        "east": "east",
+        "north": "north",
+        "northeast": "northeast",
+        "northwest": "northwest",
+        "south": "south",
+        "southeast": "southeast",
+        "southwest": "southwest",
+        "west": "west"
+      },
+      "lanes": {
+        "ox": "Keep left",
+        "oxo": "Keep left or right",
+        "xo": "Keep right",
+        "xox": "Keep in the middle"
+      },
+      "modifier": {
+        "left": "left",
+        "right": "right",
+        "sharp left": "sharp left",
+        "sharp right": "sharp right",
+        "slight left": "slight left",
+        "slight right": "slight right",
+        "straight": "straight",
+        "uturn": "U-turn"
+      },
+      "ordinalize": {
+        "1": "1st",
+        "10": "10th",
+        "2": "2nd",
+        "3": "3rd",
+        "4": "4th",
+        "5": "5th",
+        "6": "6th",
+        "7": "7th",
+        "8": "8th",
+        "9": "9th"
+      }
+    },
+    "continue": {
+      "default": {
+        "default": "Turn {modifier}",
+        "destination": "Turn {modifier} towards {destination}",
+        "exit": "Turn {modifier} onto {way_name}",
+        "name": "Turn {modifier} to stay on {way_name}"
+      },
+      "sharp left": {
+        "default": "Make a sharp left",
+        "destination": "Make a sharp left towards {destination}",
+        "junction_name": "Make a sharp left at {junction_name}",
+        "name": "Make a sharp left to stay on {way_name}"
+      },
+      "sharp right": {
+        "default": "Make a sharp right",
+        "destination": "Make a sharp right towards {destination}",
+        "junction_name": "Make a sharp right at {junction_name}",
+        "name": "Make a sharp right to stay on {way_name}"
+      },
+      "slight left": {
+        "default": "Make a slight left",
+        "destination": "Make a slight left towards {destination}",
+        "junction_name": "Make a slight left at {junction_name}",
+        "name": "Make a slight left to stay on {way_name}"
+      },
+      "slight right": {
+        "default": "Make a slight right",
+        "destination": "Make a slight right towards {destination}",
+        "junction_name": "Make a slight right at {junction_name}",
+        "name": "Make a slight right to stay on {way_name}"
+      },
+      "straight": {
+        "default": "Continue straight",
+        "destination": "Continue towards {destination}",
+        "distance": "Continue straight for {distance}",
+        "name": "Continue straight to stay on {way_name}",
+        "namedistance": "Continue on {way_name} for {distance}"
+      },
+      "uturn": {
+        "default": "Make a U-turn",
+        "destination": "Make a U-turn towards {destination}",
+        "junction_name": "Make a U-turn at {junction_name}",
+        "name": "Make a U-turn and continue on {way_name}"
+      }
+    },
+    "depart": {
+      "default": {
+        "default": "Head {direction}",
+        "name": "Head {direction} on {way_name}",
+        "namedistance": "Head {direction} on {way_name} for {distance}"
+      }
+    },
+    "end of road": {
+      "default": {
+        "default": "Turn {modifier}",
+        "destination": "Turn {modifier} towards {destination}",
+        "junction_name": "Turn {modifier} at {junction_name}",
+        "name": "Turn {modifier} onto {way_name}"
+      },
+      "straight": {
+        "default": "Continue straight",
+        "destination": "Continue straight towards {destination}",
+        "junction_name": "Continue straight at {junction_name}",
+        "name": "Continue straight onto {way_name}"
+      },
+      "uturn": {
+        "default": "Make a U-turn at the end of the road",
+        "destination": "Make a U-turn towards {destination} at the end of the road",
+        "junction_name": "Make a U-turn at {junction_name}",
+        "name": "Make a U-turn onto {way_name} at the end of the road"
+      }
+    },
+    "exit rotary": {
+      "default": {
+        "default": "Exit the roundabout",
+        "destination": "Exit the roundabout towards {destination}",
+        "name": "Exit the roundabout onto {way_name}"
+      }
+    },
+    "exit roundabout": {
+      "default": {
+        "default": "Exit the roundabout",
+        "destination": "Exit the roundabout towards {destination}",
+        "name": "Exit the roundabout onto {way_name}"
+      }
+    },
+    "fork": {
+      "default": {
+        "default": "Keep {modifier} at the fork",
+        "destination": "Keep {modifier} towards {destination}",
+        "name": "Keep {modifier} onto {way_name}"
+      },
+      "sharp left": {
+        "default": "Take a sharp left at the fork",
+        "destination": "Take a sharp left towards {destination}",
+        "name": "Take a sharp left onto {way_name}"
+      },
+      "sharp right": {
+        "default": "Take a sharp right at the fork",
+        "destination": "Take a sharp right towards {destination}",
+        "name": "Take a sharp right onto {way_name}"
+      },
+      "slight left": {
+        "default": "Keep left at the fork",
+        "destination": "Keep left towards {destination}",
+        "name": "Keep left onto {way_name}"
+      },
+      "slight right": {
+        "default": "Keep right at the fork",
+        "destination": "Keep right towards {destination}",
+        "name": "Keep right onto {way_name}"
+      },
+      "uturn": {
+        "default": "Make a U-turn",
+        "destination": "Make a U-turn towards {destination}",
+        "name": "Make a U-turn onto {way_name}"
+      }
+    },
+    "merge": {
+      "default": {
+        "default": "Merge {modifier}",
+        "destination": "Merge {modifier} towards {destination}",
+        "name": "Merge {modifier} onto {way_name}"
+      },
+      "sharp left": {
+        "default": "Merge left",
+        "destination": "Merge left towards {destination}",
+        "name": "Merge left onto {way_name}"
+      },
+      "sharp right": {
+        "default": "Merge right",
+        "destination": "Merge right towards {destination}",
+        "name": "Merge right onto {way_name}"
+      },
+      "slight left": {
+        "default": "Merge left",
+        "destination": "Merge left towards {destination}",
+        "name": "Merge left onto {way_name}"
+      },
+      "slight right": {
+        "default": "Merge right",
+        "destination": "Merge right towards {destination}",
+        "name": "Merge right onto {way_name}"
+      },
+      "straight": {
+        "default": "Merge",
+        "destination": "Merge towards {destination}",
+        "name": "Merge onto {way_name}"
+      },
+      "uturn": {
+        "default": "Make a U-turn",
+        "destination": "Make a U-turn towards {destination}",
+        "name": "Make a U-turn onto {way_name}"
+      }
+    },
+    "modes": {
+      "ferry": {
+        "default": "Take the ferry",
+        "destination": "Take the ferry towards {destination}",
+        "name": "Take the ferry {way_name}"
+      }
+    },
+    "new name": {
+      "default": {
+        "default": "Continue {modifier}",
+        "destination": "Continue {modifier} towards {destination}",
+        "name": "Continue {modifier} onto {way_name}"
+      },
+      "sharp left": {
+        "default": "Take a sharp left",
+        "destination": "Take a sharp left towards {destination}",
+        "name": "Take a sharp left onto {way_name}"
+      },
+      "sharp right": {
+        "default": "Take a sharp right",
+        "destination": "Take a sharp right towards {destination}",
+        "name": "Take a sharp right onto {way_name}"
+      },
+      "slight left": {
+        "default": "Continue slightly left",
+        "destination": "Continue slightly left towards {destination}",
+        "name": "Continue slightly left onto {way_name}"
+      },
+      "slight right": {
+        "default": "Continue slightly right",
+        "destination": "Continue slightly right towards {destination}",
+        "name": "Continue slightly right onto {way_name}"
+      },
+      "straight": {
+        "default": "Continue straight",
+        "destination": "Continue towards {destination}",
+        "name": "Continue onto {way_name}"
+      },
+      "uturn": {
+        "default": "Make a U-turn",
+        "destination": "Make a U-turn towards {destination}",
+        "name": "Make a U-turn onto {way_name}"
+      }
+    },
+    "notification": {
+      "default": {
+        "default": "Continue {modifier}",
+        "destination": "Continue {modifier} towards {destination}",
+        "name": "Continue {modifier} onto {way_name}"
+      },
+      "uturn": {
+        "default": "Make a U-turn",
+        "destination": "Make a U-turn towards {destination}",
+        "name": "Make a U-turn onto {way_name}"
+      }
+    },
+    "off ramp": {
+      "default": {
+        "default": "Take the ramp",
+        "destination": "Take the ramp towards {destination}",
+        "exit": "Take exit {exit}",
+        "exit_destination": "Take exit {exit} towards {destination}",
+        "name": "Take the ramp onto {way_name}"
+      },
+      "left": {
+        "default": "Take the ramp on the left",
+        "destination": "Take the ramp on the left towards {destination}",
+        "exit": "Take exit {exit} on the left",
+        "exit_destination": "Take exit {exit} on the left towards {destination}",
+        "name": "Take the ramp on the left onto {way_name}"
+      },
+      "right": {
+        "default": "Take the ramp on the right",
+        "destination": "Take the ramp on the right towards {destination}",
+        "exit": "Take exit {exit} on the right",
+        "exit_destination": "Take exit {exit} on the right towards {destination}",
+        "name": "Take the ramp on the right onto {way_name}"
+      },
+      "sharp left": {
+        "default": "Take the ramp on the left",
+        "destination": "Take the ramp on the left towards {destination}",
+        "exit": "Take exit {exit} on the left",
+        "exit_destination": "Take exit {exit} on the left towards {destination}",
+        "name": "Take the ramp on the left onto {way_name}"
+      },
+      "sharp right": {
+        "default": "Take the ramp on the right",
+        "destination": "Take the ramp on the right towards {destination}",
+        "exit": "Take exit {exit} on the right",
+        "exit_destination": "Take exit {exit} on the right towards {destination}",
+        "name": "Take the ramp on the right onto {way_name}"
+      },
+      "slight left": {
+        "default": "Take the ramp on the left",
+        "destination": "Take the ramp on the left towards {destination}",
+        "exit": "Take exit {exit} on the left",
+        "exit_destination": "Take exit {exit} on the left towards {destination}",
+        "name": "Take the ramp on the left onto {way_name}"
+      },
+      "slight right": {
+        "default": "Take the ramp on the right",
+        "destination": "Take the ramp on the right towards {destination}",
+        "exit": "Take exit {exit} on the right",
+        "exit_destination": "Take exit {exit} on the right towards {destination}",
+        "name": "Take the ramp on the right onto {way_name}"
+      }
+    },
+    "on ramp": {
+      "default": {
+        "default": "Take the ramp",
+        "destination": "Take the ramp towards {destination}",
+        "name": "Take the ramp onto {way_name}"
+      },
+      "left": {
+        "default": "Take the ramp on the left",
+        "destination": "Take the ramp on the left towards {destination}",
+        "name": "Take the ramp on the left onto {way_name}"
+      },
+      "right": {
+        "default": "Take the ramp on the right",
+        "destination": "Take the ramp on the right towards {destination}",
+        "name": "Take the ramp on the right onto {way_name}"
+      },
+      "sharp left": {
+        "default": "Take the ramp on the left",
+        "destination": "Take the ramp on the left towards {destination}",
+        "name": "Take the ramp on the left onto {way_name}"
+      },
+      "sharp right": {
+        "default": "Take the ramp on the right",
+        "destination": "Take the ramp on the right towards {destination}",
+        "name": "Take the ramp on the right onto {way_name}"
+      },
+      "slight left": {
+        "default": "Take the ramp on the left",
+        "destination": "Take the ramp on the left towards {destination}",
+        "name": "Take the ramp on the left onto {way_name}"
+      },
+      "slight right": {
+        "default": "Take the ramp on the right",
+        "destination": "Take the ramp on the right towards {destination}",
+        "name": "Take the ramp on the right onto {way_name}"
+      }
+    },
+    "phrase": {
+      "exit with number": "exit {exit}",
+      "name and ref": "{name} ({ref})",
+      "one in distance": "In {distance}, {instruction_one}",
+      "two linked": "{instruction_one}, then {instruction_two}",
+      "two linked by distance": "{instruction_one}, then, in {distance}, {instruction_two}"
+    },
+    "rotary": {
+      "default": {
+        "default": {
+          "default": "Enter the roundabout",
+          "destination": "Enter the roundabout and exit towards {destination}",
+          "name": "Enter the roundabout and exit onto {way_name}"
+        },
+        "exit": {
+          "default": "Enter the roundabout and take the {exit_number} exit",
+          "destination": "Enter the roundabout and take the {exit_number} exit towards {destination}",
+          "name": "Enter the roundabout and take the {exit_number} exit onto {way_name}"
+        },
+        "name": {
+          "default": "Enter {rotary_name}",
+          "destination": "Enter {rotary_name} and exit towards {destination}",
+          "name": "Enter {rotary_name} and exit onto {way_name}"
+        },
+        "name_exit": {
+          "default": "Enter {rotary_name} and take the {exit_number} exit",
+          "destination": "Enter {rotary_name} and take the {exit_number} exit towards {destination}",
+          "name": "Enter {rotary_name} and take the {exit_number} exit onto {way_name}"
+        }
+      }
+    },
+    "roundabout": {
+      "default": {
+        "default": {
+          "default": "Enter the roundabout",
+          "destination": "Enter the roundabout and exit towards {destination}",
+          "name": "Enter the roundabout and exit onto {way_name}"
+        },
+        "exit": {
+          "default": "Enter the roundabout and take the {exit_number} exit",
+          "destination": "Enter the roundabout and take the {exit_number} exit towards {destination}",
+          "name": "Enter the roundabout and take the {exit_number} exit onto {way_name}"
+        }
+      }
+    },
+    "roundabout turn": {
+      "default": {
+        "default": "Make a {modifier}",
+        "destination": "Make a {modifier} towards {destination}",
+        "name": "Make a {modifier} onto {way_name}"
+      },
+      "left": {
+        "default": "Turn left",
+        "destination": "Turn left towards {destination}",
+        "name": "Turn left onto {way_name}"
+      },
+      "right": {
+        "default": "Turn right",
+        "destination": "Turn right towards {destination}",
+        "name": "Turn right onto {way_name}"
+      },
+      "straight": {
+        "default": "Continue straight",
+        "destination": "Continue straight towards {destination}",
+        "name": "Continue straight onto {way_name}"
+      }
+    },
+    "turn": {
+      "default": {
+        "default": "Make a {modifier}",
+        "destination": "Make a {modifier} towards {destination}",
+        "junction_name": "Make a {modifier} at {junction_name}",
+        "name": "Make a {modifier} onto {way_name}"
+      },
+      "left": {
+        "default": "Turn left",
+        "destination": "Turn left towards {destination}",
+        "junction_name": "Turn left at {junction_name}",
+        "name": "Turn left onto {way_name}"
+      },
+      "right": {
+        "default": "Turn right",
+        "destination": "Turn right towards {destination}",
+        "junction_name": "Turn right at {junction_name}",
+        "name": "Turn right onto {way_name}"
+      },
+      "straight": {
+        "default": "Go straight",
+        "destination": "Go straight towards {destination}",
+        "junction_name": "Go straight at {junction_name}",
+        "name": "Go straight onto {way_name}"
+      }
+    },
+    "use lane": {
+      "default": {
+        "default": "{lane_instruction}"
+      },
+      "no_lanes": {
+        "default": "Continue straight"
+      }
+    },
+    "abbrDirections": {
+      "N": "N",
+      "NE": "NE",
+      "E": "E",
+      "SE": "SE",
+      "S:": "S",
+      "SW" : "SW",
+      "W": "W",
+      "NW": "NW"
+    },
+    "units": {
+      "meters": "meters",
+      "kilometers": "kilometers",
+      "yards": "yd",
+      "miles": "mi",
+      "hours": "h",
+      "minutes": "min",
+      "seconds": "s"
+    }
+  }
+}

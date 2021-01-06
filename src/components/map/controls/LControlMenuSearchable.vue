@@ -14,9 +14,10 @@
           <v-divider />
           <div v-if="validToSearch" class="d-flex flex-row">
             <v-spacer />
-            <v-btn @click="fetchAedDeviceInAreaPreview">{{
-              $t("search.title")
-            }}</v-btn>
+            <v-btn
+              @click="fetchAedDeviceInAreaPreview"
+              v-text="$t('search.title')"
+            />
           </div>
         </v-container>
       </v-card>

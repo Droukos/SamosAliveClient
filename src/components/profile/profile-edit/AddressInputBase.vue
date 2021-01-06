@@ -50,13 +50,13 @@
           @input="onChangeInput()"
           :counter="30"
           :label="$t('fields.province')"
-        ></v-text-field>
+        />
         <v-text-field
           v-model="fCity.v"
           @input="onChangeInput()"
           :counter="30"
           :label="$t('fields.city')"
-        ></v-text-field>
+        />
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>

@@ -9,7 +9,7 @@
     item-value="label"
     outlined
     dense
-  ></v-combobox>
+  />
 </template>
 
 <script lang="ts">

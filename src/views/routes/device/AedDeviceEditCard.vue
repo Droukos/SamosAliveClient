@@ -2,7 +2,7 @@
   <v-content>
     <v-sheet>
       <v-container>
-        <h2>{{ $t("device.editTitle") }}</h2>
+        <h2 v-text="$t('device.editTitle')" />
         <v-skeleton-loader
           class="mx-auto"
           max-width="300"
@@ -35,21 +35,18 @@
               style="color:white;"
               @click="updateAedDevice()"
               aria-label="AedCreate"
-            >
-              {{ $t("edit.update") }}
-            </v-btn>
+              v-text="$t('edit.update')"
+            />
             <span
               v-if="showUpdatedAedDevice"
               class="green--text text--darken-2"
-            >
-              {{ $t("edit.updated") }}
-            </span>
+              v-text="$t('edit.updated')"
+            />
             <span
               v-if="showErrorUpdatedAedDevice"
               class="red--text text--darken-2"
-            >
-              {{ $t("edit.errorUpdated") }}
-            </span>
+              v-text="$t('edit.errorUpdated')"
+            />
           </v-card>
         </v-skeleton-loader>
       </v-container>

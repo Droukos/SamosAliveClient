@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-row">
-    <span>{{ $t("device.modelDesc") + ": " + description }}</span>
+    <span v-text="$t('device.modelDesc') + ': ' + description" />
   </div>
 </template>
 

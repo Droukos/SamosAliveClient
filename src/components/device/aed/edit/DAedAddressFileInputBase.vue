@@ -11,7 +11,7 @@
         clearable
         prepend-icon="$camera"
         :label="$t('device-register.addrPic')"
-      ></v-file-input>
+      />
       <v-btn
         block
         rounded
@@ -20,17 +20,20 @@
         style="color:white;"
         @click="uploadAddressImg()"
         aria-label="AedCreate"
-      >
-        {{ $t("edit.upload") }}
-      </v-btn>
+        v-text="$t('edit.upload')"
+      />
+
       <span
         v-if="showUploadedDeviceAddrPic"
         class="green--text text--darken-2"
-        >{{ $t("edit.updated") }}</span
-      >
-      <span v-if="showErrorDeviceAddrPic" class="red--text text--darken-2">{{
-        $t("edit.errorUpdated")
-      }}</span>
+        v-text="$t('edit.updated')"
+      />
+
+      <span
+        v-if="showErrorDeviceAddrPic"
+        class="red--text text--darken-2"
+        v-text="$t('edit.errorUpdated')"
+      />
     </v-col>
 
     <v-avatar v-if="tempFile !== ''" tile size="160">

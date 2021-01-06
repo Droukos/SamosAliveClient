@@ -4,8 +4,7 @@
     dark
     @click="more(eventID)"
     v-text="$t('history.more')"
-  >
-  </v-btn>
+  />
 </template>
 
 <script lang="ts">

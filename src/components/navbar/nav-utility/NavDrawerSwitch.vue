@@ -1,6 +1,6 @@
 <template>
   <v-btn text @click.stop="toggleDrawer" aria-label="ToNavDrawer">
-    <v-icon size="40">{{ "$menu" }}</v-icon>
+    <v-icon size="40" v-text="'$menu'" />
   </v-btn>
 </template>
 

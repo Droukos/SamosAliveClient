@@ -5,17 +5,18 @@
       class="d-flex align-center justify-center"
       :style="profileBackStyle"
     >
-      <span>{{ usernameFirstLetter }}</span>
+      <span v-text="usernameFirstLetter" />
     </v-card>
     <div v-else class="d-flex justify-center">
-      <span
-        ><img
+      <span>
+        <img
           :src="avatar"
           :style="profileBackStyle"
           alt
           class="user-profile-avatar"
           :key="avatar"
-      /></span>
+        />
+      </span>
     </div>
   </div>
 </template>

@@ -14,18 +14,43 @@
               :occurrenceType="aedEventDto.occurrenceType"
             />
           </v-card-title>
-          <v-card-subtitle>
-            <span>{{ $t("events.id") + ": " + aedEventId }}</span>
-          </v-card-subtitle>
+          <v-card-subtitle v-text="$t('events.id') + ': ' + aedEventId" />
           <AedEventMainInfo
             :aedEvent="aedEventDto"
             :center="aedEventMarkerCenter"
             :marker="aedEventMarkerCenter"
+            :searchDeviceCircle="true"
+            :previewAedDevice="showPreviewAedDevices"
+            :routeInfo="selectedRouteInfo"
+            :rescuerPosition="rescuerPosition"
           />
+          <v-divider />
+          <div class="d-flex flex-column">
+            <v-list>
+              <v-list-item
+                v-for="aedDevice in previewAedDevices"
+                :key="aedDevice.id"
+                @mouseover="highlightDevice(aedDevice)"
+                @dragover="highlightDevice(aedDevice)"
+                @mouseleave="showAllDevices"
+                @dragleave="showAllDevices"
+                @click="setAedDeviceSelected(aedDevice)"
+              >
+                <AedDevicePreviewInfo
+                  :aedDevicePreviewInfo="aedDevice"
+                  :selectDevice="assignDeviceToEvent"
+                  :verifiedRescuerPos="rescuerPosition != null"
+                />
+              </v-list-item>
+            </v-list>
+          </div>
           <v-divider />
           <v-card-actions>
             <v-spacer />
-            <AedEventButtons :aedEvent="aedEventDto" />
+            <AedEventButtons
+              :aedEvent="aedEventDto"
+              :aedDeviceIdSel="aedDeviceIdSel"
+            />
           </v-card-actions>
         </v-card>
       </v-container>
@@ -37,10 +62,18 @@
 import { Component, Vue } from "vue-property-decorator";
 import aedEventChannelSubMod from "@/store/modules/dynamic/aed/events/sub/aed-event-channels-sub";
 import { namespace } from "vuex-class";
-import { AedEventInfoDto, EventDto } from "@/types/aed-event";
+import {
+  AedEventInfoDto,
+  AedEventRescuerInfo,
+  EventDto
+} from "@/types/aed-event";
 import { LatLng } from "leaflet";
+import { IAedDevicePreview } from "@/types/aed-device";
+import { OsrmWaypointsExtra, ResponseRouteInfo } from "@/types/osm";
+import { getLocation } from "@/plugins/geolocation";
 
 const user = namespace("user");
+const environment = namespace("environment");
 const aedEventChannelSub = namespace("aedEventChannelSub");
 
 @Component({
@@ -56,6 +89,10 @@ const aedEventChannelSub = namespace("aedEventChannelSub");
     AedEventOccurrenceType: () =>
       import(
         /* webpackChunkName: "AedEventOccurrenceType" */ "@/components/event/info/AedEventOccurrenceType.vue"
+      ),
+    AedDevicePreviewInfo: () =>
+      import(
+        /* webpackChunkName: "AedDevicePreviewInfo" */ "@/components/device/aed/info/AedDevicePreviewInfo.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
@@ -73,15 +110,17 @@ const aedEventChannelSub = namespace("aedEventChannelSub");
           aedEventChannelCard.username ==
           aedEventChannelCard.aedEventDto.username
         ) {
-          aedEventChannelCard.listenEvent(eventIdDto);
+          getLocation(aedEventChannelCard.setRescuerPos2).then(() => {
+            aedEventChannelCard.listenEvent(eventIdDto);
+          });
         }
       });
     });
   },
   beforeDestroy() {
-    if (!this.hasAedEvChannel(this.aedEventId)) {
-      this.deleteEvOnMap(this.aedEventId);
-    }
+    //if (!this.hasAedEvChannel(this.aedEventId)) {
+    //  this.deleteEvOnMap(this.aedEventId);
+    //}
   }
 })
 export default class AedEventChannelCard extends Vue {
@@ -89,15 +128,72 @@ export default class AedEventChannelCard extends Vue {
     data: EventDto
   ) => Promise<AedEventInfoDto>;
   @user.State username!: string;
+  @environment.State locale!: string;
+  @aedEventChannelSub.State rescuerPosition!: LatLng | null;
+  @aedEventChannelSub.State previewAedDevices!: IAedDevicePreview[];
+  @aedEventChannelSub.State showPreviewAedDevices!: IAedDevicePreview[];
+  @aedEventChannelSub.State selectedRouteInfo!: ResponseRouteInfo[];
+  @aedEventChannelSub.Mutation setAedDeviceSelected!: (
+    aedDevice: IAedDevicePreview
+  ) => void;
+  @aedEventChannelSub.Mutation setShowPreviewAedDevice!: (
+    aedDevices: IAedDevicePreview[]
+  ) => void;
   @aedEventChannelSub.Action listenEvent!: (data: EventDto) => void;
   @aedEventChannelSub.Getter aedEventMarker!: (aedEventId: string) => LatLng;
   @aedEventChannelSub.Getter aedEvent!: (aedEventId: string) => AedEventInfoDto;
   @aedEventChannelSub.Getter hasAedEvChannel!: (aedEventId: string) => boolean;
   @aedEventChannelSub.Mutation deleteEvOnMap!: (aedEventId: string) => void;
+  @aedEventChannelSub.Mutation setRescuerPos2!: (data: Position) => void;
+  @aedEventChannelSub.Action subRescuer!: (
+    data: AedEventRescuerInfo
+  ) => Promise<AedEventInfoDto>;
+  @aedEventChannelSub.Action findWaypointInRescuerToDeviceToEvent!: (
+    data: OsrmWaypointsExtra
+  ) => void;
+  @aedEventChannelSub.Action fetchAedDeviceInAreaPreview!: (
+    aedEventId: string
+  ) => Promise<IAedDevicePreview[]>;
   loading = true;
   transition = "scale-transition";
   aedEventId = "";
+  aedDeviceIdSel = "";
 
+  highlightDevice(aedDevice: IAedDevicePreview) {
+    const data: OsrmWaypointsExtra = {
+      aedEventId: this.aedEventId,
+      aedDeviceId: aedDevice.id,
+      locale: this.locale,
+      waypoints: [
+        {
+          lat: this.rescuerPosition!.lat,
+          lon: this.rescuerPosition!.lng
+        },
+        {
+          lat: aedDevice.homePoint.y,
+          lon: aedDevice.homePoint.x
+        },
+        {
+          lat: this.aedEventDto.occurrencePoint.y,
+          lon: this.aedEventDto.occurrencePoint.x
+        }
+      ]
+    };
+    this.setShowPreviewAedDevice([aedDevice]);
+    this.findWaypointInRescuerToDeviceToEvent(data);
+  }
+
+  showAllDevices() {
+    this.setShowPreviewAedDevice(this.previewAedDevices);
+  }
+
+  assignDeviceToEvent(data: IAedDevicePreview) {
+    this.subRescuer({
+      id: this.aedEventId,
+      rescuer: this.username,
+      aedDeviceId: data.id
+    });
+  }
   get aedEventDto() {
     return this.aedEvent(this.aedEventId);
   }

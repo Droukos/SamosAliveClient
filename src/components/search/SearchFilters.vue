@@ -4,7 +4,7 @@
       <div class="d-flex flex-row">
         <v-spacer />
         <v-btn rounded color="red" @click="closeSearchFilters">
-          <v-icon>{{ "$close" }}</v-icon>
+          <v-icon v-text="'$close'" />
         </v-btn>
       </div>
       <v-sheet>

@@ -1,5 +1,5 @@
 <template>
-  <span>{{ rescuer }}</span>
+  <span v-text="rescuer" />
 </template>
 
 <script lang="ts">

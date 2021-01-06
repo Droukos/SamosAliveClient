@@ -1,6 +1,6 @@
 <template>
   <v-sheet class="pa-1 d-flex flex-row">
-    <span>{{ $t("status.title") }}</span>
+    <span v-text="$t('status.title')" />
     <v-spacer />
 
     <v-menu offset-y :close-on-click="true" :close-on-content-click="false">
@@ -14,7 +14,7 @@
           aria-label="ToStatusMenu"
         >
           {{ $t("status." + userAvailability) }}
-          <v-icon>{{ "$chevDown" }}</v-icon>
+          <v-icon v-text="'$chevDown'" />
         </v-btn>
       </template>
       <v-list dense>
@@ -26,15 +26,18 @@
                 :class="item.class"
                 @click="changeStatusSel(item.index)"
                 aria-label="StatusOption"
-                >{{ item.title }}</v-btn
-              >
+                v-text="item.title"
+              />
             </v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
-      <v-btn block v-if="statusChanged" @click="applyStatus()">{{
-        $t("forms.apply")
-      }}</v-btn>
+      <v-btn
+        block
+        v-if="statusChanged"
+        @click="applyStatus()"
+        v-text="$t('forms.apply')"
+      />
     </v-menu>
   </v-sheet>
 </template>

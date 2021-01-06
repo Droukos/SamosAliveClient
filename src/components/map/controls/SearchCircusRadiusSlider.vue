@@ -20,7 +20,7 @@
           single-line
           type="number"
           style="width: 60px"
-        ></v-text-field>
+        />
       </template>
     </v-slider>
   </v-sheet>

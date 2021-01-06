@@ -8,8 +8,7 @@
     :label="model.label"
     @keyup="chooseTitle(model.search)"
     outlined
-  ></v-text-field>
-  <!--"searchNews()"-->
+  />
 </template>
 
 <script lang="ts">

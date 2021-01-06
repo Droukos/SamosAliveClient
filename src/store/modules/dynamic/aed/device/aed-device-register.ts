@@ -6,19 +6,20 @@ import {
   FileImg,
   OpenStreetObjData
 } from "@/types";
-import { OpenStreetMapProvider } from "leaflet-geosearch";
 import store from "@/store";
 import i18n from "@/plugins/i18n";
 import { TranslateResult } from "vue-i18n";
 import L from "leaflet";
 import api, { accessToken, aedRSocketApi } from "@/plugins/api";
 import { bufToData, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
-import {
-  aedDeviceApi,
-  apiWithVar,
-  cdnApi
-} from "@/plugins/api/api-urls";
+import { aedDeviceApi, apiWithVar, cdnApi } from "@/plugins/api/api-urls";
 import { IAedDeviceRegister } from "@/types/aed-device";
+import {
+  getAddressLabel,
+  reverseOsmGeocoding,
+  searchOsmAddress
+} from "@/plugins/osm-util";
+import { IReverseOsmData } from "@/types/osm";
 
 @Module({
   dynamic: true,
@@ -48,9 +49,7 @@ export default class AedDeviceRegister extends VuexModule {
   fAddress: AddressObject = {
     f: i18n.t("device-register.addr"),
     v: {
-      bounds: [],
       label: "",
-      raw: {},
       x: 23.7613248,
       y: 37.977308
     },
@@ -77,10 +76,9 @@ export default class AedDeviceRegister extends VuexModule {
     e: "",
     run: false
   };
-  provider = new OpenStreetMapProvider();
   zoom = 15.5;
-  center = L.latLng(this.fAddress.v!.y, this.fAddress.v!.x);
-  marker = L.latLng(this.fAddress.v!.y, this.fAddress.v!.x);
+  center = L.latLng(this.fAddress.v.y, this.fAddress.v.x);
+  marker = L.latLng(this.fAddress.v.y, this.fAddress.v.x);
 
   updateResultMessage: TranslateResult = "";
   createVisible = false;
@@ -108,7 +106,21 @@ export default class AedDeviceRegister extends VuexModule {
   }
 
   @Mutation
+  setSearchableMarkerLatLong(data: IReverseOsmData) {
+    const x = Number(data.lat);
+    const y = Number(data.lon);
+    this.marker = L.latLng(x, y);
+    this.center = L.latLng(x, y);
+    this.fAddress.v = {
+      label: getAddressLabel(data.address),
+      x: x,
+      y: y
+    };
+  }
+
+  @Mutation
   setAddressHints(hints: any[]) {
+    this.fAddress.loading = false;
     this.fAddress.hint = hints;
   }
 
@@ -144,11 +156,24 @@ export default class AedDeviceRegister extends VuexModule {
   async callOpenStreetApi(queryAddress: string) {
     if (this.fAddress.v != null) {
       this.fAddress.loading = true;
-      return await this.provider.search({ query: queryAddress }).then(value => {
-        this.fAddress.loading = false;
-        return value;
-      });
+      return searchOsmAddress({ address: queryAddress });
     }
+  }
+
+  @Action({ commit: "setSearchableMarkerLatLong" })
+  async osmReverseGeoCoding(latLng: {
+    y: number;
+    x: number;
+  }): Promise<IReverseOsmData> {
+    return reverseOsmGeocoding({ lat: latLng.y, lon: latLng.x });
+  }
+
+  @Action({ commit: "setSearchableMarkerLatLong" })
+  async osmReverseGeoCodingOnCurPos(position: Position) {
+    return reverseOsmGeocoding({
+      lat: position.coords.latitude,
+      lon: position.coords.longitude
+    });
   }
 
   get aedDeviceRegisterObj(): IAedDeviceRegister {
@@ -156,15 +181,14 @@ export default class AedDeviceRegister extends VuexModule {
       uniqueNickname: this.fNickname.v,
       modelName: this.fModelName.v,
       description: this.fModelDescription.v,
-      defaultMapY: this.fAddress.v!.y,
-      defaultMapX: this.fAddress.v!.x,
-      address: this.fAddress.v!.label
+      defaultMapLon: this.fAddress.v.x,
+      defaultMapLat: this.fAddress.v.y,
+      address: this.fAddress.v.label
     };
   }
 
   @Action
   async registerAedDevice(): Promise<string> {
-
     return new Promise((resolve, reject) => {
       aedRSocketApi().then(aedRSocket => {
         aedRSocket
@@ -177,20 +201,21 @@ export default class AedDeviceRegister extends VuexModule {
               const f = bufToData(value);
               const data = new FormData();
               data.append("addrFile", this.fAddressPicture.v);
-              data.append("deviceFile", this.fDevicePicture.v)
+              data.append("deviceFile", this.fDevicePicture.v);
               if (f != "") {
-                api.put(apiWithVar(cdnApi.aedDeviceRegister, f), data, {
-                  baseURL: document
+                api
+                  .put(apiWithVar(cdnApi.aedDeviceRegister, f), data, {
+                    baseURL: document
                       .querySelector('meta[name="cdn_server"]')!
                       .getAttribute("content")!,
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(() => resolve(f))
+                    headers: {
+                      "Content-Type": "multipart/form-data"
+                    }
+                  })
+                  .then(() => resolve(f));
               }
             },
             onError: error => reject(error)
-
           });
       });
     });

@@ -1,5 +1,5 @@
-<template
-  ><v-card class="mx-auto">
+<template>
+  <v-card class="mx-auto">
     <v-text-field
       color="indigo"
       dark
@@ -10,8 +10,9 @@
       :label="model.label"
       @keyup="searchProblem()"
       outlined
-    ></v-text-field> </v-card
-></template>
+    />
+  </v-card>
+</template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";

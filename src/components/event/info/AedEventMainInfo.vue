@@ -2,29 +2,55 @@
   <v-list-item three-line>
     <v-list-item-content>
       <v-card-text>
-        {{ addr }}<AedEventAddress :address="aedEvent.address" />
+        {{ addr }}
+        <AedEventAddress :address="aedEvent.address" />
       </v-card-text>
       <v-card-text>
-        {{ comm }}<AedEventComment :comment="aedEvent.comment" />
+        {{ comm }}
+        <AedEventComment :comment="aedEvent.comment" />
       </v-card-text>
       <v-card-text>
-        {{ concl }}<AedEventConclusion :conclusion="aedEvent.conclusion" />
+        {{ concl }}
+        <AedEventConclusion :conclusion="aedEvent.conclusion" />
       </v-card-text>
       <div
-        :style="'height:' + ($vuetify.breakpoint.mdAndUp ? '600px' : '300px')"
+        :style="'height:' + ($vuetify.breakpoint.mdAndUp ? '500px' : '300px')"
       >
-        <l-map :zoom="zoom" :center="center" style="z-index: 0;">
+        <LMap :zoom="zoom" :center="center" style="z-index: 0;">
           <LTileLayerBase />
-          <LMarkerRedSimple :marker="marker" />
-        </l-map>
+          <LMarkerWithIcon :marker="marker" :icon-url="emergencyCallUrl" />
+          <div v-if="searchDeviceCircle">
+            <LMarkerWithIcon
+              v-for="aedDevice in previewAedDevice"
+              :key="aedDevice.id"
+              :marker="getLatLon(aedDevice)"
+              :icon-url="supplyAedUrl"
+            />
+            <LCircle :lat-lng="marker" :radius="3000" color="blue" />
+            <LMarkerRescuerDraggable v-if="rescuerPosition !== null" />
+            <div v-if="routeInfo.coordinates.length > 0">
+              <LPolyline
+                :lat-lngs="routeInfo.coordinates"
+                :color="polyline.color"
+              />
+              <LControl position="topright">
+                <MenuRouteInfo :routeInfo="routeInfo" />
+              </LControl>
+            </div>
+          </div>
+        </LMap>
       </div>
       <v-list-item-subtitle bottom>
-        {{ upload }}<AedEventUsername :username="aedEvent.username" /> -
+        {{ upload }}
+        <AedEventUsername :username="aedEvent.username" />
+        -
         <AedEventRequestedTime :requestedTime="aedEvent.requestedTime" />
       </v-list-item-subtitle>
       <div v-if="aedEvent.status === allStatus.COMPLETED">
         <v-list-item-subtitle bottom>
-          {{ complete }} <AedEventRescuer :rescuer="aedEvent.rescuer" /> -
+          {{ complete }}
+          <AedEventRescuer :rescuer="aedEvent.rescuer" />
+          -
           <AedEventCompletedTime :completedTime="aedEvent.completedTime" />
         </v-list-item-subtitle>
       </div>
@@ -39,15 +65,24 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { LControl, LMap } from "vue2-leaflet";
+import { LCircle, LControl, LMap, LPolyline } from "vue2-leaflet";
 import { AedEventInfoDto } from "@/types/aed-event";
+import L from "leaflet";
 import { LatLng } from "leaflet";
 import { statusOptions } from "@/plugins/enums/event-options";
+import {
+  markerIconEmergencyCall,
+  markerIconSupply
+} from "@/plugins/api/cloudinary";
+import { IAedDevicePreview } from "@/types/aed-device";
+import { ResponseRouteInfo } from "@/types/osm";
 
 @Component({
   components: {
     LMap,
+    LCircle,
     LControl,
+    LPolyline,
     AedEventAddress: () =>
       import(
         /* webpackChunkName: "AedEventAddress" */ "@/components/event/info/AedEventAddress.vue"
@@ -88,9 +123,17 @@ import { statusOptions } from "@/plugins/enums/event-options";
       import(
         /* webpackChunkName: "LTileLayerBase" */ "@/components/map/LTileLayerBase.vue"
       ),
-    LMarkerRedSimple: () =>
+    LMarkerWithIcon: () =>
       import(
-        /* webpackChunkName: "LMarkerRedSimple" */ "@/components/map/LMarkerRedSimple.vue"
+        /* webpackChunkName: "LMarkerWithIcon" */ "@/components/map/markers/LMarkerWithIcon.vue"
+      ),
+    LMarkerRescuerDraggable: () =>
+      import(
+        /* webpackChunkName: "LMarkerRescuerDraggable" */ "@/components/map/markers/LMarkerRescuerDraggable.vue"
+      ),
+    MenuRouteInfo: () =>
+      import(
+        /* webpackChunkName: "MenuRouteInfo" */ "@/components/event/map/routing/MenuRouteInfo.vue"
       )
   }
 })
@@ -98,14 +141,29 @@ export default class AedEventMainInfo extends Vue {
   @Prop() aedEvent!: AedEventInfoDto;
   @Prop() center!: LatLng;
   @Prop() marker!: LatLng;
+  @Prop() searchDeviceCircle!: boolean;
+  @Prop() previewAedDevice!: IAedDevicePreview[];
+  @Prop() routeInfo!: ResponseRouteInfo;
+  @Prop() rescuerPosition!: LatLng | null;
+
+  polyline = {
+    color: "red"
+  };
+
+  emergencyCallUrl = markerIconEmergencyCall;
+  supplyAedUrl = markerIconSupply;
 
   allStatus = statusOptions;
 
-  zoom = 15.5;
+  zoom = 13.5;
   addr = this.$t("events.addr");
   comm = this.$t("events.comm");
   concl = this.$t("events.concl");
   upload = this.$t("events.upload");
   complete = this.$t("events.complete");
+
+  getLatLon(aedDevice: IAedDevicePreview) {
+    return L.latLng(aedDevice.homePoint.y, aedDevice.homePoint.x);
+  }
 }
 </script>

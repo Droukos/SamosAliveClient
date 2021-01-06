@@ -1,5 +1,5 @@
 <template>
-  <span>{{ statusString(status) }}</span>
+  <span v-text="statusString(status)" />
 </template>
 
 <script lang="ts">

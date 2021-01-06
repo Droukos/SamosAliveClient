@@ -16,34 +16,34 @@
                 :username="username"
                 :avatar="avatar"
                 style="font-size: 75px;"
-              ></AvatarBase>
+              />
 
-              <UserPrimInfoBase :moreOptions="moreOptions"></UserPrimInfoBase>
+              <UserPrimInfoBase :moreOptions="moreOptions" />
             </div>
             <v-sheet elevation="2" outlined>
               <div class="d-flex flex-row align-start">
                 <UserInfoBase />
-                <MetaDataBase :showRole="true"></MetaDataBase>
+                <MetaDataBase :showRole="true" />
               </div>
             </v-sheet>
           </v-sheet>
           <v-sheet v-else class="flex-column mb-6">
-            <UserPrimInfoBase :moreOptions="moreOptions"></UserPrimInfoBase>
+            <UserPrimInfoBase :moreOptions="moreOptions" />
             <div class="d-flex pa-2">
               <AvatarBase
                 :size="160"
                 :username="username"
                 :avatar="avatar"
                 style="font-size: 75px;color:black;"
-              ></AvatarBase>
+              />
               <v-list-item color="rgba(0, 0, 0, .4)">
                 <v-list-item-content>
-                  <RoleDataBase :showRole="true"></RoleDataBase>
+                  <RoleDataBase :showRole="true" />
                 </v-list-item-content>
               </v-list-item>
             </div>
             <UserInfoBase />
-            <MetaDataBase :showRole="false"></MetaDataBase>
+            <MetaDataBase :showRole="false" />
           </v-sheet>
         </v-card>
       </v-skeleton-loader>

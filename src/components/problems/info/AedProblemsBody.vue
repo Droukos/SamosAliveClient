@@ -1,5 +1,5 @@
 <template>
-  <span>{{ body }}</span>
+  <span v-text="body" />
 </template>
 
 <script lang="ts">

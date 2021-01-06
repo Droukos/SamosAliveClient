@@ -1,5 +1,5 @@
 <template>
-  <span>{{ eventString(occurrenceType) }}</span>
+  <span v-text="eventString(occurrenceType)" />
 </template>
 
 <script lang="ts">

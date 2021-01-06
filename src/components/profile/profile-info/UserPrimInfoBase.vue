@@ -1,15 +1,18 @@
 <template>
   <v-list-item color="rgba(0, 0, 0, .4)">
     <v-list-item-content>
-      <v-list-item-title class="title">{{ username }}</v-list-item-title>
-      <v-list-item-subtitle>{{ name }} {{ surname }}</v-list-item-subtitle>
+      <v-list-item-title class="title" v-text="username" />
+      <v-list-item-subtitle v-text="name + ' ' + surname" />
     </v-list-item-content>
     <v-list-item-content>
       <v-menu>
         <template v-slot:activator="{ on }">
-          <v-btn rounded v-on="on" aria-label="MoreOptions">
-            {{ $t("user.moreOptions") }}
-          </v-btn>
+          <v-btn
+            rounded
+            v-on="on"
+            aria-label="MoreOptions"
+            v-text="$t('user.moreOptions')"
+          />
         </template>
         <v-list>
           <v-list-item
@@ -17,7 +20,7 @@
             :key="item.index"
             @click="optionClicked(item)"
           >
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title v-text="item.title" />
           </v-list-item>
         </v-list>
       </v-menu>

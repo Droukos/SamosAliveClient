@@ -1,43 +1,32 @@
 {
-  "clear": "Clear",
-  "apps": {
-    "health": "Health"
-  },
-  "sub-apps-health": {
-    "device": {
-      "register": "Register New Device"
-    },
-    "emergency": {
-      "request": "Request Emergency",
-      "watch": "Watch Requests",
-      "live": "Live Emergencies"
-    }
-  },
-  "device-register": {
-    "title": "Register Aed Device",
-    "nickname": "Nickname Device",
-    "modelName": "Model Name",
-    "modelDesc": "Model Description",
-    "addr": "Address",
-    "addrOnMap": "Address on Map",
-    "addrPic": "Address Picture",
-    "devPic": "Aed Device Picture"
-  },
-  "device": {
-    "editTitle": "Edit Device",
-    "nickname": "Nickname",
-    "modelName": "Model",
-    "modelDesc": "Model Description",
-    "deviceOptions": "Device options",
-    "deviceEdit": "Edit Device"
-
-  },
   "aed-device-status": {
     "0": "Available",
     "1": "Broken",
     "2": "Stolen",
     "3": "On Repair",
     "4": "Borrowed"
+  },
+  "apps": {
+    "health": "Health"
+  },
+  "clear": "Clear",
+  "device": {
+    "deviceEdit": "Edit Device",
+    "deviceOptions": "Device options",
+    "editTitle": "Edit Device",
+    "modelDesc": "Model Description",
+    "modelName": "Model",
+    "nickname": "Nickname"
+  },
+  "device-register": {
+    "addr": "Address",
+    "addrOnMap": "Address on Map",
+    "addrPic": "Address Picture",
+    "devPic": "Aed Device Picture",
+    "modelDesc": "Model Description",
+    "modelName": "Model Name",
+    "nickname": "Nickname Device",
+    "title": "Register Aed Device"
   },
   "edit": {
     "avatarHint": "Pick an avatar",
@@ -47,42 +36,54 @@
     "errorAvatarUpdate": "Error on Avatar Update",
     "errorUpdated": "Error on Update",
     "optional": "Optional",
+    "sameInput": "Same Input",
     "title": "Edit User Profile:",
     "update": "Update",
     "updated": "Successful Update",
     "upload": "Upload",
-    "sameInput": "Same Input",
     "userPersonal": "User Personal Info"
   },
+  "routing": {
+    "tDuration": "Total duration: ",
+    "tDistance": "Total distance: ",
+    "duration": "Duration: ",
+    "distance": "Distance: ",
+    "verifyPos": "Verify position",
+    "verifyPosHint": "Verify your current position in map"
+  },
   "events": {
+    "addr": "Address: ",
     "address": "Address: ",
     "comInfo": "More informations",
+    "comm": "More info: ",
     "comment": "Comment: ",
+    "complete": "Completed by: ",
+    "concl": "Conclusion: ",
+    "deviceDialogTitle": "Available Aed Devices for Emergency",
+    "deviceSel": "Select Device",
+    "deviceSear": "Search Device",
     "event": "Occurrence",
-    "id": "Id",
     "eventInfo": "Choose a patient's condition",
     "eventList": "Occurrence's table",
     "eventListInfo": "This is a list of current pending occurrences",
     "eventS1": "He has arrhythmias",
     "eventS2": "He can't breathe",
     "eventS3": "He lost his senses",
-    "statusS1": "Pending",
-    "statusS2": "On progress",
-    "statusS3": "Completed",
     "form": "Complete the form",
+    "id": "Id",
+    "live": "Live events",
     "problemList": "Technical problems",
     "problemListInfo": "This is a list of current pending technical problems",
     "send": "Send alert",
     "situation": "Situation..",
-    "live": "Live events",
-    "addr": "Address: ",
-    "comm": "More info: ",
-    "concl": "Conclusion: ",
-    "upload": "Uploaded by: ",
-    "complete": "Completed by: "
+    "statusS1": "Pending",
+    "statusS2": "On progress",
+    "statusS3": "Completed",
+    "upload": "Uploaded by: "
   },
   "fields": {
     "address": "Address",
+    "aed": "Aed Device",
     "avatar": "Avatar",
     "city": "City",
     "country": "Country",
@@ -96,8 +97,7 @@
     "profile": "Profile",
     "province": "Province",
     "surname": "Last name",
-    "username": "Username",
-    "aed": "Aed Device"
+    "username": "Username"
   },
   "filter": {
     "latest": "Latest"
@@ -111,11 +111,11 @@
     "ok": "ok"
   },
   "history": {
-    "main": "This page is a help for faster navigation and assignment between existing events and problems. (Only visible in certain roles)",
-    "more": "More info",
     "assign": "Assignment",
     "complete": "Complete",
     "conclusion": "Report possible complications and outcome (optional)",
+    "main": "This page is a help for faster navigation and assignment between existing events and problems. (Only visible in certain roles)",
+    "more": "More info",
     "occurrence": "Below is the list of all pending occurrences",
     "problem": "Below is the list of all the pending defibrillator problems",
     "searchEvent": "Search for occurrence",
@@ -144,6 +144,9 @@
   "messages": {
     "inbox": "My messages",
     "title": "Inbox"
+  },
+  "meta": {
+    "capitalizeFirstLetter": ""
   },
   "news": {
     "content": "Latest announcements",
@@ -178,13 +181,16 @@
     "title": "Privacy User Settings:"
   },
   "problems": {
-    "search": "Search an issue",
     "form": "Report an issue",
+    "list": "Reports/issues",
+    "live": "Live reports",
     "problemContent": "Defibrillator issue",
     "problemTitle": "Issue title",
-    "submit": "Submit",
-    "live": "Live reports",
-    "list": "Reports/issues"
+    "search": "Search an issue",
+    "submit": "Submit"
+  },
+  "radius": {
+    "km": "kilometers"
   },
   "register": {
     "header": "Complete the form to create a SamosAlive profile",
@@ -213,19 +219,16 @@
     "title": "Role:"
   },
   "search": {
-    "searchObj": "@:search.title {0}",
-    "title": "Search",
-    "previous": "Previous",
-    "next": "Next",
-    "searchText": "Search text",
-    "searchMap": "Search in map",
-    "radius": "Circle's radius",
     "currentPos": "Current Marker's Lat-Lng",
     "go": "Go",
-    "goTo": "@:search.go to Lat-Lng"
-  },
-  "radius": {
-    "km": "kilometers"
+    "goTo": "@:search.go to Lat-Lng",
+    "next": "Next",
+    "previous": "Previous",
+    "radius": "Circle's radius",
+    "searchMap": "Search in map",
+    "searchObj": "@:search.title {0}",
+    "searchText": "Search text",
+    "title": "Search"
   },
   "settings": {
     "language": "Choose language",
@@ -241,6 +244,16 @@
     "4": "Away",
     "currently": "Currently ",
     "title": "Status:"
+  },
+  "sub-apps-health": {
+    "device": {
+      "register": "Register New Device"
+    },
+    "emergency": {
+      "live": "Live Emergencies",
+      "request": "Request Emergency",
+      "watch": "Watch Requests"
+    }
   },
   "terms": "I have read and accept terms and conditions",
   "user": {
@@ -276,17 +289,17 @@
     "between": "{0} must be between {1} and {2} characters",
     "fieldInvalid": "{0} is @:warnings.invalid",
     "fieldNotTaken": "Available",
+    "fieldNumber": "Field must be number",
     "fieldTaken": "{0} is already @:warnings.taken",
     "fileSize": "{0} size should be less than {1} MB!",
     "fileValid": "{0} does not have a valid type",
     "max": "{0} must be under {1} characters",
     "min": "{0} must be over {1} characters",
+    "over": "{0} can't be over {1}",
     "passMatch": "@:fields.password and @:fields.passwordConf @:warnings.notMatch",
     "passRegex": "Password must have at least 1 undercase, 1 number and between 6 to 120 characters",
     "required": "{0} @:warnings.notEmpty",
-    "usernameRegex": "Invalid Username",
-    "over": "{0} can't be over {1}",
-    "fieldNumber": "Field must be number"
+    "usernameRegex": "Invalid Username"
   },
   "warnings": {
     "invalid": "invalid",

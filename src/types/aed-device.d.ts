@@ -1,5 +1,6 @@
 import { User } from "@/types/index";
 import AedDeviceId = AedDevice.AedDeviceId;
+import {ResponseRouteInfo} from "@/types/osm";
 
 declare namespace AedDevice {
   type AedDeviceId = string;
@@ -7,11 +8,11 @@ declare namespace AedDevice {
   type ModelName = string;
   type ModelDescription = string;
   type Address = string;
-  type AddressPointX = number;
-  type AddressPointY = number;
+  type AddressPointLat = number;
+  type AddressPointLon = number;
   interface HomePoint {
-    x: AedDevice.AddressPointX;
-    y: AedDevice.AddressPointY;
+    x: AedDevice.AddressPointLat;
+    y: AedDevice.AddressPointLon;
   }
   type AddressPic = string;
   type DevicePic = string;
@@ -20,8 +21,8 @@ declare namespace AedDevice {
   type Status = number;
   type StatusDescription = string;
   interface OnPoint {
-    x: AedDevice.AddressPointX;
-    y: AedDevice.AddressPointY;
+    x: AedDevice.AddressPointLat;
+    y: AedDevice.AddressPointLon;
   }
   type OnEventId = string;
   type OnUserId = User.UserId;
@@ -33,8 +34,8 @@ export type AedDeviceUniqueNickname = AedDevice.UniqueNickname;
 export type AedDeviceModelName = AedDevice.ModelName;
 export type AedDeviceModelDescription = AedDevice.ModelDescription;
 export type AedDeviceAddress = AedDevice.Address;
-export type AedDeviceAddressPointX = AedDevice.AddressPointX;
-export type AedDeviceAddressPointY = AedDevice.AddressPointY;
+export type AedDeviceAddressPointLat = AedDevice.AddressPointLat;
+export type AedDeviceAddressPointLon = AedDevice.AddressPointLon;
 export type AedDeviceAddressPic = AedDevice.AddressPic;
 export type AedDeviceDevicePic = AedDevice.DevicePic;
 
@@ -42,8 +43,8 @@ export interface IAedDeviceRegister {
   uniqueNickname: AedDeviceUniqueNickname;
   modelName: AedDeviceModelName;
   description: AedDeviceModelDescription;
-  defaultMapX: AedDeviceAddressPointX;
-  defaultMapY: AedDeviceAddressPointY;
+  defaultMapLat: AedDeviceAddressPointLat;
+  defaultMapLon: AedDeviceAddressPointLon;
   address: AedDeviceAddress;
 }
 
@@ -52,8 +53,8 @@ export interface IAedDeviceEdit {
   modelName: AedDeviceModelName;
   modelDescription: AedDeviceModelDescription;
   address: AedDeviceAddress;
-  homePointX: AedDeviceAddressPointX;
-  homePointY: AedDeviceAddressPointY;
+  homePointX: AedDeviceAddressPointLat;
+  homePointY: AedDeviceAddressPointLon;
 }
 
 export interface IAedDeviceInfo {
@@ -87,6 +88,7 @@ export interface IAedDevicePreview {
   homePoint: AedDevice.HomePoint;
   onEventId: AedDevice.OnEventId;
   onUserId: AedDevice.OnUserId;
+  responseRouteInfo?: ResponseRouteInfo | null
 }
 
 export interface IAedDeviceMapSearchDto {

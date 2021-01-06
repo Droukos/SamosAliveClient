@@ -1,9 +1,9 @@
 <template>
-  <span>{{ $helper.convDate2(requestedTime, "long", locale) }}</span>
+  <span v-text="$helper.convDate2(requestedTime, 'long', locale)" />
 </template>
 
 <script lang="ts">
-import { Component, Prop , Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 const environment = namespace("environment");

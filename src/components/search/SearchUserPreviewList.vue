@@ -11,13 +11,13 @@
             size="190"
             :username="item.user"
             style="font-size: 25px;color:black;"
-          ></avatar-base>
+          />
         </v-list-item-avatar>
 
         <v-list-item-content>
           <v-list-item-title>
             <div class="d-flex flex-row">
-              <p class="pr-2" style="font-weight: bold;">{{ item.user }}</p>
+              <p class="pr-2" style="font-weight: bold;" v-text="item.user" />
               <v-chip
                 v-for="role in item.roles"
                 :key="role"
@@ -25,21 +25,21 @@
                 x-small
                 :class="$helper.getUserRoleColorLabel(role) + ' mr-1'"
                 style="font-weight: bold"
-              >
-                {{ $t("roles." + role) }}
-              </v-chip>
+                v-text="$t('roles.' + role)"
+              />
               <p
                 :class="$helper.getUserStatusColorLabel(item.status)"
                 style="font-weight: bold;"
-              >
-                {{ $t("status." + item.status) }}
-              </p>
+                v-text="$t('status.' + item.status)"
+              />
             </div>
           </v-list-item-title>
           <div class="d-flex flex-row">
-            <p class="grey--text text--darken-1" style="font-size:16px;">
-              {{ item.name }} {{ item.sur }}
-            </p>
+            <p
+              class="grey--text text--darken-1"
+              style="font-size:16px;"
+              v-text="item.name + ' ' + item.sur"
+            />
           </div>
         </v-list-item-content>
       </v-list-item>

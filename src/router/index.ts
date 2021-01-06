@@ -131,7 +131,7 @@ const routes: Array<RouteConfig> = [
     name: "aedEvent",
     component: () =>
       import(
-        /* webpackChunkName: "EventCard" */ "@/views/routes/aed/event/AedEventCard.vue"
+        /* webpackChunkName: "AedEventCard" */ "@/views/routes/aed/event/AedEventCard.vue"
       )
   },
   {

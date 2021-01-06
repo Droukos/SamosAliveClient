@@ -8,7 +8,7 @@
       :label="user.f"
       prepend-icon="$account"
       required
-    ></v-text-field>
+    />
 
     <v-text-field
       v-model="pass.v"
@@ -21,37 +21,44 @@
       :counter="120"
       prepend-icon="$key"
       @click:append="pass.sh = !pass.sh"
-    ></v-text-field>
+    />
 
-    <p class="text-justify red--text" v-if="sessExp">
-      {{ $t("login.sessionExp") }}
-    </p>
-    <v-btn text color="primary" aria-label="ForgotPass">{{
-      $t("login.forgotPass")
-    }}</v-btn>
+    <p
+      class="text-justify red--text"
+      v-if="sessExp"
+      v-text="$t('login.sessionExp')"
+    />
+    <v-btn
+      text
+      color="primary"
+      aria-label="ForgotPass"
+      v-text="$t('login.forgotPass')"
+    />
     <v-btn
       @click="submit()"
       block
       class="mt-2"
       :disabled="invalid"
       aria-label="Login"
-      >{{ $t("login.title") }}</v-btn
-    >
+      v-text="$t('login.title')"
+    />
     <p
       :class="[
         invalidCredentials
           ? 'text-justify red--text'
-          : 'text-justify red--text d-none',
+          : 'text-justify red--text d-none'
       ]"
-    >
-      {{ $t("login.invalid") }}
-    </p>
-
+      v-text="$t('login.invalid')"
+    />
     <p class="text-justify mt-2">
       {{ $t("register.message") }}
-      <v-btn rounded small @click="toRegister()" aria-label="ToRegister">{{
-        $t("register.title")
-      }}</v-btn>
+      <v-btn
+        rounded
+        small
+        @click="toRegister()"
+        aria-label="ToRegister"
+        v-text="$t('register.title')"
+      />
     </p>
   </form>
 </template>
@@ -71,14 +78,14 @@ export default class LoginBase extends Vue {
     f: this.$t("fields.username") + "/" + this.$t("fields.email"),
     v: "",
     e: "",
-    run: false,
+    run: false
   };
   pass = {
     f: this.$t("fields.password"),
     v: "",
     e: "",
     run: false,
-    sh: false,
+    sh: false
   };
   invalid = true;
   invalidCredentials = false;
@@ -108,12 +115,12 @@ export default class LoginBase extends Vue {
     if (!this.invalid) {
       this.loginUser({
         user: this.user.v,
-        pass: this.pass.v,
+        pass: this.pass.v
       })
         .then(() => {
           updateAccToken();
           this.$router.push({
-            name: "news",
+            name: "news"
           });
         })
         .catch(() => {
@@ -129,7 +136,7 @@ export default class LoginBase extends Vue {
   }
   toRegister() {
     this.$router.push({
-      name: "register",
+      name: "register"
     });
   }
 }

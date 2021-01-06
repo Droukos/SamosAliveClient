@@ -7,7 +7,7 @@
     :label="fTitle.f"
     required
     solo
-  ></v-text-field>
+  />
 </template>
 
 <script lang="ts">
