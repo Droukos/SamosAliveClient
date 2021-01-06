@@ -11,6 +11,17 @@
     "health": "Health",
     "admin": "Administration"
   },
+  "admin": {
+    "mixin": "Mixin",
+    "banS": "Users Ban",
+    "unbanS": "Users Unban",
+    "chaRolesS": "Users Role Change",
+    "addRolesS": "Users Role Add",
+    "delRolesS": "Users Role Delete",
+    "banList": "List of users to ban",
+    "banDuration": "Ban Duration",
+    "process": "Process"
+  },
   "clear": "Clear",
   "close": "Close",
   "device": {
@@ -109,6 +120,7 @@
     "profile": "Profile",
     "province": "Province",
     "surname": "Last name",
+    "fullname": "Fullname",
     "username": "Username"
   },
   "filter": {
@@ -259,6 +271,9 @@
       "request": "Request Emergency",
       "watch": "Watch Requests"
     }
+  },
+  "time": {
+    "hours": "h"
   },
   "terms": "I have read and accept terms and conditions",
   "user": {

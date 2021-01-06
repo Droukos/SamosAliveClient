@@ -47,7 +47,15 @@ import {
   mdiAppleSafari,
   mdiArrowTopRightThick,
   mdiArrowTopLeftThick,
-  mdiArrowUpThick, mdiRotateLeft, mdiAndroidAuto, mdiMap, mdiShield
+  mdiArrowUpThick,
+  mdiRotateLeft,
+  mdiAndroidAuto,
+  mdiMap,
+  mdiShield,
+  mdiGavel,
+  mdiChessRook,
+  mdiHeadPlusOutline,
+  mdiHeadMinusOutline, mdiHeadSnowflakeOutline
 } from "@mdi/js";
 
 Vue.use(Vuetify);
@@ -106,6 +114,11 @@ const MY_ICONS = {
   map: mdiMap,
   filterMenu: mdiFilterMenu,
   shield: mdiShield,
+  gavel: mdiGavel,
+  chessRook: mdiChessRook,
+  headPlus: mdiHeadPlusOutline,
+  headMinus: mdiHeadMinusOutline,
+  headAll: mdiHeadSnowflakeOutline,
   liveEvent: "fas fa-heartbeat",
   appbar: "deep-purple darken-3"
 };

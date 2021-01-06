@@ -2,7 +2,7 @@
   <div>
     <SubNavBackBtn />
     <v-list-item
-      v-for="(item, index) in healthListOptions"
+      v-for="(item, index) in adminListOptions"
       :key="index"
       @click="to(index)"
     >
@@ -37,35 +37,47 @@ export default class NavAdminList extends Vue {
 
   to(index: number) {
     this.$router.push({
-      name: this.healthListOptions[index].link
+      name: this.adminListOptions[index].link
     });
   }
 
-  get healthListOptions() {
+  get adminListOptions() {
     return [
       {
         index: 0,
-        i18n: this.$t("sub-apps-health.device.register"),
-        icon: "$openNew",
-        link: "registerAedDevice"
+        i18n: this.$t("admin.mixin"),
+        icon: "$headAll",
+        link: ""
       },
       {
         index: 1,
-        i18n: this.$t("sub-apps-health.emergency.request"),
-        icon: "$medicalBag",
-        link: "createAedEvent"
+        i18n: this.$t("admin.banS"),
+        icon: "$gavel",
+        link: "adminBanUsers"
       },
       {
         index: 2,
-        i18n: this.$t("sub-apps-health.emergency.watch"),
-        icon: "$eye",
-        link: ""
+        i18n: this.$t("admin.unbanS"),
+        icon: "$gavel",
+        link: "adminUnbanUsers"
       },
       {
         index: 3,
-        i18n: this.$t("sub-apps-health.emergency.live"),
-        icon: "$accessPoint",
-        link: ""
+        i18n: this.$t("admin.chaRolesS"),
+        icon: "$chessRook",
+        link: "adminRolesChange"
+      },
+      {
+        index: 4,
+        i18n: this.$t("admin.addRolesS"),
+        icon: "$headPlus",
+        link: "adminRolesAdd"
+      },
+      {
+        index: 5,
+        i18n: this.$t("admin.delRolesS"),
+        icon: "$headMinus",
+        link: "adminRolesDel"
       }
     ];
   }

@@ -24,7 +24,13 @@ export const authApi: Record<string, string> = {
     checkUsername: "auth.username.check",
     checkEmail: "auth.email.check",
     accessToken: "/auth/token/access_token",
-    userData: "/auth/token/user_data"
+    userData: "/auth/token/user_data",
+    authBanUsers: "auth.admin.ban.users",
+    authUnbanUsers: "auth.admin.unban.users",
+    authUsersRoleChange: "auth.admin.users.role.change",
+    authUsersRoleAdd: "auth.admin.users.role.add",
+    authUsersRoleDel: "auth.admin.users.role.del",
+    authListen: "auth.listen",
 };
 
 export const eventApi: Record<string, string> = {

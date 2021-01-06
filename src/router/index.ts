@@ -76,6 +76,54 @@ const routes: Array<RouteConfig> = [
     props: true
   },
   {
+    path: "/admin/ban/users",
+    name: "adminBanUsers",
+    component: () =>
+      import(
+        /* webpackChunkName: "BanUsersCard" */ "@/views/routes/admin/ban/BanUsersCard.vue"
+      )
+  },
+  {
+    path: "/admin/roles/change",
+    name: "adminRolesChange",
+    component: () =>
+        import(
+            /* webpackChunkName: "RolesChangeCard" */ "@/views/routes/admin/roles/RolesChangeCard.vue"
+            )
+  },
+  {
+    path: "/admin/roles/add",
+    name: "adminRolesAdd",
+    component: () =>
+        import(
+            /* webpackChunkName: "RolesAddCard" */ "@/views/routes/admin/roles/RolesAddCard.vue"
+            )
+  },
+  {
+    path: "/admin/roles/del",
+    name: "adminRolesDel",
+    component: () =>
+        import(
+            /* webpackChunkName: "RolesDelCard" */ "@/views/routes/admin/roles/RolesDelCard.vue"
+            )
+  },
+  {
+    path: "/admin/unban/users",
+    name: "adminUnbanUsers",
+    component: () =>
+      import(
+        /* webpackChunkName: "UnbanUsersCard" */ "@/views/routes/admin/ban/UnbanUsersCard.vue"
+      )
+  },
+  {
+    path: "/admin/ban/users",
+    name: "adminBanUsers",
+    component: () =>
+      import(
+        /* webpackChunkName: "BanUsersCard" */ "@/views/routes/admin/ban/BanUsersCard.vue"
+      )
+  },
+  {
     path: "/aed/device/register",
     name: "registerAedDevice",
     component: () =>
