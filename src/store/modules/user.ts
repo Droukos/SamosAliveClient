@@ -4,7 +4,8 @@ import api, {
   setBearerAccToken,
   accessToken,
   authRSocketApi,
-  userRSocketApi
+  userRSocketApi,
+  getAccessTokenJwt
 } from "@/plugins/api";
 import { authApi, userApi } from "@/plugins/api/api-urls";
 import {
@@ -108,11 +109,6 @@ export default class User extends VuexModule implements UserInfo {
     this.availability = status;
   }
 
-  @Mutation
-  setDataFromAuth(data: LoginResponse) {
-      console.log(data);
-  }
-
   get isSignedIn() {
     return this.userid !== "" && this.username !== "";
   }
@@ -199,24 +195,26 @@ export default class User extends VuexModule implements UserInfo {
     const requestedMsg = 10;
     let processedMsg = 0;
     let iSub: ISubscription;
-    authRSocketApi()
-      .requestStream({
-        metadata: metadataBuf(accessToken, authApi.authListen)
-      })
-      .subscribe({
-        onNext: value => {
-          processedMsg++;
-          if (processedMsg >= requestedMsg) {
-            iSub.request(requestedMsg);
-            processedMsg = 0;
+    getAccessTokenJwt().then(token => {
+      authRSocketApi()
+        .requestStream({
+          metadata: metadataBuf(token, authApi.authListen)
+        })
+        .subscribe({
+          onNext: value => {
+            processedMsg++;
+            if (processedMsg >= requestedMsg) {
+              iSub.request(requestedMsg);
+              processedMsg = 0;
+            }
+            this.context.dispatch("fetchUserData");
+          },
+          onError: error => console.error(error),
+          onSubscribe: sub => {
+            iSub = sub;
+            sub.request(requestedMsg);
           }
-          this.context.commit("setDataFromAuth", bufToJson(value));
-        },
-        onError: error => console.error(error),
-        onSubscribe: sub => {
-          iSub = sub;
-          sub.request(requestedMsg);
-        }
-      });
+        });
+    });
   }
 }

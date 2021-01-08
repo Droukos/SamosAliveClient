@@ -22,9 +22,10 @@ const environment = namespace("environment");
   }
 })
 export default class App extends Vue {
-  @environment.Getter public isDarkMode!: boolean;
-  @environment.Mutation public setTheme!: (data: string) => void;
-  @user.Action public fetchUserData!: () => void;
+  @environment.Getter isDarkMode!: boolean;
+  @environment.Mutation setTheme!: (data: string) => void;
+  @user.Action fetchUserData!: () => void;
+  @user.Action listenAuth!: () => void;
 
   created() {
     this.setTheme(this.$cookies.get("userdata-theme"));
@@ -32,6 +33,7 @@ export default class App extends Vue {
     authRSocketApi();
     if (this.$cookies.isKey("loggedIn")) {
       this.fetchUserData();
+      this.listenAuth();
       updateAccToken();
     }
   }
