@@ -1,26 +1,28 @@
 <template>
-  <v-main>
-    <h2 v-text="$t('info.message')" />
-    <v-card>
-      <v-card-title primary-title>
-        <h3 v-text="$t('news.idea')" />
-      </v-card-title>
+  <v-content>
+    <v-container>
+      <h2 v-text="$t('info.message')" />
+      <v-card>
+        <v-card-title primary-title>
+          <h3 v-text="$t('news.idea')" />
+        </v-card-title>
 
-      <v-card-text>
-        <h4 v-text="$t('news.ideaTitle')" />
-        <NewsTitleInput />
-        <h4 v-text="$t('news.formContent')" />
-        <NewsContentInput />
-      </v-card-text>
-      <v-divider />
+        <v-card-text>
+          <h4 v-text="$t('news.ideaTitle')" />
+          <NewsTitleInput />
+          <h4 v-text="$t('news.formContent')" />
+          <NewsContentInput />
+        </v-card-text>
+        <v-divider />
 
-      <v-card-actions>
-        <v-spacer />
-        <v-btn color="primary" @click="sendNews()" v-text="$t('news.submit')">
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-main>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="primary" @click="sendNews()" v-text="$t('news.submit')">
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-container>
+  </v-content>
 </template>
 
 <script lang="ts">
@@ -46,23 +48,25 @@ const newsCreate = namespace("newsCreate");
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      const ideasCard = vm as IdeasCard;
-      const store = ideasCard.$store;
+      const infoCard = vm as InfoCard;
+      const store = infoCard.$store;
       if (!(store && store.state && store.state["newsCreate"])) {
         store.registerModule("newsCreate", newsCreateMod);
       }
+      infoCard.clearValues();
     });
-  },
-  beforeDestroy() {
-    this.$store.unregisterModule("newsCreate");
   }
+  //beforeDestroy() {
+  //  this.$store.unregisterModule("newsCreate");
+  //}
 })
-export default class IdeasCard extends Vue {
+export default class InfoCard extends Vue {
   @user.State username!: User.Username;
   @newsCreate.State fNewsTitle!: FieldObject;
   @newsCreate.State fContent!: FieldObject;
   @newsCreate.State createVisible!: boolean;
   @newsCreate.Action createNews!: (data: NewsCard) => Promise<void>;
+  @newsCreate.Mutation clearValues!: () => Promise<void>;
 
   sendNews() {
     this.createNews({

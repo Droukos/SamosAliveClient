@@ -39,12 +39,20 @@ export default class NewsCreate extends VuexModule {
     this.fTag = tag;
   }
 
+  @Mutation
+  clearValues() {
+    this.fNewsTitle.v = "";
+    this.fContent.v = "";
+  }
+
   @Action({ commit: "setCreateVisible" })
   async vForm() {
     return !(
       this.fNewsTitle.v == "" ||
       this.fNewsTitle.e != "" ||
-      this.fContent.e != ""
+      this.fContent.e != "" ||
+      this.fTag.length == 0 ||
+      this.fTag[0] == -1
     );
   }
 

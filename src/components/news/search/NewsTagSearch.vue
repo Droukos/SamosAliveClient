@@ -6,6 +6,7 @@
       item-value="tag"
       item-text="name"
       label="Tags"
+      multiple
       v-on:change="chooseTag()"
     />
   </v-container>
@@ -14,12 +15,15 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
+import { News, NewsSearchMut } from "@/types/news";
+import { tagOptions } from "@/plugins/enums/tags-options";
+import NewsSearchOptions = News.NewsSearchOptions;
 
 const newsList = namespace("newsList");
 
 @Component
 export default class NewsContentInput extends Vue {
-  Tag = -1;
+  Tag = [];
   tags = [
     {
       tag: 1,
@@ -36,14 +40,21 @@ export default class NewsContentInput extends Vue {
     {
       tag: 4,
       name: "OTHER"
+    },
+    {
+      tag: -1,
+      name: "ALL"
     }
   ];
 
-  @newsList.Mutation selectTag!: (tag: number) => void;
+  @newsList.Mutation selectOptions!: (data: NewsSearchMut) => void;
+  @newsList.State selectTags!: NewsSearchOptions;
 
   chooseTag() {
-    console.log(this.Tag);
-    this.selectTag(this.Tag);
+    this.selectOptions({
+      options: { newsTitle: this.selectTags.newsTitle, searchTag: this.Tag },
+      searchCode: tagOptions.SELECT
+    });
   }
 }
 </script>

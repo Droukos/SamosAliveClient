@@ -1,5 +1,5 @@
 <template>
-  <span v-text="content" />
+  <v-textarea v-model="content" disabled />
 </template>
 
 <script lang="ts">

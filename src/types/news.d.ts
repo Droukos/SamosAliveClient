@@ -6,7 +6,7 @@ declare namespace News {
   type content = string;
   type uploadedTime = number[];
   type tag = number[];
-  type searchTag = number;
+  type searchTag = number[];
 
   interface NewsCard {
     username: User.Username;
@@ -24,14 +24,21 @@ declare namespace News {
     uploadedTime: News.uploadedTime;
   }
 
-  interface NewsSearch {
+  interface NewsSearchOptions {
     newsTitle: News.newsTitle;
     searchTag: News.searchTag;
+  }
+
+  interface NewsSearchMut {
+    options: News.NewsSearchOptions;
+    searchCode: number;
   }
 }
 
 export type NewsInfo = News.NewsInfo;
 export type NewsCard = News.NewsCard;
+export type NewsSearchOptions = News.NewsSearchOptions;
+export type NewsSearchMut = News.NewsSearchMut;
 
 export type NewsDto = {
   id: News.id;

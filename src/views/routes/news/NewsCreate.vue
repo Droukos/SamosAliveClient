@@ -17,7 +17,12 @@
 
       <v-card-actions>
         <v-spacer />
-        <v-btn color="primary" @click="sendNews()" v-text="$t('news.submit')">
+        <v-btn
+          v-if="createVisible"
+          color="primary"
+          @click="sendNews()"
+          v-text="$t('news.submit')"
+        >
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -56,11 +61,12 @@ const newsCreate = namespace("newsCreate");
       if (!(store && store.state && store.state["newsCreate"])) {
         store.registerModule("newsCreate", newsCreateMod);
       }
+      newsCreate.clearValues();
     });
-  },
-  beforeDestroy() {
-    this.$store.unregisterModule("newsCreate");
   }
+  //beforeDestroy() {
+  //  this.$store.unregisterModule("newsCreate");
+  //}
 })
 export default class NewsCreate extends Vue {
   @user.State username!: User.Username;
@@ -69,6 +75,7 @@ export default class NewsCreate extends Vue {
   @newsCreate.State fTag!: number[];
   @newsCreate.State createVisible!: boolean;
   @newsCreate.Action createNews!: (data: NewsCard) => Promise<void>;
+  @newsCreate.Mutation clearValues!: () => Promise<void>;
 
   sendNews() {
     this.createNews({

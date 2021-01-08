@@ -19,7 +19,7 @@
             <v-list-item-subtitle bottom>
               <NewsUsername />
               -
-              <NewsUploadedTime />
+              <NewsUploadedTime :uploadedTime="uploadedTime" />
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -39,19 +39,19 @@ const newsSearchInfo = namespace("newsSearchInfo");
   components: {
     NewsContent: () =>
       import(
-        /* webpackChunkName: "ProblemsListPanel" */ "@/components/news/info/NewsContent.vue"
+        /* webpackChunkName: "NewsContent" */ "@/components/news/info/NewsContent.vue"
       ),
     NewsTitle: () =>
       import(
-        /* webpackChunkName: "ProblemsListPanel" */ "@/components/news/info/NewsTitle.vue"
+        /* webpackChunkName: "NewsTitle" */ "@/components/news/info/NewsTitle.vue"
       ),
     NewsUploadedTime: () =>
       import(
-        /* webpackChunkName: "ProblemsListPanel" */ "@/components/news/info/NewsUploadedTime.vue"
+        /* webpackChunkName: "NewsUploadedTime" */ "@/components/news/info/NewsUploadedTime.vue"
       ),
     NewsUsername: () =>
       import(
-        /* webpackChunkName: "ProblemsListPanel" */ "@/components/news/info/NewsUsername.vue"
+        /* webpackChunkName: "NewsUsername" */ "@/components/news/info/NewsUsername.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
@@ -70,6 +70,7 @@ const newsSearchInfo = namespace("newsSearchInfo");
 export default class NewsMoreCard extends Vue {
   loadingSkeleton = true;
   @newsSearchInfo.Action findNewsId!: (id: string) => Promise<any>;
+  @newsSearchInfo.State uploadedTime!: number[];
   //@newsSearchInfo.State id!: string;
 }
 </script>

@@ -14,6 +14,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
+import { News, NewsSearchMut } from "@/types/news";
+import NewsSearchOptions = News.NewsSearchOptions;
+import { tagOptions } from "@/plugins/enums/tags-options";
 
 const newsList = namespace("newsList");
 
@@ -25,11 +28,15 @@ export default class NewsSearch extends Vue {
     counter: 50,
     label: this.$t("news.search")
   };
-  @newsList.Action selectTitle!: (title: string) => void;
+  @newsList.Mutation selectOptions!: (data: NewsSearchMut) => void;
+  @newsList.State selectTags!: NewsSearchOptions;
 
   chooseTitle(title: string) {
     console.log(title);
-    this.selectTitle(title);
+    this.selectOptions({
+      options: { newsTitle: title, searchTag: this.selectTags.searchTag },
+      searchCode: tagOptions.SELECT
+    });
   }
 }
 </script>
