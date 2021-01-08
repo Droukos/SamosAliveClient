@@ -26,6 +26,7 @@ export default class NewsCreate extends VuexModule {
     e: "",
     run: false
   };
+  fTag = [-1];
 
   createVisible = false;
   @Mutation
@@ -33,12 +34,25 @@ export default class NewsCreate extends VuexModule {
     this.createVisible = createVisible;
   }
 
+  @Mutation
+  setTags(tag: number[]) {
+    this.fTag = tag;
+  }
+
+  @Mutation
+  clearValues() {
+    this.fNewsTitle.v = "";
+    this.fContent.v = "";
+  }
+
   @Action({ commit: "setCreateVisible" })
   async vForm() {
     return !(
       this.fNewsTitle.v == "" ||
       this.fNewsTitle.e != "" ||
-      this.fContent.e != ""
+      this.fContent.e != "" ||
+      this.fTag.length == 0 ||
+      this.fTag[0] == -1
     );
   }
 

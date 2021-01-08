@@ -1,11 +1,11 @@
 <template>
-  <v-text-field
+  <v-textarea
     v-model="fContent.v"
     @input="validateAndCheckForm()"
     :error-messages="fContent.e"
-    :counter="50"
+    :counter="500"
     :label="fContent.f"
-    maxlength="50"
+    maxlength="500"
     full-width
   />
 </template>

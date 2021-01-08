@@ -174,6 +174,14 @@ const routes: Array<RouteConfig> = [
       )
   },
   {
+    path: "/news/all",
+    name: "newsAll",
+    component: () =>
+      import(
+        /* webpackChunkName: "NewsAllCard" */ "@/views/routes/news/NewsAllCard.vue"
+      )
+  },
+  {
     path: "/news/:newsID/more",
     name: "newsMoreCard",
     component: () =>
@@ -271,6 +279,14 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(
         /* webpackChunkName: "AppRegister" */ "@/views/routes/auth/RegistrationCard.vue"
+      )
+  },
+  {
+    path: "/info",
+    name: "info",
+    component: () =>
+      import(
+        /* webpackChunkName: "InfoCard" */ "@/views/routes/info/InfoCard.vue"
       )
   },
   {

@@ -1,32 +1,28 @@
 <template>
-  <v-main>
-    <v-card>
-      <v-card-title class="light-blue darken-1" primary-title>
-        <h3 v-text="$t('news.form')" />
-      </v-card-title>
+  <v-content>
+    <v-container>
+      <h2 v-text="$t('info.message')" />
+      <v-card>
+        <v-card-title primary-title>
+          <h3 v-text="$t('news.idea')" />
+        </v-card-title>
 
-      <v-card-text>
-        <h4 v-text="$t('news.formTitle')" />
-        <NewsTitleInput />
-        <h4 v-text="$t('news.formContent')" />
-        <NewsContentInput />
-        <h4 v-text="$t('news.formTag')" />
-        <NewsTagSelect />
-      </v-card-text>
-      <v-divider />
+        <v-card-text>
+          <h4 v-text="$t('news.ideaTitle')" />
+          <NewsTitleInput />
+          <h4 v-text="$t('news.formContent')" />
+          <NewsContentInput />
+        </v-card-text>
+        <v-divider />
 
-      <v-card-actions>
-        <v-spacer />
-        <v-btn
-          v-if="createVisible"
-          color="primary"
-          @click="sendNews()"
-          v-text="$t('news.submit')"
-        >
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-main>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="primary" @click="sendNews()" v-text="$t('news.submit')">
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-container>
+  </v-content>
 </template>
 
 <script lang="ts">
@@ -48,31 +44,26 @@ const newsCreate = namespace("newsCreate");
     NewsContentInput: () =>
       import(
         /* webpackChunkName: "NewsContentInput" */ "@/components/news/create/NewsContentInput.vue"
-      ),
-    NewsTagSelect: () =>
-      import(
-        /* webpackChunkName: "NewsTagSelect" */ "@/components/news/create/NewsTagSelect.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      const newsCreate = vm as NewsCreate;
-      const store = newsCreate.$store;
+      const infoCard = vm as InfoCard;
+      const store = infoCard.$store;
       if (!(store && store.state && store.state["newsCreate"])) {
         store.registerModule("newsCreate", newsCreateMod);
       }
-      newsCreate.clearValues();
+      infoCard.clearValues();
     });
   }
   //beforeDestroy() {
   //  this.$store.unregisterModule("newsCreate");
   //}
 })
-export default class NewsCreate extends Vue {
+export default class InfoCard extends Vue {
   @user.State username!: User.Username;
   @newsCreate.State fNewsTitle!: FieldObject;
   @newsCreate.State fContent!: FieldObject;
-  @newsCreate.State fTag!: number[];
   @newsCreate.State createVisible!: boolean;
   @newsCreate.Action createNews!: (data: NewsCard) => Promise<void>;
   @newsCreate.Mutation clearValues!: () => Promise<void>;
@@ -82,7 +73,7 @@ export default class NewsCreate extends Vue {
       username: this.username,
       newsTitle: this.fNewsTitle.v,
       content: this.fContent.v,
-      tag: this.fTag
+      tag: [0]
     }).then(() => {
       console.log("news created");
     });

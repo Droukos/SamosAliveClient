@@ -1,4 +1,4 @@
-import { accessToken, newsRSocketApi } from "@/plugins/api";
+import { getAccessTokenJwt, newsRSocketApi } from "@/plugins/api";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { newsApi } from "@/plugins/api/api-urls";
 import { NewsDto, NewsInfo } from "@/types/news";
@@ -15,6 +15,7 @@ export default class NewsSearchInfo extends VuexModule implements NewsInfo {
   username = "";
   newsTitle = "";
   content = "";
+  tag = [-1];
   uploadedTime = [0];
 
   @Mutation
@@ -23,23 +24,26 @@ export default class NewsSearchInfo extends VuexModule implements NewsInfo {
     this.username = data.username;
     this.newsTitle = data.newsTitle;
     this.content = data.content;
+    this.tag = data.tag;
     this.uploadedTime = data.uploadedTime;
   }
 
   @Action({ commit: "setNewsInfo" })
   async findNewsId(data: NewsDto) {
     return new Promise(resolve => {
-      newsRSocketApi().then(newsRSocket =>
-        newsRSocket
-          .requestResponse({
-            data: dataBuf(data),
-            metadata: metadataBuf(accessToken, newsApi.findNewsId)
-          })
-          .subscribe({
-            onComplete: value => resolve(bufToJson(value)),
-            onError: error => console.error(error)
-          })
-      );
+      return getAccessTokenJwt().then(token => {
+        newsRSocketApi().then(newsRSocket =>
+          newsRSocket
+            .requestResponse({
+              data: dataBuf(data),
+              metadata: metadataBuf(token, newsApi.findNewsId)
+            })
+            .subscribe({
+              onComplete: value => resolve(bufToJson(value)),
+              onError: error => console.error(error)
+            })
+        );
+      });
     });
   }
 }
