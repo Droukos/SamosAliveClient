@@ -33,7 +33,7 @@ export interface UpRole {
 }
 
 export interface UpRoles {
-    upRoles: UpRoles[];
+    upRoles: UpRole[];
 }
 
 export interface BanPreviewUser {
@@ -43,6 +43,8 @@ export interface BanPreviewUser {
 
 export interface ChangeRolePreviewUser {
     previewUser: PreviewUser,
+    oldRoleError: boolean,
+    newRoleError: boolean,
     oldRole: string,
     newRole: string
 }
@@ -54,5 +56,22 @@ export interface UpdatePreviewUser {
 
 export interface IMutToAdminList {
     prUser: PreviewUser,
+    adminOption: number,
+}
+
+export interface IMutRmElemAdminList {
+    index: number,
     adminOption: number
+}
+
+export interface ReplacePrUser {
+    prUser: PreviewUser,
+    adminOption: number,
+    index: number,
+    duration?: number,
+    chRoleOldRoleError?: boolean,
+    chRoleNewRoleError?: boolean,
+    oldRole?: string,
+    newRole?: string,
+    updateRole?: string
 }

@@ -25,7 +25,7 @@ import { adminOptions } from "@/plugins/enums/admin-options";
       ),
     AdminBanList: () =>
       import(
-        /* webpackChunkName: "AdminBanList" */ "@/components/admin/AdminBanList.vue"
+        /* webpackChunkName: "AdminBanList" */ "@/components/admin/ban/AdminBanList.vue"
       )
   },
   beforeRouteEnter(to, from, next) {

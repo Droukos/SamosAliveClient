@@ -4,21 +4,38 @@
       <span class="grey--text" v-text="$t('fields.username') + ': '" />
       <span class="green--text" v-text="prUser.user" />
     </v-list-item-title>
-    <v-list-item-subtitle>
-      <span class="grey--text" v-text="$t('fields.fullname') + ': '" />
+    <VTooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-list-item-subtitle v-bind="attrs" v-on="on">
+          <span class="grey--text" v-text="$t('fields.fullname') + ': '" />
+          <span class="green--text" v-text="prUser.sur + ' ' + prUser.name" />
+        </v-list-item-subtitle>
+      </template>
       <span class="green--text" v-text="prUser.sur + ' ' + prUser.name" />
-    </v-list-item-subtitle>
-    <v-list-item-subtitle>
-      <span class="grey--text" v-text="$t('roles.title') + ' '" />
+    </VTooltip>
+    <VTooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-list-item-subtitle v-bind="attrs" v-on="on">
+          <span class="grey--text" v-text="$t('roles.title') + ' '" />
+          <v-chip
+            v-for="role in prUser.roles"
+            :key="role"
+            :color="$helper.getUserRoleColorLabel(role)"
+            v-text="$t('roles.' + role)"
+          />
+        </v-list-item-subtitle>
+      </template>
       <v-chip
         v-for="role in prUser.roles"
         :key="role"
         :color="$helper.getUserRoleColorLabel(role)"
         v-text="$t('roles.' + role)"
       />
-    </v-list-item-subtitle>
+    </VTooltip>
+
     <v-list-item-subtitle>
       <span class="grey--text" v-text="$t('status.title') + ' '" />
+
       <span
         :class="statusColor(prUser.status)"
         v-text="$t('status.' + prUser.status)"

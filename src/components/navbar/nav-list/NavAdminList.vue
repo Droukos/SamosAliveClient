@@ -47,7 +47,7 @@ export default class NavAdminList extends Vue {
         index: 0,
         i18n: this.$t("admin.mixin"),
         icon: "$headAll",
-        link: ""
+        link: "adminMixinUsers"
       },
       {
         index: 1,
