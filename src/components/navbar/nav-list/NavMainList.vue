@@ -96,7 +96,7 @@ export default class NavBarMainList extends Vue {
       },
       {
         index: 7,
-        link: "aedMap",
+        link: "info",
         title: this.$t("info.title"),
         icon: "$info",
         rArrowIcon: false
