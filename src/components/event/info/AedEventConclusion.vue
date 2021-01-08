@@ -1,5 +1,5 @@
 <template>
-  <span v-text="conclusion" />
+  <v-textarea outlined readonly height="95" :value="conclusion" />
 </template>
 
 <script lang="ts">

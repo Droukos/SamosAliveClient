@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { RequestedPreviewUser } from "@/types";
+import { PreviewUser } from "@/types";
 import { namespace } from "vuex-class";
 
 const search = namespace("search");
@@ -63,7 +63,7 @@ const search = namespace("search");
   }
 })
 export default class SearchUserPreviewList extends Vue {
-  @search.State previewUsers!: RequestedPreviewUser[];
+  @search.State previewUsers!: PreviewUser[];
 
   goToProfile(userId: string) {
     this.$router.push({

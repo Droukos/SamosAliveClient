@@ -4,12 +4,26 @@
     "1": "Broken",
     "2": "Stolen",
     "3": "On Repair",
-    "4": "Borrowed"
+    "4": "Borrowed",
+    "5": "On Return"
   },
   "apps": {
-    "health": "Health"
+    "health": "Health",
+    "admin": "Administration"
+  },
+  "admin": {
+    "mixin": "Mixin",
+    "banS": "Users Ban",
+    "unbanS": "Users Unban",
+    "chaRolesS": "Users Role Change",
+    "addRolesS": "Users Role Add",
+    "delRolesS": "Users Role Delete",
+    "banList": "List of users to ban",
+    "banDuration": "Ban Duration",
+    "process": "Process"
   },
   "clear": "Clear",
+  "close": "Close",
   "device": {
     "deviceEdit": "Edit Device",
     "deviceOptions": "Device options",
@@ -52,17 +66,26 @@
     "verifyPosHint": "Verify your current position in map"
   },
   "events": {
-    "addr": "Address: ",
     "address": "Address: ",
-    "comInfo": "More informations",
-    "comm": "More info: ",
+    "callee": "Callee",
+    "phone": "Phone Number",
+    "comInfo": "More information",
     "comment": "Comment: ",
     "complete": "Completed by: ",
+    "invalidCallee": "Invalid Callee Name",
+    "invalidPhone": "Invalid Phone Number",
+    "discuss": "Discussion",
     "concl": "Conclusion: ",
+    "avAedDev": "Available aed devices in area",
+    "unAvAedDev": "Unavailable aed devices in area",
+    "selDevice": "Selected Aed Device:",
+    "yetSelDevice": "Aed device not selected yet",
+    "selRescuer": "Selected Rescuer:",
+    "yetSelRescuer": "Rescuer not selected yet",
     "deviceDialogTitle": "Available Aed Devices for Emergency",
     "deviceSel": "Select Device",
     "deviceSear": "Search Device",
-    "event": "Occurrence",
+    "event": "Event",
     "eventInfo": "Choose a patient's condition",
     "eventList": "Occurrence's table",
     "eventListInfo": "This is a list of current pending occurrences",
@@ -74,7 +97,7 @@
     "live": "Live events",
     "problemList": "Technical problems",
     "problemListInfo": "This is a list of current pending technical problems",
-    "send": "Send alert",
+    "send": "Send",
     "situation": "Situation..",
     "statusS1": "Pending",
     "statusS2": "On progress",
@@ -97,6 +120,7 @@
     "profile": "Profile",
     "province": "Province",
     "surname": "Last name",
+    "fullname": "Fullname",
     "username": "Username"
   },
   "filter": {
@@ -205,13 +229,10 @@
     "203": "",
     "AREA_ADMIN": "Area Admin",
     "EKAB": "ΕΚΑΒ",
+    "RESCUER": "Rescuer",
     "GENERAL_ADMIN": "General Admin",
     "USER": "User",
     "addedBy": "Added by {0} on {1}",
-    "admins": {
-      "  1000": "",
-      "0": ""
-    },
     "change": {
       "  title": "",
       "title": "Change between current available roles:"
@@ -254,6 +275,9 @@
       "request": "Request Emergency",
       "watch": "Watch Requests"
     }
+  },
+  "time": {
+    "hours": "h"
   },
   "terms": "I have read and accept terms and conditions",
   "user": {

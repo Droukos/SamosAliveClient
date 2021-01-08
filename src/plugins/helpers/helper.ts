@@ -1,6 +1,7 @@
 import i18n from "@/plugins/i18n";
 import { TranslateResult } from "vue-i18n";
 import { Role } from "@/types";
+import {roles} from "@/plugins/enums/roles";
 
 const createDate = (date: number[]) => {
   return new Date(date[0], date[1], date[2], date[3], date[4], date[5]);
@@ -20,6 +21,30 @@ export default new (class Helper {
     }
     const c = (hash & 0x00ffffff).toString(16).toUpperCase();
     return "#" + "00000".substring(0, 6 - c.length) + c;
+  }
+  adjustColor(color: string, amount: number) {
+    return (
+        "#" +
+        color
+            .replace(/^#/, "")
+            .replace(/../g, (color: string) =>
+                (
+                    "0" +
+                    Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(
+                        16
+                    )
+                ).substr(-2)
+            )
+    );
+  }
+  getColorLuma(color: string) {
+    const c = color.substring(1); // strip #
+    const rgb = parseInt(c, 16); // convert rrggbb to decimal
+    const r = (rgb >> 16) & 0xff; // extract red
+    const g = (rgb >> 8) & 0xff; // extract green
+    const b = (rgb >> 0) & 0xff; // extract blue
+
+   return  0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
   }
   convDate(date: number[], format: string, lang: string) {
     return i18n.d(createDate(date), format, lang);
@@ -57,9 +82,10 @@ export default new (class Helper {
   //},
   getUserRoleColorLabel(roleCode: string) {
 
-    if (roleCode == "0.0") return "red darken-4";
+    if (roleCode == roles.GENERAL_ADMIN || roleCode == "0.0") return "red darken-4";
     //"General Admin";
-    else if (roleCode == "0.1000") return "purple lighten-1";
+    else if (roleCode == roles.RESCUER || roleCode == "100.100") return "purple lighten-1";
+    else if (roleCode == roles.TECHNICIAN || roleCode == "110.100") return "orange darken-2"
     //"Area Admin";
     //if (role == "0.0") return "red--text text--darken-4"; //"General Admin";
     //else if (role == "0.10") return "purple--text text--lighten-1"; //"Area Admin";
@@ -67,13 +93,14 @@ export default new (class Helper {
     //else if (role == 101) return "Defribrillator Manager";
     //else if (role == 102) return "Defribrillator Company Service";
     //else if (role == 200) return "EKAB";
-    else if (roleCode == "10000.10000") return "blue lighten-2"; //"User";
+    else if (roleCode == roles.USER || roleCode == "10000.10000") return "blue lighten-2"; //"User";
     //else if (role == 10000) return "Guest";
   }
   getUserRoleColorText(roleCode: string) {
-    if (roleCode == "0.0") return  "red--text text--darken-4";
+    if (roleCode == roles.GENERAL_ADMIN) return  "red--text text--darken-4";
     //"General Admin";
-    else if (roleCode == "0.1000") return "purple--text text--lighten-1";
+    else if (roleCode == roles.TECHNICIAN) return "purple--text text--lighten-1";
+    else if (roleCode == roles.RESCUER) return "orange--text text--darken-2"
         //"Area Admin";
         //if (role == "0.0") return "red--text text--darken-4"; //"General Admin";
         //else if (role == "0.10") return "purple--text text--lighten-1"; //"Area Admin";
@@ -81,7 +108,7 @@ export default new (class Helper {
         //else if (role == 101) return "Defribrillator Manager";
         //else if (role == 102) return "Defribrillator Company Service";
     //else if (role == 200) return "EKAB";
-    else if (roleCode == "10000.10000") return "blue--text text--lighten-2"; //"User";
+    else if (roleCode == roles.USER) return "blue--text text--lighten-2"; //"User";
   }
   getUserStatusColorLabel(status: any) {
     status = parseInt(status);
@@ -122,6 +149,8 @@ declare module "vue/types/vue" {
       convDate2(date: string, format: string, lang: string): TranslateResult;
       getGreatestRole(roles: Role[]): Role;
       usernameHashCode(str: string): string;
+      adjustColor(color: string, amount: number): string;
+      getColorLuma(color: string): number;
       getRoleForLocale(role: Role): string;
       getUserRoleColorText(roleCode: string): string
       getUserRoleColorLabel(roleCode: string): string;

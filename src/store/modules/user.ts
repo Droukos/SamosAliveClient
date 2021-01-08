@@ -7,7 +7,14 @@ import api, {
   userRSocketApi
 } from "@/plugins/api";
 import { authApi, userApi } from "@/plugins/api/api-urls";
-import { LoginResponse, UserInfo, UserLogin, UserRegister } from "@/types";
+import {
+  LoginResponse,
+  PreviewUserCh,
+  Role,
+  UserInfo,
+  UserLogin,
+  UserRegister
+} from "@/types";
 import VueCookies from "vue-cookies";
 import { AxiosResponse } from "axios";
 import {
@@ -25,6 +32,7 @@ import {
   setRoleModels,
   setUserIdUsername
 } from "@/plugins/user-util";
+import { ISubscription } from "rsocket-types";
 
 Vue.use(VueCookies);
 
@@ -36,7 +44,7 @@ export default class User extends VuexModule implements UserInfo {
   surname = "";
   email = "";
   avatar = "";
-  roleModels = [];
+  roleModels: Role[] = [];
   countryCode = "";
   country = "";
   province = "";
@@ -100,6 +108,11 @@ export default class User extends VuexModule implements UserInfo {
     this.availability = status;
   }
 
+  @Mutation
+  setDataFromAuth(data: LoginResponse) {
+      console.log(data);
+  }
+
   get isSignedIn() {
     return this.userid !== "" && this.username !== "";
   }
@@ -114,6 +127,24 @@ export default class User extends VuexModule implements UserInfo {
 
   get userAvatar() {
     return this.avatar;
+  }
+
+  get nameSurname() {
+    return this.surname + " " + this.name;
+  }
+
+  get userPreview(): PreviewUserCh {
+    const roleCodes: string[] = [];
+    for (const role of this.roleModels) {
+      roleCodes.push(role.code);
+    }
+    return {
+      id: this.userid,
+      username: this.username,
+      avatar: this.avatar,
+      status: this.availability,
+      roles: roleCodes
+    };
   }
 
   get userRoles() {
@@ -161,5 +192,31 @@ export default class User extends VuexModule implements UserInfo {
         resolve(status);
       });
     });
+  }
+
+  @Action
+  async listenAuth() {
+    const requestedMsg = 10;
+    let processedMsg = 0;
+    let iSub: ISubscription;
+    authRSocketApi()
+      .requestStream({
+        metadata: metadataBuf(accessToken, authApi.authListen)
+      })
+      .subscribe({
+        onNext: value => {
+          processedMsg++;
+          if (processedMsg >= requestedMsg) {
+            iSub.request(requestedMsg);
+            processedMsg = 0;
+          }
+          this.context.commit("setDataFromAuth", bufToJson(value));
+        },
+        onError: error => console.error(error),
+        onSubscribe: sub => {
+          iSub = sub;
+          sub.request(requestedMsg);
+        }
+      });
   }
 }

@@ -13,6 +13,22 @@
             item-text="msg"
             item-value="code"
           />
+          <VTextField
+            outlined
+            v-model="fCallee.v"
+            @keyup="checkCallee"
+            :error-messages="fCallee.e"
+            :label="fCallee.f"
+            :counter="120"
+          />
+          <VTextField
+            outlined
+            v-model="fPhone.v"
+            @keyup="checkPhone"
+            :error-messages="fPhone.e"
+            :label="fPhone.f"
+            :counter="10"
+          />
           <EventAddressBase />
           <div
             :style="
@@ -50,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import aedEventCreateMod from "@/store/modules/dynamic/aed/events/aed-event-create";
 import L from "leaflet";
 import { AddressObject, FieldObject, User } from "@/types";
@@ -76,7 +92,7 @@ const user = namespace("user");
       ),
     EventAddressBase: () =>
       import(
-        /* webpackChunkName: "AddressNameInputBase" */ "@/components/event/map/EventAddressBase.vue"
+        /* webpackChunkName: "AddressNameInputBase" */ "@/components/event/create/EventAddressBase.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
@@ -87,6 +103,7 @@ const user = namespace("user");
         store.registerModule("aedEventCreate", aedEventCreateMod);
       }
       getLocation(aedEventCreateCard.osmReverseGeoCodingOnCurPos);
+      aedEventCreateCard.fCallee.v = aedEventCreateCard.nameSurname;
     });
   },
   beforeDestroy() {
@@ -109,8 +126,13 @@ export default class AedEventCreateCard extends Vue {
   @aedEventCreate.State marker!: L.LatLng;
   @aedEventCreate.State fAddress!: AddressObject;
   @aedEventCreate.State fComment!: FieldObject;
+  @aedEventCreate.State fPhone!: FieldObject;
+  @aedEventCreate.State fCallee!: FieldObject;
   @aedEventCreate.State createVisible!: boolean;
   @user.State username!: User.Username;
+  @user.State phones!: string;
+  @user.Getter nameSurname!: string;
+  @aedEventCreate.Action vForm!: () => void;
   @aedEventCreate.Action osmReverseGeoCodingOnCurPos!: (
     position: Position
   ) => void;
@@ -125,6 +147,8 @@ export default class AedEventCreateCard extends Vue {
       address: this.fAddress.v?.label,
       mapLat: this.fAddress.v?.y,
       mapLon: this.fAddress.v?.x,
+      callee: this.fCallee.v,
+      phone: this.fPhone.v,
       comment: this.fComment.v
     }).then(value => {
       this.$router.push({
@@ -132,6 +156,37 @@ export default class AedEventCreateCard extends Vue {
         params: { eventID: value }
       });
     });
+  }
+
+  @Watch("nameSurname")
+  onNameChanged(newName: string) {
+    console.log(newName);
+    this.fCallee.v = newName;
+  }
+
+  @Watch("phones")
+  onPhonesChanged(phones: string[]) {
+    this.fPhone.v = phones.length > 0 ? phones[0] : "";
+  }
+
+  checkCallee() {
+    if (this.fCallee.v.length <= 120) {
+      this.fCallee.e = "";
+    } else {
+      this.fCallee.e = [this.$t("events.invalidCallee")];
+    }
+    this.vForm();
+    this.fCallee.run = true;
+  }
+
+  checkPhone() {
+    if (RegExp("^\\d{10}$").test(this.fPhone.v)) {
+      this.fPhone.e = "";
+    } else {
+      this.fPhone.e = [this.$t("events.invalidPhone")];
+    }
+    this.vForm();
+    this.fPhone.run = true;
   }
 }
 </script>

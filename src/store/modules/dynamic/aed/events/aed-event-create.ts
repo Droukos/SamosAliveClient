@@ -21,14 +21,26 @@ import { IReverseOsmData } from "@/types/osm";
   name: "aedEventCreate"
 })
 export default class AedEventCreate extends VuexModule {
+  fCallee: FieldObject = {
+    f: i18n.t("events.callee"),
+    v: "",
+    e: "",
+    run: false
+  };
+  fPhone: FieldObject = {
+    f: i18n.t("events.phone"),
+    v: "",
+    e: "",
+    run: false
+  };
   fComment: FieldObject = {
-    f: i18n.t("events.comm"),
+    f: i18n.t("events.comInfo"),
     v: "",
     e: "",
     run: false
   };
   fAddress: AddressObject = {
-    f: i18n.t("events.addr"),
+    f: i18n.t("events.address"),
     v: {
       label: "",
       x: 23.7613248,
@@ -80,7 +92,9 @@ export default class AedEventCreate extends VuexModule {
     return !(
       this.fAddress.v?.label == "" ||
       this.fAddress.e != "" ||
-      this.fComment.e != ""
+      this.fComment.e != "" ||
+      this.fPhone.v.length != 10 ||
+      this.fCallee.v.length > 120
     );
   }
 

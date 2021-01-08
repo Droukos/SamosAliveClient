@@ -31,9 +31,11 @@ export default class NavBarMainList extends Vue {
       this.setSubNavBarOpen(subNavBabOptions.NEWS);
     } else if (index == 4) {
       this.setSubNavBarOpen(subNavBabOptions.HEALTH);
-    } else if (index == 8) {
+    } else if (index == 9) {
       this.logoutUser();
-    } else if (index == 10) {
+    } else if (index == 5) {
+      this.setSubNavBarOpen(subNavBabOptions.ADMIN);
+    } else if (index == 11) {
       this.setSubNavBarOpen(subNavBabOptions.PROBLEMS);
     }
     this.$router.push({
@@ -80,40 +82,47 @@ export default class NavBarMainList extends Vue {
       },
       {
         index: 5,
+        link: "",
+        title: this.$t("apps.admin"),
+        icon: "$shield",
+        rArrowIcon: true
+      },
+      {
+        index: 6,
         link: "history",
         title: this.$t("history.title"),
         icon: "$history",
         rArrowIcon: false
       },
       {
-        index: 6,
+        index: 7,
         link: "info",
         title: this.$t("info.title"),
         icon: "$info",
         rArrowIcon: false
       },
       {
-        index: 7,
+        index: 8,
         link: "settings",
         title: this.$t("settings.title"),
         icon: "$settings",
         rArrowIcon: false
       },
       {
-        index: 8,
+        index: 9,
         link: "login",
         title: this.$t("user.logout"),
         icon: "$doorOpen"
       },
       {
-        index: 9,
+        index: 10,
         link: "eventLive",
         title: this.$t("events.live"),
         icon: "$liveEv",
         rArrowIcon: false
       },
       {
-        index: 10,
+        index: 11,
         link: "",
         title: this.$t("problems.list"),
         icon: "$history",

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mx-auto">
     <div class="d-flex flex-row">
       <v-avatar size="70">
         <AedDevicePic :size="70" :url="aedDevicePreviewInfo.picUrl" />
@@ -27,7 +27,13 @@
               )
           "
         />
-        <MenuRouteInfo :routeInfo="aedDevicePreviewInfo.responseRouteInfo" />
+        <div class="d-flex flex-row">
+          <v-spacer />
+          <MenuRouteInfo :routeInfo="aedDevicePreviewInfo.responseRouteInfo" />
+          <v-btn @click="setPreviewDevice">
+            <v-icon v-text="'$map'" />
+          </v-btn>
+        </div>
       </div>
     </div>
 
@@ -75,7 +81,7 @@
         v-text="$t('aed-device-status.' + aedDevicePreviewInfo.status)"
       />
       <v-btn
-        v-if="verifiedRescuerPos"
+        v-if="verifiedRescuerPos && !deviceIsSelected"
         class="deep-purple darken-2"
         style="color:white;"
         v-text="$t('history.assign')"
@@ -87,9 +93,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { IAedDevicePreview } from "@/types/aed-device";
+import { IAedDevPreview } from "@/types/aed-device";
 import { getAedDeviceStatusColor } from "@/plugins/enums/device/aed/aed-device-status";
-import { formatDistance } from "@/plugins/geolocation/routing_machine/osrm";
+import { formatDistance } from "@/plugins/geolocation/osrm";
 import humanizeDuration from "humanize-duration";
 import { namespace } from "vuex-class";
 
@@ -97,6 +103,10 @@ const environment = namespace("environment");
 
 @Component({
   components: {
+    MapRoutingEventInfo: () =>
+      import(
+        /* webpackChunkName: "MapRoutingEventInfo" */ "@/components/event/map/routing/MapRoutingEventInfo.vue"
+      ),
     AedDevicePic: () =>
       import(
         /* webpackChunkName: "AedDevicePic" */ "@/components/device/aed/info/AedDevicePic.vue"
@@ -108,10 +118,20 @@ const environment = namespace("environment");
   }
 })
 export default class AedDevicePreviewInfo extends Vue {
-  @Prop() aedDevicePreviewInfo!: IAedDevicePreview;
+  @Prop() aedDevicePreviewInfo!: IAedDevPreview;
   @Prop() verifiedRescuerPos!: boolean;
-  @Prop() selectDevice!: (aedDevice: IAedDevicePreview) => void;
+  @Prop() deviceIsSelected!: boolean;
+  @Prop() selectDevice!: (aedDevice: IAedDevPreview) => void;
+  @Prop() setMapDialog!: (bool: boolean) => void;
+  @Prop() setShowPreviewAedDevice!: (
+    previewAedDevices: IAedDevPreview[]
+  ) => void;
   @environment.State locale!: string;
+
+  setPreviewDevice() {
+    this.setShowPreviewAedDevice([this.aedDevicePreviewInfo]);
+    this.setMapDialog(true);
+  }
 
   getStatusColor(statusCode: number) {
     return getAedDeviceStatusColor(statusCode);

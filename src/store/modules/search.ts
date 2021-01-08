@@ -1,21 +1,15 @@
-import {
-  accessToken,
-  userRSocketApi,
-  aedRSocketApi,
-} from "@/plugins/api";
+import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
-import {
-  RequestedPreviewUser,
-} from "@/types";
-import {
-    userApi, aedDeviceApi
-} from "@/plugins/api/api-urls.ts";
-import {IAedDeviceMapSearchDto, IAedDevicePreview} from "@/types/aed-device";
+import { PreviewUser } from "@/types";
+import { aedDeviceApi } from "@/plugins/api/api-urls.ts";
+import { IAedDeviceMapSearchDto, IAedDevPreview } from "@/types/aed-device";
 import searchOptions, {
-  deviceSearchTypeRadios, radiusOptions
+  deviceSearchTypeRadios,
+  radiusOptions
 } from "@/plugins/enums/search-options";
 import L from "leaflet";
+import { searchPreviewUsers } from "@/plugins/search-util";
 
 @Module({ namespaced: true })
 export default class Search extends VuexModule {
@@ -27,13 +21,13 @@ export default class Search extends VuexModule {
   expandSettings = false;
   expandFilters = false;
   validToSearch = true;
-  previewUsers: RequestedPreviewUser[] = [];
-  previewAedDevices: IAedDevicePreview[] = [];
+  previewUsers: PreviewUser[] = [];
+  previewAedDevices: IAedDevPreview[] = [];
   zoom = 12.8;
   center = L.latLng(37.977308, 23.7613248);
   marker = L.latLng(37.977308, 23.7613248);
   radius = 3000;
-  radiusSlider = radiusOptions.KM2
+  radiusSlider = radiusOptions.KM2;
   events: any[] = [];
 
   @Mutation
@@ -84,17 +78,17 @@ export default class Search extends VuexModule {
   }
 
   @Mutation
-  setPreviewUsers(previewUsers: RequestedPreviewUser[]) {
+  setPreviewUsers(previewUsers: PreviewUser[]) {
     this.previewUsers = previewUsers;
   }
 
   @Mutation
-  setPreviewAedDevices(previewAedDevices: IAedDevicePreview[]) {
+  setPreviewAedDevices(previewAedDevices: IAedDevPreview[]) {
     this.previewAedDevices = previewAedDevices;
   }
 
   @Mutation
-  setSearchableMarkerLatLong(latLng: {y: number, x: number}) {
+  setSearchableMarkerLatLong(latLng: { y: number; x: number }) {
     this.marker = L.latLng(latLng.y, latLng.x);
     this.center = L.latLng(latLng.y, latLng.x);
   }
@@ -110,7 +104,7 @@ export default class Search extends VuexModule {
       y: this.marker.lat,
       x: this.marker.lng,
       distance: this.radiusSlider
-    }
+    };
   }
 
   get markerLat(): number {
@@ -121,52 +115,56 @@ export default class Search extends VuexModule {
     return this.marker.lng;
   }
 
-  @Action({commit: "setPreviewAedDevices"})
-  async fetchAedDeviceInAreaPreview(): Promise<IAedDevicePreview[]> {
+  @Action({ commit: "setPreviewAedDevices" })
+  async fetchAedDeviceInAreaPreview(): Promise<IAedDevPreview[]> {
     return new Promise(resolve => {
-      const prDevices: IAedDevicePreview[] = [];
+      const prDevices: IAedDevPreview[] = [];
       aedRSocketApi().then(aedRSocket => {
         aedRSocket
-            .requestStream({
-              data: dataBuf(this.mapSearchDto),
-              metadata: metadataBuf(accessToken, aedDeviceApi.fetchAedDeviceInArea)
-            })
-            .subscribe({
-              onError: error => console.error(error),
-              onNext: payload => prDevices.push(bufToJson(payload)),
-              onSubscribe: sub => sub.request(20)
-            });
+          .requestStream({
+            data: dataBuf(this.mapSearchDto),
+            metadata: metadataBuf(
+              accessToken,
+              aedDeviceApi.fetchAedDeviceInArea
+            )
+          })
+          .subscribe({
+            onError: error => console.error(error),
+            onNext: payload => prDevices.push(bufToJson(payload)),
+            onSubscribe: sub => sub.request(20)
+          });
         resolve(prDevices);
       });
     });
   }
 
   @Action
-  async fetchUsersPreview(user: string): Promise<RequestedPreviewUser[]> {
-    return new Promise(resolve => {
-      const prUsers: RequestedPreviewUser[] = [];
-      userRSocketApi().then(userRSocket => {
-        userRSocket
-          .requestStream({
-            data: dataBuf({ username: user }),
-            metadata: metadataBuf(accessToken, userApi.searchPreview)
-          })
-          .subscribe({
-            onError: error => console.error(error),
-            onNext: payload => prUsers.push(bufToJson(payload)),
-            onSubscribe: sub => sub.request(20)
-          });
-        resolve(prUsers);
-      });
-    });
+  async fetchUsersPreview(user: string): Promise<PreviewUser[]> {
+    return searchPreviewUsers(user);
+    //return new Promise(resolve => {
+    //  const prUsers: PreviewUser[] = [];
+    //  userRSocketApi().then(userRSocket => {
+    //    userRSocket
+    //      .requestStream({
+    //        data: dataBuf({ username: user }),
+    //        metadata: metadataBuf(accessToken, userApi.searchPreview)
+    //      })
+    //      .subscribe({
+    //        onError: error => console.error(error),
+    //        onNext: payload => prUsers.push(bufToJson(payload)),
+    //        onComplete: () => resolve(prUsers),
+    //        onSubscribe: sub => sub.request(20)
+    //      });
+    //  });
+    //});
   }
 
   @Action
   async fetchAedDevicesPreview(
     aedDeviceNickname: string
-  ): Promise<IAedDevicePreview[]> {
+  ): Promise<IAedDevPreview[]> {
     return new Promise(resolve => {
-      const prAedDevices: IAedDevicePreview[] = [];
+      const prAedDevices: IAedDevPreview[] = [];
       aedRSocketApi().then(aedRSocket => {
         aedRSocket
           .requestStream({

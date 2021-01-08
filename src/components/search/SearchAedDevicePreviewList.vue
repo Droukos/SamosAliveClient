@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { IAedDevicePreview } from "@/types/aed-device";
+import { IAedDevPreview } from "@/types/aed-device";
 import { namespace } from "vuex-class";
 
 const search = namespace("search");
@@ -64,7 +64,7 @@ const search = namespace("search");
   }
 })
 export default class SearchAedDevicePreviewList extends Vue {
-  @search.State previewAedDevices!: IAedDevicePreview[];
+  @search.State previewAedDevices!: IAedDevPreview[];
 
   //getStatusColor(statusCode: number) {
   //  return getAedDeviceStatusColor(statusCode);

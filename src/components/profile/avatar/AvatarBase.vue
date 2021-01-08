@@ -34,19 +34,27 @@ export default class AvatarBase extends Vue {
   @Prop()
   size!: string;
 
-  setBackgroundColor(username: string) {
-    return this.$helper.usernameHashCode(username);
-  }
-
   get doesAvatarNotExists() {
     return this.avatar == null || this.avatar == "";
   }
   get usernameFirstLetter() {
     return this.username.charAt(0).toUpperCase();
   }
+
   get profileBackStyle() {
-    return "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color:black;background-color:".concat(
-      this.setBackgroundColor(this.username),
+    const bkColor = this.$helper.usernameHashCode(this.username);
+    const letterColor =
+      this.$helper.getColorLuma(bkColor) < 125
+        ? this.$helper.adjustColor(bkColor, 150)
+        : this.$helper.adjustColor(bkColor, -150);
+
+    const letterSize = parseInt(this.size) > 60 ? "40px" : "18px";
+    return "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color:".concat(
+      letterColor,
+      ";font-size:",
+      letterSize,
+      ";background-color:",
+      bkColor,
       ";height:",
       this.size,
       "px !important;width:",
