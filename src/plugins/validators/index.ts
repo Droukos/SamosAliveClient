@@ -6,7 +6,7 @@ import {
   TranslateResult,
 } from "vue-i18n";
 import {
-  bufToJson,
+  bufToData,
   dataBuf,
   metadataOnlyRoute,
 } from "@/plugins/api/rsocket-util";
@@ -101,7 +101,7 @@ export default class Validator {
       })
       .subscribe({
         onComplete: (value) => {
-          if (bufToJson(value) == "false") {
+          if (bufToData(value) == "false") {
             this.obj.e = i18n.t("validations.fieldTaken", [
               i18n.t("fields.username"),
             ]);
@@ -120,7 +120,7 @@ export default class Validator {
       })
       .subscribe({
         onComplete: (value) => {
-          if (bufToJson(value) == "false") {
+          if (bufToData(value) == "false") {
             this.obj.e = i18n.t("validations.fieldTaken", [
               i18n.t("fields.email"),
             ]);

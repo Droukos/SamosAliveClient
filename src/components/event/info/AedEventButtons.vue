@@ -1,5 +1,5 @@
 <template>
-  <div v-if="aedEvent.status === allStatus.ONPROGRESS">
+  <div v-if="aedEvent.status === allStatus.ONPROGRESS && isValidUser">
     <v-btn
       color="primary"
       @click="openDialog()"
@@ -29,7 +29,7 @@
       </v-dialog>
     </v-row>
   </div>
-  <div v-else-if="aedEvent.status === allStatus.PENDING">
+  <div v-else-if="aedEvent.status === allStatus.PENDING && isValidUser">
     <v-tooltip v-if="rescuerPosition == null || !verifiedPosition" top>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -58,6 +58,8 @@ import { LatLng } from "leaflet";
 import { LCircle, LMap } from "vue2-leaflet";
 import { IAedDevPreview } from "@/types/aed-device";
 import { AedDeviceAreaLookWithRoute } from "@/types/osm";
+import { Role } from "@/types";
+import { roles } from "@/plugins/enums/roles";
 
 const aedEventChannelSub = namespace("aedEventChannelSub");
 const environment = namespace("environment");
@@ -86,6 +88,7 @@ export default class AedEventButtons extends Vue {
 
   @Prop() aedEvent!: AedEventInfoDto;
   @user.State username!: string;
+  @user.Getter userRoles!: Role[];
   @environment.State locale!: string;
   @aedEventChannelSub.Action subRescuer!: (
     data: AedEventRescuerInfo
@@ -127,6 +130,23 @@ export default class AedEventButtons extends Vue {
 
   closeEvent() {
     this.closeAedEvent({ id: this.aedEvent.id, conclusion: this.message });
+  }
+
+  get isValidUser() {
+    console.log(
+      this.userRoles.find(
+        roleModel =>
+          roleModel.role === roles.RESCUER ||
+          roleModel.role === roles.GENERAL_ADMIN
+      ) !== undefined
+    );
+    return (
+      this.userRoles.find(
+        roleModel =>
+          roleModel.role === roles.RESCUER ||
+          roleModel.role === roles.GENERAL_ADMIN
+      ) !== undefined
+    );
   }
 }
 </script>

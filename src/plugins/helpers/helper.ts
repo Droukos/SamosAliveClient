@@ -2,6 +2,7 @@ import i18n from "@/plugins/i18n";
 import { TranslateResult } from "vue-i18n";
 import { Role } from "@/types";
 import { roles } from "@/plugins/enums/roles";
+import {availability} from "@/plugins/enums/user/status/status";
 
 const createDate = (date: number[]) => {
   return new Date(date[0], date[1], date[2], date[3], date[4], date[5]);
@@ -123,18 +124,13 @@ export default new (class Helper {
   }
   getUserStatusColorLabel(status: any) {
     status = parseInt(status);
-    if (status == 0) return "grey--text text--darken-1";
-    //Offline
-    else if (status == 1) return "blue--text text--lighten-2";
-    //Online
-    else if (status == 2) return "red--text text--darken-4";
-    //Busy
-    else if (status == 3) return "deep-purple--text text--accent-2";
-    //On Duty
-    else if (status == 4) return "orange--text text--lighten-2";
-    //Away
-    else if (status == 6) return "red--text text--darken-2";
-    else if (status == 8) return "red--text text--darken-1";
+    if (status == availability.OFFLINE) return "grey--text text--darken-1";
+    else if (status == availability.ONLINE) return "blue--text text--lighten-2";
+    else if (status == availability.BUSY) return "red--text text--darken-4";
+    else if (status == availability.ON_DUTY) return "deep-purple--text text--accent-2";
+    else if (status == availability.AWAY) return "orange--text text--lighten-2";
+    else if (status == availability.TEMP_BANNED) return "red--text text--darken-2";
+    else if (status == availability.PERM_BANNED) return "red--text text--darken-1";
   }
   isGeneralAdmin(roles: Role[]): boolean {
     const adminRole = roles.find(role => {

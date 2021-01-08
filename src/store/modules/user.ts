@@ -34,6 +34,7 @@ import {
   setUserIdUsername
 } from "@/plugins/user-util";
 import { ISubscription } from "rsocket-types";
+import { availability } from "@/plugins/enums/user/status/status";
 
 Vue.use(VueCookies);
 
@@ -195,26 +196,38 @@ export default class User extends VuexModule implements UserInfo {
     const requestedMsg = 10;
     let processedMsg = 0;
     let iSub: ISubscription;
-    getAccessTokenJwt().then(token => {
-      authRSocketApi()
-        .requestStream({
-          metadata: metadataBuf(token, authApi.authListen)
-        })
-        .subscribe({
-          onNext: value => {
-            processedMsg++;
-            if (processedMsg >= requestedMsg) {
-              iSub.request(requestedMsg);
-              processedMsg = 0;
+    getAccessTokenJwt()
+      .then(token => {
+        authRSocketApi()
+          .requestStream({
+            metadata: metadataBuf(token, authApi.authListen)
+          })
+          .subscribe({
+            onNext: value => {
+              processedMsg++;
+              if (processedMsg >= requestedMsg) {
+                iSub.request(requestedMsg);
+                processedMsg = 0;
+              }
+              const data: LoginResponse = bufToJson(value);
+              if (
+                data.availability == availability.TEMP_BANNED ||
+                data.availability == availability.PERM_BANNED
+              ) {
+                this.context.dispatch("logoutUser");
+              } else {
+                this.context.dispatch("fetchUserData");
+              }
+            },
+            onError: error => console.error(error),
+            onSubscribe: sub => {
+              iSub = sub;
+              sub.request(requestedMsg);
             }
-            this.context.dispatch("fetchUserData");
-          },
-          onError: error => console.error(error),
-          onSubscribe: sub => {
-            iSub = sub;
-            sub.request(requestedMsg);
-          }
-        });
-    });
+          });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 }
