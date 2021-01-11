@@ -7,9 +7,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { PreviewUser } from "@/types";
-import { namespace } from "vuex-class";
-
-const adminMixin = namespace("adminMixin");
 
 @Component({
   components: {

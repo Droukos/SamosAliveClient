@@ -90,6 +90,7 @@ export default class LoginBase extends Vue {
   invalid = true;
   invalidCredentials = false;
 
+  @user.Action listenAuth!: () => void;
   @user.Action loginUser!: (data: UserLogin) => Promise<void>;
 
   @Prop() sessExp!: boolean;
@@ -119,6 +120,7 @@ export default class LoginBase extends Vue {
       })
         .then(() => {
           updateAccToken();
+          this.listenAuth();
           this.$router.push({
             name: "news"
           });

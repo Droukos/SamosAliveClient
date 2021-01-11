@@ -1,102 +1,108 @@
 <template>
-  <v-main>
+  <VContent>
     <v-container>
-      <p class="display-1" style="color:#00897B">{{ $t("register.header") }}</p>
-      <form action id="loginForm" method="POST">
-        <v-text-field
-          v-model="user.v"
-          @input="validUsername()"
-          :success-messages="user.suMsg"
-          :loading="user.loading"
-          :error-messages="user.e"
-          :counter="30"
-          :label="user.f"
-          prepend-icon="$account"
-          :append-icon="user.sh ? user.i : ''"
-          @click:append="checkUniqueUsername()"
-          required
-        ></v-text-field>
+      <p
+        class="display-1"
+        style="color:#00897B"
+        v-text="$t('register.header')"
+      />
+      <VTextField
+        v-model="user.v"
+        @input="validUsername()"
+        :success-messages="user.suMsg"
+        :loading="user.loading"
+        :error-messages="user.e"
+        :counter="30"
+        :label="user.f"
+        prepend-icon="$account"
+        :append-icon="user.sh ? user.i : ''"
+        @click:append="checkUniqueUsername()"
+        required
+      />
 
-        <v-text-field
-          v-model="pass.v"
-          @input="validPass()"
-          :append-icon="pass.sh ? '$eye' : '$eyeOff'"
-          prepend-icon="$key"
-          :type="pass.sh ? 'text' : 'password'"
-          :error-messages="pass.e"
-          name="input-10-1"
-          :label="pass.f"
-          :counter="120"
-          @click:append="showPass()"
-        ></v-text-field>
-        <v-expand-transition>
-          <div v-show="!pass.sh">
-            <v-text-field
-              v-model="passC.v"
-              @input="validPassC()"
-              :append-icon="passC.sh ? '$eye' : '$eyeOff'"
-              prepend-icon="$keyOut"
-              :type="passC.sh ? 'text' : 'password'"
-              :error-messages="passC.e"
-              name="input-10-1"
-              :label="passC.f"
-              :counter="120"
-              @click:append="passC.sh = !passC.sh"
-            ></v-text-field>
-          </div>
-        </v-expand-transition>
+      <VTextField
+        v-model="pass.v"
+        @input="validPass()"
+        :append-icon="pass.sh ? '$eye' : '$eyeOff'"
+        prepend-icon="$key"
+        :type="pass.sh ? 'text' : 'password'"
+        :error-messages="pass.e"
+        name="input-10-1"
+        :label="pass.f"
+        :counter="120"
+        @click:append="showPass()"
+      />
+      <v-expand-transition>
+        <div v-show="!pass.sh">
+          <VTextField
+            v-model="passC.v"
+            @input="validPassC()"
+            :append-icon="passC.sh ? '$eye' : '$eyeOff'"
+            prepend-icon="$keyOut"
+            :type="passC.sh ? 'text' : 'password'"
+            :error-messages="passC.e"
+            name="input-10-1"
+            :label="passC.f"
+            :counter="120"
+            @click:append="passC.sh = !passC.sh"
+          />
+        </div>
+      </v-expand-transition>
 
-        <v-text-field
-          v-model="name.v"
-          @input="validName()"
-          :error-messages="name.e"
-          :counter="30"
-          :label="name.f"
-          prepend-icon="$accountOut"
-          required
-        ></v-text-field>
+      <VTextField
+        v-model="name.v"
+        @input="validName()"
+        :error-messages="name.e"
+        :counter="30"
+        :label="name.f"
+        prepend-icon="$accountOut"
+        required
+      />
 
-        <v-text-field
-          v-model="surname.v"
-          @input="validSurname()"
-          :error-messages="surname.e"
-          :counter="30"
-          :label="surname.f"
-          prepend-icon="$accountOut"
-          required
-        ></v-text-field>
+      <VTextField
+        v-model="surname.v"
+        @input="validSurname()"
+        :error-messages="surname.e"
+        :counter="30"
+        :label="surname.f"
+        prepend-icon="$accountOut"
+        required
+      />
 
-        <v-text-field
-          v-model="email.v"
-          @input="validEmail()"
-          :success-messages="email.suMsg"
-          :loading="email.loading"
-          :error-messages="email.e"
-          :label="email.f"
-          :counter="120"
-          :append-icon="email.sh ? email.i : ''"
-          @click:append="checkUniqueEmail()"
-          prepend-icon="$email"
-          required
-        ></v-text-field>
+      <VTextField
+        v-model="email.v"
+        @input="validEmail()"
+        :success-messages="email.suMsg"
+        :loading="email.loading"
+        :error-messages="email.e"
+        :label="email.f"
+        :counter="120"
+        :append-icon="email.sh ? email.i : ''"
+        @click:append="checkUniqueEmail()"
+        prepend-icon="$email"
+        required
+      />
 
-        <p class="text-justify">
-          {{ $t("login.message") }}
-          <v-btn rounded small @click="toLogin()" aria-label="ToLogin">{{
-            $t("login.title")
-          }}</v-btn>
-        </p>
-        <v-btn
-          class="mr-4"
-          @click="submit()"
-          :disabled="invalid"
-          aria-label="Register"
-          >{{ $t("register.title") }}</v-btn
-        >
-        <v-btn @click="clear" aria-label="Clear">{{ $t("clear") }}</v-btn>
-      </form>
+      <p class="text-justify">
+        {{ $t("login.message") }}
+        <VBtn
+          rounded
+          small
+          @click="toLogin()"
+          aria-label="ToLogin"
+          v-text="$t('login.title')"
+        />
+      </p>
+      <VBtn
+        class="mr-4"
+        @click="submit()"
+        :disabled="invalid"
+        aria-label="Register"
+        v-text="$t('register.title')"
+      />
+      <VBtn @click="clear" aria-label="Clear" v-text="$t('clear')" />
     </v-container>
-  </v-main>
+  </VContent>
 </template>
 
 <script lang="ts">
@@ -232,10 +238,8 @@ export default class RegistrationCard extends Vue {
         name: this.name.v,
         surname: this.surname.v,
         email: this.email.v
-      }).then(value => {
-        if (value == "true") {
-          this.toValidation();
-        }
+      }).then(() => {
+        this.toValidation();
       });
     }
   }

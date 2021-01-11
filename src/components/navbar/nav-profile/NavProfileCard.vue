@@ -9,15 +9,16 @@
     <NavProfileOptions />
     <v-divider />
     <v-sheet>
-      <v-btn block>
-        {{ $t("user.logout") }}
-      </v-btn>
+      <v-btn block v-text="$t('user.logout')" @click="logout" />
     </v-sheet>
   </v-sheet>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+
+const user = namespace("user");
 
 @Component({
   components: {
@@ -39,5 +40,15 @@ import { Component, Vue } from "vue-property-decorator";
       )
   }
 })
-export default class NavProfileCard extends Vue {}
+export default class NavProfileCard extends Vue {
+  @user.Action logoutUser!: () => Promise<void>;
+
+  logout() {
+    this.logoutUser().then(() => {
+      this.$router.push({
+        name: "login"
+      });
+    });
+  }
+}
 </script>

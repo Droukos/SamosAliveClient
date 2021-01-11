@@ -6,3 +6,10 @@ export const adminOptions = {
     ADD_ROLES: 4,
     DEL_ROLES: 5
 }
+
+export const adminProcOptions = {
+    NOT_READY: 0,
+    BUILD: 1,
+    FINISHED: 3,
+    ERROR: 4
+}

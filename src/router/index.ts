@@ -76,6 +76,14 @@ const routes: Array<RouteConfig> = [
     props: true
   },
   {
+    path: "/admin/mixin/users",
+    name: "adminMixinUsers",
+    component: () =>
+        import(
+            /* webpackChunkName: "AdminMixinCard" */ "@/views/routes/admin/mixin/AdminMixinCard.vue"
+            )
+  },
+  {
     path: "/admin/ban/users",
     name: "adminBanUsers",
     component: () =>

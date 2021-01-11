@@ -1,10 +1,10 @@
 <template>
-  <v-main>
-    <v-container transition="fab-transition">
-      <p class="display-1" style="color:#00897B">{{ $t("login.header") }}</p>
-      <LoginBase :sessExp="showSessionExpired"></LoginBase>
-    </v-container>
-  </v-main>
+  <VContent>
+    <VContainer transition="fab-transition">
+      <p class="display-1" style="color:#00897B" v-text="$t('login.header')" />
+      <LoginBase :sessExp="showSessionExpired" />
+    </VContainer>
+  </VContent>
 </template>
 
 <script lang="ts">

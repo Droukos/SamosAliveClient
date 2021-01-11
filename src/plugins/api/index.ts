@@ -243,7 +243,7 @@ export function cdnConn(): Promise<ReactiveSocket<any, any>> {
 }
 
 export function getAccessTokenJwt(): Promise<string> {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     if (accessToken != "") resolve(accessToken);
     else {
       const maxTries = 30;
@@ -253,7 +253,7 @@ export function getAccessTokenJwt(): Promise<string> {
           setTimeout(function() {
               someDelay(tries);
           }, 100);
-        else resolve("");
+        else reject("");
         tries++;
       })(0);
     }

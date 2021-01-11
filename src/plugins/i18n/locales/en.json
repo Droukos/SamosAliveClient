@@ -12,15 +12,32 @@
     "admin": "Administration"
   },
   "admin": {
-    "mixin": "Mixin",
+    "mixin": "Admin Mixin",
     "banS": "Users Ban",
     "unbanS": "Users Unban",
     "chaRolesS": "Users Role Change",
     "addRolesS": "Users Role Add",
     "delRolesS": "Users Role Delete",
-    "banList": "List of users to ban",
+    "uList": "List of users to ",
+    "emptyList": "Empty user list",
+    "undecidedList": "@:admin.uList be processed",
+    "banList": "@:admin.uList ban",
+    "unbanList": "@:admin.uList unban",
+    "chRoleList": "@:admin.uList change role",
+    "addRoleList": "@:admin.uList add role",
+    "delRoleList": "@:admin.uList del role",
     "banDuration": "Ban Duration",
-    "process": "Process"
+    "oldRole": "Old Role",
+    "newRole": "New Role",
+    "process": "Process",
+    "sucBan": "@:warnings.success ban",
+    "sucUnban": "@:warnings.success unban",
+    "sucChRole": "@:warnings.success change roles",
+    "sucAddRole": "@:warnings.success add roles",
+    "sucDelRole": "@:warnings.success delete roles",
+    "addMaxLimit": "User max limit roles reached",
+    "delMinLimit": "User min limit roles reached",
+    "hintRmUser": "Please remove user from list"
   },
   "clear": "Clear",
   "close": "Close",
@@ -263,6 +280,8 @@
     "2": "Busy",
     "3": "On Duty",
     "4": "Away",
+    "6": "Temporary Banned",
+    "8": "Permanent Banned",
     "currently": "Currently ",
     "title": "Status:"
   },
@@ -326,6 +345,7 @@
     "usernameRegex": "Invalid Username"
   },
   "warnings": {
+    "success": "Successful",
     "invalid": "invalid",
     "notEmpty": "can't be empty",
     "notMatch": "doesn't match",

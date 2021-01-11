@@ -12,15 +12,32 @@
     "admin": "Διαχείριση"
   },
   "admin": {
-    "mixin": "Mixin",
+    "mixin": "Admin Mixin",
     "banS": "Αποκλεισμός χρηστών",
     "unbanS": "Επαναφορά αποκλεισμένων χρηστών",
     "chaRolesS": "Αλλαγή Ρόλων Χρηστών",
     "addRolesS": "Πρόσθεση Ρόλων Χρηστών",
     "delRolesS": "Διαγραφή Ρόλων Χρηστών",
-    "banList": "Χρήστες που θα αποκλειστούν",
+    "uList": "Χρήστες που θα ",
+    "emptyList": "Άδεια λίστα χρηστών",
+    "undecidedList": "@:admin.uList επεξεργαστούν",
+    "banList": "@:admin.uList αποκλειστούν",
+    "unbanList": "@:admin.uList επαναφερθούν",
+    "chRoleList": "@:admin.uList αλλάξουν ρόλο",
+    "addRoleList": "@:admin.uList προσθέσουν ρόλο",
+    "delRoleList": "@:admin.uList διαγράψουν ρόλο",
     "banDuration": "Χρονική Διάρκεια Αποκλεισμού",
-    "process": "Εκτέλεση"
+    "oldRole": "Υπάρχον Ρόλος",
+    "newRole": "Νεός Ρόλος",
+    "process": "Εκτέλεση",
+    "sucBan": "@:warnings.success αποκλεισμός",
+    "sucUnban": "@:warnings.success επαναφορά",
+    "sucChRole": "@:warnings.success αλλαγή ρόλων",
+    "sucAddRole": "@:warning.success πρόσθεση ρόλων",
+    "sucDelRole": "@:warning.success αφαίρεση ρόλων",
+    "addMaxLimit": "Επιτεύχθηκε το μέγιστο όριο ρόλων σε χρήστη",
+    "delMinLimit": "Επιτεύχθηκε το ελάχιστο όριο ρόλων σε χρήστη",
+    "hintRmUser": "Παρακαλώ αφαιρέστε τον χρήστη από την λίστα"
   },
   "clear": "Καθαρισμός",
   "close": "Κλείσιμο",
@@ -261,6 +278,8 @@
     "2": "Απασχολημένος",
     "3": "Σε Υπηρεσία",
     "4": "Εκτός",
+    "6": "Προσωρινά Αποκλεισμένος",
+    "8": "Μόνιμα Αποκλεισμένος",
     "currently": "Αυτή την στιγμή ",
     "title": "Κατάσταση:"
   },
@@ -324,6 +343,7 @@
     "usernameRegex": "Μη έγκυρο όνομα χρήστη"
   },
   "warnings": {
+    "success": "Επιτυχές",
     "invalid": "μη έγκυρο",
     "notEmpty": "δεν μπορεί να είναι άδειο",
     "notMatch": "δεν ταιριάζουν",
