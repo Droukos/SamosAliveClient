@@ -52,13 +52,13 @@ export default class NavProblemsList extends Vue {
       {
         index: 1,
         i18n: this.$t("news.search"),
-        icon: "$medicalBag",
+        icon: "$search",
         link: "newsSearchCard"
       },
       {
         index: 2,
         i18n: this.$t("news.content"),
-        icon: "$medicalBag",
+        icon: "$newsLatest",
         link: "newsAll"
       }
     ];
