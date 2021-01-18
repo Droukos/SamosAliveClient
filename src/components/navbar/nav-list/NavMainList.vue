@@ -27,16 +27,16 @@ export default class NavBarMainList extends Vue {
   @environment.Mutation setSubNavBarOpen!: (index: number) => void;
 
   to(index: number) {
-    if (index == 3) {
-      this.setSubNavBarOpen(subNavBabOptions.NEWS);
-    } else if (index == 4) {
+    if (index == 2) {
       this.setSubNavBarOpen(subNavBabOptions.HEALTH);
-    } else if (index == 9) {
-      this.logoutUser();
+    } else if (index == 3) {
+      this.setSubNavBarOpen(subNavBabOptions.PROBLEMS);
+    } else if (index == 4) {
+      this.setSubNavBarOpen(subNavBabOptions.NEWS);
     } else if (index == 5) {
       this.setSubNavBarOpen(subNavBabOptions.ADMIN);
-    } else if (index == 11) {
-      this.setSubNavBarOpen(subNavBabOptions.PROBLEMS);
+    } else if (index == 9) {
+      this.logoutUser();
     }
     this.$router.push({
       name: this.pages[index].link
@@ -54,30 +54,30 @@ export default class NavBarMainList extends Vue {
       },
       {
         index: 1,
-        link: "search",
-        title: this.$t("search.title"),
-        icon: "$search",
+        link: "eventLive",
+        title: this.$t("events.live"),
+        icon: "$liveEv",
         rArrowIcon: false
       },
       {
         index: 2,
-        link: "messages",
-        title: this.$t("messages.title"),
-        icon: "$messages",
-        rArrowIcon: false
+        link: "",
+        title: this.$t("apps.health"),
+        icon: "$hospital",
+        rArrowIcon: true
       },
       {
         index: 3,
         link: "",
-        title: this.$t("news.title"),
-        icon: "$news",
+        title: this.$t("problems.list"),
+        icon: "$problems",
         rArrowIcon: true
       },
       {
         index: 4,
         link: "",
-        title: this.$t("apps.health"),
-        icon: "$hospital",
+        title: this.$t("news.title"),
+        icon: "$news",
         rArrowIcon: true
       },
       {
@@ -89,9 +89,9 @@ export default class NavBarMainList extends Vue {
       },
       {
         index: 6,
-        link: "history",
-        title: this.$t("history.title"),
-        icon: "$history",
+        link: "search",
+        title: this.$t("search.title"),
+        icon: "$search",
         rArrowIcon: false
       },
       {
@@ -113,21 +113,21 @@ export default class NavBarMainList extends Vue {
         link: "login",
         title: this.$t("user.logout"),
         icon: "$doorOpen"
-      },
-      {
-        index: 10,
-        link: "eventLive",
-        title: this.$t("events.live"),
-        icon: "$liveEv",
-        rArrowIcon: false
-      },
-      {
-        index: 11,
-        link: "",
-        title: this.$t("problems.list"),
-        icon: "$history",
-        rArrowIcon: true
       }
+      //{
+      //  index: 2,
+      //  link: "messages",
+      //  title: this.$t("messages.title"),
+      //  icon: "$messages",
+      //  rArrowIcon: false
+      //},
+      //{
+      //  index: 6,
+      //  link: "history",
+      //  title: this.$t("history.title"),
+      //  icon: "$history",
+      //  rArrowIcon: false
+      //}
     ];
   }
 }

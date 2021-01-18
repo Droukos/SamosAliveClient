@@ -55,7 +55,10 @@ import {
   mdiGavel,
   mdiChessRook,
   mdiHeadPlusOutline,
-  mdiHeadMinusOutline, mdiHeadSnowflakeOutline
+  mdiHeadMinusOutline,
+  mdiHeadSnowflakeOutline,
+  mdiNewspaperVariantMultiple,
+  mdiAlertOctagon
 } from "@mdi/js";
 
 Vue.use(Vuetify);
@@ -120,7 +123,9 @@ const MY_ICONS = {
   headMinus: mdiHeadMinusOutline,
   headAll: mdiHeadSnowflakeOutline,
   liveEvent: "fas fa-heartbeat",
-  appbar: "deep-purple darken-3"
+  appbar: "deep-purple darken-3",
+  newsLatest: mdiNewspaperVariantMultiple,
+  problems: mdiAlertOctagon
 };
 
 export default new Vuetify({

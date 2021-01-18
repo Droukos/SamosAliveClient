@@ -52,7 +52,7 @@ export default class NavProblemsList extends Vue {
       {
         index: 1,
         i18n: this.$t("problems.search"),
-        icon: "$medicalBag",
+        icon: "$search",
         link: "problemList"
       }
     ];
