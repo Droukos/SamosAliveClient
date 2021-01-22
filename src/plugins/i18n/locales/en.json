@@ -228,7 +228,16 @@
     "problemContent": "Defibrillator issue",
     "problemTitle": "Issue title",
     "search": "Search an issue",
-    "submit": "Submit"
+    "submit": "Submit",
+    "body": "Comment",
+    "username": "Uploaded by",
+    "technical": "Technical",
+    "address": "Address",
+    "conclusion": "Conclusion",
+    "problemS0": "Low battery",
+    "problemS1": "Broken",
+    "problemS2": "Stolen",
+    "problemS3": "Other"
   },
   "radius": {
     "km": "kilometers"

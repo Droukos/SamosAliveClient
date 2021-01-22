@@ -34,10 +34,10 @@ const problemsList = namespace("problemsList");
         store.registerModule("problemsList", problemsListMod);
       }
     });
-  },
-  beforeDestroy() {
-    this.$store.unregisterModule("problemsList");
   }
+  //beforeDestroy() {
+  //  this.$store.unregisterModule("problemsList");
+  //}
 })
 export default class ProblemsListCard extends Vue {}
 </script>

@@ -6,26 +6,26 @@
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">
-                <AedProblemsTitle />
+                <AedProblemsTitle :title="item.title" />
               </v-list-item-title>
               <v-list-item-title>
-                <AedProblemsAddress />
+                <AedProblemsAddress :address="item.address" />
               </v-list-item-title>
               <v-list-item-subtitle bottom>
-                <AedProblemsBody />
+                <AedProblemsBody :body="item.body" />
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <v-list-item-action-text>
-                <AedProblemsStatus />
+                <AedProblemsStatus :status="item.status" />
                 <br />
-                <AedProblemsUsername />
+                <AedProblemsUsername :username="item.username" />
               </v-list-item-action-text>
             </v-list-item-action>
           </v-list-item>
           <v-card-actions>
             <h6>
-              <AedProblemsUploadedTime />
+              <AedProblemsUploadedTime :uploadedTime="item.uploadedTime" />
             </h6>
             <v-spacer />
             <v-btn
@@ -44,7 +44,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-//TODO na balo mesa sosta ta previewProblems
+
+const problemsList = namespace("problemsList");
 
 @Component({
   components: {
@@ -75,6 +76,7 @@ import { namespace } from "vuex-class";
   }
 })
 export default class ProblemsListPanel extends Vue {
+  @problemsList.State previewProblems!: [];
   more(id: string) {
     this.$router.push({
       name: "problemsMore",

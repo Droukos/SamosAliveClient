@@ -226,7 +226,16 @@
     "problemContent": "Πρόβλημα απινιδοτή",
     "problemTitle": "Τίτλος προβλήματος",
     "search": "Αναζήτηση προβλήματος",
-    "submit": "Αποστολη"
+    "submit": "Αποστολη",
+    "body": "Σχόλιο",
+    "username": "Ανάρτηση από",
+    "technical": "Τεχνικός",
+    "address": "Διεύθυνση",
+    "conclusion": "Αποτέλεσμα",
+    "problemS0": "Χαμηλή μπαταρία",
+    "problemS1": "Χάλασε",
+    "problemS2": "Κλάπησε",
+    "problemS3": "Άλλο"
   },
   "radius": {
     "km": "χιλιόμετρα"

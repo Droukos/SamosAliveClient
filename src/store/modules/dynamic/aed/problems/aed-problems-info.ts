@@ -10,6 +10,7 @@ import { statusOptions } from "@/plugins/enums/event-options";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { problemsApi } from "@/plugins/api/api-urls";
+import L from "leaflet";
 
 @Module({
   dynamic: true,
@@ -21,20 +22,25 @@ export default class AedProblemsInfo extends VuexModule
   implements AedProblemsInfoDto {
   id = "";
   username = "";
-  title = "";
+  title = -1;
   body = "";
-  point = {x:0,y:0};
+  point = { x: 0, y: 0 };
+  aedDeviceId = "";
   address = "";
   status = statusOptions.UNKNOWN;
-  uploadedTime = "";
-  completedTime = "";
+  uploadedTime = [0];
+  completedTime = [0];
   technical = "";
   conclusion = "";
 
   dialog = false;
 
+  zoom = 15.5;
+  center = L.latLng(0, 0);
+  marker = L.latLng(0, 0);
+
   @Mutation
-  setDialog(dialog:boolean) {
+  setDialog(dialog: boolean) {
     this.dialog = dialog;
   }
 
@@ -51,6 +57,8 @@ export default class AedProblemsInfo extends VuexModule
     this.completedTime = data.completedTime;
     this.technical = data.technical;
     this.conclusion = data.conclusion;
+    this.center = L.latLng(data.point.y, data.point.x);
+    this.marker = L.latLng(data.point.y, data.point.x);
   }
 
   @Mutation

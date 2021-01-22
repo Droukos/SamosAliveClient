@@ -1,16 +1,14 @@
 <template>
   <v-card class="mx-auto">
-    <v-text-field
-      color="indigo"
-      dark
-      v-model="model.search"
-      :loading="model.isLoading"
-      class="pt-1"
-      :counter="model.counter"
-      :label="model.label"
-      @keyup="searchProblem()"
-      outlined
-    />
+    <div class="d-flex flex-row">
+      <v-select
+        v-model="selected"
+        :items="items"
+        item-text="msg"
+        item-value="code"
+      />
+      <v-btn v-text="'Search'" @click="searchProblem(selected)" />
+    </div>
   </v-card>
 </template>
 
@@ -22,25 +20,18 @@ const problemsList = namespace("problemsList");
 
 @Component
 export default class AedProblemsSearch extends Vue {
-  model = {
-    search: "",
-    isLoading: false,
-    counter: 50,
-    label: this.$t("history.searchProblem")
-  };
+  items = [
+    { msg: this.$t("problems.problemS0"), code: 0 },
+    { msg: this.$t("problems.problemS1"), code: 1 },
+    { msg: this.$t("problems.problemS2"), code: 2 },
+    { msg: this.$t("problems.problemS3"), code: 3 }
+  ];
+  selected = this.items[0].code;
 
-  @problemsList.State previewProblems!: [];
-  @problemsList.Action fetchProblemsPreview!: (title: string) => Promise<any>;
+  @problemsList.Action fetchProblemsPreview!: (title: number) => Promise<any>;
 
-  fetchProblemsPreviewList() {
-    setTimeout(() => {
-      this.fetchProblemsPreview(this.model.search).then(response => {
-        this.previewProblems = response;
-      });
-    }, 700);
-  }
-  searchProblem() {
-    this.fetchProblemsPreviewList();
+  searchProblem(selected: number) {
+    this.fetchProblemsPreview(selected);
   }
 }
 </script>

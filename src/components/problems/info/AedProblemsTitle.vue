@@ -1,15 +1,26 @@
 <template>
-  <span v-text="title" />
+  <span v-text="titleString(title)" />
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-
-const aedProblemsInfo = namespace("aedProblemsInfo");
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class AedProblemsTitle extends Vue {
-  @aedProblemsInfo.State title!: string;
+  @Prop() title!: number;
+  titleString(title: number) {
+    if (title == 0) {
+      return this.$t("problems.problemS0");
+    }
+    if (title == 1) {
+      return this.$t("problems.problemS1");
+    }
+    if (title == 2) {
+      return this.$t("problems.problemS2");
+    }
+    if (title == 3) {
+      return this.$t("problems.problemS3");
+    }
+  }
 }
 </script>

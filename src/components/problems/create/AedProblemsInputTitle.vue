@@ -1,29 +1,34 @@
 <template>
-  <v-text-field
-    v-model="fTitle.v"
-    @input="validateAndCheckForm()"
-    :error-messages="fTitle.e"
-    :counter="50"
-    :label="fTitle.f"
-    required
-    solo
+  <v-select
+    v-model="selected"
+    :items="items"
+    item-text="msg"
+    item-value="code"
+    v-on:change="selectTitle(selected)"
   />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { FieldObject } from "@/types";
 import { namespace } from "vuex-class";
 
 const aedProblemsCreate = namespace("aedProblemsCreate");
 
 @Component
 export default class AedProblemsInputTitle extends Vue {
-  @aedProblemsCreate.State fTitle!: FieldObject;
+  items = [
+    { msg: this.$t("problems.problemS0"), code: 0 },
+    { msg: this.$t("problems.problemS1"), code: 1 },
+    { msg: this.$t("problems.problemS2"), code: 2 },
+    { msg: this.$t("problems.problemS3"), code: 3 }
+  ];
+  selected = this.items[0].code;
+
+  @aedProblemsCreate.Mutation setTitle!: (title: number) => void;
   @aedProblemsCreate.Action vForm!: () => void;
 
-  validateAndCheckForm() {
-    //validateName(this.fTitle);
+  selectTitle(code: number) {
+    this.setTitle(code);
     this.vForm();
   }
 }
