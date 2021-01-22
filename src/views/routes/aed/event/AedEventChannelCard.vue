@@ -91,6 +91,10 @@ import { getLocation } from "@/plugins/geolocation";
 import { PreviewUser, PreviewUserCh } from "@/types";
 import AedDeviceRescuer = AedEvent.AedDeviceRescuer;
 import AedCommentReqDto = AedEvent.AedCommentReqDto;
+import {
+  fetchRescuerAndDevice,
+  setEventListeners
+} from "@/plugins/event-channel-util";
 
 const user = namespace("user");
 const environment = namespace("environment");
@@ -133,39 +137,43 @@ const eChannel = namespace("aedEventChannelSub");
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      const channelCard = vm as AedEventChannelCard;
-      channelCard.aedEventId = to.params.eventID;
-      const store = channelCard.$store;
+      const chCard = vm as AedEventChannelCard;
+      const evId = to.params.eventID;
+      const eventIdDto: EventDto = { id: evId };
+      const store = chCard.$store;
+      chCard.aedEventId = evId;
       if (!(store && store.state && store.state["aedEventChannelSub"])) {
         store.registerModule("aedEventChannelSub", aedEventChannelSubMod);
       }
-      channelCard.initChannelData(channelCard.aedEventId);
-
-      const eventIdDto: EventDto = { id: channelCard.aedEventId };
-      channelCard.findEventId(eventIdDto).then(() => {
-        channelCard.loading = false;
-        if (channelCard.username != channelCard.aedEventDto.username) {
-          getLocation(channelCard.setRescuerPos2);
+      chCard.initChannelData(evId, chCard.username);
+      chCard.findEventId(eventIdDto).then(() => {
+        chCard.loading = false;
+        if (chCard.username != chCard.aedEventDto.username) {
+          getLocation(chCard.setRescuerPos2);
         }
-
-        channelCard.listenEvent(eventIdDto);
-        channelCard.listenDeviceSub(eventIdDto);
-        channelCard.listenRescuerSub(eventIdDto);
-        channelCard.fetchEventUsers(eventIdDto);
-        channelCard.listenUsersSub(eventIdDto);
-        channelCard.listenDiscussionSub(eventIdDto);
-        if (
-          channelCard.aedEventDto.aedDeviceId != undefined &&
-          channelCard.aedDeviceSelected == null
-        ) {
-          channelCard.fetchDeviceAndRescuer({
-            aedDeviceId: channelCard.aedEventDto.aedDeviceId
-          });
-        }
+        setEventListeners(chCard, eventIdDto);
+        fetchRescuerAndDevice(chCard);
       });
     });
   },
+  beforeRouteUpdate(to, from, next) {
+    console.log(to.params.eventID);
+    const evId = to.params.eventID;
+    const eventIdDto: EventDto = { id: evId };
+    const chCard = this as AedEventChannelCard;
+
+    chCard.loading = true;
+    chCard.aedEventId = evId;
+    chCard.initChannelData(evId, chCard.username);
+    chCard.findEventId(eventIdDto).then(() => {
+      chCard.loading = false;
+      setEventListeners(chCard, eventIdDto);
+      fetchRescuerAndDevice(chCard);
+    });
+    next();
+  },
   beforeDestroy() {
+    const chCard = this as AedEventChannelCard;
     //if (!this.hasAedEvChannel(this.aedEventId)) {
     //  this.deleteEvOnMap(this.aedEventId);
     //}
@@ -181,7 +189,10 @@ export default class AedEventChannelCard extends Vue {
   @eChannel.State aedDeviceSelected!: IAedDevPreview | null;
   @eChannel.State selectedRescuer!: PreviewUser | null;
   @eChannel.State selectedRouteInfo!: RouteInfo;
-  @eChannel.Mutation initChannelData!: (aedEventId: string) => void;
+  @eChannel.Mutation initChannelData!: (
+    aedEventId: string,
+    username: string
+  ) => void;
   @eChannel.Mutation deleteEvOnMap!: (aedEventId: string) => void;
   @eChannel.Mutation setRescuerPos2!: (data: Position) => void;
   @eChannel.Mutation setMapDialog!: (bool: boolean) => void;

@@ -17,6 +17,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import subNavBabOptions from "@/plugins/enums/subnavbar-options";
+import { navOptions } from "@/plugins/enums/nav-options";
 
 const user = namespace("user");
 const environment = namespace("environment");
@@ -27,15 +28,17 @@ export default class NavBarMainList extends Vue {
   @environment.Mutation setSubNavBarOpen!: (index: number) => void;
 
   to(index: number) {
-    if (index == 2) {
+    if (index == navOptions.SUB_EVENTS) {
+      this.setSubNavBarOpen(subNavBabOptions.SUB_EVENTS);
+    } else if (index == navOptions.HEALTH) {
       this.setSubNavBarOpen(subNavBabOptions.HEALTH);
-    } else if (index == 3) {
+    } else if (index == navOptions.REPORTS_ISSUES) {
       this.setSubNavBarOpen(subNavBabOptions.PROBLEMS);
-    } else if (index == 4) {
+    } else if (index == navOptions.ANNOUNCEMENTS) {
       this.setSubNavBarOpen(subNavBabOptions.NEWS);
-    } else if (index == 5) {
+    } else if (index == navOptions.ADMINISTRATION) {
       this.setSubNavBarOpen(subNavBabOptions.ADMIN);
-    } else if (index == 9) {
+    } else if (index == navOptions.LOGOUT) {
       this.logoutUser();
     }
     this.$router.push({
@@ -46,88 +49,81 @@ export default class NavBarMainList extends Vue {
   get pages() {
     return [
       {
-        index: 0,
+        index: navOptions.MAIN,
         link: "aedEvent",
         title: this.$t("mainTitle"),
         icon: "$home",
         rArrowIcon: false
       },
       {
-        index: 1,
+        index: navOptions.LIVE_EVENTS,
         link: "eventLive",
         title: this.$t("events.live"),
         icon: "$liveEv",
         rArrowIcon: false
       },
       {
-        index: 2,
+        index: navOptions.SUB_EVENTS,
+        link: "",
+        title: this.$t("events.sub"),
+        icon: "$subStack",
+        rArrowIcon: true
+      },
+      {
+        index: navOptions.HEALTH,
         link: "",
         title: this.$t("apps.health"),
         icon: "$hospital",
         rArrowIcon: true
       },
       {
-        index: 3,
+        index: navOptions.REPORTS_ISSUES,
         link: "",
         title: this.$t("problems.list"),
         icon: "$problems",
         rArrowIcon: true
       },
       {
-        index: 4,
+        index: navOptions.ANNOUNCEMENTS,
         link: "",
         title: this.$t("news.title"),
         icon: "$news",
         rArrowIcon: true
       },
       {
-        index: 5,
+        index: navOptions.ADMINISTRATION,
         link: "",
         title: this.$t("apps.admin"),
         icon: "$shield",
         rArrowIcon: true
       },
       {
-        index: 6,
+        index: navOptions.SEARCH,
         link: "search",
         title: this.$t("search.title"),
         icon: "$search",
         rArrowIcon: false
       },
       {
-        index: 7,
+        index: navOptions.INFORMATION,
         link: "info",
         title: this.$t("info.title"),
         icon: "$info",
         rArrowIcon: false
       },
       {
-        index: 8,
+        index: navOptions.SETTINGS,
         link: "settings",
         title: this.$t("settings.title"),
         icon: "$settings",
         rArrowIcon: false
       },
       {
-        index: 9,
+        index: navOptions.LOGOUT,
         link: "login",
         title: this.$t("user.logout"),
         icon: "$doorOpen"
       }
-      //{
-      //  index: 2,
-      //  link: "messages",
-      //  title: this.$t("messages.title"),
-      //  icon: "$messages",
-      //  rArrowIcon: false
-      //},
-      //{
-      //  index: 6,
-      //  link: "history",
-      //  title: this.$t("history.title"),
-      //  icon: "$history",
-      //  rArrowIcon: false
-      //}
     ];
   }
 }

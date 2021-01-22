@@ -58,7 +58,7 @@ import {
   mdiHeadMinusOutline,
   mdiHeadSnowflakeOutline,
   mdiNewspaperVariantMultiple,
-  mdiAlertOctagon
+  mdiAlertOctagon, mdiLayersTriple
 } from "@mdi/js";
 
 Vue.use(Vuetify);
@@ -125,6 +125,7 @@ const MY_ICONS = {
   liveEvent: "fas fa-heartbeat",
   appbar: "deep-purple darken-3",
   newsLatest: mdiNewspaperVariantMultiple,
+  subStack: mdiLayersTriple,
   problems: mdiAlertOctagon
 };
 

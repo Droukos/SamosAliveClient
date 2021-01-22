@@ -3,7 +3,7 @@
     <v-menu offset-y :close-on-content-click="false">
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on">
-          <v-icon>{{ "$livePr" }}</v-icon>
+          <v-icon v-text="'$livePr'" />
         </v-btn>
       </template>
       <v-card width="350">

@@ -69,6 +69,7 @@ export default class User extends VuexModule implements UserInfo {
 
   userCreated = [];
   userUpdated = [];
+  aedSubEvents: string[] = [];
 
   @Mutation
   setAvatar(avatar: string) {
@@ -88,6 +89,7 @@ export default class User extends VuexModule implements UserInfo {
     setDescription(this, loginData.description);
     setRoleModels(this, loginData.roleModels);
     setAvailability(this, loginData.online, loginData.availability);
+    this.aedSubEvents = loginData.aedEventSubs.flatMap(item => item.substring(item.lastIndexOf('/')+1));
   }
 
   @Mutation

@@ -53,7 +53,6 @@ const search = namespace("search");
       import(
         /* webpackChunkName: "LControlMenuSearchable" */ "@/components/map/controls/LControlMenuSearchable.vue"
       ),
-
     LMarkerSearchable: () =>
       import(
         /* webpackChunkName: "LMarkerSearchable" */ "@/components/map/markers/LMarkerSearchable.vue"
@@ -87,9 +86,3 @@ export default class SearchMapAedDevice extends Vue {
   }
 }
 </script>
-
-<style>
-.mypopup.leaflet-popup-content-wrapper {
-  background-color: gray;
-}
-</style>

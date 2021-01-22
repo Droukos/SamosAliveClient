@@ -1,7 +1,22 @@
 import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
+import {RawLocation, Route, RouteConfig} from "vue-router";
+import Router from 'vue-router';
 
-Vue.use(VueRouter);
+const originalPush = Router.prototype.push;
+Router.prototype.push = async function (location: RawLocation) {
+  let route: Route;
+  try {
+    route = await originalPush.call<Router, [RawLocation], Promise<Route>>(this, location);
+  } catch (err) {
+    if (err.name !== 'NavigationDuplicated') {
+      throw err;
+    }
+  }
+
+  return route!;
+}
+
+Vue.use(Router);
 
 Vue.config.productionTip = false;
 
@@ -307,7 +322,7 @@ const routes: Array<RouteConfig> = [
   }
 ];
 
-export default new VueRouter({
+export default new Router({
   mode: "history",
   routes
 });

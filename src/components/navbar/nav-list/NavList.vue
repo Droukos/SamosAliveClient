@@ -1,10 +1,11 @@
 <template>
   <div>
     <NavMainList v-if="subNavBarOpen === subOptions.MAIN" />
-    <NavHealthList v-if="subNavBarOpen === subOptions.HEALTH" />
-    <NavAdminList v-if="subNavBarOpen === subOptions.ADMIN" />
-    <NavProblemsList v-if="subNavBarOpen === subOptions.PROBLEMS" />
-    <NavNewsList v-if="subNavBarOpen === subOptions.NEWS" />
+    <NavSubEventsList v-else-if="subNavBarOpen === subOptions.SUB_EVENTS" />
+    <NavHealthList v-else-if="subNavBarOpen === subOptions.HEALTH" />
+    <NavAdminList v-else-if="subNavBarOpen === subOptions.ADMIN" />
+    <NavProblemsList v-else-if="subNavBarOpen === subOptions.PROBLEMS" />
+    <NavNewsList v-else-if="subNavBarOpen === subOptions.NEWS" />
   </div>
 </template>
 
@@ -20,6 +21,10 @@ const environment = namespace("environment");
     NavMainList: () =>
       import(
         /* webpackChunkName: "NavMainList" */ "@/components/navbar/nav-list/NavMainList.vue"
+      ),
+    NavSubEventsList: () =>
+      import(
+        /* webpackChunkName: "NavSubEventsList" */ "@/components/navbar/nav-list/NavSubEventsList.vue"
       ),
     NavHealthList: () =>
       import(

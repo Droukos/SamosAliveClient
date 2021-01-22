@@ -155,6 +155,7 @@ declare namespace Login {
     roleModels: User.Role[];
     online: User.Online;
     availability: User.Availability;
+    aedEventSubs: string[];
   }
 }
 

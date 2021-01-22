@@ -5,13 +5,13 @@ import {
   AedEventCloseInfo,
   AedEventInfoDto,
   AedEventRescuerInfo,
-  ChannelSubs,
   EventComment,
   EventDevice,
   EventDto,
   EventRescuer,
   EventUser,
-  EventUsers
+  EventUsers,
+  RescuerAndDevice
 } from "@/types/aed-event";
 import { accessToken, aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
@@ -32,46 +32,12 @@ import AedDeviceRescuer = AedEvent.AedDeviceRescuer;
 import AedComment = AedEvent.AedComment;
 import AedEventCommentDto = AedEvent.AedEventCommentDto;
 import {
+  allUsers, chDisc, checkChCtrl, chSubs, chUsers, devEvMap, evMap, findElemOnChMap, rescuerEvMap,
   rSocketChannelStream,
-  rSocketResponse
+  rSocketResponse, setChCtrl, tempDevEvMap
 } from "@/plugins/event-channel-util";
 import AedCommentReqDto = AedEvent.AedCommentReqDto;
 import AedCommentsResDto = AedEvent.AedCommentsResDto;
-
-const evMap: Map<string, AedEventInfoDto> = new Map<string, AedEventInfoDto>();
-const rescuerEvMap: Map<string, PreviewRescuer> = new Map<
-  string,
-  PreviewRescuer
->();
-const devEvMap: Map<string, IAedDevPreview> = new Map<string, IAedDevPreview>();
-const chSubs: Map<string, ChannelSubs> = new Map<string, ChannelSubs>();
-const allUsers: Map<string, PreviewUserCh> = new Map<string, PreviewUserCh>();
-const chUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
-const chDisc: Map<string, Map<number, AedComment[]>> = new Map<
-  string,
-  Map<number, AedComment[]>
->();
-const routeDevsEvMap: Map<string, IAedDevPreview[]> = new Map<
-  string,
-  IAedDevPreview[]
->();
-
-function findElemOnChMap(
-  aedEventId: string,
-  map: Map<string, any>,
-  tracker: number
-) {
-  const elem = map.get(aedEventId);
-  if (tracker == 0 || aedEventId == "") return undefined;
-  else return elem;
-}
-
-//function setSubCh(data: EventChannelSub) {
-//  const m = chSubs.get(data.eventId);
-//  if (m != undefined) {
-//    chSubs.set(data.eventId, data.channelSub);
-//  }
-//}
 
 @Module({
   dynamic: true,
@@ -145,19 +111,20 @@ export default class AedEventChannelsSub extends VuexModule {
   }
 
   @Mutation
-  initChannelData(aedEventId: string) {
-    if (routeDevsEvMap.has(aedEventId)) {
-      this.previewAedDevices = [...routeDevsEvMap.get(aedEventId)!.values()];
+  initChannelData(aedEventId: string, username: string) {
+    if (tempDevEvMap.has(aedEventId)) {
+      this.previewAedDevices = [...tempDevEvMap.get(aedEventId)!.values()];
       this.verifiedPosition = false;
       this.selectedRouteInfo = emptyRouteInfo();
       this.aedDeviceSelected = null;
       this.selectedRescuer = null;
     } else if (devEvMap.has(aedEventId)) {
       this.aedDeviceSelected = devEvMap.get(aedEventId)!;
-      this.selectedRouteInfo = this.aedDeviceSelected.responseRouteInfo;
+      const isRescuer = (rescuerEvMap.get(aedEventId)!.user === username);
       this.selectedRescuer = rescuerEvMap.get(aedEventId)!;
       this.previewAedDevices = [this.aedDeviceSelected];
-      this.verifiedPosition = true;
+      this.selectedRouteInfo = (isRescuer)? this.aedDeviceSelected.responseRouteInfo: emptyRouteInfo();
+      this.verifiedPosition = isRescuer;
     } else {
       this.previewAedDevices = [];
       this.verifiedPosition = false;
@@ -165,7 +132,7 @@ export default class AedEventChannelsSub extends VuexModule {
       this.selectedRescuer = null;
       this.aedDeviceSelected = null;
     }
-    if(chDisc.has(aedEventId)) {
+    if (chDisc.has(aedEventId)) {
       this.showAedComments = chDisc.get(aedEventId)!.get(0)!;
     } else {
       this.showAedComments = [];
@@ -223,13 +190,14 @@ export default class AedEventChannelsSub extends VuexModule {
       );
       this.showPreviewAedDevices.push(dto.aedDeviceInfoPreviewDto);
     }
-    routeDevsEvMap.set(aedEventId, this.showPreviewAedDevices);
+    tempDevEvMap.set(aedEventId, this.showPreviewAedDevices);
     this.previewAedDevices = this.showPreviewAedDevices;
     sortAedDevices(this.previewAedDevices);
   }
 
   @Mutation
   setDeviceAndRescuer(data: AedDeviceRescuer) {
+    if (data === null) return;
     this.previewAedDevices = [];
     this.aedDeviceSelected = {
       id: data.id,
@@ -257,6 +225,13 @@ export default class AedEventChannelsSub extends VuexModule {
       roles: data.rescuerRoles,
       on: true
     };
+  }
+
+  @Mutation
+  setDeviceAndRescuer2(data: RescuerAndDevice) {
+    this.previewAedDevices = [];
+    this.aedDeviceSelected = data.device;
+    this.selectedRescuer = data.rescuer;
   }
 
   @Mutation
@@ -315,8 +290,6 @@ export default class AedEventChannelsSub extends VuexModule {
     const comPages = Math.floor(data.value.allComments! / 50);
     delete data.value.allComments;
 
-    console.log(data);
-    console.log(comPages);
     if (chDisc.has(data.eventId)) {
       const pageAedComments = chDisc.get(data.eventId)!;
 
@@ -344,7 +317,6 @@ export default class AedEventChannelsSub extends VuexModule {
 
   @Mutation
   setFetchedCommentsInMap(data: AedCommentsResDto) {
-    //console.log(data);
     if (data == null || data.comments.length <= 0) {
       return;
     }
@@ -360,7 +332,6 @@ export default class AedEventChannelsSub extends VuexModule {
 
   @Mutation
   setUserInfoInMap(data: EventUser) {
-    //console.log(data);
     allUsers.set(data.value.username, data.value);
 
     if (chUsers.has(data.eventId)) {
@@ -509,7 +480,7 @@ export default class AedEventChannelsSub extends VuexModule {
 
   get potentialAedDevices() {
     return function(aedEventId: string) {
-      return findElemOnChMap(aedEventId, routeDevsEvMap, 1);
+      return findElemOnChMap(aedEventId, tempDevEvMap, 1);
     };
   }
 
@@ -565,7 +536,9 @@ export default class AedEventChannelsSub extends VuexModule {
   @Action({ commit: "setAedEventInfo" })
   async findEventId(data: EventDto) {
     //TODO check if user is subscribed and if there's already a value in evMap, then set evMap's event
-    return rSocketResponse(data, eventApi.findEventId);
+    return chSubs.has(data.id) && evMap.has(data.id)
+      ? evMap.get(data.id)
+      : rSocketResponse(data, eventApi.findEventId);
   }
 
   @Action({ commit: "setFetchedCommentsInMap" })
@@ -602,80 +575,105 @@ export default class AedEventChannelsSub extends VuexModule {
 
   @Action
   async listenEvent(data: EventDto) {
-    await rSocketChannelStream({
-      eventDto: data,
-      iSub: { name: "event", sub: this.channelsSubscription(data.id) },
-      commit: this.context.commit,
-      mut: {
-        rSocketUrl: eventApi.aedEventListenSub,
-        mapMut: "setAedEventInfo",
-        subMut: "setStreamSubscription"
-      }
-    });
+    if (checkChCtrl(data.id, "evSub")) {
+      setChCtrl(data.id, { prop: "evSub", val: true });
+      await rSocketChannelStream({
+        eventDto: data,
+        iSub: { name: "event", sub: this.channelsSubscription(data.id) },
+        commit: this.context.commit,
+        mut: {
+          rSocketUrl: eventApi.aedEventListenSub,
+          mapMut: "setAedEventInfo",
+          subMut: "setStreamSubscription"
+        }
+      });
+    }
   }
 
   @Action
   async listenDeviceSub(data: EventDto) {
-    await rSocketChannelStream({
-      eventDto: data,
-      iSub: { name: "device", sub: this.channelsSubscription(data.id) },
-      commit: this.context.commit,
-      mut: {
-        rSocketUrl: eventApi.aedDeviceListenSub,
-        mapMut: "setAedDeviceInfo",
-        subMut: "setDeviceStreamSubscription"
-      }
-    });
+    if (checkChCtrl(data.id, "devSub")) {
+      setChCtrl(data.id, { prop: "devSub", val: true });
+      await rSocketChannelStream({
+        eventDto: data,
+        iSub: { name: "device", sub: this.channelsSubscription(data.id) },
+        commit: this.context.commit,
+        mut: {
+          rSocketUrl: eventApi.aedDeviceListenSub,
+          mapMut: "setAedDeviceInfo",
+          subMut: "setDeviceStreamSubscription"
+        }
+      });
+    }
   }
 
   @Action
   async listenDiscussionSub(data: EventDto) {
-    await rSocketChannelStream({
-      eventDto: data,
-      iSub: { name: "discussion", sub: this.channelsSubscription(data.id) },
-      commit: this.context.commit,
-      mut: {
-        rSocketUrl: eventApi.aedDiscussionListenSub,
-        mapMut: "setLiveCommentInMapDiscussion",
-        subMut: "setUsersStreamSubscription"
-      }
-    });
+    if (checkChCtrl(data.id, "discSub")) {
+      setChCtrl(data.id, { prop: "discSub", val: true });
+      await rSocketChannelStream({
+        eventDto: data,
+        iSub: { name: "discussion", sub: this.channelsSubscription(data.id) },
+        commit: this.context.commit,
+        mut: {
+          rSocketUrl: eventApi.aedDiscussionListenSub,
+          mapMut: "setLiveCommentInMapDiscussion",
+          subMut: "setUsersStreamSubscription"
+        }
+      });
+    }
   }
 
   @Action
   async listenUsersSub(data: EventDto) {
-    await rSocketChannelStream({
-      eventDto: data,
-      iSub: { name: "users", sub: this.channelsSubscription(data.id) },
-      commit: this.context.commit,
-      mut: {
-        rSocketUrl: eventApi.aedEventUsersListenSub,
-        mapMut: "setUserInfoInMap",
-        subMut: "setDiscussionStreamSubscription"
-      }
-    });
+    if (checkChCtrl(data.id, "usersSub")) {
+      setChCtrl(data.id, { prop: "usersSub", val: true });
+      await rSocketChannelStream({
+        eventDto: data,
+        iSub: { name: "users", sub: this.channelsSubscription(data.id) },
+        commit: this.context.commit,
+        mut: {
+          rSocketUrl: eventApi.aedEventUsersListenSub,
+          mapMut: "setUserInfoInMap",
+          subMut: "setDiscussionStreamSubscription"
+        }
+      });
+    }
   }
 
   @Action
   async listenRescuerSub(data: EventDto) {
-    await rSocketChannelStream({
-      eventDto: data,
-      iSub: { name: "rescuer", sub: this.channelsSubscription(data.id) },
-      commit: this.context.commit,
-      mut: {
-        rSocketUrl: eventApi.rescuerListenSub,
-        mapMut: "setRescuerInfo",
-        subMut: "setRescuerStreamSubscription"
-      }
-    });
+    if (checkChCtrl(data.id, "rescuerSub")) {
+      setChCtrl(data.id, { prop: "rescuerSub", val: true });
+      await rSocketChannelStream({
+        eventDto: data,
+        iSub: { name: "rescuer", sub: this.channelsSubscription(data.id) },
+        commit: this.context.commit,
+        mut: {
+          rSocketUrl: eventApi.rescuerListenSub,
+          mapMut: "setRescuerInfo",
+          subMut: "setRescuerStreamSubscription"
+        }
+      });
+    }
   }
 
   @Action({ commit: "setDeviceAndRescuer" })
   async fetchDeviceAndRescuer(data: { aedDeviceId: string }) {
+    if (
+      rescuerEvMap.has(data.aedDeviceId) &&
+      devEvMap.has(data.aedDeviceId) &&
+      chSubs.has(data.aedDeviceId)
+    ) {
+      this.context.commit("setDeviceAndRescuer2", {
+        rescuer: rescuerEvMap.get(data.aedDeviceId),
+        device: devEvMap.get(data.aedDeviceId)
+      });
+      return null;
+    }
     return new Promise(resolve => {
       const result: AedDeviceRescuer[] = [];
-      aedRSocketApi().then(aedRSocket =>
-        aedRSocket
+      aedRSocketApi().then(aedRSocket => aedRSocket
           .requestStream({
             data: dataBuf(data),
             metadata: metadataBuf(accessToken, eventApi.fetchDeviceAndRescuer)
@@ -692,7 +690,6 @@ export default class AedEventChannelsSub extends VuexModule {
 
   @Action({ commit: "setUsersInfoInMap" })
   async fetchEventUsers(data: EventDto) {
-    console.log(data);
     if (chUsers.has(data.id)) {
       return;
     }
@@ -713,7 +710,7 @@ export default class AedEventChannelsSub extends VuexModule {
 
   @Action({ commit: "setAedEventInfo" })
   async subRescuer(data: AedEventRescuerInfo) {
-    routeDevsEvMap.delete(data.id);
+    tempDevEvMap.delete(data.id);
     this.context.commit("setPreviewDevices", []);
     if (data.aedDevicePreview !== undefined) {
       devEvMap.set(data.id, data.aedDevicePreview);
@@ -726,23 +723,4 @@ export default class AedEventChannelsSub extends VuexModule {
   async closeAedEvent(data: AedEventCloseInfo) {
     return rSocketResponse(data, eventApi.closeAedEvent);
   }
-
-  //@Action({ commit: "setSelectedDevice" })
-  //async findAedDeviceById(aedDeviceId: string) {
-  //  return getAccessTokenJwt().then(token => {
-  //    return new Promise(resolve => {
-  //      aedRSocketApi().then(aedRSocket => {
-  //        aedRSocket
-  //          .requestResponse({
-  //            data: dataBuf({ id: aedDeviceId }),
-  //            metadata: metadataBuf(token, aedDeviceApi.fetchAedDevice)
-  //          })
-  //          .subscribe({
-  //            onComplete: value => resolve(bufToJson(value)),
-  //            onError: error => console.log(error)
-  //          });
-  //      });
-  //    });
-  //  });
-  //}
 }

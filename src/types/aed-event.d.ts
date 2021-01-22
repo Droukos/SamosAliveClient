@@ -146,6 +146,14 @@ interface ChannelSubs {
   discussion: ISubscription;
 }
 
+interface ChSubControl {
+  evSub?: boolean;
+  rescuerSub?: boolean;
+  devSub?: boolean;
+  usersSub?: boolean;
+  discSub?: boolean;
+}
+
 export interface EventChannelSub {
   eventId: string;
   value: ChannelSubs;
@@ -177,6 +185,11 @@ export interface EventRescuer {
 export interface EventInfo {
   eventId: string;
   value: AedEventInfoDto
+}
+
+export interface RescuerAndDevice {
+  rescuer: PreviewRescuer,
+  device: IAedDevPreview
 }
 
 export type AedEventCreateDto = AedEvent.AedEventCreateDto;
