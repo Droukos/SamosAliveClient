@@ -46,11 +46,9 @@ export default class SearchCircusRadiusSlider extends Vue {
   @search.Mutation setValidToSearch!: (bool: boolean) => void;
 
   f(v: number) {
-    console.log("ooi: " + v);
     this.validateRadius(v);
   }
   f1(v: number) {
-    console.log("oi: " + v);
     this.validateRadius(v);
   }
 

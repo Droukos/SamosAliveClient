@@ -1,5 +1,5 @@
 <template>
-  <VContent>
+  <VMain>
     <VContainer>
       <VCard>
         <h3 class="mx-auto" v-text="$t('admin.unbanS')" />
@@ -9,7 +9,7 @@
       <br />
       <AdminUnbanList />
     </VContainer>
-  </VContent>
+  </VMain>
 </template>
 
 <script lang="ts">

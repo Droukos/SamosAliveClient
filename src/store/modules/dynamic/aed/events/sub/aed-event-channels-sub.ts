@@ -16,7 +16,7 @@ import {
 import { accessToken, aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { aedDeviceApi, eventApi } from "@/plugins/api/api-urls";
-import L, { latLng, LatLng } from "leaflet";
+import { latLng, LatLng } from "leaflet";
 import { ISubscription } from "rsocket-types";
 import { IAedDevPreview } from "@/types/aed-device";
 import {
@@ -459,8 +459,8 @@ export default class AedEventChannelsSub extends VuexModule {
         tracker
       );
       return aedEvent
-        ? L.latLng(aedEvent.occurrencePoint.y, aedEvent.occurrencePoint.x)
-        : L.latLng(0, 0);
+        ? latLng(aedEvent.occurrencePoint.y, aedEvent.occurrencePoint.x)
+        : latLng(0, 0);
     };
   }
 

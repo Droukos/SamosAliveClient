@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import L, { LatLng, LeafletEvent } from "leaflet";
+import { icon, LatLng, LeafletEvent } from "leaflet";
 import {
   markerIconEmergencyCall,
   markerIconShadow
@@ -42,7 +42,7 @@ export default class LMarkerDraggable extends Vue {
       x: event.target._latlng.lng
     }).then(() => this.vForm());
   }
-  icon = L.icon({
+  icon = icon({
     iconUrl: markerIconEmergencyCall,
     shadowUrl: markerIconShadow,
     iconSize: [32, 32],

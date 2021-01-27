@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container>
       <SearchMainTextField v-if="!(isAedDOption && isAedDMap)" />
       <SearchMapAedDevice v-if="isAedDOption && isAedDMap" />
@@ -11,7 +11,7 @@
       <SearchUserPreviewList v-if="isUserOption" />
       <SearchAedDevicePreviewList v-else-if="isAedDOption" />
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script lang="ts">
@@ -20,6 +20,7 @@ import { namespace } from "vuex-class";
 import searchOptions, {
   deviceSearchTypeRadios
 } from "@/plugins/enums/search-options";
+import searchMod from "@/store/modules/dynamic/search/search";
 
 const search = namespace("search");
 
@@ -53,6 +54,15 @@ const search = namespace("search");
       import(
         /* webpackChunkName: "SearchAedDevicePreviewList" */ "@/components/search/SearchAedDevicePreviewList.vue"
       )
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      const searchCard = vm as SearchCard;
+      const store = searchCard.$store;
+      if (!(store && store.state && store.state["search"])) {
+        store.registerModule("search", searchMod);
+      }
+    });
   }
 })
 export default class SearchCard extends Vue {

@@ -2,7 +2,7 @@ import { AddressObject, FieldObject, OpenStreetObjData } from "@/types";
 import { AedEventCreateDto } from "@/types/aed-event";
 import i18n from "@/plugins/i18n";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
-import L from "leaflet";
+import { latLng } from "leaflet";
 import store from "@/store";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { bufToData, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
@@ -52,23 +52,23 @@ export default class AedEventCreate extends VuexModule {
     hint: []
   };
   zoom = 15.5;
-  center = L.latLng(this.fAddress.v.y, this.fAddress.v.x);
-  marker = L.latLng(this.fAddress.v.y, this.fAddress.v.x);
+  center = latLng(this.fAddress.v.y, this.fAddress.v.x);
+  marker = latLng(this.fAddress.v.y, this.fAddress.v.x);
   createVisible = false;
 
   @Mutation
   addressValueChange(value: OpenStreetObjData) {
     this.fAddress.v = value;
-    this.center = L.latLng(value.y, value.x);
-    this.marker = L.latLng(value.y, value.x);
+    this.center = latLng(value.y, value.x);
+    this.marker = latLng(value.y, value.x);
   }
 
   @Mutation
   setSearchableMarkerLatLong(data: IReverseOsmData) {
     const x = Number(data.lat);
     const y = Number(data.lon);
-    this.marker = L.latLng(x, y);
-    this.center = L.latLng(x, y);
+    this.marker = latLng(x, y);
+    this.center = latLng(x, y);
     this.fAddress.v = {
       label: getAddressLabel(data.address),
       x: x,

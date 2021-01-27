@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <VMain>
     <v-skeleton-loader
       class="mx-auto"
       max-width="300"
@@ -76,7 +76,7 @@
         </v-container>
       </div>
     </v-skeleton-loader>
-  </v-content>
+  </VMain>
 </template>
 
 <script lang="ts">

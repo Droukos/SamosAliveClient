@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container>
       <h2 v-text="$t('info.message')" />
       <v-card>
@@ -22,7 +22,7 @@
         </v-card-actions>
       </v-card>
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script lang="ts">

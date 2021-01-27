@@ -1,13 +1,19 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
-import {AddressObject, FieldObject, FieldObject2, FileImg, OpenStreetObjData} from "@/types";
+import {
+  AddressObject,
+  FieldObject,
+  FieldObject2,
+  FileImg,
+  OpenStreetObjData
+} from "@/types";
+import { latLng } from "leaflet";
 import i18n from "@/plugins/i18n";
-import L from "leaflet";
 import { IAedDeviceEdit, IAedDeviceInfo } from "@/types/aed-device";
 import api, { accessToken, aedRSocketApi } from "@/plugins/api";
 import { aedDeviceApi, apiWithVar, cdnApi } from "@/plugins/api/api-urls";
 import { bufToData, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
-import {searchOsmAddress} from "@/plugins/osm-util";
+import { searchOsmAddress } from "@/plugins/osm-util";
 
 @Module({
   dynamic: true,
@@ -60,8 +66,8 @@ export default class AedDeviceEdit extends VuexModule {
     run: false
   };
   zoom = 15.5;
-  center = L.latLng(this.fAddress.v!.y, this.fAddress.v!.x);
-  marker = L.latLng(this.fAddress.v!.y, this.fAddress.v!.x);
+  center = latLng(this.fAddress.v!.y, this.fAddress.v!.x);
+  marker = latLng(this.fAddress.v!.y, this.fAddress.v!.x);
   showUploadedDevicePic = false;
   showErrorDevicePic = false;
   showUploadedDeviceAddrPic = false;
@@ -88,8 +94,8 @@ export default class AedDeviceEdit extends VuexModule {
   @Mutation
   addressValueChange(value: OpenStreetObjData) {
     this.fAddress.v = value;
-    this.center = L.latLng(value.y, value.x);
-    this.marker = L.latLng(value.y, value.x);
+    this.center = latLng(value.y, value.x);
+    this.marker = latLng(value.y, value.x);
   }
 
   @Mutation
@@ -97,11 +103,11 @@ export default class AedDeviceEdit extends VuexModule {
     this.id = aedDeviceInfo.id;
     this.fModelName.v = aedDeviceInfo.modelName;
     this.fModelDescription.v = aedDeviceInfo.description;
-    this.fAddress.v!.label = aedDeviceInfo.address;
-    this.fAddress.v!.x = aedDeviceInfo.homePoint.x;
-    this.fAddress.v!.y = aedDeviceInfo.homePoint.y;
-    this.center = L.latLng(this.fAddress.v!.y, this.fAddress.v!.x);
-    this.marker = L.latLng(this.fAddress.v!.y, this.fAddress.v!.x);
+    this.fAddress.v.label = aedDeviceInfo.address;
+    this.fAddress.v.x = aedDeviceInfo.homePoint.x;
+    this.fAddress.v.y = aedDeviceInfo.homePoint.y;
+    this.center = latLng(this.fAddress.v.y, this.fAddress.v.x);
+    this.marker = latLng(this.fAddress.v.y, this.fAddress.v.x);
   }
 
   @Mutation
@@ -158,9 +164,9 @@ export default class AedDeviceEdit extends VuexModule {
       id: this.id,
       modelName: this.fModelName.v,
       modelDescription: this.fModelDescription.v,
-      address: this.fAddress.v!.label,
-      homePointX: this.fAddress.v!.x,
-      homePointY: this.fAddress.v!.y
+      address: this.fAddress.v.label,
+      homePointX: this.fAddress.v.x,
+      homePointY: this.fAddress.v.y
     };
   }
 

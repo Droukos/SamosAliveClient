@@ -21,9 +21,10 @@ module.exports = {
     //  }
     //]);
 
-    //.plugin('bundle-analyzer-plugin')
-    //  .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
-    //  .end()
+    config
+      .plugin("bundle-analyzer-plugin")
+      .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin)
+      .end();
     //.plugin('html-template')
     //  .use(HtmlWebpackTemplate)
     //  .end()

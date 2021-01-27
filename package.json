@@ -17,7 +17,6 @@
     "@types/rsocket-websocket-client": "0.0.3",
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
-    "bluebird": "^3.7.2",
     "core-js": "^3.6.5",
     "humanize-duration": "^3.25.0",
     "leaflet": "^1.7.1",

@@ -8,7 +8,7 @@ import {
   metadataBuf
 } from "@/plugins/api/rsocket-util";
 import { aedDeviceApi } from "@/plugins/api/api-urls";
-import L from "leaflet";
+import { latLng } from "leaflet";
 
 @Module({
   dynamic: true,
@@ -46,8 +46,8 @@ export default class AedDeviceInfo extends VuexModule
   onEstimatedFinish = 0;
 
   zoom = 15.5;
-  center = L.latLng(this.homePoint.y, this.homePoint.x);
-  marker = L.latLng(this.homePoint.y, this.homePoint.x);
+  center = latLng(this.homePoint.y, this.homePoint.x);
+  marker = latLng(this.homePoint.y, this.homePoint.x);
 
   @Mutation
   setAedDeviceInfo(data: IAedDeviceInfo) {
@@ -68,8 +68,8 @@ export default class AedDeviceInfo extends VuexModule
     this.onUserId = data.onUserId;
     this.takenOn = data.takenOn;
     this.onEstimatedFinish = data.onEstimatedFinish;
-    this.center = L.latLng(this.homePoint.y, this.homePoint.x);
-    this.marker = L.latLng(this.homePoint.y, this.homePoint.x);
+    this.center = latLng(this.homePoint.y, this.homePoint.x);
+    this.marker = latLng(this.homePoint.y, this.homePoint.x);
   }
 
   @Action({ commit: "setAedDeviceInfo" })

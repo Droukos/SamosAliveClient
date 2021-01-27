@@ -9,7 +9,7 @@ import {
 import store from "@/store";
 import i18n from "@/plugins/i18n";
 import { TranslateResult } from "vue-i18n";
-import L from "leaflet";
+import { latLng } from "leaflet";
 import api, { accessToken, aedRSocketApi } from "@/plugins/api";
 import { bufToData, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { aedDeviceApi, apiWithVar, cdnApi } from "@/plugins/api/api-urls";
@@ -77,8 +77,8 @@ export default class AedDeviceRegister extends VuexModule {
     run: false
   };
   zoom = 15.5;
-  center = L.latLng(this.fAddress.v.y, this.fAddress.v.x);
-  marker = L.latLng(this.fAddress.v.y, this.fAddress.v.x);
+  center = latLng(this.fAddress.v.y, this.fAddress.v.x);
+  marker = latLng(this.fAddress.v.y, this.fAddress.v.x);
 
   updateResultMessage: TranslateResult = "";
   createVisible = false;
@@ -101,16 +101,16 @@ export default class AedDeviceRegister extends VuexModule {
   @Mutation
   addressValueChange(value: OpenStreetObjData) {
     this.fAddress.v = value;
-    this.center = L.latLng(value.y, value.x);
-    this.marker = L.latLng(value.y, value.x);
+    this.center = latLng(value.y, value.x);
+    this.marker = latLng(value.y, value.x);
   }
 
   @Mutation
   setSearchableMarkerLatLong(data: IReverseOsmData) {
     const x = Number(data.lat);
     const y = Number(data.lon);
-    this.marker = L.latLng(x, y);
-    this.center = L.latLng(x, y);
+    this.marker = latLng(x, y);
+    this.center = latLng(x, y);
     this.fAddress.v = {
       label: getAddressLabel(data.address),
       x: x,

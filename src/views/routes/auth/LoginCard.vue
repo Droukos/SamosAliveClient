@@ -1,10 +1,10 @@
 <template>
-  <VContent>
+  <VMain>
     <VContainer transition="fab-transition">
       <p class="display-1" style="color:#00897B" v-text="$t('login.header')" />
       <LoginBase :sessExp="showSessionExpired" />
     </VContainer>
-  </VContent>
+  </VMain>
 </template>
 
 <script lang="ts">

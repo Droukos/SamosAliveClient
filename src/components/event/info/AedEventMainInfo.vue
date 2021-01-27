@@ -57,8 +57,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { AedEventInfoDto } from "@/types/aed-event";
-import L from "leaflet";
-import { LatLng } from "leaflet";
+import { latLng, LatLng } from "leaflet";
 import { statusOptions } from "@/plugins/enums/event-options";
 import {
   markerIconEmergencyCall,
@@ -146,10 +145,10 @@ export default class AedEventMainInfo extends Vue {
   zoom = 13.5;
 
   getLatLon(aedDevice: IAedDevPreview) {
-    return L.latLng(aedDevice.homePoint.y, aedDevice.homePoint.x);
+    return latLng(aedDevice.homePoint.y, aedDevice.homePoint.x);
   }
   getLatLon2(lat: number, lon: number) {
-    return L.latLng(lat, lon);
+    return latLng(lat, lon);
   }
 }
 </script>

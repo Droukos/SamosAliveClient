@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import L from "leaflet";
+import { icon, LatLng } from "leaflet";
 import { markerIconShadow } from "@/plugins/api/cloudinary";
 import { LMarker } from "vue2-leaflet";
 
@@ -14,10 +14,10 @@ import { LMarker } from "vue2-leaflet";
   }
 })
 export default class LMarkerWithIcon extends Vue {
-  @Prop() marker!: L.LatLng;
+  @Prop() marker!: LatLng;
   @Prop() iconUrl!: string;
 
-  icon = L.icon({
+  icon = icon({
     iconUrl: this.iconUrl,
     shadowUrl: markerIconShadow,
     iconSize: [32, 32],

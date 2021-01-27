@@ -1,5 +1,5 @@
 <template>
-  <VContent>
+  <VMain>
     <v-container>
       <p
         class="display-1"
@@ -102,7 +102,7 @@
       />
       <VBtn @click="clear" aria-label="Clear" v-text="$t('clear')" />
     </v-container>
-  </VContent>
+  </VMain>
 </template>
 
 <script lang="ts">

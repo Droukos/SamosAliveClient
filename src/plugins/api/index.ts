@@ -22,7 +22,8 @@ const axiosApi = axios.create({
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     Authorization: `Bearer ${accessToken}`
-  }
+  },
+   baseURL: "http://localhost:8080/api"
 });
 
 export function setBearerAccToken(accToken: string) {

@@ -26,7 +26,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { LControl, LMap } from "vue2-leaflet";
-import L from "leaflet";
+import { LatLng } from "leaflet";
 
 const aedDeviceInfo = namespace("aedDeviceInfo");
 
@@ -52,7 +52,7 @@ export default class AedDeviceAddress extends Vue {
   @aedDeviceInfo.State addressPicUrl!: string;
   @aedDeviceInfo.State address!: string;
   @aedDeviceInfo.State zoom!: number;
-  @aedDeviceInfo.State center!: L.LatLng;
-  @aedDeviceInfo.State marker!: L.LatLng;
+  @aedDeviceInfo.State center!: LatLng;
+  @aedDeviceInfo.State marker!: LatLng;
 }
 </script>

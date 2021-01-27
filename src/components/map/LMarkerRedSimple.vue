@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import L from "leaflet";
+import { icon, LatLng } from "leaflet";
 import { LMarker, LTooltip } from "vue2-leaflet";
 import {
   markerIconRedSimple,
@@ -18,9 +18,9 @@ import {
   }
 })
 export default class LMarkerSimple extends Vue {
-  @Prop() marker!: L.LatLng;
+  @Prop() marker!: LatLng;
 
-  icon = L.icon({
+  icon = icon({
     iconUrl: markerIconRedSimple,
     shadowUrl: markerIconShadow,
     iconSize: [32, 32],

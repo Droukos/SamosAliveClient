@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-card>
       <v-container>
         <h2 v-text="$t('device-register.title')" />
@@ -38,7 +38,7 @@
         v-text="$t('edit.errorUpdated')"
       />
     </v-card>
-  </v-content>
+  </v-main>
 </template>
 
 <script lang="ts">

@@ -1,3 +1,4 @@
+import store from "@/store";
 import { accessToken, aedRSocketApi } from "@/plugins/api";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
@@ -8,10 +9,10 @@ import searchOptions, {
   deviceSearchTypeRadios,
   radiusOptions
 } from "@/plugins/enums/search-options";
-import L from "leaflet";
+import { latLng } from "leaflet";
 import { searchPreviewUsers } from "@/plugins/search-util";
 
-@Module({ namespaced: true })
+@Module({ dynamic: true, namespaced: true, store: store, name: "search" })
 export default class Search extends VuexModule {
   searchModel = "";
   searchLabel = "";
@@ -24,8 +25,8 @@ export default class Search extends VuexModule {
   previewUsers: PreviewUser[] = [];
   previewAedDevices: IAedDevPreview[] = [];
   zoom = 12.8;
-  center = L.latLng(37.977308, 23.7613248);
-  marker = L.latLng(37.977308, 23.7613248);
+  center = latLng(37.977308, 23.7613248);
+  marker = latLng(37.977308, 23.7613248);
   radius = 3000;
   radiusSlider = radiusOptions.KM2;
   events: any[] = [];
@@ -88,9 +89,9 @@ export default class Search extends VuexModule {
   }
 
   @Mutation
-  setSearchableMarkerLatLong(latLng: { y: number; x: number }) {
-    this.marker = L.latLng(latLng.y, latLng.x);
-    this.center = L.latLng(latLng.y, latLng.x);
+  setSearchableMarkerLatLong(data: { y: number; x: number }) {
+    this.marker = latLng(data.y, data.x);
+    this.center = latLng(data.y, data.x);
   }
 
   @Mutation
@@ -141,22 +142,6 @@ export default class Search extends VuexModule {
   @Action
   async fetchUsersPreview(user: string): Promise<PreviewUser[]> {
     return searchPreviewUsers(user);
-    //return new Promise(resolve => {
-    //  const prUsers: PreviewUser[] = [];
-    //  userRSocketApi().then(userRSocket => {
-    //    userRSocket
-    //      .requestStream({
-    //        data: dataBuf({ username: user }),
-    //        metadata: metadataBuf(accessToken, userApi.searchPreview)
-    //      })
-    //      .subscribe({
-    //        onError: error => console.error(error),
-    //        onNext: payload => prUsers.push(bufToJson(payload)),
-    //        onComplete: () => resolve(prUsers),
-    //        onSubscribe: sub => sub.request(20)
-    //      });
-    //  });
-    //});
   }
 
   @Action

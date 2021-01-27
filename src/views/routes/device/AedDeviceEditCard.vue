@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-sheet>
       <v-container>
         <h2 v-text="$t('device.editTitle')" />
@@ -51,7 +51,7 @@
         </v-skeleton-loader>
       </v-container>
     </v-sheet>
-  </v-content>
+  </v-main>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <VContent>
+  <VMain>
     <VContainer>
       <VCard>
         <h3 class="mx-auto" v-text="$t('admin.mixin')" />
@@ -14,7 +14,7 @@
       <AdminAddRoleList v-if="addRoleHasElems" class="mt-2" />
       <AdminDelRoleList v-if="delRoleHasElems" class="mt-2" />
     </VContainer>
-  </VContent>
+  </VMain>
 </template>
 
 <script lang="ts">

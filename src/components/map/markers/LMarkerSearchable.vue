@@ -12,7 +12,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { LMarker, LTooltip } from "vue2-leaflet";
-import L, { LatLng, LeafletEvent } from "leaflet";
+import { icon, LatLng, LeafletEvent } from "leaflet";
 import { markerIconAntenna, markerIconShadow } from "@/plugins/api/cloudinary";
 import { namespace } from "vuex-class";
 
@@ -37,7 +37,7 @@ export default class LMarkerRedSearchable extends Vue {
       x: event.target._latlng.lng
     });
   }
-  icon = L.icon({
+  icon = icon({
     iconUrl: markerIconAntenna,
     shadowUrl: markerIconShadow,
     iconSize: [32, 32],

@@ -10,7 +10,7 @@ import { eventApi } from "@/plugins/api/api-urls";
 import { statusOptions } from "@/plugins/enums/event-options";
 import { AedEvent } from "@/types/aed-event";
 import AedEventComplete = AedEvent.AedEventComplete;
-import L from "leaflet";
+import { latLng } from "leaflet";
 
 @Module({
   dynamic: true,
@@ -37,8 +37,8 @@ export default class AedEventInfo extends VuexModule
   commsN = 0;
 
   zoom = 15.5;
-  center = L.latLng(0, 0);
-  marker = L.latLng(0, 0);
+  center = latLng(0, 0);
+  marker = latLng(0, 0);
 
   @Mutation
   setAedEventInfo(data: AedEventInfoDto) {
@@ -54,8 +54,8 @@ export default class AedEventInfo extends VuexModule
     this.completedTime = data.completedTime;
     this.rescuer = data.rescuer;
     this.conclusion = data.conclusion;
-    this.center = L.latLng(data.occurrencePoint.y, data.occurrencePoint.x);
-    this.marker = L.latLng(data.occurrencePoint.y, data.occurrencePoint.x);
+    this.center = latLng(data.occurrencePoint.y, data.occurrencePoint.x);
+    this.marker = latLng(data.occurrencePoint.y, data.occurrencePoint.x);
   }
 
   @Mutation

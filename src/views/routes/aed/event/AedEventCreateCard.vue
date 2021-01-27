@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container>
       <v-card>
         <v-card-title class="light-blue darken-1" primary-title>
@@ -62,7 +62,7 @@
         </v-card-actions>
       </v-card>
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script lang="ts">

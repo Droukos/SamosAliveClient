@@ -12,7 +12,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { LMarker, LTooltip } from "vue2-leaflet";
-import L, { latLng, LatLng, LeafletEvent } from "leaflet";
+import { icon, latLng, LatLng, LeafletEvent } from "leaflet";
 import { markerIconMan, markerIconShadow } from "@/plugins/api/cloudinary";
 import { namespace } from "vuex-class";
 
@@ -33,7 +33,7 @@ export default class LMarkerRescuerDraggable extends Vue {
       latLng(event.target._latlng.lat, event.target._latlng.lng)
     );
   }
-  icon = L.icon({
+  icon = icon({
     iconUrl: markerIconMan,
     shadowUrl: markerIconShadow,
     iconSize: [32, 32],

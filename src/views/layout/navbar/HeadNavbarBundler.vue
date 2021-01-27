@@ -17,31 +17,13 @@
               <div class="d-flex justify-center mb-6">
                 <h2>{{ $t("login.loginTo") }}</h2>
               </div>
-              <LoginBase :sessExp="false"></LoginBase>
+              <LoginBase :sessExp="false" />
             </v-container>
           </v-card>
         </v-menu>
         <v-btn text router-link to="/settings" aria-label="ToSettings">
           <v-icon>{{ "$settings" }}</v-icon>
         </v-btn>
-        <!--<v-menu offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn text v-on="on" aria-label="Language">
-              <v-icon>{{ '$vuetify.icons.translate' }}</v-icon>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item v-for="(item, index) in langs" :key="index" @click="selLanguage(index)">
-              <v-list-item-title>{{item.label}}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>-->
-        <!--<v-progress-linear
-          indeterminate
-          absolute
-          bottom
-          color="green"
-        ></v-progress-linear>-->
       </v-app-bar>
     </div>
 

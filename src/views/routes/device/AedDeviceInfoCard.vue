@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-sheet>
       <v-skeleton-loader
         class="mx-auto"
@@ -29,7 +29,7 @@
         </v-card>
       </v-skeleton-loader>
     </v-sheet>
-  </v-content>
+  </v-main>
 </template>
 
 <script lang="ts">

@@ -2,7 +2,6 @@ import { getAccessTokenJwt, userRSocketApi } from "@/plugins/api";
 import { userApi } from "@/plugins/api/api-urls.ts";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { UpdateUserPersonal, UserIdDto, UserInfo } from "@/types";
-import { Promise } from "bluebird";
 import {
   setAddress,
   setAvailability,
