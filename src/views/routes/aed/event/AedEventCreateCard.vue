@@ -72,7 +72,7 @@ import { LatLng } from "leaflet";
 import { AddressObject, FieldObject, User } from "@/types";
 import { namespace } from "vuex-class";
 import { AedEventCreateDto } from "@/types/aed-event";
-import { LControl, LMap } from "vue2-leaflet";
+import { LMap } from "vue2-leaflet";
 import { getLocation } from "@/plugins/geolocation";
 
 const aedEventCreate = namespace("aedEventCreate");
@@ -81,7 +81,6 @@ const user = namespace("user");
 @Component({
   components: {
     LMap,
-    LControl,
     LTileLayerBase: () =>
       import(
         /* webpackChunkName: "LTileLayerBase" */ "@/components/map/LTileLayerBase.vue"

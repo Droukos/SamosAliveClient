@@ -61,7 +61,7 @@ import AedDeviceEditMod from "@/store/modules/dynamic/aed/device/aed-device-edit
 import { IAedDeviceInfo } from "@/types/aed-device";
 import { namespace } from "vuex-class";
 import { LControl, LMap } from "vue2-leaflet";
-import L from "leaflet";
+import { LatLng } from "leaflet";
 
 const aedDeviceInfo = namespace("aedDeviceInfo");
 const aedDeviceEdit = namespace("aedDeviceEdit");
@@ -123,8 +123,8 @@ export default class AedDeviceEditCard extends Vue {
   loading = true;
   transition = "scale-transition";
   @aedDeviceEdit.State zoom!: number;
-  @aedDeviceEdit.State center!: L.LatLng;
-  @aedDeviceEdit.State marker!: L.LatLng;
+  @aedDeviceEdit.State center!: LatLng;
+  @aedDeviceEdit.State marker!: LatLng;
   @aedDeviceEdit.State showUpload!: boolean;
   @aedDeviceEdit.State showUpdatedAedDevice!: boolean;
   @aedDeviceEdit.State showErrorUpdatedAedDevice!: boolean;

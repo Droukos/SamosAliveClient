@@ -26,7 +26,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { AedEventInfoDto, EventDto } from "@/types/aed-event";
 import aedEventInfoMod from "@/store/modules/dynamic/aed/events/aed-event-info";
-import L from "leaflet";
+import { LatLng } from "leaflet";
 import { statusOptions } from "@/plugins/enums/event-options";
 
 const aedEventInfo = namespace("aedEventInfo");
@@ -64,7 +64,7 @@ export default class EventMoreCard extends Vue {
   @aedEventInfo.Getter aedEvent!: AedEventInfoDto;
   allStatus = statusOptions;
 
-  @aedEventInfo.State center!: L.LatLng;
-  @aedEventInfo.State marker!: L.LatLng;
+  @aedEventInfo.State center!: LatLng;
+  @aedEventInfo.State marker!: LatLng;
 }
 </script>

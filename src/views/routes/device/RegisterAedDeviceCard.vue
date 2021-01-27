@@ -45,7 +45,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import aedDeviceRegisterMod from "@/store/modules/dynamic/aed/device/aed-device-register";
 import { LMap, LControl } from "vue2-leaflet";
-import L from "leaflet";
+import { LatLng } from "leaflet";
 import { namespace } from "vuex-class";
 import { getLocation } from "@/plugins/geolocation";
 
@@ -104,8 +104,8 @@ const aedDeviceRegister = namespace("aedDeviceRegister");
 })
 export default class RegisterAedDeviceCard extends Vue {
   @aedDeviceRegister.State zoom!: number;
-  @aedDeviceRegister.State center!: L.LatLng;
-  @aedDeviceRegister.State marker!: L.LatLng;
+  @aedDeviceRegister.State center!: LatLng;
+  @aedDeviceRegister.State marker!: LatLng;
   @aedDeviceRegister.State createVisible!: boolean;
   @aedDeviceRegister.Action osmReverseGeoCodingOnCurPos!: (
     position: Position

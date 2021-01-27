@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import L from "leaflet";
+import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 
 @Component({
@@ -24,9 +24,9 @@ import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 })
 export default class EventMapCard extends Vue {
   zoom = 12.5;
-  center = L.latLng(37.79715, 26.70226);
+  center = latLng(37.79715, 26.70226);
   url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-  marker = L.latLng(47.41322, -1.219482);
+  marker = latLng(47.41322, -1.219482);
 }
 </script>
 
