@@ -68,7 +68,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import aedEventCreateMod from "@/store/modules/dynamic/aed/events/aed-event-create";
-import L from "leaflet";
+import { LatLng } from "leaflet";
 import { AddressObject, FieldObject, User } from "@/types";
 import { namespace } from "vuex-class";
 import { AedEventCreateDto } from "@/types/aed-event";
@@ -122,8 +122,8 @@ export default class AedEventCreateCard extends Vue {
   };
 
   @aedEventCreate.State zoom!: number;
-  @aedEventCreate.State center!: L.LatLng;
-  @aedEventCreate.State marker!: L.LatLng;
+  @aedEventCreate.State center!: LatLng;
+  @aedEventCreate.State marker!: LatLng;
   @aedEventCreate.State fAddress!: AddressObject;
   @aedEventCreate.State fComment!: FieldObject;
   @aedEventCreate.State fPhone!: FieldObject;
@@ -160,7 +160,6 @@ export default class AedEventCreateCard extends Vue {
 
   @Watch("nameSurname")
   onNameChanged(newName: string) {
-    console.log(newName);
     this.fCallee.v = newName;
   }
 
