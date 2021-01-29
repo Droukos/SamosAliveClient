@@ -9,7 +9,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { authRSocketApi, updateAccToken } from "@/plugins/api";
+import { updateAccToken } from "@/plugins/api";
+import {authRSocketApi} from "@/plugins/api/rsocket-api";
 const user = namespace("user");
 const environment = namespace("environment");
 

@@ -7,10 +7,13 @@ import App from '@/views/App.vue';
 import VueCookies from 'vue-cookies';
 import helper from "@/plugins/helpers/helper";
 import "leaflet/dist/leaflet.css";
+//import "nprogress/nprogress.css"
+//import initProgress from "@/plugins/vuetify/progressbar";
 
 Vue.config.productionTip = false
 Vue.use(helper);
 Vue.use(VueCookies);
+//initProgress(router);
 
 new Vue({
     store,

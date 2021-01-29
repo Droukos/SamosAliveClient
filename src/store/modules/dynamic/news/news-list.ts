@@ -1,12 +1,12 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
 import { News, NewsInfo, NewsSearchMut } from "@/types/news";
-import { getAccessTokenJwt, newsRSocketApi } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { newsApi } from "@/plugins/api/api-urls";
 import { tagOptions } from "@/plugins/enums/tags-options";
 import NewsSearch = News.NewsSearchOptions;
 import NewsSearchOptions = News.NewsSearchOptions;
+import {getAccessTokenJwt, newsRSocketApi} from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

@@ -1,5 +1,5 @@
 import store from "@/store";
-import { accessToken, aedRSocketApi } from "@/plugins/api";
+import { accessToken } from "@/plugins/api";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { PreviewUser } from "@/types";
@@ -11,6 +11,7 @@ import searchOptions, {
 } from "@/plugins/enums/search-options";
 import { latLng } from "leaflet";
 import { searchPreviewUsers } from "@/plugins/search-util";
+import {aedRSocketApi} from "@/plugins/api/rsocket-api";
 
 @Module({ dynamic: true, namespaced: true, store: store, name: "search" })
 export default class Search extends VuexModule {

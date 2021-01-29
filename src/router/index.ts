@@ -1,326 +1,123 @@
 import Vue from "vue";
-import {RawLocation, Route, RouteConfig} from "vue-router";
-import Router from 'vue-router';
+import { RawLocation, Route, RouteConfig } from "vue-router";
+import Router from "vue-router";
+import { comps } from "@/plugins/enums/components-dir/comps";
 
 const originalPush = Router.prototype.push;
-Router.prototype.push = async function (location: RawLocation) {
+Router.prototype.push = async function(location: RawLocation) {
   let route: Route;
   try {
-    route = await originalPush.call<Router, [RawLocation], Promise<Route>>(this, location);
+    route = await originalPush.call<Router, [RawLocation], Promise<Route>>(
+      this,
+      location
+    );
   } catch (err) {
-    if (err.name !== 'NavigationDuplicated') {
+    if (err.name !== "NavigationDuplicated") {
       throw err;
     }
   }
-
   return route!;
-}
+};
 
 Vue.use(Router);
 
 Vue.config.productionTip = false;
 
-const routes: Array<RouteConfig> = [
-  {
-    path: "/",
-    name: "entry",
-    component: () =>
-      import(
-        /* webpackChunkName: "HomeCard" */ "@/views/routes/home/HomeCard.vue"
-      )
-  },
-  {
-    path: "/login",
-    name: "login",
-    component: () =>
-      import(
-        /* webpackChunkName: "LoginCard" */ "@/views/routes/auth/LoginCard.vue"
-      )
-  },
-  {
-    path: "/search",
-    name: "search",
-    component: () =>
-      import(
-        /* webpackChunkName: "SearchCard" */ "@/views/routes/search/SearchCard.vue"
-      )
-  },
-  {
-    path: "/profile",
-    name: "profile",
-    component: () =>
-      import(
-        /* webpackChunkName: "ProfileCard" */ "@/views/routes/profile/ProfileCard.vue"
-      )
-  },
-  {
-    path: "/:userID/profile",
-    name: "user_profile",
-    component: () =>
-      import(
-        /* webpackChunkName: "ProfileCard" */ "@/views/routes/profile/ProfileCard.vue"
-      ),
-    props: true
-  },
-  //{
-  //    path: '/edit',
-  //    name: "editprofile",
-  //    component: () => import(/* webpackChunkName: "EditProfileCard" */ '@/views/routes/profile/EditProfileCard.vue'),
-  //},
-  {
-    path: "/:userID/edit",
-    name: "editprofile",
-    component: () =>
-      import(
-        /* webpackChunkName: "EditProfileCard" */ "@/views/routes/profile/EditProfileCard.vue"
-      ),
-    props: true
-  },
-  //{
-  //    path: '/privacy',
-  //    name: "privacysettings",
-  //    component: () => import(/* webpackChunkName: "PrivacySettingsCard" */ '@/views/routes/profile/PrivacySettingsCard.vue')
-  //},
+const allRoutes = [
+  { path: "/", name: "entry", comp: comps.HOME },
+  { path: "/info", name: "info", comp: comps.INFO },
+  { path: "/settings", name: "settings", comp: comps.SETTINGS },
+  { path: "/sys_admin", name: "sys_admin", comp: comps.SYS_ADMIN },
+  { path: "/login", name: "login", comp: comps.LOGIN },
+  { path: "/register", name: "register", comp: comps.REGISTER },
+  { path: "/search", name: "search", comp: comps.SEARCH },
+  { path: "/profile", name: "profile", comp: comps.PROFILE },
+  { path: "/:userID/profile", name: "user_profile", comp: comps.PROFILE },
+  { path: "/:userID/edit", name: "editprofile", comp: comps.PROFILE_EDIT },
   {
     path: "/:userID/privacy",
     name: "privacysettings",
-    component: () =>
-      import(
-        /* webpackChunkName: "PrivacySettingsCard" */ "@/views/routes/profile/PrivacySettingsCard.vue"
-      ),
-    props: true
+    comp: comps.PROFILE_PRIVACY
   },
   {
     path: "/admin/mixin/users",
     name: "adminMixinUsers",
-    component: () =>
-        import(
-            /* webpackChunkName: "AdminMixinCard" */ "@/views/routes/admin/mixin/AdminMixinCard.vue"
-            )
-  },
-  {
-    path: "/admin/ban/users",
-    name: "adminBanUsers",
-    component: () =>
-      import(
-        /* webpackChunkName: "BanUsersCard" */ "@/views/routes/admin/ban/BanUsersCard.vue"
-      )
+    comp: comps.ADMIN_MIX
   },
   {
     path: "/admin/roles/change",
     name: "adminRolesChange",
-    component: () =>
-        import(
-            /* webpackChunkName: "RolesChangeCard" */ "@/views/routes/admin/roles/RolesChangeCard.vue"
-            )
+    comp: comps.ADMIN_R_CH
   },
-  {
-    path: "/admin/roles/add",
-    name: "adminRolesAdd",
-    component: () =>
-        import(
-            /* webpackChunkName: "RolesAddCard" */ "@/views/routes/admin/roles/RolesAddCard.vue"
-            )
-  },
-  {
-    path: "/admin/roles/del",
-    name: "adminRolesDel",
-    component: () =>
-        import(
-            /* webpackChunkName: "RolesDelCard" */ "@/views/routes/admin/roles/RolesDelCard.vue"
-            )
-  },
+  { path: "/admin/roles/add", name: "adminRolesAdd", comp: comps.ADMIN_R_AD },
+  { path: "/admin/roles/del", name: "adminRolesDel", comp: comps.ADMIN_R_DE },
+  { path: "/admin/ban/users", name: "adminBanUsers", comp: comps.ADMIN_BAN },
   {
     path: "/admin/unban/users",
     name: "adminUnbanUsers",
-    component: () =>
-      import(
-        /* webpackChunkName: "UnbanUsersCard" */ "@/views/routes/admin/ban/UnbanUsersCard.vue"
-      )
-  },
-  {
-    path: "/admin/ban/users",
-    name: "adminBanUsers",
-    component: () =>
-      import(
-        /* webpackChunkName: "BanUsersCard" */ "@/views/routes/admin/ban/BanUsersCard.vue"
-      )
+    comp: comps.ADMIN_UNBAN
   },
   {
     path: "/aed/device/register",
     name: "registerAedDevice",
-    component: () =>
-      import(
-        /* webpackChunkName: "RegisterAedDeviceCard" */ "@/views/routes/device/RegisterAedDeviceCard.vue"
-      )
+    comp: comps.AED_REG
   },
   {
     path: "/aed/device/:aedDeviceId/info",
     name: "aedDeviceInfo",
-    component: () =>
-      import(
-        /* webpackChunkName: "AedDeviceInfoCard" */ "@/views/routes/device/AedDeviceInfoCard.vue"
-      ),
-    props: true
+    comp: comps.AED_INFO
   },
   {
     path: "/aed/device/:aedDeviceId/edit",
     name: "aedDeviceEdit",
-    component: () =>
-      import(
-        /* webpackChunkName: "AedDeviceEditCard" */ "@/views/routes/device/AedDeviceEditCard.vue"
-      ),
-    props: true
+    comp: comps.AED_EDIT
   },
-  {
-    path: "/news/search",
-    name: "newsSearchCard",
-    component: () =>
-      import(
-        /* webpackChunkName: "newsSearchCard" */ "@/views/routes/news/NewsSearchCard.vue"
-      )
-  },
-  {
-    path: "/news/create",
-    name: "newsCreate",
-    component: () =>
-      import(
-        /* webpackChunkName: "newsCreate" */ "@/views/routes/news/NewsCreate.vue"
-      )
-  },
-  {
-    path: "/news/all",
-    name: "newsAll",
-    component: () =>
-      import(
-        /* webpackChunkName: "NewsAllCard" */ "@/views/routes/news/NewsAllCard.vue"
-      )
-  },
-  {
-    path: "/news/:newsID/more",
-    name: "newsMoreCard",
-    component: () =>
-      import(
-        /* webpackChunkName: "newsMoreCard" */ "@/views/routes/news/NewsMoreCard.vue"
-      ),
-    props: true
-  },
-  {
-    path: "/aed/event",
-    name: "aedEvent",
-    component: () =>
-      import(
-        /* webpackChunkName: "AedEventCard" */ "@/views/routes/aed/event/AedEventCard.vue"
-      )
-  },
-  {
-    path: "/aed/event/create",
-    name: "createAedEvent",
-    component: () =>
-      import(
-        /* webpackChunkName: "AedEventCreateCard" */ "@/views/routes/aed/event/AedEventCreateCard.vue"
-      )
-  },
+  { path: "/news/search", name: "newsSearchCard", comp: comps.NEWS_SEARCH },
+  { path: "/news/create", name: "newsCreate", comp: comps.NEWS_CREATE },
+  { path: "/news/all", name: "newsAll", comp: comps.NEWS_ALL },
+  { path: "/news/:newsID/more", name: "newsMoreCard", comp: comps.NEWS_MORE },
+  { path: "/aed/event", name: "aedEvent", comp: comps.AED_EVENT },
+  { path: "/aed/event/create", name: "createAedEvent", comp: comps.AED_EV_CR },
   {
     path: "/aed/event/:eventID/more",
     name: "eventMore",
-    component: () =>
-      import(
-        /* webpackChunkName: "EventMore" */ "@/views/routes/aed/event/EventMoreCard.vue"
-      ),
-    props: true
+    comp: comps.AED_EV_MORE
   },
   {
     path: "/aed/event/:eventID/channel",
     name: "aedEventChannel",
-    component: () =>
-      import(
-        /* webpackChunkName: "AedEventChannelCard" */ "@/views/routes/aed/event/AedEventChannelCard.vue"
-      ),
-    props: true
+    comp: comps.AED_EV_CH
   },
-  {
-    path: "/aed/eventLive",
-    name: "eventLive",
-    component: () =>
-      import(
-        /* webpackChunkName: "EventLive" */ "@/views/routes/aed/event/EventLiveCard.vue"
-      )
-  },
-  {
-    path: "/aed/history",
-    name: "history",
-    component: () =>
-      import(
-        /* webpackChunkName: "history" */ "@/views/routes/aed/history/HistoryCard.vue"
-      )
-  },
-  {
-    path: "/aed/eventList",
-    name: "eventList",
-    component: () =>
-      import(
-        /* webpackChunkName: "eventHistory" */ "@/views/routes/aed/event/EventListCard.vue"
-      )
-  },
+  { path: "/aed/eventLive", name: "eventLive", comp: comps.AED_EV_LIVE },
+  { path: "/aed/history", name: "history", comp: comps.AED_HISTORY },
+  { path: "/aed/eventList", name: "eventList", comp: comps.AED_PR_LIST },
   {
     path: "/aed/problems/problemsCreate",
     name: "problemsCreate",
-    component: () =>
-      import(
-        /* webpackChunkName: "problemsCreate" */ "@/views/routes/aed/problems/ProblemsCreateCard.vue"
-      )
+    comp: comps.AED_PR_CR
   },
   {
     path: "/aed/problems/problemList",
     name: "problemList",
-    component: () =>
-      import(
-        /* webpackChunkName: "problemList" */ "@/views/routes/aed/problems/ProblemsListCard.vue"
-      )
+    comp: comps.AED_PR_LIST
   },
   {
     path: "/aed/problems/:problemsID/more",
     name: "problemsMore",
-    component: () =>
-      import(
-        /* webpackChunkName: "problemsMore" */ "@/views/routes/aed/problems/ProblemsMoreCard.vue"
-      ),
-    props: true
-  },
-  {
-    path: "/register",
-    name: "register",
-    component: () =>
-      import(
-        /* webpackChunkName: "AppRegister" */ "@/views/routes/auth/RegistrationCard.vue"
-      )
-  },
-  {
-    path: "/info",
-    name: "info",
-    component: () =>
-      import(
-        /* webpackChunkName: "InfoCard" */ "@/views/routes/info/InfoCard.vue"
-      )
-  },
-  {
-    path: "/settings",
-    name: "settings",
-    component: () =>
-      import(
-        /* webpackChunkName: "SettingsCard" */ "@/views/routes/settings/SettingsCard.vue"
-      )
-  },
-  {
-    path: "/sys_admin",
-    name: "sys_admin",
-    component: () =>
-      import(
-        /* webpackChunkName: "SysAdminCard" */ "@/views/routes/auth/SysAdminCard.vue"
-      )
+    comp: comps.AED_PR_MORE
   }
 ];
+
+const routes: Array<RouteConfig> = allRoutes.map(route => {
+  return {
+    ...route,
+    component: () =>
+      import(
+        /* webpackChunkName: "[request]" */ `@/views/routes/${route.comp}.vue`
+      ),
+    props: route.name.includes(":")
+  };
+});
 
 export default new Router({
   mode: "history",

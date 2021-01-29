@@ -3,9 +3,6 @@ import Vue from "vue";
 import api, {
   setBearerAccToken,
   accessToken,
-  authRSocketApi,
-  userRSocketApi,
-  getAccessTokenJwt
 } from "@/plugins/api";
 import { authApi, userApi } from "@/plugins/api/api-urls";
 import {
@@ -35,6 +32,7 @@ import {
 } from "@/plugins/user-util";
 import { ISubscription } from "rsocket-types";
 import { availability } from "@/plugins/enums/user/status/status";
+import {authRSocketApi, getAccessTokenJwt, userRSocketApi} from "@/plugins/api/rsocket-api";
 
 Vue.use(VueCookies);
 

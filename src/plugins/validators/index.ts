@@ -1,5 +1,5 @@
 import i18n from "@/plugins/i18n";
-import { authRSocketApi} from "@/plugins/api";
+import { } from "@/plugins/api";
 import "@/plugins/validators";
 import { authApi } from "@/plugins/api/api-urls";
 import {
@@ -11,6 +11,7 @@ import {
   metadataOnlyRoute,
 } from "@/plugins/api/rsocket-util";
 import {FieldObject} from "@/types";
+import {authRSocketApi} from "@/plugins/api/rsocket-api";
 
 export default class Validator {
   obj!: FieldObject;

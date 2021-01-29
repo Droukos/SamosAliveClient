@@ -1,9 +1,9 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
 import { AedEventCardDto, AedSearchInfo } from "@/types/aed-event";
-import { aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
+import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

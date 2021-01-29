@@ -1,7 +1,6 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
 import { IAedDeviceInfo } from "@/types/aed-device";
-import { aedRSocketApi, getAccessTokenJwt} from "@/plugins/api";
 import {
   bufToJson,
   dataBuf,
@@ -9,6 +8,7 @@ import {
 } from "@/plugins/api/rsocket-util";
 import { aedDeviceApi } from "@/plugins/api/api-urls";
 import { latLng } from "leaflet";
+import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

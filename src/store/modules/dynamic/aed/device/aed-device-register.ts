@@ -10,7 +10,7 @@ import store from "@/store";
 import i18n from "@/plugins/i18n";
 import { TranslateResult } from "vue-i18n";
 import { latLng } from "leaflet";
-import api, { accessToken, aedRSocketApi } from "@/plugins/api";
+import api, { accessToken } from "@/plugins/api";
 import { bufToData, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { aedDeviceApi, apiWithVar, cdnApi } from "@/plugins/api/api-urls";
 import { IAedDeviceRegister } from "@/types/aed-device";
@@ -20,6 +20,7 @@ import {
   searchOsmAddress
 } from "@/plugins/osm-util";
 import { IReverseOsmData } from "@/types/osm";
+import {aedRSocketApi} from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

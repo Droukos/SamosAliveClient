@@ -4,7 +4,7 @@ import i18n from "@/plugins/i18n";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { latLng } from "leaflet";
 import store from "@/store";
-import { accessToken, aedRSocketApi } from "@/plugins/api";
+import { accessToken } from "@/plugins/api";
 import { bufToData, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
 import {
@@ -13,6 +13,7 @@ import {
   searchOsmAddress
 } from "@/plugins/osm-util";
 import { IReverseOsmData } from "@/types/osm";
+import {aedRSocketApi} from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

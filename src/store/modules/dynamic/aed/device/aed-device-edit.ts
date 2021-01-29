@@ -10,10 +10,11 @@ import {
 import { latLng } from "leaflet";
 import i18n from "@/plugins/i18n";
 import { IAedDeviceEdit, IAedDeviceInfo } from "@/types/aed-device";
-import api, { accessToken, aedRSocketApi } from "@/plugins/api";
+import api, { accessToken} from "@/plugins/api";
 import { aedDeviceApi, apiWithVar, cdnApi } from "@/plugins/api/api-urls";
 import { bufToData, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { searchOsmAddress } from "@/plugins/osm-util";
+import {aedRSocketApi} from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

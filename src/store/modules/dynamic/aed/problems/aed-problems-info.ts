@@ -7,9 +7,10 @@ import {
   ProblemsDto
 } from "@/types/aed-problems";
 import { statusOptions } from "@/plugins/enums/event-options";
-import { accessToken, aedRSocketApi } from "@/plugins/api";
+import { accessToken } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { problemsApi } from "@/plugins/api/api-urls";
+import {aedRSocketApi} from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

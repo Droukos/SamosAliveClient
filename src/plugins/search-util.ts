@@ -1,7 +1,8 @@
 import { PreviewUser } from "@/types";
-import { accessToken, userRSocketApi } from "@/plugins/api";
+import { accessToken } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { userApi } from "@/plugins/api/api-urls";
+import {userRSocketApi} from "@/plugins/api/rsocket-api";
 
 export async function searchPreviewUsers(
   username: string

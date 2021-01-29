@@ -13,7 +13,7 @@ import {
   EventUsers,
   RescuerAndDevice
 } from "@/types/aed-event";
-import { accessToken, aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
+import { accessToken } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { aedDeviceApi, eventApi } from "@/plugins/api/api-urls";
 import { latLng, LatLng } from "leaflet";
@@ -38,6 +38,7 @@ import {
 } from "@/plugins/event-channel-util";
 import AedCommentReqDto = AedEvent.AedCommentReqDto;
 import AedCommentsResDto = AedEvent.AedCommentsResDto;
+import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

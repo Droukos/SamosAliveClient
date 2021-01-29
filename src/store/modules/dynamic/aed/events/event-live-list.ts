@@ -2,10 +2,10 @@ import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
 import { AedEventCardDto } from "@/types/aed-event";
 import { statusOptions } from "@/plugins/enums/event-options";
-import { aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
 import { bufToJson, metadataBuf } from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
 import { ISubscription } from "rsocket-types";
+import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

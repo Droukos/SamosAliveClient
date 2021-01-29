@@ -1,4 +1,4 @@
-import { accessToken, aedRSocketApi, getAccessTokenJwt } from "@/plugins/api";
+import { accessToken } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { osmApi } from "@/plugins/api/api-urls";
 import {
@@ -8,6 +8,7 @@ import {
   SearchOsmAddress
 } from "@/types/osm";
 import {IAedDevPreview} from "@/types/aed-device";
+import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
 
 export function emptyRouteInfo() {
   return {
