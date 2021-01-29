@@ -1,7 +1,13 @@
 <template>
   <v-main>
     <p v-text="$t('main')" />
+    <br />
+    <p v-text="$t('events.createEvent')" />
     <AedEventOpen />
+    <br />
+    <br />
+    <p v-text="$t('events.localMap')" />
+    <AedMapOpen />
   </v-main>
 </template>
 
@@ -13,6 +19,10 @@ import { Component, Vue } from "vue-property-decorator";
     AedEventOpen: () =>
       import(
         /* webpackChunkName: "AedEventOpen" */ "@/components/event/create/AedEventOpen.vue"
+      ),
+    AedMapOpen: () =>
+      import(
+        /* webpackChunkName: "AedEventOpen" */ "@/components/event/map/AedMapOpen.vue"
       )
   }
 })

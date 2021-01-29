@@ -15,18 +15,14 @@ import {aedRSocketApi} from "@/plugins/api/rsocket-api";
   name: "aedProblemsCreate"
 })
 export default class AedProblemsCreate extends VuexModule {
-  fTitle: FieldObject = {
-    f: i18n.t("problems.problemTitle"),
-    v: "",
-    e: "",
-    run: false
-  };
+  fTitle = 0;
   fBody: FieldObject = {
     f: i18n.t("problems.problemContent"),
     v: "",
     e: "",
     run: false
   };
+  fAedDeviceId = "";
 
   createVisible = false;
   @Mutation
@@ -34,12 +30,24 @@ export default class AedProblemsCreate extends VuexModule {
     this.createVisible = createVisible;
   }
 
+  @Mutation
+  setTitle(title: number) {
+    this.fTitle = title;
+    console.log(this.fTitle);
+  }
+
+  @Mutation
+  setAedDeviceId(aedDeviceId: string) {
+    this.fAedDeviceId = aedDeviceId;
+    console.log(this.fAedDeviceId);
+  }
+
   @Action({ commit: "setCreateVisible" })
   async vForm() {
     return !(
-        this.fTitle.v == "" ||
-        this.fTitle.e != "" ||
-        this.fBody.e != ""
+      this.fTitle == -1 ||
+      this.fBody.e != "" ||
+      this.fAedDeviceId == ""
     );
   }
 

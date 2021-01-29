@@ -10,6 +10,9 @@
         <AedProblemsInputTitle />
         <h4 v-text="$t('problems.problemContent')" />
         <AedProblemsInputBody />
+        <SearchMapAedDevice />
+        <v-divider />
+        <SearchAedDeviceSelectList />
       </v-card-text>
       <v-divider />
 
@@ -45,6 +48,14 @@ const user = namespace("user");
     AedProblemsInputBody: () =>
       import(
         /* webpackChunkName: "ProblemsListPanel" */ "@/components/problems/create/AedProblemsInputBody.vue"
+      ),
+    SearchMapAedDevice: () =>
+      import(
+        /* webpackChunkName: "SearchMapAedDevice" */ "@/components/search/aed/device/SearchMapAedDevice.vue"
+      ),
+    SearchAedDeviceSelectList: () =>
+      import(
+        /* webpackChunkName: "SearchAedDeviceSelectList" */ "@/components/search/SearchAedDeviceSelectList.vue"
       )
   },
   beforeRouteEnter(to, from, next) {
@@ -55,15 +66,17 @@ const user = namespace("user");
         store.registerModule("aedProblemsCreate", aedProblemsCreateMod);
       }
     });
-  },
-  beforeDestroy() {
-    this.$store.unregisterModule("aedProblemsCreate");
   }
+  //,
+  //beforeDestroy() {
+  //  this.$store.unregisterModule("aedProblemsCreate");
+  //}
 })
 export default class ProblemsCreateCard extends Vue {
   @user.State username!: User.Username;
-  @aedProblemsCreate.State fTitle!: FieldObject;
+  @aedProblemsCreate.State fTitle!: number;
   @aedProblemsCreate.State fBody!: FieldObject;
+  @aedProblemsCreate.State fAedDeviceId!: string;
   @aedProblemsCreate.State createVisible!: boolean;
   @aedProblemsCreate.Action createAedProblems!: (
     data: AedProblemsCreateDto
@@ -72,11 +85,9 @@ export default class ProblemsCreateCard extends Vue {
   sendAedProblems() {
     this.createAedProblems({
       username: this.username,
-      title: this.fTitle.v,
+      title: this.fTitle,
       body: this.fBody.v,
-      mapX: 0,
-      mapY: 0,
-      address: "this.address"
+      aedDeviceId: this.fAedDeviceId
     }).then(() => {
       console.log("run");
     });

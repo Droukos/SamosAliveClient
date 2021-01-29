@@ -3,12 +3,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
-const aedProblemsInfo = namespace("aedProblemsInfo");
 @Component
 export default class AedEventUsername extends Vue {
-  @aedProblemsInfo.State conclusion!: string;
+  @Prop() conclusion!: string;
 }
 </script>
