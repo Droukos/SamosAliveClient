@@ -32,13 +32,14 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { LMap, LMarker, LPopup } from "vue2-leaflet";
-import L from "leaflet";
+import { LatLng, latLng, icon } from "leaflet";
 import { AedDevice, IAedDevPreview } from "@/types/aed-device";
 import {
   markerIconAedDeviceHeart,
   markerIconShadow
 } from "@/plugins/api/cloudinary";
 import HomePoint = AedDevice.HomePoint;
+import searchMod from "@/store/modules/dynamic/search/search";
 
 const search = namespace("search");
 
@@ -55,7 +56,6 @@ const search = namespace("search");
       import(
         /* webpackChunkName: "LControlMenuSearchable" */ "@/components/map/controls/SearchInRadiusButton.vue"
       ),
-
     LMarkerSearchable: () =>
       import(
         /* webpackChunkName: "LMarkerSearchable" */ "@/components/map/markers/LMarkerSearchable.vue"
@@ -68,17 +68,26 @@ const search = namespace("search");
       import(
         /* webpackChunkName: "SearchAedDevicePreviewList" */ "@/components/search/SearchAedDevicePreviewList.vue"
       )
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      const aedMapCard = vm as AedMap;
+      const store = aedMapCard.$store;
+      if (!(store && store.state && store.state["search"])) {
+        store.registerModule("search", searchMod);
+      }
+    });
   }
 })
 export default class AedMap extends Vue {
   @search.State zoom!: number;
-  @search.State center!: L.LatLng;
+  @search.State center!: LatLng;
   @search.State previewAedDevices!: IAedDevPreview[];
 
   getMarker(point: HomePoint) {
-    return L.latLng(point.y, point.x);
+    return latLng(point.y, point.x);
   }
-  icon = L.icon({
+  icon = icon({
     iconUrl: markerIconAedDeviceHeart,
     shadowUrl: markerIconShadow,
     iconSize: [32, 32],

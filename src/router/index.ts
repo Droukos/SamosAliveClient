@@ -91,6 +91,7 @@ const allRoutes = [
   { path: "/aed/eventLive", name: "eventLive", comp: comps.AED_EV_LIVE },
   { path: "/aed/history", name: "history", comp: comps.AED_HISTORY },
   { path: "/aed/eventList", name: "eventList", comp: comps.AED_PR_LIST },
+  { path: "/aed/map", name: "openAedMap", comp: comps.AED_EV_MAP },
   {
     path: "/aed/problems/problemsCreate",
     name: "problemsCreate",

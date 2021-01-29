@@ -122,7 +122,7 @@ export default class LoginBase extends Vue {
           updateAccToken();
           this.listenAuth();
           this.$router.push({
-            name: "news"
+            name: "aedEvent"
           });
         })
         .catch(() => {

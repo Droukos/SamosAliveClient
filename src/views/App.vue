@@ -10,7 +10,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { updateAccToken } from "@/plugins/api";
-import {authRSocketApi} from "@/plugins/api/rsocket-api";
+import { authRSocketApi } from "@/plugins/api/rsocket-api";
 const user = namespace("user");
 const environment = namespace("environment");
 

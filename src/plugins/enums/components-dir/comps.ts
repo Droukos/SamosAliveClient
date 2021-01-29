@@ -12,7 +12,8 @@ export const compsDir = {
   NEWS: "news/",
   AED_EVENT: "aed/event/",
   AED_HISTORY: "aed/history/",
-  AED_PROBLEMS: "aed/problems/"
+  AED_PROBLEMS: "aed/problems/",
+  AED_MAP: "aed/event/map/"
 };
 
 export const comps = {
@@ -46,6 +47,7 @@ export const comps = {
   AED_EV_LIVE: compsDir.AED_EVENT + "EventLiveCard",
   AED_HISTORY: compsDir.AED_HISTORY + "HistoryCard",
   AED_EV_LIST: compsDir.AED_EVENT + "EventListCard",
+  AED_EV_MAP: compsDir.AED_MAP + "AedMapCard",
   AED_PR_CR: compsDir.AED_PROBLEMS + "ProblemsCreateCard",
   AED_PR_LIST: compsDir.AED_PROBLEMS + "ProblemsListCard",
   AED_PR_MORE: compsDir.AED_PROBLEMS + "ProblemsMoreCard",

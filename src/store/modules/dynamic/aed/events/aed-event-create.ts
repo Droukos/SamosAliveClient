@@ -13,7 +13,7 @@ import {
   searchOsmAddress
 } from "@/plugins/osm-util";
 import { IReverseOsmData } from "@/types/osm";
-import {aedRSocketApi} from "@/plugins/api/rsocket-api";
+import { aedRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,
