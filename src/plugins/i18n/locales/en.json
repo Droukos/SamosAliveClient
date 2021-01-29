@@ -119,7 +119,10 @@
     "statusS1": "Pending",
     "statusS2": "On progress",
     "statusS3": "Completed",
-    "upload": "Uploaded by: "
+    "upload": "Uploaded by: ",
+    "localMapOpen": "Find AEDs",
+    "localMap": "If you have the knowledge to solve the problem by yourself you can find the closest aed devices",
+    "createEvent": "If a health occurrence is happening near you and you don't know how to help then press the button to call rescuers"
   },
   "fields": {
     "address": "Address",

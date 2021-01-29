@@ -79,9 +79,9 @@ const routes: Array<RouteConfig> = [
     path: "/admin/mixin/users",
     name: "adminMixinUsers",
     component: () =>
-        import(
-            /* webpackChunkName: "AdminMixinCard" */ "@/views/routes/admin/mixin/AdminMixinCard.vue"
-            )
+      import(
+        /* webpackChunkName: "AdminMixinCard" */ "@/views/routes/admin/mixin/AdminMixinCard.vue"
+      )
   },
   {
     path: "/admin/ban/users",
@@ -95,25 +95,25 @@ const routes: Array<RouteConfig> = [
     path: "/admin/roles/change",
     name: "adminRolesChange",
     component: () =>
-        import(
-            /* webpackChunkName: "RolesChangeCard" */ "@/views/routes/admin/roles/RolesChangeCard.vue"
-            )
+      import(
+        /* webpackChunkName: "RolesChangeCard" */ "@/views/routes/admin/roles/RolesChangeCard.vue"
+      )
   },
   {
     path: "/admin/roles/add",
     name: "adminRolesAdd",
     component: () =>
-        import(
-            /* webpackChunkName: "RolesAddCard" */ "@/views/routes/admin/roles/RolesAddCard.vue"
-            )
+      import(
+        /* webpackChunkName: "RolesAddCard" */ "@/views/routes/admin/roles/RolesAddCard.vue"
+      )
   },
   {
     path: "/admin/roles/del",
     name: "adminRolesDel",
     component: () =>
-        import(
-            /* webpackChunkName: "RolesDelCard" */ "@/views/routes/admin/roles/RolesDelCard.vue"
-            )
+      import(
+        /* webpackChunkName: "RolesDelCard" */ "@/views/routes/admin/roles/RolesDelCard.vue"
+      )
   },
   {
     path: "/admin/unban/users",
@@ -238,6 +238,14 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(
         /* webpackChunkName: "history" */ "@/views/routes/aed/history/HistoryCard.vue"
+      )
+  },
+  {
+    path: "/aed/map",
+    name: "openAedMap",
+    component: () =>
+      import(
+        /* webpackChunkName: "openAedMap" */ "@/views/routes/aed/event/map/AedMapCard.vue"
       )
   },
   {
