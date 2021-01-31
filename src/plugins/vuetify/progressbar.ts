@@ -1,5 +1,5 @@
-import NProgress from 'nprogress';
-import {VueRouter} from "vue-router/types/router";
+import NProgress from "nprogress";
+import { VueRouter } from "vue-router/types/router";
 const progressShowDelay = 100;
 let routeResolved = false;
 /**
@@ -7,21 +7,21 @@ let routeResolved = false;
  */
 
 export function cancelTopProgress() {
-    routeResolved = true;
-    NProgress.done();
+  routeResolved = true;
+  NProgress.done();
 }
 function tryInitProgress() {
-    routeResolved = false;
-    setTimeout(()=> {
-        if (!routeResolved) {
-            NProgress.start();
-        }
-    }, progressShowDelay);
+  routeResolved = false;
+  setTimeout(() => {
+    if (!routeResolved) {
+      NProgress.start();
+    }
+  }, progressShowDelay);
 }
 export default function initProgress(router: VueRouter) {
-    router.afterEach(cancelTopProgress);
-    router.beforeEach((to, from, next) => {
-        tryInitProgress();
-        return next();
-    });
+  router.afterEach(cancelTopProgress);
+  router.beforeEach((to, from, next) => {
+    tryInitProgress();
+    return next();
+  });
 }

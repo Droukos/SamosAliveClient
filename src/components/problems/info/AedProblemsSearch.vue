@@ -28,7 +28,7 @@ export default class AedProblemsSearch extends Vue {
   ];
   selected = this.items[0].code;
 
-  @problemsList.Action fetchProblemsPreview!: (title: number) => Promise<any>;
+  @problemsList.Action fetchProblemsPreview!: (title: number) => void;
 
   searchProblem(selected: number) {
     this.fetchProblemsPreview(selected);

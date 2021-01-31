@@ -18,7 +18,7 @@ import {
 } from "@/plugins/api/cloudinary";
 import { namespace } from "vuex-class";
 import { LMarker, LTooltip } from "vue2-leaflet";
-import { IReverseOsmData } from "@/types/osm";
+import { ReverseOsmData } from "@/types/osm";
 
 const aedEventCreate = namespace("aedEventCreate");
 
@@ -33,7 +33,7 @@ export default class LMarkerDraggable extends Vue {
   @aedEventCreate.Action osmReverseGeoCoding!: (latLng: {
     y: number;
     x: number;
-  }) => Promise<IReverseOsmData>;
+  }) => Promise<ReverseOsmData>;
   @aedEventCreate.Action vForm!: () => void;
 
   setLatLng(event: LeafletEvent) {

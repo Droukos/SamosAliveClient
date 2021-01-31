@@ -13,14 +13,14 @@ import { latLng } from "leaflet";
 import api, { accessToken } from "@/plugins/api";
 import { bufToData, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { aedDeviceApi, apiWithVar, cdnApi } from "@/plugins/api/api-urls";
-import { IAedDeviceRegister } from "@/types/aed-device";
+import { AedDeviceRegisterI } from "@/types/aed-device";
 import {
   getAddressLabel,
   reverseOsmGeocoding,
   searchOsmAddress
 } from "@/plugins/osm-util";
-import { IReverseOsmData } from "@/types/osm";
-import {aedRSocketApi} from "@/plugins/api/rsocket-api";
+import { ReverseOsmData } from "@/types/osm";
+import { aedRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,
@@ -107,7 +107,7 @@ export default class AedDeviceRegister extends VuexModule {
   }
 
   @Mutation
-  setSearchableMarkerLatLong(data: IReverseOsmData) {
+  setSearchableMarkerLatLong(data: ReverseOsmData) {
     const x = Number(data.lat);
     const y = Number(data.lon);
     this.marker = latLng(x, y);
@@ -165,7 +165,7 @@ export default class AedDeviceRegister extends VuexModule {
   async osmReverseGeoCoding(latLng: {
     y: number;
     x: number;
-  }): Promise<IReverseOsmData> {
+  }): Promise<ReverseOsmData> {
     return reverseOsmGeocoding({ lat: latLng.y, lon: latLng.x });
   }
 
@@ -177,7 +177,7 @@ export default class AedDeviceRegister extends VuexModule {
     });
   }
 
-  get aedDeviceRegisterObj(): IAedDeviceRegister {
+  get aedDeviceRegisterObj(): AedDeviceRegisterI {
     return {
       uniqueNickname: this.fNickname.v,
       modelName: this.fModelName.v,

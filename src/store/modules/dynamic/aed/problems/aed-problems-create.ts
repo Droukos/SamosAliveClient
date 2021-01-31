@@ -6,7 +6,7 @@ import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import store from "@/store";
 import { FieldObject } from "@/types";
 import i18n from "@/plugins/i18n";
-import {aedRSocketApi} from "@/plugins/api/rsocket-api";
+import { aedRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

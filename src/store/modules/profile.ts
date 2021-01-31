@@ -18,7 +18,7 @@ import {
   dataBuf,
   metadataBuf
 } from "@/plugins/api/rsocket-util";
-import {getAccessTokenJwt, userRSocketApi} from "@/plugins/api/rsocket-api";
+import { getAccessTokenJwt, userRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({ namespaced: true })
 export default class Profile extends VuexModule implements UserInfo {

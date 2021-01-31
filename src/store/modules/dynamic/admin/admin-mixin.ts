@@ -7,17 +7,19 @@ import {
   BanUsers,
   ChangeRolePreviewUser,
   ChangeRoles,
-  IMutToAdminList,
+  MutToAdminList,
   BanPreviewUser,
   UpdatePreviewUser,
   UpRoles,
   ReplacePrUser,
-  IMutRmElemAdminList
+  MutRmElemAdminList
 } from "@/types/admin";
 import { authApi } from "@/plugins/api/api-urls";
 import {
-  adminRequestResponse, buildUpdateRole,
-  isAddRoleListInvalid, isBanListInvalid,
+  adminRequestResponse,
+  buildUpdateRole,
+  isAddRoleListInvalid,
+  isBanListInvalid,
   isChangeRoleListInvalid,
   isDelRoleListInvalid
 } from "@/plugins/admin-util";
@@ -54,7 +56,7 @@ export default class AdminMixin extends VuexModule {
   }
 
   @Mutation
-  setPrUserToAdminList(data: IMutToAdminList) {
+  setPrUserToAdminList(data: MutToAdminList) {
     let foundDuplicate = false;
     if (data.adminOption === adminOptions.BAN_USERS) {
       let foundNaN = false;
@@ -93,7 +95,7 @@ export default class AdminMixin extends VuexModule {
         if (elem.previewUser.user == data.prUser.user) return;
       }
       this.prUsersToDelRole.push({ previewUser: data.prUser, updateRole: "" });
-    } else if(data.adminOption === adminOptions.MIXIN) {
+    } else if (data.adminOption === adminOptions.MIXIN) {
       this.undecidedPrUsers.push(data.prUser);
     }
   }
@@ -122,7 +124,7 @@ export default class AdminMixin extends VuexModule {
   }
 
   @Mutation
-  removeUserFromList(data: IMutRmElemAdminList) {
+  removeUserFromList(data: MutRmElemAdminList) {
     if (data.adminOption == adminOptions.BAN_USERS) {
       this.prUsersToBan.splice(data.index, 1);
     } else if (data.adminOption === adminOptions.UNBAN_USERS) {

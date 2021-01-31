@@ -61,7 +61,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { IMutRmElemAdminList, UpdatePreviewUser, UpRoles } from "@/types/admin";
+import { MutRmElemAdminList, UpdatePreviewUser, UpRoles } from "@/types/admin";
 import { adminOptions, adminProcOptions } from "@/plugins/enums/admin-options";
 
 const adminMixin = namespace("adminMixin");
@@ -86,7 +86,7 @@ export default class AdminDelRoleList extends Vue {
   @adminMixin.State prUsersToDelRole!: UpdatePreviewUser[];
   @adminMixin.State delRoleBtnDis!: boolean;
   @adminMixin.State delRoleProcStat!: number;
-  @adminMixin.Mutation removeUserFromList!: (data: IMutRmElemAdminList) => void;
+  @adminMixin.Mutation removeUserFromList!: (data: MutRmElemAdminList) => void;
   @adminMixin.Mutation clearAdminList!: (data: number) => void;
   @adminMixin.Action delRoles!: (data: UpRoles) => Promise<string>;
   procOptions = adminProcOptions;

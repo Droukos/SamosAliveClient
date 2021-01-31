@@ -4,14 +4,14 @@ import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { PreviewUser } from "@/types";
 import { aedDeviceApi } from "@/plugins/api/api-urls.ts";
-import { IAedDeviceMapSearchDto, IAedDevPreview } from "@/types/aed-device";
+import { AedDeviceMapSearchDto, AedDevPreview } from "@/types/aed-device";
 import searchOptions, {
   deviceSearchTypeRadios,
   radiusOptions
 } from "@/plugins/enums/search-options";
 import { latLng } from "leaflet";
 import { searchPreviewUsers } from "@/plugins/search-util";
-import {aedRSocketApi} from "@/plugins/api/rsocket-api";
+import { aedRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({ dynamic: true, namespaced: true, store: store, name: "search" })
 export default class Search extends VuexModule {
@@ -24,7 +24,7 @@ export default class Search extends VuexModule {
   expandFilters = false;
   validToSearch = true;
   previewUsers: PreviewUser[] = [];
-  previewAedDevices: IAedDevPreview[] = [];
+  previewAedDevices: AedDevPreview[] = [];
   zoom = 12.8;
   center = latLng(37.977308, 23.7613248);
   marker = latLng(37.977308, 23.7613248);
@@ -85,7 +85,7 @@ export default class Search extends VuexModule {
   }
 
   @Mutation
-  setPreviewAedDevices(previewAedDevices: IAedDevPreview[]) {
+  setPreviewAedDevices(previewAedDevices: AedDevPreview[]) {
     this.previewAedDevices = previewAedDevices;
   }
 
@@ -101,7 +101,7 @@ export default class Search extends VuexModule {
     this.radiusSlider = radius;
   }
 
-  get mapSearchDto(): IAedDeviceMapSearchDto {
+  get mapSearchDto(): AedDeviceMapSearchDto {
     return {
       y: this.marker.lat,
       x: this.marker.lng,
@@ -118,9 +118,9 @@ export default class Search extends VuexModule {
   }
 
   @Action({ commit: "setPreviewAedDevices" })
-  async fetchAedDeviceInAreaPreview(): Promise<IAedDevPreview[]> {
+  async fetchAedDeviceInAreaPreview(): Promise<AedDevPreview[]> {
     return new Promise(resolve => {
-      const prDevices: IAedDevPreview[] = [];
+      const prDevices: AedDevPreview[] = [];
       aedRSocketApi().then(aedRSocket => {
         aedRSocket
           .requestStream({
@@ -133,9 +133,9 @@ export default class Search extends VuexModule {
           .subscribe({
             onError: error => console.error(error),
             onNext: payload => prDevices.push(bufToJson(payload)),
-            onSubscribe: sub => sub.request(20)
+            onSubscribe: sub => sub.request(20),
+            onComplete: () => resolve(prDevices)
           });
-        resolve(prDevices);
       });
     });
   }
@@ -148,9 +148,9 @@ export default class Search extends VuexModule {
   @Action
   async fetchAedDevicesPreview(
     aedDeviceNickname: string
-  ): Promise<IAedDevPreview[]> {
+  ): Promise<AedDevPreview[]> {
     return new Promise(resolve => {
-      const prAedDevices: IAedDevPreview[] = [];
+      const prAedDevices: AedDevPreview[] = [];
       aedRSocketApi().then(aedRSocket => {
         aedRSocket
           .requestStream({

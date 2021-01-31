@@ -1,12 +1,9 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import Vue from "vue";
-import api, {
-  setBearerAccToken,
-  accessToken,
-} from "@/plugins/api";
+import api, { setBearerAccToken, accessToken } from "@/plugins/api";
 import { authApi, userApi } from "@/plugins/api/api-urls";
 import {
-  LoginResponse,
+  LoginResponse, NavDrawElem,
   PreviewUserCh,
   Role,
   UserInfo,
@@ -32,7 +29,12 @@ import {
 } from "@/plugins/user-util";
 import { ISubscription } from "rsocket-types";
 import { availability } from "@/plugins/enums/user/status/status";
-import {authRSocketApi, getAccessTokenJwt, userRSocketApi} from "@/plugins/api/rsocket-api";
+import {
+  authRSocketApi,
+  getAccessTokenJwt,
+  userRSocketApi
+} from "@/plugins/api/rsocket-api";
+import {roles} from "@/plugins/enums/roles";
 
 Vue.use(VueCookies);
 
@@ -87,7 +89,9 @@ export default class User extends VuexModule implements UserInfo {
     setDescription(this, loginData.description);
     setRoleModels(this, loginData.roleModels);
     setAvailability(this, loginData.online, loginData.availability);
-    this.aedSubEvents = loginData.aedEventSubs.flatMap(item => item.substring(item.lastIndexOf('/')+1));
+    this.aedSubEvents = loginData.aedEventSubs.flatMap(item =>
+      item.substring(item.lastIndexOf("/") + 1)
+    );
   }
 
   @Mutation
@@ -128,6 +132,23 @@ export default class User extends VuexModule implements UserInfo {
 
   get nameSurname() {
     return this.surname + " " + this.name;
+  }
+
+  get userRolesList() {
+    return this.roleModels.map(role => role.role);
+  }
+
+  get visPages() {
+    return function(data: {navElemArr: NavDrawElem[], rolesList: string[]}) {
+      return data.navElemArr.filter((value: NavDrawElem) =>
+          value.roleVisibility.includes(roles.ALL)
+              ? true
+              : value.roleVisibility.find((roleVis: string) =>
+              data.rolesList.includes(roleVis)
+          ) != undefined
+      );
+    };
+
   }
 
   get userPreview(): PreviewUserCh {

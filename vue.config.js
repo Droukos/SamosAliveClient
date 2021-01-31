@@ -21,10 +21,10 @@ module.exports = {
     //  }
     //]);
 
-    config
-      .plugin("bundle-analyzer-plugin")
-      .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin)
-      .end();
+    //config
+    //  .plugin("bundle-analyzer-plugin")
+    //  .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin)
+    //  .end();
     //.plugin('html-template')
     //  .use(HtmlWebpackTemplate)
     //  .end()
@@ -37,9 +37,11 @@ module.exports = {
     themeColor: "#4DBA87",
     msTileColor: "#000000",
     appleMobileWebAppCapable: "yes",
-    appleMobileWebAppStatusBarStyle: "black",
+    appleMobileWebAppStatusBarStyle: "black"
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    //start_url: "http://localhost:8080/",
     // configure the workbox plugin
-    workboxPluginMode: "GenerateSW"
+    //workboxPluginMode: "GenerateSW"
     //workboxOptions: {
     //  // swSrc is required in InjectManifest mode.
     //  swSrc: 'dev/sw.js',

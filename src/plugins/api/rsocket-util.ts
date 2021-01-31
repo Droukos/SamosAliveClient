@@ -1,6 +1,4 @@
-import {
-  Payload
-} from "rsocket-types";
+import { Payload } from "rsocket-types";
 import {
   encodeAndAddCustomMetadata,
   encodeAndAddWellKnownMetadata,
@@ -28,15 +26,16 @@ export function metadataBuf(jwtToken: string, route: string): Uint8Array {
 }
 
 export function metadataOnlyRoute(route: string) {
-  return encodeAndAddWellKnownMetadata( Buffer.from(""), MESSAGE_RSOCKET_ROUTING, Buffer.from(String.fromCharCode(route.length) + route));
+  return encodeAndAddWellKnownMetadata(
+    Buffer.from(""),
+    MESSAGE_RSOCKET_ROUTING,
+    Buffer.from(String.fromCharCode(route.length) + route)
+  );
 }
 
 export function bufToData(payload: Payload<any, any>) {
-  return payload.data.toString('utf8');
+  return payload.data.toString("utf8");
 }
 export function bufToJson(payload: Payload<any, any>) {
   return JSON.parse(bufToData(payload));
 }
-
-
-

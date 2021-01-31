@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { IAedDevPreview } from "@/types/aed-device";
+import { AedDevPreview } from "@/types/aed-device";
 import { namespace } from "vuex-class";
 
 const search = namespace("search");
@@ -32,7 +32,7 @@ const aedProblemsCreate = namespace("aedProblemsCreate");
 export default class SearchAedDevicePreviewList extends Vue {
   selected = "";
 
-  @search.State previewAedDevices!: IAedDevPreview[];
+  @search.State previewAedDevices!: AedDevPreview[];
   @aedProblemsCreate.Mutation setAedDeviceId!: (aedDeviceId: string) => void;
   @aedProblemsCreate.Action vForm!: () => void;
 

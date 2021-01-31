@@ -1,25 +1,23 @@
 import { LatLng } from "leaflet";
-import {AedEvent} from "@/types/aed-event";
-import {IAedDevPreview} from "@/types/aed-device";
+import { AedEvent } from "@/types/aed-event";
+import { AedDevPreview } from "@/types/aed-device";
 
 declare namespace OsmServer {
-
   interface AedDevicePreviewWithRouteDto {
-    aedEventId: AedEvent.id,
-    aedDeviceInfoPreviewDto: IAedDevPreview,
-    routeInfo: any
+    aedEventId: AedEvent.id;
+    aedDeviceInfoPreviewDto: AedDevPreview;
+    routeInfo: any;
   }
 }
 
 declare namespace OsmClient {
-
   interface AedDeviceAreaLookWithRoute {
-    eventId: AedEvent.id,
-    eventLat: number,
-    eventLng: number,
-    distance: number,
-    rescuerLat: number,
-    rescuerLng: number
+    eventId: AedEvent.id;
+    eventLat: number;
+    eventLng: number;
+    distance: number;
+    rescuerLat: number;
+    rescuerLng: number;
   }
 }
 
@@ -34,7 +32,7 @@ declare namespace OsmGeneral {
   type distance = number;
   type duration = number;
   type driving_side = string;
-  type Mode = { ferry: { default: string; destination: string; name: string; }; };
+  type Mode = { ferry: { default: string; destination: string; name: string } };
   type name = string;
 
   interface Waypoint {
@@ -47,30 +45,30 @@ declare namespace OsmGeneral {
   type coordinates = LatLng[];
   type waypointIndices = number[];
   interface Instruction {
-    direction: string,
-    distance: distance,
-    exit: string,
-    index: number,
-    mode: string,
-    modifier: string,
-    road: string,
-    text: string,
-    time: number,
-    type: string
+    direction: string;
+    distance: distance;
+    exit: string;
+    index: number;
+    mode: string;
+    modifier: string;
+    road: string;
+    text: string;
+    time: number;
+    type: string;
   }
   interface Summary {
-    totalDistance: number,
-    totalTime: number
+    totalDistance: number;
+    totalTime: number;
   }
   type instructions = Instruction[];
-  type summary = Summary
+  type summary = Summary;
 
   interface ResponseRouteInfo {
-    coordinates: coordinates,
-    instructions: instructions,
-    name: string,
-    summary: Summary,
-    waypointIndices?: waypointIndices
+    coordinates: coordinates;
+    instructions: instructions;
+    name: string;
+    summary: Summary;
+    waypointIndices?: waypointIndices;
   }
 
   interface Maneuver {
@@ -114,10 +112,10 @@ declare namespace OsmGeneral {
   }
 
   interface Lane {
-    valid: boolean
+    valid: boolean;
   }
   interface Intersections {
-    lanes: Lane[]
+    lanes: Lane[];
   }
 
   interface Steps {
@@ -199,13 +197,13 @@ export interface DevRoutesResult {
   devRoutes: AedDevicePreviewWithRouteDto[];
 }
 
-export interface RouteResult  {
+export interface RouteResult {
   aedDeviceId: string;
   aedEventId: string;
   responseRoute: OsrmInstruction;
 }
 
-export interface IReverseOsmData {
+export interface ReverseOsmData {
   place_id: number;
   licence: string;
   osm_id: number;

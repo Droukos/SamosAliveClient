@@ -5,7 +5,7 @@ import { statusOptions } from "@/plugins/enums/event-options";
 import { bufToJson, metadataBuf } from "@/plugins/api/rsocket-util";
 import { eventApi } from "@/plugins/api/api-urls";
 import { ISubscription } from "rsocket-types";
-import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
+import { aedRSocketApi, getAccessTokenJwt } from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,
@@ -43,7 +43,7 @@ export default class EventLiveList extends VuexModule {
     return this.previewEventsShow;
   }
 
-  @Action({commit: "setPreviewEvents"})
+  @Action({ commit: "setPreviewEvents" })
   async fetchUnassignedEventsPreview() {
     if (this.fetchedAll) {
       return;

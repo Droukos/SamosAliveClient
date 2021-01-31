@@ -10,6 +10,6 @@ export default new Vuex.Store({
   modules: {
     environment: environment,
     user: user,
-    profile: profile,
-  },
+    profile: profile
+  }
 });

@@ -58,7 +58,8 @@ import {
   mdiHeadMinusOutline,
   mdiHeadSnowflakeOutline,
   mdiNewspaperVariantMultiple,
-  mdiAlertOctagon, mdiLayersTriple
+  mdiAlertOctagon,
+  mdiLayersTriple
 } from "@mdi/js";
 
 Vue.use(Vuetify);

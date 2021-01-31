@@ -101,7 +101,9 @@ const user = namespace("user");
       if (!(store && store.state && store.state["aedEventCreate"])) {
         store.registerModule("aedEventCreate", aedEventCreateMod);
       }
-      getLocation(aedEventCreateCard.osmReverseGeoCodingOnCurPos);
+      //TODO default location somewhere
+      getLocation(aedEventCreateCard.osmReverseGeoCodingOnCurPos)
+          .catch();
       aedEventCreateCard.fCallee.v = aedEventCreateCard.nameSurname;
     });
   },
@@ -134,7 +136,7 @@ export default class AedEventCreateCard extends Vue {
   @aedEventCreate.Action vForm!: () => void;
   @aedEventCreate.Action osmReverseGeoCodingOnCurPos!: (
     position: Position
-  ) => void;
+  ) => Promise<void>;
   @aedEventCreate.Action createAedEvent!: (
     data: AedEventCreateDto
   ) => Promise<string>;

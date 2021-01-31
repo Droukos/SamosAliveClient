@@ -6,7 +6,7 @@ import store from "@/store";
 import { FieldObject } from "@/types";
 import { NewsCard } from "@/types/news";
 import i18n from "@/plugins/i18n";
-import {newsRSocketApi} from "@/plugins/api/rsocket-api";
+import { newsRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

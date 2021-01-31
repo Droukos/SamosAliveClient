@@ -1,5 +1,5 @@
 import { userApi } from "@/plugins/api/api-urls";
-import { accessToken  } from "@/plugins/api";
+import { accessToken } from "@/plugins/api";
 import {
   dataBuf,
   metadataBuf,
@@ -18,7 +18,7 @@ import {
 } from "@/types";
 import { TranslateResult } from "vue-i18n";
 import i18n from "@/plugins/i18n";
-import {userRSocketApi} from "@/plugins/api/rsocket-api";
+import { userRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({ dynamic: true, namespaced: true, store, name: "privacyProfile" })
 export default class ProfilePrivacy extends VuexModule {

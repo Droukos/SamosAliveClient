@@ -50,5 +50,5 @@ export const comps = {
   AED_EV_MAP: compsDir.AED_MAP + "AedMapCard",
   AED_PR_CR: compsDir.AED_PROBLEMS + "ProblemsCreateCard",
   AED_PR_LIST: compsDir.AED_PROBLEMS + "ProblemsListCard",
-  AED_PR_MORE: compsDir.AED_PROBLEMS + "ProblemsMoreCard",
+  AED_PR_MORE: compsDir.AED_PROBLEMS + "ProblemsMoreCard"
 };

@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { IAedDevPreview } from "@/types/aed-device";
+import { AedDevPreview } from "@/types/aed-device";
 import { namespace } from "vuex-class";
 import { AedEventInfoDto, AedEventRescuerInfo } from "@/types/aed-event";
 import { LatLng } from "leaflet";
@@ -54,28 +54,28 @@ export default class EChannelPreviewAvailableDevices extends Vue {
   @user.State username!: string;
   @eChannel.State notAvailableDevices!: boolean;
   @eChannel.State rescuerPosition!: LatLng | null;
-  @eChannel.State previewAedDevices!: IAedDevPreview[];
+  @eChannel.State previewAedDevices!: AedDevPreview[];
   @eChannel.State selectedRescuer!: PreviewUser | null;
-  @eChannel.Mutation setAedDeviceSelected!: (aedDevice: IAedDevPreview) => void;
+  @eChannel.Mutation setAedDeviceSelected!: (aedDevice: AedDevPreview) => void;
   @eChannel.Mutation setMapDialog!: (bool: boolean) => void;
   @eChannel.Mutation setShowPreviewAedDevice!: (
-    previewAedDevices: IAedDevPreview[]
+    previewAedDevices: AedDevPreview[]
   ) => void;
   @eChannel.Action subRescuer!: (
     data: AedEventRescuerInfo
   ) => Promise<AedEventInfoDto>;
 
-  assignDeviceToEvent(data: IAedDevPreview) {
+  assignDeviceToEvent(data: AedDevPreview) {
     this.subRescuer({
       id: this.aedEventId,
       rescuer: this.username,
       aedDeviceId: data.id,
-      estimatedFinish: data.responseRouteInfo!.summary.totalTime,
+      estimatedFinish: data.responseRouteInfo!.summary.totalTime!,
       aedDevicePreview: data
     });
   }
 
-  highlightDevice(aedDevice: IAedDevPreview) {
+  highlightDevice(aedDevice: AedDevPreview) {
     this.setShowPreviewAedDevice([aedDevice]);
   }
 

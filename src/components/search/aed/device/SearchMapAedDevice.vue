@@ -31,7 +31,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { LMap, LMarker, LPopup } from "vue2-leaflet";
 import { icon, latLng, LatLng } from "leaflet";
-import { AedDevice, IAedDevPreview } from "@/types/aed-device";
+import { AedDevice, AedDevPreview } from "@/types/aed-device";
 import {
   markerIconAedDeviceHeart,
   markerIconShadow
@@ -66,7 +66,7 @@ const search = namespace("search");
 export default class SearchMapAedDevice extends Vue {
   @search.State zoom!: number;
   @search.State center!: LatLng;
-  @search.State previewAedDevices!: IAedDevPreview[];
+  @search.State previewAedDevices!: AedDevPreview[];
 
   getMarker(point: HomePoint) {
     return latLng(point.y, point.x);

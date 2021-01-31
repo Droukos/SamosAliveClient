@@ -199,11 +199,11 @@ export interface PreviewUser {
 }
 
 export interface PreviewUserCh {
-  id: User.UserId,
-  username: User.Username,
-  avatar: User.Avatar,
-  status: User.Availability,
-  roles: string[]
+  id: User.UserId;
+  username: User.Username;
+  avatar: User.Avatar;
+  status: User.Availability;
+  roles: string[];
 }
 
 export interface PreviewRescuer {
@@ -306,3 +306,12 @@ export type OpenStreetObjData = {
   x: number;
   y: number;
 };
+
+export interface NavDrawElem {
+  index: number;
+  link: string;
+  title: string | TranslateResult;
+  icon: string;
+  roleVisibility: string[];
+  rArrowIcon?: boolean;
+}

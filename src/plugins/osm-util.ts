@@ -2,13 +2,13 @@ import { accessToken } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { osmApi } from "@/plugins/api/api-urls";
 import {
-  IReverseOsmData,
+  ReverseOsmData,
   OsmAddress,
   ReverseOsmLatLon,
   SearchOsmAddress
 } from "@/types/osm";
-import {IAedDevPreview} from "@/types/aed-device";
-import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
+import { AedDevPreview } from "@/types/aed-device";
+import { aedRSocketApi, getAccessTokenJwt } from "@/plugins/api/rsocket-api";
 
 export function emptyRouteInfo() {
   return {
@@ -23,20 +23,20 @@ export function emptyRouteInfo() {
   };
 }
 
-export function sortAedDevices(previewAedDevices: IAedDevPreview[]) {
+export function sortAedDevices(previewAedDevices: AedDevPreview[]) {
   previewAedDevices.sort((a, b) => {
     if (a.responseRouteInfo == undefined && b.responseRouteInfo == undefined)
       return 0;
     else if (a.responseRouteInfo == undefined) return -1;
     else if (b.responseRouteInfo == undefined) return 1;
     else if (
-        a.responseRouteInfo.summary.totalDistance >
-        b.responseRouteInfo.summary.totalDistance
+      a.responseRouteInfo.summary.totalDistance >
+      b.responseRouteInfo.summary.totalDistance
     )
       return 1;
     else if (
-        a.responseRouteInfo.summary.totalDistance <
-        b.responseRouteInfo.summary.totalDistance
+      a.responseRouteInfo.summary.totalDistance <
+      b.responseRouteInfo.summary.totalDistance
     )
       return -1;
     else return 0;
@@ -119,7 +119,7 @@ export async function searchOsmAddress(data: SearchOsmAddress) {
 
 export async function reverseOsmGeocoding(
   data: ReverseOsmLatLon
-): Promise<IReverseOsmData> {
+): Promise<ReverseOsmData> {
   return getAccessTokenJwt().then(token => {
     return new Promise(resolve => {
       aedRSocketApi().then(aedRSocket =>

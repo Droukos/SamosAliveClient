@@ -18,7 +18,7 @@ import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { aedDeviceApi, eventApi } from "@/plugins/api/api-urls";
 import { latLng, LatLng } from "leaflet";
 import { ISubscription } from "rsocket-types";
-import { IAedDevPreview } from "@/types/aed-device";
+import { AedDevPreview } from "@/types/aed-device";
 import {
   AedDeviceAreaLookWithRoute,
   AedDevicePreviewWithRouteDto,
@@ -32,13 +32,23 @@ import AedDeviceRescuer = AedEvent.AedDeviceRescuer;
 import AedComment = AedEvent.AedComment;
 import AedEventCommentDto = AedEvent.AedEventCommentDto;
 import {
-  allUsers, chDisc, checkChCtrl, chSubs, chUsers, devEvMap, evMap, findElemOnChMap, rescuerEvMap,
+  allUsers,
+  chDisc,
+  checkChCtrl,
+  chSubs,
+  chUsers,
+  devEvMap,
+  evMap,
+  findElemOnChMap,
+  rescuerEvMap,
   rSocketChannelStream,
-  rSocketResponse, setChCtrl, tempDevEvMap
+  rSocketResponse,
+  setChCtrl,
+  tempDevEvMap
 } from "@/plugins/event-channel-util";
 import AedCommentReqDto = AedEvent.AedCommentReqDto;
 import AedCommentsResDto = AedEvent.AedCommentsResDto;
-import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
+import { aedRSocketApi, getAccessTokenJwt } from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,
@@ -58,9 +68,9 @@ export default class AedEventChannelsSub extends VuexModule {
   discPages = 0;
   watchingPage = 0;
   curAedEvent: AedEventInfoDto | null = null;
-  previewAedDevices: IAedDevPreview[] = [];
-  showPreviewAedDevices: IAedDevPreview[] = [];
-  aedDeviceSelected: IAedDevPreview | null = null;
+  previewAedDevices: AedDevPreview[] = [];
+  showPreviewAedDevices: AedDevPreview[] = [];
+  aedDeviceSelected: AedDevPreview | null = null;
   selectedRouteInfo: RouteInfo | null | undefined = emptyRouteInfo();
   selectedRescuer: PreviewRescuer | null = null;
   rescuerPosition: LatLng | null = null;
@@ -98,13 +108,13 @@ export default class AedEventChannelsSub extends VuexModule {
   }
 
   @Mutation
-  setPreviewDevices(data: IAedDevPreview[]) {
+  setPreviewDevices(data: AedDevPreview[]) {
     this.previewAedDevices = data;
     this.showPreviewAedDevices = data;
   }
 
   @Mutation
-  setSelectedDevice(data: IAedDevPreview) {
+  setSelectedDevice(data: AedDevPreview) {
     this.aedDeviceSelected = data;
     if (data.responseRouteInfo !== undefined) {
       this.selectedRouteInfo = data.responseRouteInfo;
@@ -121,10 +131,12 @@ export default class AedEventChannelsSub extends VuexModule {
       this.selectedRescuer = null;
     } else if (devEvMap.has(aedEventId)) {
       this.aedDeviceSelected = devEvMap.get(aedEventId)!;
-      const isRescuer = (rescuerEvMap.get(aedEventId)!.user === username);
+      const isRescuer = rescuerEvMap.get(aedEventId)!.user === username;
       this.selectedRescuer = rescuerEvMap.get(aedEventId)!;
       this.previewAedDevices = [this.aedDeviceSelected];
-      this.selectedRouteInfo = (isRescuer)? this.aedDeviceSelected.responseRouteInfo: emptyRouteInfo();
+      this.selectedRouteInfo = isRescuer
+        ? this.aedDeviceSelected.responseRouteInfo
+        : emptyRouteInfo();
       this.verifiedPosition = isRescuer;
     } else {
       this.previewAedDevices = [];
@@ -147,7 +159,7 @@ export default class AedEventChannelsSub extends VuexModule {
   }
 
   @Mutation
-  setShowPreviewAedDevice(previewAedDevices: IAedDevPreview[]) {
+  setShowPreviewAedDevice(previewAedDevices: AedDevPreview[]) {
     if (this.onMapDialog) {
       return;
     }
@@ -447,7 +459,7 @@ export default class AedEventChannelsSub extends VuexModule {
   }
 
   @Mutation
-  setAedDeviceSelected(aedDevice: IAedDevPreview) {
+  setAedDeviceSelected(aedDevice: AedDevPreview) {
     this.aedDeviceSelected = aedDevice;
   }
 
@@ -674,7 +686,8 @@ export default class AedEventChannelsSub extends VuexModule {
     }
     return new Promise(resolve => {
       const result: AedDeviceRescuer[] = [];
-      aedRSocketApi().then(aedRSocket => aedRSocket
+      aedRSocketApi().then(aedRSocket =>
+        aedRSocket
           .requestStream({
             data: dataBuf(data),
             metadata: metadataBuf(accessToken, eventApi.fetchDeviceAndRescuer)

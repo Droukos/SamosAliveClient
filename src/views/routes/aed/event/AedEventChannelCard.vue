@@ -85,7 +85,7 @@ import aedEventChannelSubMod from "@/store/modules/dynamic/aed/events/sub/aed-ev
 import { namespace } from "vuex-class";
 import { AedEvent, AedEventInfoDto, EventDto } from "@/types/aed-event";
 import { LatLng } from "leaflet";
-import { IAedDevPreview } from "@/types/aed-device";
+import { AedDevPreview } from "@/types/aed-device";
 import { RouteInfo } from "@/types/osm";
 import { getLocation } from "@/plugins/geolocation";
 import { PreviewUser, PreviewUserCh } from "@/types";
@@ -149,7 +149,10 @@ const eChannel = namespace("aedEventChannelSub");
       chCard.findEventId(eventIdDto).then(() => {
         chCard.loading = false;
         if (chCard.username != chCard.aedEventDto.username) {
-          getLocation(chCard.setRescuerPos2);
+          //TODO default location somewhere
+          getLocation(chCard.setRescuerPos2).catch(() => {
+            //chCard.aedEventDto.occurrencePoint
+          });
         }
         setEventListeners(chCard, eventIdDto);
         fetchRescuerAndDevice(chCard);
@@ -184,9 +187,9 @@ export default class AedEventChannelCard extends Vue {
   @user.State username!: string;
   @environment.State locale!: string;
   @eChannel.State rescuerPosition!: LatLng | null;
-  @eChannel.State showPreviewAedDevices!: IAedDevPreview[];
+  @eChannel.State showPreviewAedDevices!: AedDevPreview[];
   @eChannel.State verifiedPosition!: boolean;
-  @eChannel.State aedDeviceSelected!: IAedDevPreview | null;
+  @eChannel.State aedDeviceSelected!: AedDevPreview | null;
   @eChannel.State selectedRescuer!: PreviewUser | null;
   @eChannel.State selectedRouteInfo!: RouteInfo;
   @eChannel.Mutation initChannelData!: (
@@ -194,10 +197,10 @@ export default class AedEventChannelCard extends Vue {
     username: string
   ) => void;
   @eChannel.Mutation deleteEvOnMap!: (aedEventId: string) => void;
-  @eChannel.Mutation setRescuerPos2!: (data: Position) => void;
+  @eChannel.Mutation setRescuerPos2!: (data: Position) => Promise<void>;
   @eChannel.Mutation setMapDialog!: (bool: boolean) => void;
   @eChannel.Mutation setShowPreviewAedDevice!: (
-    previewAedDevices: IAedDevPreview[]
+    previewAedDevices: AedDevPreview[]
   ) => void;
   @user.Getter userPreview!: () => PreviewUserCh;
   @eChannel.Getter aedEventMarker!: (aedEventId: string) => LatLng;

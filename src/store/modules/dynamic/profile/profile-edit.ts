@@ -1,10 +1,19 @@
-import {Action, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {Error, Field, FieldObject, FileImg, Icon, Show, SuccessMessage, UserInfo } from "@/types";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
+import {
+  Error,
+  Field,
+  FieldObject,
+  FileImg,
+  Icon,
+  Show,
+  SuccessMessage,
+  UserInfo
+} from "@/types";
 import store from "@/store";
 import i18n from "@/plugins/i18n";
-import {TranslateResult} from "vue-i18n";
+import { TranslateResult } from "vue-i18n";
 import api from "@/plugins/api";
-import {apiWithVar, cdnApi} from "@/plugins/api/api-urls";
+import { apiWithVar, cdnApi } from "@/plugins/api/api-urls";
 
 type FieldObject2 = {
   f: Field;
@@ -21,7 +30,7 @@ type FieldObject2 = {
   dynamic: true,
   namespaced: true,
   store: store,
-  name: "editProfile",
+  name: "editProfile"
 })
 export default class ProfileEdit extends VuexModule {
   userid = "";
@@ -29,37 +38,37 @@ export default class ProfileEdit extends VuexModule {
     f: i18n.t("fields.name"),
     v: "",
     e: "",
-    run: false,
+    run: false
   };
   fSurname: FieldObject = {
     f: i18n.t("fields.surname"),
     v: "",
     e: "",
-    run: false,
+    run: false
   };
   fDescription: FieldObject2 = {
     f: i18n.t("fields.description"),
     v: "",
     e: "",
-    run: false,
+    run: false
   };
   fCountryCode: FieldObject2 = {
     f: i18n.t("fields.country"),
     v: "",
     e: "",
-    run: false,
+    run: false
   };
   fProvince: FieldObject2 = {
     f: i18n.t("fields.province"),
     v: "",
     e: "",
-    run: false,
+    run: false
   };
   fCity: FieldObject2 = {
     f: i18n.t("fields.city"),
     v: "",
     e: "",
-    run: false,
+    run: false
   };
   fAvatar: FieldObject2 = {
     f: i18n.t("device-register.addrPic"),
@@ -71,7 +80,7 @@ export default class ProfileEdit extends VuexModule {
     f: i18n.t("fields.phone"),
     v: "",
     e: "",
-    run: false,
+    run: false
   };
   validClass = "green--text text--lighten-1 pl-3";
   errorClass = "red--text text--lighten-1 pl-3";
@@ -86,7 +95,7 @@ export default class ProfileEdit extends VuexModule {
   fileImg: FileImg = {
     selectedFile: new File([], ""),
     validFileExtensions: [".jpg", ".jpeg", ".bmp", ".gif", ".png"],
-    notUsedImgUpload: true,
+    notUsedImgUpload: true
   };
 
   @Mutation
@@ -116,21 +125,21 @@ export default class ProfileEdit extends VuexModule {
     this.fName.v = profile.name;
     this.fSurname.v = profile.surname;
     this.fAvatar.v = profile.avatar;
-    this.fDescription.v = profile.description
+    this.fDescription.v = profile.description;
     this.fProvince.v = profile.province;
     this.fCity.v = profile.city;
     this.fCountryCode.v = profile.countryCode;
   }
 
-  @Action({commit: "setUpdateVisible"})
+  @Action({ commit: "setUpdateVisible" })
   vForm() {
     return !(
-        this.fName.e != "" ||
-        this.fSurname.e != "" ||
-        this.fDescription.e != "" ||
-        (this.fCountryCode.v != undefined && this.fCountryCode.v.length > 2) ||
-        (this.fProvince.v != undefined && this.fProvince.v.length > 40) ||
-        (this.fCity.v != undefined && this.fCity.v.length > 40)
+      this.fName.e != "" ||
+      this.fSurname.e != "" ||
+      this.fDescription.e != "" ||
+      (this.fCountryCode.v != undefined && this.fCountryCode.v.length > 2) ||
+      (this.fProvince.v != undefined && this.fProvince.v.length > 40) ||
+      (this.fCity.v != undefined && this.fCity.v.length > 40)
     );
   }
 
@@ -139,13 +148,15 @@ export default class ProfileEdit extends VuexModule {
     const data = new FormData();
     data.append("avFile", this.fileImg.selectedFile);
 
-    return await api.put(apiWithVar(cdnApi.putAvatarPic, this.userid), data, {
-      baseURL: document
+    return await api
+      .put(apiWithVar(cdnApi.putAvatarPic, this.userid), data, {
+        baseURL: document
           .querySelector('meta[name="cdn_server"]')!
           .getAttribute("content")!,
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    }).catch(error=> console.log(error));
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })
+      .catch(error => console.log(error));
   }
 }

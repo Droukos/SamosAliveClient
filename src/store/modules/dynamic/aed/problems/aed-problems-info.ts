@@ -10,7 +10,7 @@ import { statusOptions } from "@/plugins/enums/event-options";
 import { accessToken } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { problemsApi } from "@/plugins/api/api-urls";
-import {aedRSocketApi} from "@/plugins/api/rsocket-api";
+import { aedRSocketApi } from "@/plugins/api/rsocket-api";
 import { latLng } from "leaflet";
 
 @Module({

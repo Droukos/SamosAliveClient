@@ -47,7 +47,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { BanPreviewUser, BanUsers, IMutRmElemAdminList } from "@/types/admin";
+import { BanPreviewUser, BanUsers, MutRmElemAdminList } from "@/types/admin";
 import { adminOptions, adminProcOptions } from "@/plugins/enums/admin-options";
 
 const adminMixin = namespace("adminMixin");
@@ -72,7 +72,7 @@ export default class AdminBanList extends Vue {
   @adminMixin.State prUsersToBan!: BanPreviewUser[];
   @adminMixin.State banBtnDis!: boolean;
   @adminMixin.State banProcStat!: number;
-  @adminMixin.Mutation removeUserFromList!: (data: IMutRmElemAdminList) => void;
+  @adminMixin.Mutation removeUserFromList!: (data: MutRmElemAdminList) => void;
   @adminMixin.Mutation clearAdminList!: (data: number) => void;
   @adminMixin.Action banUsers!: (data: BanUsers) => Promise<string>;
   procOptions = adminProcOptions;

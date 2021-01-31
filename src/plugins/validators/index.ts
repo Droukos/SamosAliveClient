@@ -1,17 +1,14 @@
 import i18n from "@/plugins/i18n";
-import { } from "@/plugins/api";
 import "@/plugins/validators";
 import { authApi } from "@/plugins/api/api-urls";
-import {
-  TranslateResult,
-} from "vue-i18n";
+import { TranslateResult } from "vue-i18n";
 import {
   bufToData,
   dataBuf,
-  metadataOnlyRoute,
+  metadataOnlyRoute
 } from "@/plugins/api/rsocket-util";
-import {FieldObject} from "@/types";
-import {authRSocketApi} from "@/plugins/api/rsocket-api";
+import { FieldObject } from "@/types";
+import { authRSocketApi } from "@/plugins/api/rsocket-api";
 
 export default class Validator {
   obj!: FieldObject;
@@ -95,38 +92,38 @@ export default class Validator {
   async uniqueUsername() {
     if (this.obj.v.length < 2) return;
 
-   authRSocketApi()
+    authRSocketApi()
       .requestResponse({
         data: dataBuf({ user: this.obj.v }),
-        metadata: metadataOnlyRoute(authApi.checkUsername),
+        metadata: metadataOnlyRoute(authApi.checkUsername)
       })
       .subscribe({
-        onComplete: (value) => {
+        onComplete: value => {
           if (bufToData(value) == "false") {
             this.obj.e = i18n.t("validations.fieldTaken", [
-              i18n.t("fields.username"),
+              i18n.t("fields.username")
             ]);
           }
-        },
+        }
       });
   }
 
   async uniqueEmail() {
     if (this.obj.v.length < 5) return;
 
-   authRSocketApi()
+    authRSocketApi()
       .requestResponse({
         data: dataBuf({ user: this.obj.v }),
-        metadata: metadataOnlyRoute(authApi.checkEmail),
+        metadata: metadataOnlyRoute(authApi.checkEmail)
       })
       .subscribe({
-        onComplete: (value) => {
+        onComplete: value => {
           if (bufToData(value) == "false") {
             this.obj.e = i18n.t("validations.fieldTaken", [
-              i18n.t("fields.email"),
+              i18n.t("fields.email")
             ]);
           }
-        },
+        }
       });
   }
 

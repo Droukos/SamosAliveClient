@@ -6,7 +6,7 @@ declare namespace AedProblems {
   type body = string;
   type mapX = number;
   type mapY = number;
-  interface point {
+  interface Point {
     x: AedProblems.mapX;
     y: AedProblems.mapY;
   }
@@ -29,7 +29,7 @@ declare namespace AedProblems {
     username: User.Username;
     title: AedProblems.title;
     body: AedProblems.body;
-    point: AedProblems.point;
+    point: AedProblems.Point;
     aedDeviceId: AedProblems.aedDeviceId;
     address: AedProblems.address;
     status: AedProblems.status;
@@ -40,7 +40,7 @@ declare namespace AedProblems {
     username: User.Username;
     title: AedProblems.title;
     body: AedProblems.body;
-    point: AedProblems.point;
+    point: AedProblems.Point;
     aedDeviceId: AedProblems.aedDeviceId;
     address: AedProblems.address;
     status: AedProblems.status;

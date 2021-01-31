@@ -55,10 +55,10 @@ export default class AedProblemsInfoButtons extends Vue {
   @aedProblemsInfo.State status!: number;
   @aedProblemsInfo.Action subTechnical!: (
     data: AedProblemsTechnicalInfo
-  ) => Promise<any>;
+  ) => void;
   @aedProblemsInfo.Action closeAedProblems!: (
     data: AedProblemsCloseInfo
-  ) => Promise<any>;
+  ) => void;
   openDialog() {
     this.dialog = true;
   }

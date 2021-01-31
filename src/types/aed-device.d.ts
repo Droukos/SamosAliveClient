@@ -1,6 +1,5 @@
 import { User } from "@/types/index";
-import AedDeviceId = AedDevice.AedDeviceId;
-import {RouteInfo} from "@/types/osm";
+import { RouteInfo } from "@/types/osm";
 
 declare namespace AedDevice {
   type AedDeviceId = string;
@@ -30,6 +29,7 @@ declare namespace AedDevice {
   type EstimatedFinish = number;
 }
 
+export type AedDeviceId = AedDevice.AedDeviceId;
 export type AedDeviceUniqueNickname = AedDevice.UniqueNickname;
 export type AedDeviceModelName = AedDevice.ModelName;
 export type AedDeviceModelDescription = AedDevice.ModelDescription;
@@ -39,7 +39,7 @@ export type AedDeviceAddressPointLon = AedDevice.AddressPointLon;
 export type AedDeviceAddressPic = AedDevice.AddressPic;
 export type AedDeviceDevicePic = AedDevice.DevicePic;
 
-export interface IAedDeviceRegister {
+export interface AedDeviceRegisterI {
   uniqueNickname: AedDeviceUniqueNickname;
   modelName: AedDeviceModelName;
   description: AedDeviceModelDescription;
@@ -48,7 +48,7 @@ export interface IAedDeviceRegister {
   address: AedDeviceAddress;
 }
 
-export interface IAedDeviceEdit {
+export interface AedDeviceEditI {
   id: AedDeviceId;
   modelName: AedDeviceModelName;
   modelDescription: AedDeviceModelDescription;
@@ -57,8 +57,8 @@ export interface IAedDeviceEdit {
   homePointY: AedDeviceAddressPointLon;
 }
 
-export interface IAedDeviceInfo {
-  id: AedDevice.AedDeviceId;
+export interface AedDeviceInfoI {
+  id: AedDeviceId;
   uniqueNickname: AedDeviceUniqueNickname;
   modelName: AedDeviceModelName;
   description: AedDeviceModelDescription;
@@ -77,7 +77,7 @@ export interface IAedDeviceInfo {
   onEstimatedFinish: AedDevice.EstimatedFinish;
 }
 
-export interface IAedDevPreview {
+export interface AedDevPreview {
   id: AedDevice.AedDeviceId;
   uniqueNickname: AedDeviceUniqueNickname;
   modelName: AedDeviceModelName;
@@ -90,10 +90,10 @@ export interface IAedDevPreview {
   onUserId: AedDevice.OnUserId;
   takenOn: AedDevice.TakenOn;
   estimatedFinish: AedDevice.EstimatedFinish;
-  responseRouteInfo?: RouteInfo | null
+  responseRouteInfo?: RouteInfo | null;
 }
 
-export interface IAedDeviceMapSearchDto {
+export interface AedDeviceMapSearchDto {
   x: number;
   y: number;
   distance: number;

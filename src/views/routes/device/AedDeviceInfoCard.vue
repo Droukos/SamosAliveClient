@@ -36,7 +36,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import AedDeviceInfoMod from "@/store/modules/dynamic/aed/device/aed-device-info";
 import { namespace } from "vuex-class";
-import { IAedDeviceInfo } from "@/types/aed-device";
+import { AedDeviceInfoI } from "@/types/aed-device";
 
 const aedDeviceInfo = namespace("aedDeviceInfo");
 
@@ -81,6 +81,6 @@ export default class AedDeviceInfoCard extends Vue {
   @aedDeviceInfo.State picUrl!: string;
   @aedDeviceInfo.Action fetchAedDeviceInfo!: (
     aedDeviceId: string
-  ) => Promise<IAedDeviceInfo>;
+  ) => Promise<AedDeviceInfoI>;
 }
 </script>

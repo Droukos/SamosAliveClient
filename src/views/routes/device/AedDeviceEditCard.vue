@@ -58,7 +58,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import AedDeviceInfoMod from "@/store/modules/dynamic/aed/device/aed-device-info";
 import AedDeviceEditMod from "@/store/modules/dynamic/aed/device/aed-device-edit";
-import { IAedDeviceInfo } from "@/types/aed-device";
+import { AedDeviceInfoI } from "@/types/aed-device";
 import { namespace } from "vuex-class";
 import { LControl, LMap } from "vue2-leaflet";
 import { LatLng } from "leaflet";
@@ -129,10 +129,10 @@ export default class AedDeviceEditCard extends Vue {
   @aedDeviceEdit.State showUpdatedAedDevice!: boolean;
   @aedDeviceEdit.State showErrorUpdatedAedDevice!: boolean;
 
-  @aedDeviceEdit.Mutation setEditAedDeviceInfo!: (data: IAedDeviceInfo) => void;
+  @aedDeviceEdit.Mutation setEditAedDeviceInfo!: (data: AedDeviceInfoI) => void;
   @aedDeviceEdit.Action updateAedDevice!: () => Promise<boolean>;
   @aedDeviceInfo.Action fetchAedDeviceInfo!: (
     aedDeviceId: string
-  ) => Promise<IAedDeviceInfo>;
+  ) => Promise<AedDeviceInfoI>;
 }
 </script>

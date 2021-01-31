@@ -3,14 +3,7 @@ import router from "@/router";
 import Vue from "vue";
 import VueCookies from "vue-cookies";
 import { authApi } from "./api-urls";
-//import {
-//  RSocketClient,
-//  BufferEncoders,
-//  MESSAGE_RSOCKET_COMPOSITE_METADATA
-//} from "rsocket-core";
-//import RSocketWebSocketClient from "rsocket-websocket-client";
-//import { ReactiveSocket } from "rsocket-types";
-//import { CancelCallback } from "rsocket-flowable/Single";
+import {homeApiURL} from "@/plugins/api/addresses";
 
 Vue.use(VueCookies);
 
@@ -23,7 +16,7 @@ const axiosApi = axios.create({
     "Access-Control-Allow-Origin": "*",
     Authorization: `Bearer ${accessToken}`
   },
-   baseURL: "http://localhost:8080/api"
+  //baseURL: homeApiURL
 });
 
 export function setBearerAccToken(accToken: string) {

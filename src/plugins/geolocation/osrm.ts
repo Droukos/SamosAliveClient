@@ -28,7 +28,7 @@ function getLang(language: string) {
 export function formatDistance(d: number /* (meters) */, language: string) {
   const lang = getLang(language);
   if (d >= 1000) {
-    return  (d / 1000).toFixed(2) + " " + lang.units.kilometers;
+    return (d / 1000).toFixed(2) + " " + lang.units.kilometers;
   } else {
     return d.toFixed(2) + " " + lang.units.meters;
   }

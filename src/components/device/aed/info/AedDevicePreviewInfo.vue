@@ -93,7 +93,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { IAedDevPreview } from "@/types/aed-device";
+import { AedDevPreview } from "@/types/aed-device";
 import { getAedDeviceStatusColor } from "@/plugins/enums/device/aed/aed-device-status";
 import { formatDistance } from "@/plugins/geolocation/osrm";
 import humanizeDuration from "humanize-duration";
@@ -118,13 +118,13 @@ const environment = namespace("environment");
   }
 })
 export default class AedDevicePreviewInfo extends Vue {
-  @Prop() aedDevicePreviewInfo!: IAedDevPreview;
+  @Prop() aedDevicePreviewInfo!: AedDevPreview;
   @Prop() verifiedRescuerPos!: boolean;
   @Prop() deviceIsSelected!: boolean;
-  @Prop() selectDevice!: (aedDevice: IAedDevPreview) => void;
+  @Prop() selectDevice!: (aedDevice: AedDevPreview) => void;
   @Prop() setMapDialog!: (bool: boolean) => void;
   @Prop() setShowPreviewAedDevice!: (
-    previewAedDevices: IAedDevPreview[]
+    previewAedDevices: AedDevPreview[]
   ) => void;
   @environment.State locale!: string;
 

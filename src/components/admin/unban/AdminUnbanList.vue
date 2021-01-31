@@ -50,7 +50,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { PreviewUser } from "@/types";
 import { adminOptions, adminProcOptions } from "@/plugins/enums/admin-options";
-import { BannedUsers, IMutRmElemAdminList } from "@/types/admin";
+import { BannedUsers, MutRmElemAdminList } from "@/types/admin";
 
 const adminMixin = namespace("adminMixin");
 
@@ -70,7 +70,7 @@ export default class AdminUnbanList extends Vue {
   @adminMixin.State prUsersToUnban!: PreviewUser[];
   @adminMixin.State unbanBtnDis!: boolean;
   @adminMixin.State unbanProcStat!: number;
-  @adminMixin.Mutation removeUserFromList!: (data: IMutRmElemAdminList) => void;
+  @adminMixin.Mutation removeUserFromList!: (data: MutRmElemAdminList) => void;
   @adminMixin.Mutation clearAdminList!: (data: number) => void;
   @adminMixin.Action unbanUsers!: (data: BannedUsers) => Promise<string>;
   procOptions = adminProcOptions;

@@ -56,7 +56,7 @@ import {
 } from "@/types/aed-event";
 import { LatLng } from "leaflet";
 import { LCircle, LMap } from "vue2-leaflet";
-import { IAedDevPreview } from "@/types/aed-device";
+import { AedDevPreview } from "@/types/aed-device";
 import { AedDeviceAreaLookWithRoute } from "@/types/osm";
 import { Role } from "@/types";
 import { roles } from "@/plugins/enums/roles";
@@ -93,14 +93,12 @@ export default class AedEventButtons extends Vue {
   @aedEventChannelSub.Action subRescuer!: (
     data: AedEventRescuerInfo
   ) => Promise<AedEventInfoDto>;
-  @aedEventChannelSub.Action closeAedEvent!: (
-    data: AedEventCloseInfo
-  ) => Promise<any>;
+  @aedEventChannelSub.Action closeAedEvent!: (data: AedEventCloseInfo) => void;
   @aedEventChannelSub.Action listenEvent!: (data: EventDto) => void;
   @aedEventChannelSub.Action fetchAedDeviceInAreaPreview!: (data: {
     locale: string;
     dto: AedDeviceAreaLookWithRoute;
-  }) => Promise<IAedDevPreview[]>;
+  }) => Promise<AedDevPreview[]>;
   @aedEventChannelSub.Getter aedEventMarker!: (aedEventId: string) => LatLng;
   @aedEventChannelSub.Mutation verifyRescuerPos!: (verify: boolean) => void;
   @aedEventChannelSub.State rescuerPosition!: LatLng;

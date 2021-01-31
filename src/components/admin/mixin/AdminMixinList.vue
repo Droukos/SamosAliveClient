@@ -50,7 +50,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { adminOptions, adminProcOptions } from "@/plugins/enums/admin-options";
-import { IMutRmElemAdminList, IMutToAdminList } from "@/types/admin";
+import { MutRmElemAdminList, MutToAdminList } from "@/types/admin";
 import { namespace } from "vuex-class";
 import { PreviewUser } from "@/types";
 
@@ -70,8 +70,8 @@ const adminMixin = namespace("adminMixin");
 })
 export default class AdminMixinList extends Vue {
   @adminMixin.State undecidedPrUsers!: PreviewUser[];
-  @adminMixin.Mutation setPrUserToAdminList!: (data: IMutToAdminList) => void;
-  @adminMixin.Mutation removeUserFromList!: (data: IMutRmElemAdminList) => void;
+  @adminMixin.Mutation setPrUserToAdminList!: (data: MutToAdminList) => void;
+  @adminMixin.Mutation removeUserFromList!: (data: MutRmElemAdminList) => void;
   @adminMixin.Mutation clearAdminList!: (data: number) => void;
   procOptions = adminProcOptions;
 

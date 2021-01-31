@@ -1,0 +1,9 @@
+const loc = "localhost";
+const ipHost = "192.168.1.129";
+const ipServer = loc;
+export const authRSocketAddr = `ws://${ipServer}:8989`;
+export const userRSocketAddr = `ws://${ipServer}:8985`;
+export const aedRSocketAddr = `ws://${ipServer}:8987`;
+export const newsRSocketAddr = `ws://${ipServer}:8986`;
+export const cdnRSocketAddr = `ws://${ipServer}:8983`;
+export const homeApiURL = `http://${ipServer}:8080/api`;

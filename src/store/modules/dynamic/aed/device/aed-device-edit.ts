@@ -9,12 +9,12 @@ import {
 } from "@/types";
 import { latLng } from "leaflet";
 import i18n from "@/plugins/i18n";
-import { IAedDeviceEdit, IAedDeviceInfo } from "@/types/aed-device";
-import api, { accessToken} from "@/plugins/api";
+import { AedDeviceEditI, AedDeviceInfoI } from "@/types/aed-device";
+import api, { accessToken } from "@/plugins/api";
 import { aedDeviceApi, apiWithVar, cdnApi } from "@/plugins/api/api-urls";
 import { bufToData, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { searchOsmAddress } from "@/plugins/osm-util";
-import {aedRSocketApi} from "@/plugins/api/rsocket-api";
+import { aedRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,
@@ -100,7 +100,7 @@ export default class AedDeviceEdit extends VuexModule {
   }
 
   @Mutation
-  setEditAedDeviceInfo(aedDeviceInfo: IAedDeviceInfo) {
+  setEditAedDeviceInfo(aedDeviceInfo: AedDeviceInfoI) {
     this.id = aedDeviceInfo.id;
     this.fModelName.v = aedDeviceInfo.modelName;
     this.fModelDescription.v = aedDeviceInfo.description;
@@ -160,7 +160,7 @@ export default class AedDeviceEdit extends VuexModule {
     );
   }
 
-  get editAedDeviceDto(): IAedDeviceEdit {
+  get editAedDeviceDto(): AedDeviceEditI {
     return {
       id: this.id,
       modelName: this.fModelName.v,

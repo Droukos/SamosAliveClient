@@ -1,3 +1,6 @@
-import {encodeAndAddCustomMetadata, encodeAndAddWellKnownMetadata} from "rsocket-core";
+import {
+  encodeAndAddCustomMetadata,
+  encodeAndAddWellKnownMetadata
+} from "rsocket-core";
 
 declare module "rsocket-core";

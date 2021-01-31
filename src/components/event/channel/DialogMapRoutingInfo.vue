@@ -23,7 +23,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { LatLng } from "leaflet";
 import { RouteInfo } from "@/types/osm";
-import { IAedDevPreview } from "@/types/aed-device";
+import { AedDevPreview } from "@/types/aed-device";
 
 const aedEventChannelSub = namespace("aedEventChannelSub");
 
@@ -42,7 +42,7 @@ export default class DialogMapRoutingInfo extends Vue {
   @aedEventChannelSub.State rescuerPosition!: LatLng | null;
   @aedEventChannelSub.State verifiedPosition!: boolean;
   @aedEventChannelSub.State selectedRouteInfo!: RouteInfo;
-  @aedEventChannelSub.State showPreviewAedDevices!: IAedDevPreview[];
+  @aedEventChannelSub.State showPreviewAedDevices!: AedDevPreview[];
   @aedEventChannelSub.Mutation setMapDialog!: (bool: boolean) => void;
   @aedEventChannelSub.Getter aedEventMarker!: (aedEventId: string) => LatLng;
 

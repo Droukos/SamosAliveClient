@@ -15,7 +15,7 @@ import { icon, LatLng, LeafletEvent } from "leaflet";
 import { markerIconShadow, markerIconSupply } from "@/plugins/api/cloudinary";
 import { namespace } from "vuex-class";
 import { LMarker, LTooltip } from "vue2-leaflet";
-import { IReverseOsmData } from "@/types/osm";
+import { ReverseOsmData } from "@/types/osm";
 
 const aedDeviceRegister = namespace("aedDeviceRegister");
 
@@ -30,7 +30,7 @@ export default class LMarkerDeviceDraggable extends Vue {
   @aedDeviceRegister.Action osmReverseGeoCoding!: (latLng: {
     y: number;
     x: number;
-  }) => Promise<IReverseOsmData>;
+  }) => Promise<ReverseOsmData>;
   @aedDeviceRegister.Action vForm!: () => void;
 
   setLatLng(event: LeafletEvent) {

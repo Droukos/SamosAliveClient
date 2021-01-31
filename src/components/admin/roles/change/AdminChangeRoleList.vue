@@ -59,7 +59,7 @@ import { namespace } from "vuex-class";
 import {
   ChangeRolePreviewUser,
   ChangeRoles,
-  IMutRmElemAdminList
+  MutRmElemAdminList
 } from "@/types/admin";
 import { adminOptions, adminProcOptions } from "@/plugins/enums/admin-options";
 import { roles } from "@/plugins/enums/roles";
@@ -86,7 +86,7 @@ export default class AdminChangeRoleList extends Vue {
   @adminMixin.State prUsersToChangeRole!: ChangeRolePreviewUser[];
   @adminMixin.State changeRoleBtnDis!: boolean;
   @adminMixin.State changeRoleProcStat!: number;
-  @adminMixin.Mutation removeUserFromList!: (data: IMutRmElemAdminList) => void;
+  @adminMixin.Mutation removeUserFromList!: (data: MutRmElemAdminList) => void;
   @adminMixin.Mutation clearAdminList!: (data: number) => void;
   @adminMixin.Action changeRoles!: (data: ChangeRoles) => Promise<string>;
   procOptions = adminProcOptions;

@@ -15,7 +15,7 @@ import { namespace } from "vuex-class";
 import debounce from "@/plugins/helpers/debounce";
 import searchOptions from "@/plugins/enums/search-options";
 import { PreviewUser } from "@/types";
-import { IAedDevPreview } from "@/types/aed-device";
+import { AedDevPreview } from "@/types/aed-device";
 
 const search = namespace("search");
 
@@ -30,9 +30,9 @@ export default class SearchMainTextField extends Vue {
   @search.Action fetchUsersPreview!: (user: string) => Promise<PreviewUser[]>;
   @search.Action fetchAedDevicesPreview!: (
     aedDeviceNickname: string
-  ) => Promise<IAedDevPreview[]>;
+  ) => Promise<AedDevPreview[]>;
   @search.Mutation setPreviewAedDevices!: (
-    previewAedDevices: IAedDevPreview[]
+    previewAedDevices: AedDevPreview[]
   ) => void;
   @search.Mutation setPreviewUsers!: (previewUsers: PreviewUser[]) => void;
 

@@ -49,4 +49,3 @@ export default class NavBarList extends Vue {
   subOptions = subNavBabOptions;
 }
 </script>
->

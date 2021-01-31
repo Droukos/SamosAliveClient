@@ -1,7 +1,6 @@
-import {PreviewRescuer, PreviewUserCh, User} from "@/types/index";
-import {AedDevice, IAedDevPreview} from "@/types/aed-device";
-import {ISubscription} from "rsocket-types";
-import AedComment = AedEvent.AedComment;
+import { PreviewRescuer, PreviewUserCh, User } from "@/types/index";
+import { AedDevice, AedDevPreview } from "@/types/aed-device";
+import { ISubscription } from "rsocket-types";
 
 declare namespace AedEvent {
   type id = string;
@@ -27,8 +26,8 @@ declare namespace AedEvent {
     occurrenceType: AedEvent.occurrenceType;
     mapLat: AedEvent.mapLat;
     mapLon: AedEvent.mapLon;
-    callee: AedEvent.callee,
-    phone: AedEvent.phone,
+    callee: AedEvent.callee;
+    phone: AedEvent.phone;
     address: AedEvent.address;
     comment: AedEvent.comment;
   }
@@ -43,25 +42,25 @@ declare namespace AedEvent {
   }
 
   interface AedEventInfoDto {
-    id: AedEvent.id,
-    username: User.Username,
-    occurrenceType: AedEvent.occurrenceType,
-    occurrencePoint: AedEvent.OccurrencePoint,
-    aedDeviceId: AedDevice.AedDeviceId,
-    address: AedEvent.address,
-    comment: AedEvent.comment,
-    status: AedEvent.status,
-    phone: AedEvent.phone,
-    requestedTime: AedEvent.requestedTime,
-    completedTime: AedEvent.completedTime,
-    rescuer: AedEvent.rescuer,
-    conclusion: AedEvent.conclusion,
-    callee: AedEvent.callee,
-    commsN: number
+    id: AedEvent.id;
+    username: User.Username;
+    occurrenceType: AedEvent.occurrenceType;
+    occurrencePoint: AedEvent.OccurrencePoint;
+    aedDeviceId: AedDevice.AedDeviceId;
+    address: AedEvent.address;
+    comment: AedEvent.comment;
+    status: AedEvent.status;
+    phone: AedEvent.phone;
+    requestedTime: AedEvent.requestedTime;
+    completedTime: AedEvent.completedTime;
+    rescuer: AedEvent.rescuer;
+    conclusion: AedEvent.conclusion;
+    callee: AedEvent.callee;
+    commsN: number;
   }
 
   interface AedDeviceRescuer {
-    id: string,
+    id: string;
     uniqueNickname: AedDevice.UniqueNickname;
     modelName: AedDevice.ModelName;
     description: AedDevice.ModelDescription;
@@ -98,7 +97,7 @@ declare namespace AedEvent {
     rescuer: AedEvent.rescuer;
     aedDeviceId: AedDevice.AedDeviceId;
     estimatedFinish: AedDevice.EstimatedFinish;
-    aedDevicePreview?: IAedDevPreview
+    aedDevicePreview?: AedDevPreview;
   }
 
   interface AedEventCloseInfo {
@@ -110,26 +109,26 @@ declare namespace AedEvent {
   };
 
   export interface AedEventCommentDto {
-    eventId: string,
-    comment: string
+    eventId: string;
+    comment: string;
   }
 
   export interface AedComment {
-    id: string,
-    eventId: AedEvent.id,
-    username: User.Username,
-    message: string,
-    posted: string,
-    allComments?: number
+    id: string;
+    eventId: AedEvent.id;
+    username: User.Username;
+    message: string;
+    posted: string;
+    allComments?: number;
   }
 
   export interface AedCommentReqDto {
-    eventId: AedEvent.id,
-    pageOffset: number
+    eventId: AedEvent.id;
+    pageOffset: number;
   }
 
   export interface AedCommentsResDto {
-    pageOffset: number,
+    pageOffset: number;
     comments: AedComment[];
   }
 
@@ -161,7 +160,7 @@ export interface EventChannelSub {
 
 export interface EventComment {
   eventId: string;
-  value: AedComment;
+  value: AedEvent.AedComment;
 }
 export interface EventUser {
   eventId: string;
@@ -169,7 +168,7 @@ export interface EventUser {
 }
 export interface EventDevice {
   eventId: string;
-  value: IAedDevPreview;
+  value: AedDevPreview;
 }
 
 export interface EventUsers {
@@ -184,12 +183,12 @@ export interface EventRescuer {
 
 export interface EventInfo {
   eventId: string;
-  value: AedEventInfoDto
+  value: AedEventInfoDto;
 }
 
 export interface RescuerAndDevice {
-  rescuer: PreviewRescuer,
-  device: IAedDevPreview
+  rescuer: PreviewRescuer;
+  device: AedDevPreview;
 }
 
 export type AedEventCreateDto = AedEvent.AedEventCreateDto;

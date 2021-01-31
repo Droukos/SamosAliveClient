@@ -95,6 +95,7 @@ const aedDeviceRegister = namespace("aedDeviceRegister");
       if (!(store && store.state && store.state["aedDeviceRegister"])) {
         store.registerModule("aedDeviceRegister", aedDeviceRegisterMod);
       }
+      //TODO default location somewhere
       getLocation(registerAedDeviceCard.osmReverseGeoCodingOnCurPos);
     });
   },
@@ -109,7 +110,7 @@ export default class RegisterAedDeviceCard extends Vue {
   @aedDeviceRegister.State createVisible!: boolean;
   @aedDeviceRegister.Action osmReverseGeoCodingOnCurPos!: (
     position: Position
-  ) => void;
+  ) => Promise<void>;
   @aedDeviceRegister.Action registerAedDevice!: () => Promise<string>;
 
   showError = false;

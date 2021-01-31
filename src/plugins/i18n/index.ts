@@ -7,11 +7,11 @@ Vue.use(VueI18n);
 
 const messages = {
   en: {
-    ...english,
+    ...english
   },
   el: {
-    ...greek,
-  },
+    ...greek
+  }
 };
 
 const dateTimeFormats = {
@@ -19,7 +19,7 @@ const dateTimeFormats = {
     short: {
       year: "numeric",
       month: "short",
-      day: "numeric",
+      day: "numeric"
     },
     long: {
       year: "numeric",
@@ -28,14 +28,14 @@ const dateTimeFormats = {
       weekday: "short",
       hour: "numeric",
       minute: "numeric",
-      hour12: true,
-    },
+      hour12: true
+    }
   },
   el: {
     short: {
       year: "numeric",
       month: "short",
-      day: "numeric",
+      day: "numeric"
     },
     long: {
       year: "numeric",
@@ -44,13 +44,13 @@ const dateTimeFormats = {
       weekday: "short",
       hour: "numeric",
       minute: "numeric",
-      hour12: true,
-    },
-  },
+      hour12: true
+    }
+  }
 };
 
 export default new VueI18n({
   locale: "en", // set locale
   messages, // set locale messages
-  dateTimeFormats,
+  dateTimeFormats
 });

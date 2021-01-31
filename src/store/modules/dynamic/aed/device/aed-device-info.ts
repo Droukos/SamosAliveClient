@@ -1,14 +1,10 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
-import { IAedDeviceInfo } from "@/types/aed-device";
-import {
-  bufToJson,
-  dataBuf,
-  metadataBuf
-} from "@/plugins/api/rsocket-util";
+import { AedDeviceInfoI } from "@/types/aed-device";
+import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
 import { aedDeviceApi } from "@/plugins/api/api-urls";
 import { latLng } from "leaflet";
-import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
+import { aedRSocketApi, getAccessTokenJwt } from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,
@@ -17,7 +13,7 @@ import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
   name: "aedDeviceInfo"
 })
 export default class AedDeviceInfo extends VuexModule
-  implements IAedDeviceInfo {
+  implements AedDeviceInfoI {
   id = "";
   uniqueNickname = "";
   modelName = "";
@@ -50,7 +46,7 @@ export default class AedDeviceInfo extends VuexModule
   marker = latLng(this.homePoint.y, this.homePoint.x);
 
   @Mutation
-  setAedDeviceInfo(data: IAedDeviceInfo) {
+  setAedDeviceInfo(data: AedDeviceInfo) {
     this.id = data.id;
     this.uniqueNickname = data.uniqueNickname;
     this.modelName = data.modelName;
@@ -77,16 +73,17 @@ export default class AedDeviceInfo extends VuexModule
     return getAccessTokenJwt().then(token => {
       return new Promise(resolve => {
         aedRSocketApi().then(aedRSocket => {
-          aedRSocket.requestResponse({
-                data: dataBuf({id: aedDeviceId}),
-                metadata: metadataBuf(token, aedDeviceApi.fetchAedDevice)
-              })
-              .subscribe({
-                onComplete: value => resolve(bufToJson(value)),
-                onError: error => console.log(error)
-              });
+          aedRSocket
+            .requestResponse({
+              data: dataBuf({ id: aedDeviceId }),
+              metadata: metadataBuf(token, aedDeviceApi.fetchAedDevice)
+            })
+            .subscribe({
+              onComplete: value => resolve(bufToJson(value)),
+              onError: error => console.log(error)
+            });
         });
       });
-    })
+    });
   }
 }

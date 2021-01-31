@@ -41,7 +41,7 @@ import {
   markerIconSupply
 } from "../../../../plugins/api/cloudinary";
 import { statusOptions } from "@/plugins/enums/event-options";
-import { IAedDevPreview } from "@/types/aed-device";
+import { AedDevPreview } from "@/types/aed-device";
 import { RouteInfo } from "@/types/osm";
 
 @Component({
@@ -75,14 +75,14 @@ export default class MapRoutingEventInfo extends Vue {
   allStatus = statusOptions;
   @Prop() center!: LatLng;
   @Prop() searchDeviceCircle!: boolean;
-  @Prop() showPreviewAedDevices!: IAedDevPreview[];
+  @Prop() showPreviewAedDevices!: AedDevPreview[];
   @Prop() verifiedPosition!: boolean;
   @Prop() rescuerPosition!: LatLng;
   @Prop() selectedRouteInfo!: RouteInfo;
 
   zoom = 13.5;
 
-  getLatLon(aedDevice: IAedDevPreview) {
+  getLatLon(aedDevice: AedDevPreview) {
     return L.latLng(aedDevice.homePoint.y, aedDevice.homePoint.x);
   }
   getLatLon2(lat: number, lon: number) {

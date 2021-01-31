@@ -35,7 +35,7 @@ export default class Environment extends VuexModule {
     return this.toggleExclusive;
   }
 
-  get subNavBarOpen(){
+  get subNavBarOpen() {
     return this.subNavBarO;
   }
 }

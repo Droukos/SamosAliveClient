@@ -1,55 +1,73 @@
-import {AedEvent, AedEventInfoDto, ChannelSubs, ChSubControl, EventDto} from "@/types/aed-event";
+import {
+  AedEvent,
+  AedEventInfoDto,
+  ChannelSubs,
+  ChSubControl,
+  EventDto
+} from "@/types/aed-event";
 import { Commit } from "vuex";
 import { accessToken } from "@/plugins/api";
 import { bufToJson, dataBuf, metadataBuf } from "@/plugins/api/rsocket-util";
-import {PreviewRescuer, PreviewUserCh} from "@/types";
-import {IAedDevPreview} from "@/types/aed-device";
+import { PreviewRescuer, PreviewUserCh } from "@/types";
+import { AedDevPreview } from "@/types/aed-device";
 import AedComment = AedEvent.AedComment;
-import {aedRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
+import { aedRSocketApi, getAccessTokenJwt } from "@/plugins/api/rsocket-api";
 
-export const evMap: Map<string, AedEventInfoDto> = new Map<string, AedEventInfoDto>();
+export const evMap: Map<string, AedEventInfoDto> = new Map<
+  string,
+  AedEventInfoDto
+>();
 export const rescuerEvMap: Map<string, PreviewRescuer> = new Map<
-    string,
-    PreviewRescuer
-    >();
-export const devEvMap: Map<string, IAedDevPreview> = new Map<string, IAedDevPreview>();
-export const chSubsCtrl: Map<string, ChSubControl> = new Map<string, ChSubControl>();
+  string,
+  PreviewRescuer
+>();
+export const devEvMap: Map<string, AedDevPreview> = new Map<
+  string,
+  AedDevPreview
+>();
+export const chSubsCtrl: Map<string, ChSubControl> = new Map<
+  string,
+  ChSubControl
+>();
 export const chSubs: Map<string, ChannelSubs> = new Map<string, ChannelSubs>();
-export const allUsers: Map<string, PreviewUserCh> = new Map<string, PreviewUserCh>();
+export const allUsers: Map<string, PreviewUserCh> = new Map<
+  string,
+  PreviewUserCh
+>();
 export const chUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
 export const chDisc: Map<string, Map<number, AedComment[]>> = new Map<
-    string,
-    Map<number, AedComment[]>
-    >();
-export const tempDevEvMap: Map<string, IAedDevPreview[]> = new Map<
-    string,
-    IAedDevPreview[]
-    >();
+  string,
+  Map<number, AedComment[]>
+>();
+export const tempDevEvMap: Map<string, AedDevPreview[]> = new Map<
+  string,
+  AedDevPreview[]
+>();
 
 export function findElemOnChMap(
-    aedEventId: string,
-    map: Map<string, any>,
-    tracker: number
+  aedEventId: string,
+  map: Map<string, any>,
+  tracker: number
 ) {
-    const elem = map.get(aedEventId);
-    if (tracker == 0 || aedEventId == "") return undefined;
-    else return elem;
+  const elem = map.get(aedEventId);
+  if (tracker == 0 || aedEventId == "") return undefined;
+  else return elem;
 }
 
 export function setChCtrl(
-    evId: string,
-    data: { prop: keyof ChSubControl; val: boolean }
+  evId: string,
+  data: { prop: keyof ChSubControl; val: boolean }
 ) {
-    if (!chSubsCtrl.has(evId)) {
-        chSubsCtrl.set(evId, {});
-    }
-    chSubsCtrl.get(evId)![data.prop] = data.val;
+  if (!chSubsCtrl.has(evId)) {
+    chSubsCtrl.set(evId, {});
+  }
+  chSubsCtrl.get(evId)![data.prop] = data.val;
 }
 export function checkChCtrl(evId: string, prop: keyof ChSubControl) {
-    return (
-        !chSubsCtrl.has(evId) ||
-        (chSubsCtrl.has(evId) && !chSubsCtrl.get(evId)![prop])
-    );
+  return (
+    !chSubsCtrl.has(evId) ||
+    (chSubsCtrl.has(evId) && !chSubsCtrl.get(evId)![prop])
+  );
 }
 
 export interface ContextMut {
@@ -120,36 +138,36 @@ export async function rSocketResponse2(data: any, rSocketUrl: string) {
   return getAccessTokenJwt().then(token => {
     return new Promise(resolve => {
       aedRSocketApi().then(aedRSocket =>
-          aedRSocket
-              .requestResponse({
-                data: dataBuf(data),
-                metadata: metadataBuf(token, rSocketUrl)
-              })
-              .subscribe({
-                onComplete: value => resolve(bufToJson(value)),
-                onError: error => console.error(error)
-              })
+        aedRSocket
+          .requestResponse({
+            data: dataBuf(data),
+            metadata: metadataBuf(token, rSocketUrl)
+          })
+          .subscribe({
+            onComplete: value => resolve(bufToJson(value)),
+            onError: error => console.error(error)
+          })
       );
     });
   });
 }
 
 export async function setEventListeners(chCard: any, evDto: EventDto) {
-    chCard.listenEvent(evDto);
-    chCard.listenDeviceSub(evDto);
-    chCard.listenRescuerSub(evDto);
-    chCard.fetchEventUsers(evDto);
-    chCard.listenUsersSub(evDto);
-    chCard.listenDiscussionSub(evDto);
+  chCard.listenEvent(evDto);
+  chCard.listenDeviceSub(evDto);
+  chCard.listenRescuerSub(evDto);
+  chCard.fetchEventUsers(evDto);
+  chCard.listenUsersSub(evDto);
+  chCard.listenDiscussionSub(evDto);
 }
 
 export async function fetchRescuerAndDevice(chCard: any) {
-    if (
-        chCard.aedEventDto.aedDeviceId != undefined &&
-        chCard.aedDeviceSelected == null
-    ) {
-        chCard.fetchDeviceAndRescuer({
-            aedDeviceId: chCard.aedEventDto.aedDeviceId
-        });
-    }
+  if (
+    chCard.aedEventDto.aedDeviceId != undefined &&
+    chCard.aedDeviceSelected == null
+  ) {
+    chCard.fetchDeviceAndRescuer({
+      aedDeviceId: chCard.aedEventDto.aedDeviceId
+    });
+  }
 }

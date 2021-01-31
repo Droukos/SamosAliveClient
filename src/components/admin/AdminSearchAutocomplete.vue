@@ -41,7 +41,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import debounce from "@/plugins/helpers/debounce";
 import { PreviewUser } from "@/types";
-import { IMutToAdminList } from "@/types/admin";
+import { MutToAdminList } from "@/types/admin";
 
 const adminMixin = namespace("adminMixin");
 
@@ -66,7 +66,7 @@ export default class SearchMainTextField extends Vue {
   model = "";
   isLoading = false;
   @adminMixin.State previewUsers!: PreviewUser[];
-  @adminMixin.Mutation setPrUserToAdminList!: (data: IMutToAdminList) => void;
+  @adminMixin.Mutation setPrUserToAdminList!: (data: MutToAdminList) => void;
   @adminMixin.Action fetchUsersPreview!: (
     user: string
   ) => Promise<PreviewUser[]>;

@@ -1,3 +1,3 @@
 export const aedDeviceOptions = {
-    EDIT: 2
-}
+  EDIT: 2
+};

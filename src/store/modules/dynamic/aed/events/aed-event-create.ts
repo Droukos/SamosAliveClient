@@ -12,7 +12,7 @@ import {
   reverseOsmGeocoding,
   searchOsmAddress
 } from "@/plugins/osm-util";
-import { IReverseOsmData } from "@/types/osm";
+import { ReverseOsmData } from "@/types/osm";
 import { aedRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({
@@ -65,7 +65,7 @@ export default class AedEventCreate extends VuexModule {
   }
 
   @Mutation
-  setSearchableMarkerLatLong(data: IReverseOsmData) {
+  setSearchableMarkerLatLong(data: ReverseOsmData) {
     const x = Number(data.lat);
     const y = Number(data.lon);
     this.marker = latLng(x, y);

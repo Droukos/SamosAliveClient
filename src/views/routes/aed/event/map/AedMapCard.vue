@@ -5,7 +5,6 @@
         <p v-text="$t('events.localMap')" />
         <AedMap />
         <br />
-        <!--<br /><br /><br />-->
         <SearchAedDevicePreviewList />
       </div>
     </v-container>

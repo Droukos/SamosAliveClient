@@ -6,7 +6,7 @@ import { newsApi } from "@/plugins/api/api-urls";
 import { tagOptions } from "@/plugins/enums/tags-options";
 import NewsSearch = News.NewsSearchOptions;
 import NewsSearchOptions = News.NewsSearchOptions;
-import {getAccessTokenJwt, newsRSocketApi} from "@/plugins/api/rsocket-api";
+import { getAccessTokenJwt, newsRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({
   dynamic: true,

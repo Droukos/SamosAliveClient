@@ -5,7 +5,7 @@ import {
   ReplacePrUser,
   UpdatePreviewUser
 } from "@/types/admin";
-import {authRSocketApi, getAccessTokenJwt} from "@/plugins/api/rsocket-api";
+import { authRSocketApi, getAccessTokenJwt } from "@/plugins/api/rsocket-api";
 
 export function isBanListInvalid(data: BanPreviewUser[]) {
   return data.find(elem => isNaN(elem.duration)) !== undefined;

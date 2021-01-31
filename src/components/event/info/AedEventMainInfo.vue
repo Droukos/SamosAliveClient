@@ -64,7 +64,7 @@ import {
   markerIconMan,
   markerIconSupply
 } from "@/plugins/api/cloudinary";
-import { IAedDevPreview } from "@/types/aed-device";
+import { AedDevPreview } from "@/types/aed-device";
 import { RouteInfo } from "@/types/osm";
 
 @Component({
@@ -132,7 +132,7 @@ export default class AedEventMainInfo extends Vue {
   @Prop() center!: LatLng;
   @Prop() marker!: LatLng;
   @Prop() searchDeviceCircle!: boolean;
-  @Prop() previewAedDevice!: IAedDevPreview[];
+  @Prop() previewAedDevice!: AedDevPreview[];
   @Prop() routeInfo!: RouteInfo;
   @Prop() verifiedRescuerPos!: boolean;
   @Prop() rescuerPosition!: LatLng | null;
@@ -144,7 +144,7 @@ export default class AedEventMainInfo extends Vue {
 
   zoom = 13.5;
 
-  getLatLon(aedDevice: IAedDevPreview) {
+  getLatLon(aedDevice: AedDevPreview) {
     return latLng(aedDevice.homePoint.y, aedDevice.homePoint.x);
   }
   getLatLon2(lat: number, lon: number) {
