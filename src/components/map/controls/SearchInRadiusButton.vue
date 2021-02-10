@@ -4,7 +4,10 @@
     <v-divider />
     <div v-if="validToSearch" class="d-flex flex-row">
       <v-spacer />
-      <v-btn @click="fetchAedDeviceInAreaPreview" v-text="$t('search.title')" />
+      <v-btn
+        @click="fetchAedDeviceInAreaAvailablePreview"
+        v-text="$t('search.title')"
+      />
     </div>
   </v-card>
 </template>
@@ -31,6 +34,6 @@ const search = namespace("search");
 })
 export default class SearchableMenu extends Vue {
   @search.State validToSearch!: boolean;
-  @search.Action fetchAedDeviceInAreaPreview!: () => void;
+  @search.Action fetchAedDeviceInAreaAvailablePreview!: () => void;
 }
 </script>

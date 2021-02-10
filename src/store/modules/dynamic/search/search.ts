@@ -11,7 +11,7 @@ import searchOptions, {
 } from "@/plugins/enums/search-options";
 import { latLng } from "leaflet";
 import { searchPreviewUsers } from "@/plugins/search-util";
-import {aedRSocketApi} from "@/plugins/api/rsocket-api";
+import { aedRSocketApi } from "@/plugins/api/rsocket-api";
 
 @Module({ dynamic: true, namespaced: true, store: store, name: "search" })
 export default class Search extends VuexModule {
@@ -133,9 +133,31 @@ export default class Search extends VuexModule {
           .subscribe({
             onError: error => console.error(error),
             onNext: payload => prDevices.push(bufToJson(payload)),
-            onSubscribe: sub => sub.request(20)
+            onSubscribe: sub => sub.request(20),
+            onComplete: () => resolve(prDevices)
           });
-        resolve(prDevices);
+      });
+    });
+  }
+  @Action({ commit: "setPreviewAedDevices" })
+  async fetchAedDeviceInAreaAvailablePreview(): Promise<IAedDevPreview[]> {
+    return new Promise(resolve => {
+      const prDevices: IAedDevPreview[] = [];
+      aedRSocketApi().then(aedRSocket => {
+        aedRSocket
+          .requestStream({
+            data: dataBuf(this.mapSearchDto),
+            metadata: metadataBuf(
+              accessToken,
+              aedDeviceApi.fetchAedDeviceInAreaAvailable
+            )
+          })
+          .subscribe({
+            onError: error => console.error(error),
+            onNext: payload => prDevices.push(bufToJson(payload)),
+            onSubscribe: sub => sub.request(20),
+            onComplete: () => resolve(prDevices)
+          });
       });
     });
   }
