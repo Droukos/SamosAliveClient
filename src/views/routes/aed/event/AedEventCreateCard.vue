@@ -133,6 +133,7 @@ export default class AedEventCreateCard extends Vue {
   @user.State username!: User.Username;
   @user.State phones!: string;
   @user.Getter nameSurname!: string;
+  @user.Mutation addSubEvent!: (eventId: string) => void;
   @aedEventCreate.Action vForm!: () => void;
   @aedEventCreate.Action osmReverseGeoCodingOnCurPos!: (
     position: Position
@@ -152,6 +153,7 @@ export default class AedEventCreateCard extends Vue {
       phone: this.fPhone.v,
       comment: this.fComment.v
     }).then(value => {
+      this.addSubEvent(value);
       this.$router.push({
         name: "aedEventChannel",
         params: { eventID: value }

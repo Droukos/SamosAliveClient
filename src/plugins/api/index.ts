@@ -3,7 +3,7 @@ import router from "@/router";
 import Vue from "vue";
 import VueCookies from "vue-cookies";
 import { authApi } from "./api-urls";
-import {homeApiURL} from "@/plugins/api/addresses";
+import { homeApiURL } from "@/plugins/api/addresses";
 
 Vue.use(VueCookies);
 
@@ -16,7 +16,7 @@ const axiosApi = axios.create({
     "Access-Control-Allow-Origin": "*",
     Authorization: `Bearer ${accessToken}`
   },
-  //baseURL: homeApiURL
+  baseURL: homeApiURL
 });
 
 export function setBearerAccToken(accToken: string) {

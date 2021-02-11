@@ -114,6 +114,13 @@ export default class User extends VuexModule implements UserInfo {
     this.availability = status;
   }
 
+  @Mutation
+  addSubEvent(eventId: string) {
+    if(!this.aedSubEvents.includes(eventId)) {
+      this.aedSubEvents.push(eventId);
+    }
+  }
+
   get isSignedIn() {
     return this.userid !== "" && this.username !== "";
   }

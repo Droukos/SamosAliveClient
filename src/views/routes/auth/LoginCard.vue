@@ -9,6 +9,9 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+
+const user = namespace("user");
 
 @Component({
   components: {
@@ -19,11 +22,18 @@ import { Component, Vue } from "vue-property-decorator";
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      if (to.query.s === "expired") (vm as LoginCard).showSessionExpired = true;
+      const loginCard = vm as LoginCard;
+      if (loginCard.$cookies.isKey("loggedIn") || loginCard.userid !== "") {
+        loginCard.$router.push({
+          name: "aedEvent"
+        });
+      }
+      if (to.query.s === "expired") loginCard.showSessionExpired = true;
     });
   }
 })
 export default class LoginCard extends Vue {
   showSessionExpired = false;
+  @user.State userid!: string;
 }
 </script>

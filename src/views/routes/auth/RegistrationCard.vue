@@ -129,7 +129,18 @@ import {
 
 const user = namespace("user");
 
-@Component
+@Component({
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      const regCard = vm as RegistrationCard;
+      if (regCard.$cookies.isKey("loggedIn") || regCard.userid !== "") {
+        regCard.$router.push({
+          name: "aedEvent"
+        });
+      }
+    });
+  }
+})
 export default class RegistrationCard extends Vue {
   user = {
     f: this.$t("fields.username"),
@@ -179,6 +190,7 @@ export default class RegistrationCard extends Vue {
   };
   invalid = true;
 
+  @user.State userid!: string;
   @user.Action registerUser!: (data: UserRegister) => Promise<string>;
 
   showPass() {
