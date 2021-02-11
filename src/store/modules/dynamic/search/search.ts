@@ -136,6 +136,7 @@ export default class Search extends VuexModule {
             onSubscribe: sub => sub.request(20),
             onComplete: () => resolve(prDevices)
           });
+        resolve(prDevices);
       });
     });
   }
