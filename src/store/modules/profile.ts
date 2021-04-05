@@ -85,8 +85,9 @@ export default class Profile extends VuexModule implements UserInfo {
     return this.description;
   }
 
+  @Mutation
   setVisibilityData() {
-    this.isOnline = this.online !== null;
+    this.isOnline = this.online;
     const showLLoginAndroid = this.lastLoginAndroid !== null;
     const showLLogoutAndroid = this.lastLogoutAndroid !== null;
     const showLLoginIos = this.lastLoginIos !== null;
@@ -95,7 +96,7 @@ export default class Profile extends VuexModule implements UserInfo {
     const showLLogoutWeb = this.lastLogoutWeb !== null;
     this.showLLogAndroid = showLLoginAndroid && showLLogoutAndroid;
     this.showLLogIos = showLLoginIos && showLLogoutIos;
-    this.showLLogWeb = showLLoginWeb && showLLogoutWeb;
+    this.showLLogWeb = showLLoginWeb || showLLogoutWeb;
     //this.showUserVerified = state.showUserVerified;
     this.showUserCreated =
       this.userCreated !== null && this.userCreated !== undefined;

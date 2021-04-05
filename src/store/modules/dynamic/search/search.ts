@@ -141,6 +141,29 @@ export default class Search extends VuexModule {
     });
   }
 
+  @Action({ commit: "setPreviewAedDevices" })
+  async fetchAedDeviceInAreaAvailablePreview(): Promise<AedDevPreview[]> {
+    return new Promise(resolve => {
+      const prDevices: AedDevPreview[] = [];
+      aedRSocketApi().then(aedRSocket => {
+        aedRSocket
+            .requestStream({
+              data: dataBuf(this.mapSearchDto),
+              metadata: metadataBuf(
+                  accessToken,
+                  aedDeviceApi.fetchAedDeviceInAreaAvailable
+              )
+            })
+            .subscribe({
+              onError: error => console.error(error),
+              onNext: payload => prDevices.push(bufToJson(payload)),
+              onSubscribe: sub => sub.request(20),
+              onComplete: () => resolve(prDevices)
+            });
+      });
+    });
+  }
+
   @Action
   async fetchUsersPreview(user: string): Promise<PreviewUser[]> {
     return searchPreviewUsers(user);

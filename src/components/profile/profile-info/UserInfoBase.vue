@@ -6,6 +6,17 @@
         v-if="showEmail"
         v-text="$t('fields.email') + ': ' + email"
       />
+
+      <v-textarea
+        v-if="description != null"
+        :label="$t('fields.description') + ': '"
+        filled
+        auto-grow
+        outlined
+        readonly
+        :value="description"
+      />
+
       <v-list-item-subtitle v-if="showAddress">
         {{ $t("fields.address") + ": " }}
         <div class="d-flex flex-row">
@@ -30,13 +41,14 @@ const profile = namespace("profile");
 
 @Component
 export default class UserInfoBase extends Vue {
-  @profile.State public phone: string[] | undefined;
-  @profile.State public country_code!: string | undefined;
-  @profile.State public address!: string | undefined;
-  @profile.State public email!: string;
-  @profile.State public showPhone!: boolean;
-  @profile.State public showAddress!: boolean;
-  @profile.State public showEmail!: boolean;
+  @profile.State phone: string[] | undefined;
+  @profile.State country_code!: string | undefined;
+  @profile.State address!: string | undefined;
+  @profile.State description!: string;
+  @profile.State email!: string;
+  @profile.State showPhone!: boolean;
+  @profile.State showAddress!: boolean;
+  @profile.State showEmail!: boolean;
 
   getCountryImage() {
     return this.country_code == undefined

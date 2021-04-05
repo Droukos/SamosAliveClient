@@ -93,4 +93,5 @@ export function setLogs(userInfo: UserInfo, logs: UserInfo) {
   userInfo.lastLoginAndroid = logs.lastLoginAndroid;
   userInfo.lastLogoutIos = logs.lastLogoutIos;
   userInfo.lastLoginIos = logs.lastLoginIos;
+  userInfo.userCreated = logs.userCreated;
 }

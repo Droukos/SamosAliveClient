@@ -24,6 +24,11 @@
           v-text="$t('submit')"
           @click="sendAedProblems()"
         />
+        <p
+          v-if="successSubmit"
+          class="green--text"
+          v-text="$t('problems.success')"
+        />
       </v-card-actions>
     </v-card>
   </v-main>
@@ -33,6 +38,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import aedProblemsCreateMod from "@/store/modules/dynamic/aed/problems/aed-problems-create";
+import searchMod from "@/store/modules/dynamic/search/search";
 import { FieldObject, User } from "@/types";
 import { AedProblemsCreateDto } from "@/types/aed-problems";
 
@@ -65,6 +71,9 @@ const user = namespace("user");
       if (!(store && store.state && store.state["aedProblemsCreate"])) {
         store.registerModule("aedProblemsCreate", aedProblemsCreateMod);
       }
+      if (!(store && store.state && store.state["search"])) {
+        store.registerModule("search", searchMod);
+      }
     });
   }
   //,
@@ -78,6 +87,9 @@ export default class ProblemsCreateCard extends Vue {
   @aedProblemsCreate.State fBody!: FieldObject;
   @aedProblemsCreate.State fAedDeviceId!: string;
   @aedProblemsCreate.State createVisible!: boolean;
+  @aedProblemsCreate.State successSubmit!: boolean;
+  @aedProblemsCreate.Mutation setCreateVisible!: (bool: boolean) => void;
+  @aedProblemsCreate.Mutation setSuccessSubmit!: (bool: boolean) => void;
   @aedProblemsCreate.Action createAedProblems!: (
     data: AedProblemsCreateDto
   ) => Promise<void>;
@@ -89,6 +101,8 @@ export default class ProblemsCreateCard extends Vue {
       body: this.fBody.v,
       aedDeviceId: this.fAedDeviceId
     }).then(() => {
+      this.setSuccessSubmit(true);
+      this.setCreateVisible(false);
       console.log("run");
     });
   }

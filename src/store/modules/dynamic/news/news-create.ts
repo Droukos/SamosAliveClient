@@ -30,9 +30,17 @@ export default class NewsCreate extends VuexModule {
   fTag = [-1];
 
   createVisible = false;
+  successSubmit = false;
+
   @Mutation
-  setCreateVisible(createVisible: boolean) {
-    this.createVisible = createVisible;
+  setSuccessSubmit(bool: boolean) {
+    this.successSubmit = bool;
+    this.createVisible = !bool;
+  }
+  @Mutation
+  setCreateVisible(bool: boolean) {
+    this.createVisible = bool;
+    this.successSubmit = this.fNewsTitle.run && this.fContent.run && !bool;
   }
 
   @Mutation

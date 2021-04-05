@@ -25,21 +25,25 @@ export default class AedProblemsCreate extends VuexModule {
   fAedDeviceId = "";
 
   createVisible = false;
+  successSubmit = false;
   @Mutation
   setCreateVisible(createVisible: boolean) {
     this.createVisible = createVisible;
   }
 
   @Mutation
+  setSuccessSubmit(bool: boolean) {
+    this.successSubmit = bool;
+  }
+
+  @Mutation
   setTitle(title: number) {
     this.fTitle = title;
-    console.log(this.fTitle);
   }
 
   @Mutation
   setAedDeviceId(aedDeviceId: string) {
     this.fAedDeviceId = aedDeviceId;
-    console.log(this.fAedDeviceId);
   }
 
   @Action({ commit: "setCreateVisible" })

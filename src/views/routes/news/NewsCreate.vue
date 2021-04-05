@@ -22,8 +22,12 @@
           color="primary"
           @click="sendNews()"
           v-text="$t('news.submit')"
-        >
-        </v-btn>
+        />
+        <p
+          v-if="successSubmit"
+          class="green--text"
+          v-text="$t('problems.success')"
+        />
       </v-card-actions>
     </v-card>
   </v-main>
@@ -74,7 +78,9 @@ export default class NewsCreate extends Vue {
   @newsCreate.State fContent!: FieldObject;
   @newsCreate.State fTag!: number[];
   @newsCreate.State createVisible!: boolean;
+  @newsCreate.State successSubmit!: boolean;
   @newsCreate.Action createNews!: (data: NewsCard) => Promise<void>;
+  @newsCreate.Mutation setSuccessSubmit!: (bool: boolean) => void;
   @newsCreate.Mutation clearValues!: () => Promise<void>;
 
   sendNews() {
@@ -84,6 +90,7 @@ export default class NewsCreate extends Vue {
       content: this.fContent.v,
       tag: this.fTag
     }).then(() => {
+      this.setSuccessSubmit(true);
       console.log("news created");
     });
   }

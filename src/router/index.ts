@@ -31,11 +31,10 @@ const allRoutes = [
   { path: "/login", name: "login", comp: comps.LOGIN },
   { path: "/register", name: "register", comp: comps.REGISTER },
   { path: "/search", name: "search", comp: comps.SEARCH },
-  { path: "/profile", name: "profile", comp: comps.PROFILE },
-  { path: "/:userID/profile", name: "user_profile", comp: comps.PROFILE },
-  { path: "/:userID/edit", name: "editprofile", comp: comps.PROFILE_EDIT },
+  { path: "/user/:userID/profile", name: "user_profile", comp: comps.PROFILE },
+  { path: "/user/:userID/edit", name: "editprofile", comp: comps.PROFILE_EDIT },
   {
-    path: "/:userID/privacy",
+    path: "/user/:userID/privacy",
     name: "privacysettings",
     comp: comps.PROFILE_PRIVACY
   },
@@ -93,12 +92,12 @@ const allRoutes = [
   { path: "/aed/eventList", name: "eventList", comp: comps.AED_PR_LIST },
   { path: "/aed/map", name: "openAedMap", comp: comps.AED_EV_MAP },
   {
-    path: "/aed/problems/problemsCreate",
+    path: "/aed/problems/create",
     name: "problemsCreate",
     comp: comps.AED_PR_CR
   },
   {
-    path: "/aed/problems/problemList",
+    path: "/aed/problems/list",
     name: "problemList",
     comp: comps.AED_PR_LIST
   },

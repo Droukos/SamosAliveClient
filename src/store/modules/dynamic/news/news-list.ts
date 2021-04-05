@@ -59,9 +59,9 @@ export default class NewsList extends VuexModule {
             .subscribe({
               onError: error => console.error(error),
               onNext: payload => previewNews.push(bufToJson(payload)),
-              onSubscribe: sub => sub.request(20)
+              onSubscribe: sub => sub.request(20),
+              onComplete: () => resolve(previewNews)
             });
-          resolve(previewNews);
         });
       });
     });

@@ -10,7 +10,7 @@
     <div v-else class="d-flex justify-center">
       <span>
         <img
-          :src="avatar"
+          :src="avatarFromCloudinary"
           :style="profileBackStyle"
           alt
           class="user-profile-avatar"
@@ -24,6 +24,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import "@/plugins/helpers/helper.ts";
+import { cloudinaryUrl } from "@/plugins/api/cloudinary";
 
 @Component
 export default class AvatarBase extends Vue {
@@ -39,6 +40,9 @@ export default class AvatarBase extends Vue {
   }
   get usernameFirstLetter() {
     return this.username.charAt(0).toUpperCase();
+  }
+  get avatarFromCloudinary() {
+    return cloudinaryUrl + this.avatar;
   }
 
   get profileBackStyle() {

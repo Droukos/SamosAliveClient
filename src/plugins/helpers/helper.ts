@@ -3,11 +3,18 @@ import { TranslateResult } from "vue-i18n";
 import { Role } from "@/types";
 import { roles } from "@/plugins/enums/roles";
 import { availability } from "@/plugins/enums/user/status/status";
+import {
+  HumanizeDuration,
+  HumanizeDurationLanguage
+} from "humanize-duration-ts";
+
+const langService: HumanizeDurationLanguage = new HumanizeDurationLanguage();
+const humanizer: HumanizeDuration = new HumanizeDuration(langService);
 
 const createDate = (date: number[]) => {
   return new Date(date[0], date[1], date[2], date[3], date[4], date[5]);
 };
-const parseISOLocal = (data: string) => {
+export const parseISOLocal = (data: string) => {
   const b = data.split(/\D/);
   return new Date(
     parseInt(b[0]),
@@ -17,6 +24,12 @@ const parseISOLocal = (data: string) => {
     parseInt(b[4]),
     parseInt(b[5])
   );
+};
+export const getDurationTillNow = (date: string) => {
+  const duration = Date.now() - parseISOLocal(date).getTime();
+  return humanizer.humanize(duration, {
+    language: "el"
+  });
 };
 export default new (class Helper {
   public install(Vue: any) {

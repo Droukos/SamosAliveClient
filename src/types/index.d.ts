@@ -24,13 +24,13 @@ declare namespace User {
   type Province = string | null;
   type City = string | null;
 
-  type LastLoginAndroid = number[] | null;
-  type LastLoginIos = number[] | null;
-  type LastLoginWeb = number[] | null;
-  type LastLogoutAndroid = number[] | null;
-  type LastLogoutIos = number[] | null;
-  type LastLogoutWeb = number[] | null;
-  type UserCreated = number[] | null;
+  type LastLoginAndroid = number[] | string | null;
+  type LastLoginIos = number[] | string | null;
+  type LastLoginWeb = number[] | string | null;
+  type LastLogoutAndroid = number[] | string | null;
+  type LastLogoutIos = number[] | string | null;
+  type LastLogoutWeb = number[] | string | null;
+  type UserCreated = number[] | string | null;
 
   type Online = boolean | null;
   type Availability = number | null;

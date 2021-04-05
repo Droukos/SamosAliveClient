@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import searchMod from "@/store/modules/dynamic/search/search";
 
 @Component({
   components: {
@@ -24,6 +25,15 @@ import { Component, Vue } from "vue-property-decorator";
       import(
         /* webpackChunkName: "SearchAedDevicePreviewList" */ "@/components/search/SearchAedDevicePreviewList.vue"
       )
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      const aedMapCard = vm as AedMapCard;
+      const store = aedMapCard.$store;
+      if (!(store && store.state && store.state["search"])) {
+        store.registerModule("search", searchMod);
+      }
+    });
   }
 })
 export default class AedMapCard extends Vue {}

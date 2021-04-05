@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <span>Selected device: {{ selected }}</span>
+    <span>{{ $t("problems.selectedDev") + ": " + selected }}</span>
     <v-list three-line>
       <v-list-item
         v-for="item in previewAedDevices"
@@ -34,9 +34,11 @@ export default class SearchAedDevicePreviewList extends Vue {
 
   @search.State previewAedDevices!: AedDevPreview[];
   @aedProblemsCreate.Mutation setAedDeviceId!: (aedDeviceId: string) => void;
+  @aedProblemsCreate.Mutation setSuccessSubmit!: (bool: boolean) => void;
   @aedProblemsCreate.Action vForm!: () => void;
 
   selectAedDevice(aedDeviceId: string, name: string) {
+    this.setSuccessSubmit(false);
     this.selected = name;
     this.setAedDeviceId(aedDeviceId);
     this.vForm();

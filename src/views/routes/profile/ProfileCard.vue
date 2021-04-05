@@ -84,19 +84,22 @@ const user = namespace("user");
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
+      const profileCard = vm as ProfileCard;
       if (to.params.userID == undefined)
-        vm.$store
+        profileCard.$store
           .dispatch("profile/profileData", {
-            userid: vm.$store.getters.getUserID
+            userid: profileCard.$store.getters.getUserID
           })
           .then(() => {
-            (vm as ProfileCard).loading = false;
+            profileCard.loading = false;
+            profileCard.setVisibilityData();
           });
       else
-        vm.$store
+        profileCard.$store
           .dispatch("profile/profileData", { userid: to.params.userID })
           .then(() => {
-            (vm as ProfileCard).loading = false;
+            profileCard.loading = false;
+            profileCard.setVisibilityData();
           });
     });
   }
@@ -107,6 +110,7 @@ export default class ProfileCard extends Vue {
   @profile.State username!: string;
   @profile.State avatar!: string;
   @profile.Getter profileUserId!: string;
+  @profile.Mutation setVisibilityData!: () => void;
   @user.Getter userUserId!: string;
   @user.Getter userRoles!: Array<Role>;
 

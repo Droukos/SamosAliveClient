@@ -233,6 +233,8 @@
     "problemTitle": "Issue title",
     "search": "Search an issue",
     "submit": "Submit",
+    "success": "Successfully submitted",
+    "selectedDev": "Selected device",
     "body": "Comment",
     "username": "Uploaded by",
     "technical": "Technical",
@@ -261,6 +263,7 @@
     "EKAB": "ΕΚΑΒ",
     "RESCUER": "Rescuer",
     "GENERAL_ADMIN": "General Admin",
+    "TECHNICIAN": "Technician",
     "USER": "User",
     "addedBy": "Added by {0} on {1}",
     "change": {

@@ -14,7 +14,10 @@
               </v-list-item-title>
               <br />
               <v-list-item-subtitle bottom>
-                <AedEventComment :comment="item.comment" />
+                <span
+                  v-if="item.comment != null && item.comment.length > 0"
+                  v-text="item.comment.substring(0, 50) + '...'"
+                />
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>

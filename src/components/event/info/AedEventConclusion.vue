@@ -1,5 +1,5 @@
 <template>
-  <v-textarea outlined readonly height="95" :value="conclusion" />
+  <v-textarea outlined filled readonly auto-grow :value="conclusion" />
 </template>
 
 <script lang="ts">

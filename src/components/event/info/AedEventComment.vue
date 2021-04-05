@@ -1,5 +1,12 @@
 <template>
-  <span v-text="comment" />
+  <v-textarea
+    v-if="comment != null && comment.length > 0"
+    outlined
+    filled
+    readonly
+    auto-grow
+    :value="comment"
+  />
 </template>
 
 <script lang="ts">

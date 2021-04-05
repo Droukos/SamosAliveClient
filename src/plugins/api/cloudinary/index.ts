@@ -1,3 +1,5 @@
+export const cloudinaryUrl =
+  "https://res.cloudinary.com/droukos/image/upload/v1615337522/";
 export const markerIconRedSimple =
   "https://res.cloudinary.com/droukos/image/upload/v1605335141/samosalive/icons/map-marker-icon_fhz3ey.png";
 export const markerIconShadow =
